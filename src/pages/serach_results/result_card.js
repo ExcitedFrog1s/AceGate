@@ -1,77 +1,244 @@
-import {Box, Link, Text} from '@chakra-ui/react'
+import {Box, Link, Text,} from '@chakra-ui/react'
+import {useState} from "react"
+import {AiFillStar,AiOutlineStar} from "react-icons/ai"
 
 function Title({title}) {
+    const [isHover, setIsHover] = useState(false)
+
+    const handleMouseEnter = () => {
+        setIsHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false);
+    }
+
+    const linkStyle = {
+        color: '#161616',
+        fontSize: '30px',
+        textDecoration: isHover ? 'underline' : 'none'
+    }
+
     return (
-        <div>
-            <text>
-                <Link href={'/'}
-                      textDecoration={'none'}
-                      color={'#161616'}
-                      fontSize={'30'}
-                >
-                    {title}
-                </Link>
-            </text>
-        </div>
+        <Box ml={'10'} mt={'15'}>
+            <Link href={'/'}
+                  style={linkStyle}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+            >
+                {title}
+            </Link>
+        </Box>
     )
 
 }
 
-function Author({authors}) {
+function Author({author,key}) {
+    const [isHover, setIsHover] = useState(false)
+
+    const handleMouseEnter = () => {
+        setIsHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false);
+    }
+
+    const linkStyle = {
+        color: '#83a7cf',
+        fontSize: '14px',
+        textDecoration: isHover ? 'underline' : 'none',
+        marginRight: '10px'
+    }
+
     return(
-        <stack direction='row'> {
-                authors.map((value, key) => {
+        <Link key={key} href={'/'}
+              style={linkStyle}
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+        >
+            {author}
+        </Link>
+    )
+}
+
+function Authors({authors}) {
+    return(
+    <Box ml={'10'}>
+        {
+            authors.map((value, key) => {
+                return (
+                    <Author author={value} key={key}/>
+                );
+            })
+        }
+        </Box>
+    )
+
+}
+
+function TimeOrgan({props}) {
+    const [isHover, setIsHover] = useState(false)
+
+    const handleMouseEnter = () => {
+        setIsHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false);
+    }
+
+    const linkStyle = {
+        color: '#a0a0a0',
+        fontSize: '12px',
+        textDecoration: isHover ? 'underline' : 'none',
+    }
+
+    return(
+        <Box ml={'10'} float={'left'}>
+            <p style={{marginTop:'-20px'}}/>
+            <i style={{fontSize:'12px',color:'#a0a0a0'}} >
+                {props.time + ' '}
+            </i>
+            <Link href={'/'}
+            style={linkStyle}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            >
+                {props.organ}
+            </Link>
+        </Box>
+    )
+}
+
+function Content({content}) {
+    const [isHover, setIsHover] = useState(false)
+
+    const handleMouseEnter = () => {
+        setIsHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false);
+    }
+
+    const linkStyle = {
+        color: '#a0a0a0',
+        fontSize: '16px',
+        cursor: 'pointer',
+        textDecoration: isHover ? 'underline' : 'none',
+    }
+    return(
+        <Box ml={'10'} mt={'30'}>
+            <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {content.slice(0,185) + '......'}
+            </Link>
+        </Box>
+    )
+}
+
+function Label({label,key}) {
+    const [isHover, setIsHover] = useState(false)
+
+    const handleMouseEnter = () => {
+        setIsHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setIsHover(false);
+    }
+
+    const labelBoxStyle = {
+        borderRadius: '10px',
+        backgroundColor: isHover ? 'rgba(131,167,207,0.5)' : 'rgba(131,167,207,0.9)',
+        float: 'left',
+        marginLeft: '8px',
+        minHeight: '30px',
+    }
+
+    return(
+        <Link href={'/'} fontSize={'17px'} textDecoration={'none'} textColor={'blue'}>
+            <Box style={labelBoxStyle} key={key} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {label}
+            </Box>
+        </Link>
+    )
+}
+
+function Labels({labels}) {
+    return(
+        <Box ml={'10'} mb={'5%'} mt={'20px'}>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'标签'}</Text>
+            {
+                labels.map((value, key) => {
                     return (
-                        <Link key={key} href={'/'}
-                              textDecoration={'none'}
-                              color={'#83a7cf'}
-                              m={5}
-                        >
-                            {value}
-                        </Link>
+                        <Label label={value} key={key}/>
                     );
                 })
             }
-        </stack>
+        </Box>
     )
-
 }
 
-function TimeOrgan({time},{organ}) {
+function Star() {
+    const [isClick, setIsClick] = useState(false)
+
+    const handleMouseDown = () => {
+        if(isClick) {
+            setIsClick(false)
+        }
+        else {
+            setIsClick(true)
+        }
+    }
+
+    const starStyle = {
+        onMouseDown: 'handleMouseDown',
+        cursor: 'pointer',
+        color: '3662ec',
+        marginTop: '20px',
+    }
+
     return(
-        <stack direction='row'>
-            <Text>
-                {time}
-            </Text>
-
-            <Link href={'/'}
-            textDecoration={'none'}
-            fontSize={'12'}
-            >
-                {organ}
-            </Link>
-        </stack>
+        <Box>
+            {isClick && <AiFillStar onMouseDown={handleMouseDown} style={starStyle}/>}
+            {!isClick && <AiOutlineStar onMouseDown={handleMouseDown} style={starStyle}/>}
+        </Box>
     )
 }
 
-function ResultCard() {
-    let title = 'test title'
-    let authors = ['maple','AboveParadise','frog']
-    let time = '2022'
-    let organ = 'BUAA'
+function Operations() {
+    const operationsBoxStyle = {
+        borderTop: '1px solid #ddd',
+        marginTop: '60px',
+        marginLeft: '50px',
+        marginRight: '50px'
+    }
+    return(
+        <Box style={operationsBoxStyle}>
+            <Star/>
+        </Box>
+    )
+}
+
+function ResultCard({props}) {
     return(
         <Box
-            height={'200'}
+            height={'300'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
-            marginLeft={'30%'}
+            ml={'30%'}
+            mr={'20%'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={title}/>
-            <Author authors={authors}/>
-            <TimeOrgan time={time} organ={organ}/>
+            <Title title={props.time}/>
+            <Authors authors={props.authors}/>
+            <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
+            <Content content={props.content}/>
+            <Labels labels={props.labels}/>
+            <Operations/>
         </Box>
     )
 }
