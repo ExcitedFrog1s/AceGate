@@ -30,11 +30,11 @@ function PaperDetails() {
     return(
         <Box>
             <Info/>
-            <SplitPane
-                left={
-                    <Abstract/>      }
-                right={
-                    <Data/>     } />
+            {/*<SplitPane*/}
+            {/*    left={*/}
+            {/*        <Abstract/>      }*/}
+            {/*    right={*/}
+            {/*        <Data/>     } />*/}
             <Abstract/>
 
             <Op/>
