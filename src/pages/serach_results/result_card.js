@@ -131,7 +131,7 @@ function Content({content}) {
     return(
         <Box ml={'10'} mt={'30'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {content.slice(0,185) + '......'}
+                {content.slice(0,200) + '......'}
             </Link>
         </Box>
     )
@@ -173,7 +173,7 @@ function Labels({labels}) {
                 labels.map((value, key) => {
                     return (
                         <Label label={value} key={key}/>
-                    );
+                    )
                 })
             }
         </Box>
@@ -225,11 +225,13 @@ function ResultCard({props}) {
     return(
         <Box
             height={'300'}
+            width={'50%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             ml={'30%'}
             mr={'20%'}
+            mt={'15'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
