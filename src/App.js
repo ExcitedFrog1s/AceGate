@@ -1,8 +1,9 @@
+import Information from "./pages/personalinf/Information";
 
 function App() {
   return (
     <div>
-      Hello World!
+      <Information/>
     </div>
   );
 }
