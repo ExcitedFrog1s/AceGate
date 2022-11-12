@@ -1,3 +1,7 @@
+//
+// Created by zyc on 2022/11/11.
+//
+
 import * as React from 'react';
 import {Box} from "@chakra-ui/react";
 import Pagination from '@mui/material/Pagination';
@@ -28,7 +32,7 @@ function Sort() {
                 >
                     <MenuItem value={'默认'}>{'默认'}</MenuItem>
                     <MenuItem value={'相关度最高'}>{'最新'}</MenuItem>
-                    <MenuItem value={'发表日期最近'}>{'最新'}</MenuItem>
+                    <MenuItem value={'发表日期最近'}>{'最相关'}</MenuItem>
                     <MenuItem value={'引用量最高'}>{'引用量最高'}</MenuItem>
                 </Select>
             </FormControl>
