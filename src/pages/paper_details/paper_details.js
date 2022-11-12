@@ -2,8 +2,22 @@
 * @author AboveParadise 2022/11/11
 */
 import Abstract from "./paper_abstract";
+import Data from "./paper_data";
+import Op from "./paper_op"
 import moment from "moment";
 import {Box, Link, Text} from "@chakra-ui/react";
+
+function SplitPane(props) {
+    let d = {display:'inline-block',float:'left'}
+    return (
+        <div className="SplitPane1" >
+            <div className="SplitPane-left"style={d}>
+                {props.left}      </div>
+            <div className="SplitPane-right"style={d}>
+                {props.right}      </div>
+        </div>
+    );
+}
 
 function PaperDetails() {
     const property = {
@@ -16,7 +30,14 @@ function PaperDetails() {
     return(
         <Box>
             <Info/>
+            <SplitPane
+                left={
+                    <Abstract/>      }
+                right={
+                    <Data/>     } />
             <Abstract/>
+
+            <Op/>
         </Box>
     )
 }
@@ -24,7 +45,7 @@ function Authors(){
     const property = {
         authors: ["Maple826","AboveParadise","euphoria"],
     }
-    return (<stack direction='row'> {
+    return (
         property.authors.map((value, key) => {
             return (
                 <Link key={key} href={'/'}
@@ -36,8 +57,8 @@ function Authors(){
                 </Link>
             );
         })
-    }
-    </stack>)
+
+   )
 
 
 

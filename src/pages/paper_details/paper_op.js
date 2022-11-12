@@ -1,29 +1,19 @@
 /**
- * @author AboveParadise 2022/11/11
+ * @author AboveParadise 2022/11/12
  */
-import {Box, Link, Text} from '@chakra-ui/react'
-function Keywords(){
-    const property = {
-        kw:'关键词：',
-        keywords: ["马克思","中国化","方法论"],
-    }
-    let k = [property.kw, ...property.keywords].join('\t\t');
+import {Box, Text, Icon} from "@chakra-ui/react";
 
-    return ( <Text textDecoration={'none'}
-                   color={'#161616'}
-                   margin={8}
-
-                   fontSize={18}>{k}</Text>
-    )
-
-}
-function Abstract() {
+import { MdFileDownload } from 'react-icons/md'
+import {RiDoubleQuotesR} from 'react-icons/ri'
+import {AiOutlineStar, AiFillStar} from 'react-icons/ai'
+import {BsLink45Deg} from 'react-icons/bs'
+function Op() {
     const property = {
         abs:'摘要',
         kw:'关键词：',
         keywords: ["马克思","中国化","方法论"],
         abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现，谁到了副科级司法局萨克冷冻机房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键"
-            ,
+        ,
 
     }
 
@@ -32,30 +22,20 @@ function Abstract() {
             height={'200'}
             width={'60%'}
             borderWidth={'5'}
-            borderRadius={'12'}
-            borderStyle={'solid'}
-            marginLeft={'3%'}
-            color={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            marginLeft={'3.5%'}
+            mt={15}
+            fontSize={25}
         >
-            <Text textDecoration={'none'}
-                  color={'#161616'}
-                  fontSize={'25'}
-                  m={8}
-            >
-                {property.abs}
-            </Text>
 
-            <Text ml={8} color={'#161616'}
-                  fontSize={'15'} noOfLines={5}
-            maxW={850}>{property.abstract}</Text>
-
-            <Keywords/>
+            <Icon as={MdFileDownload} mr={15} />
+            <Icon as={RiDoubleQuotesR} mr={15}/>
+            <Icon as={AiOutlineStar} mr={15}/>
+            <Icon as={BsLink45Deg} />
 
         </Box>
-
     )
 }
 
 
-export default Abstract;
+export default Op;
+
