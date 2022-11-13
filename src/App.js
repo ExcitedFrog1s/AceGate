@@ -1,8 +1,10 @@
+import Portal from "./pages/ScholarPortal/Portal";
+
 
 function App() {
   return (
     <div>
-      Hello World!
+      <Portal />
     </div>
   );
 }
