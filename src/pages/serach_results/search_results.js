@@ -822,6 +822,7 @@ function SearchResults() {
                                     <ResultCard props={value}/>
                                 )
                             }
+                            return <></>
                         })
                     }
                 </Box>
