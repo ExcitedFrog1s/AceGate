@@ -184,8 +184,8 @@ function Labels({labels}) {
     )
 }
 
-function Star() {
-    const [isClick, setIsClick] = useState(false)
+function Star({props}) {
+    const [isClick, setIsClick] = useState(props)
 
     const handleMouseDown = () => {
         if(isClick) {
@@ -212,7 +212,7 @@ function Star() {
     )
 }
 
-function Operations() {
+function Operations({props}) {
     const operationsBoxStyle = {
         borderTop: '1px solid #ddd',
         marginTop: '60px',
@@ -221,7 +221,7 @@ function Operations() {
     }
     return(
         <Box style={operationsBoxStyle}>
-            <Star/>
+            <Star props={props}/>
         </Box>
     )
 }
@@ -245,7 +245,7 @@ function ResultCard({props}) {
             <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
             <Content content={props.content}/>
             <Labels labels={props.labels}/>
-            <Operations/>
+            <Operations props={props.isStar}/>
         </Box>
     )
 }
