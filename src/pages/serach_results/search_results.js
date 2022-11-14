@@ -3,39 +3,30 @@
 //
 
 import * as React from 'react';
-import {Box} from "@chakra-ui/react";
-import Pagination from '@mui/material/Pagination';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import {Box, Select} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
+import {MdArrowDropDown} from "react-icons/md";
+import {Pagination} from "antd";
+import "antd/dist/antd.min.css";
 
 
 
 function Sort() {
     const [sort_order, setSortOrder] = React.useState('默认');
 
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleChange = (event) => {
         setSortOrder(event.target.value);
     };
 
     return(
-        <Box float={'right'} mr={'20%'} mt={'-60'}>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                <InputLabel >{'排序方式'}</InputLabel>
-                <Select
-                    value={sort_order}
-                    label="排序方式"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={'默认'}>{'默认'}</MenuItem>
-                    <MenuItem value={'相关度最高'}>{'最新'}</MenuItem>
-                    <MenuItem value={'发表日期最近'}>{'最相关'}</MenuItem>
-                    <MenuItem value={'引用量最高'}>{'引用量最高'}</MenuItem>
-                </Select>
-            </FormControl>
+        <Box float={'right'} mr={'20%'} mt={'-50'}>
+            <Select onChange={handleChange} icon={<MdArrowDropDown />} size={'sm'} colorScheme={'blue'} focusBorderColor={'blue.500'}>
+                <option value={'默认'}>{'默认'}</option>
+                <option value={'最新'}>{'最新'}</option>
+                <option value={'最相关'}>{'最相关'}</option>
+                <option value={'引用量最高'}>{'引用量最高'}</option>
+            </Select>
         </Box>
     )
 }
@@ -775,42 +766,21 @@ function SearchResults() {
 
     // count from 1
     const [current_page_index, setPage] = React.useState(1);
-    const handleChange1 = (event: SelectChangeEvent) => {
-        setPage(event.target.value);
-        card_index_min = page_show_num * (current_page_index - 1)
-        card_index_max = page_show_num * (current_page_index) - 1
-    };
-    const handleChange2 = (event, value: number) => {
-        setPage(value);
+    const handleChange = (page,pageSize) => {
+        setPage(page);
         // set show_card index range
         // attention: the card index count from 0
         card_index_min = page_show_num * (current_page_index - 1)
         card_index_max = page_show_num * (current_page_index) - 1
+        console.log(current_page_index)
     };
 
 
     return(
         <Box>
-            <Filter/>
             {/*右侧界面*/}
+            <Filter/>
             <Box>
-                {/*上方页码选择*/}
-                <Box float={'left'} ml={'30%'} mt={'-50'}>
-                    <FormControl sx={{minWidth: 100 }} size="small">
-                        <Select
-                            value={current_page_index}
-                            onChange={handleChange1}
-                        >
-                            {
-                                page_num_array.map((value, key) => {
-                                    return (
-                                        <MenuItem value={value}>{'第' + value + '页'}</MenuItem>
-                                    )
-                                })
-                            }
-                        </Select>
-                    </FormControl>
-                </Box>
                 {/*排序*/}
                 <Sort/>
                 {/*论文卡片*/}
@@ -819,7 +789,7 @@ function SearchResults() {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {
                                 return (
-                                    <ResultCard props={value}/>
+                                    <ResultCard props={value} />
                                 )
                             }
                             return <></>
@@ -827,8 +797,8 @@ function SearchResults() {
                     }
                 </Box>
                 {/*分页*/}
-                <Box width={'50%'} ml={'40%'} mt={'20'}>
-                    <Pagination count={page_num} page={current_page_index} onChange={handleChange2} variant='outlined' color='primary'/>
+                <Box width={'50%'} ml={'40%'} mt={'50px'}>
+                    <Pagination onChange={handleChange} total={100} showSizeChanger={false}/>
                 </Box>
             </Box>
         </Box>

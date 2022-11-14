@@ -2,7 +2,7 @@
 // Created by zyc on 2022/11/11.
 //
 
-import {Box, Link, Text,} from '@chakra-ui/react'
+import {Box, Link, Text,Tag} from '@chakra-ui/react'
 import {useState} from "react"
 import {AiFillStar,AiOutlineStar} from "react-icons/ai"
 
@@ -20,11 +20,11 @@ function Title({title}) {
     const linkStyle = {
         color: '#161616',
         fontSize: '30px',
-        textDecoration: isHover ? 'underline' : 'none'
+        textDecoration: isHover ? 'underline' : 'none',
     }
 
     return (
-        <Box ml={'10'} mt={'15'}>
+        <Box ml={'10'} mt={'20px'}>
             <Link href={'/'}
                   style={linkStyle}
                   onMouseEnter={handleMouseEnter}
@@ -68,7 +68,7 @@ function Author({author,key}) {
 
 function Authors({authors}) {
     return(
-    <Box ml={'10'}>
+    <Box ml={'10'} mt={'-5px'}>
         {
             authors.map((value, key) => {
                 return (
@@ -99,8 +99,8 @@ function TimeOrgan({props}) {
     }
 
     return(
-        <Box ml={'10'} float={'left'}>
-            <p style={{marginTop:'-20px'}}/>
+        <Box ml={'10'} mt={'10px'} float={'left'}>
+            <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
                 {props.time + ' '}
             </i>
@@ -133,7 +133,7 @@ function Content({content}) {
         textDecoration: isHover ? 'underline' : 'none',
     }
     return(
-        <Box ml={'10'} mt={'30'}>
+        <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 {content.slice(0,200) + '......'}
             </Link>
@@ -154,7 +154,7 @@ function Label({label,key}) {
 
     const labelBoxStyle = {
         borderRadius: '10px',
-        backgroundColor: isHover ? 'rgba(131,167,207,0.5)' : 'rgba(131,167,207,0.9)',
+        backgroundColor: isHover ? 'rgba(131,167,207,0.9)' : 'rgba(131,167,207,0.5)',
         float: 'left',
         marginLeft: '8px',
         minHeight: '30px',
@@ -162,9 +162,9 @@ function Label({label,key}) {
 
     return(
         <Link href={'/'} fontSize={'17px'} textDecoration={'none'} textColor={'blue'}>
-            <Box style={labelBoxStyle} key={key} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <Tag style={labelBoxStyle} key={key} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 {label}
-            </Box>
+            </Tag>
         </Link>
     )
 }
@@ -199,9 +199,10 @@ function Star() {
     const starStyle = {
         onMouseDown: 'handleMouseDown',
         cursor: 'pointer',
-        color: '3662ec',
-        marginTop: '20px',
-    }
+        color: '#3662ec',
+        marginTop: '15px',
+        width:'30px',
+        height:'30px'}
 
     return(
         <Box>
@@ -235,11 +236,11 @@ function ResultCard({props}) {
             borderStyle={'solid'}
             ml={'30%'}
             mr={'20%'}
-            mt={'15'}
+            mb={'0px'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.time}/>
+            <Title title={props.title}/>
             <Authors authors={props.authors}/>
             <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
             <Content content={props.content}/>

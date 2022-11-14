@@ -2,9 +2,8 @@
 // Created by zyc on 2022/11/12.
 //
 
-import {Box, Stack, Input, Text, Checkbox} from '@chakra-ui/react';
+import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
 import {useState} from "react";
-import {Button} from "@mui/material";
 import {AiOutlineFilter} from "react-icons/ai";
 
 function TimeRangeFilterWithFilter() {
@@ -20,17 +19,21 @@ function TimeRangeFilterWithFilter() {
     }
 
     return(
-        <Box zIndex={'100'} ml={'10'}>
-            <Box float={'right'} mr={'10'}>
+        <Box ml={'20px'} mt={'30px'}>
+            <Box>
                 <Button
-                    variant={'contained'}
-                    endIcon={<AiOutlineFilter/>}
+                    ml={'55%'}
+                    rightIcon={<AiOutlineFilter/>}
+                    colorScheme='blue'
+                    variant='outline'
                     onClick={() => {
                         alert('clicked');
                     }}
-                />
+                >
+                    {'筛选'}
+                </Button>
             </Box>
-            <Text>{'发表年份'}</Text>
+            <Text mb={'10px'}>{'发表年份'}</Text>
             <Input
                 value={start_time}
                 onChange={handleStartTimeChange}
@@ -38,6 +41,7 @@ function TimeRangeFilterWithFilter() {
                 htmlSize={4}
                 width='auto'
                 variant='filled'
+                size='sm'
             />
             <span>{' ~ '}</span>
             <Input
@@ -47,6 +51,7 @@ function TimeRangeFilterWithFilter() {
                 htmlSize={4}
                 width='auto'
                 variant='filled'
+                size='sm'
             />
         </Box>
     )
@@ -63,7 +68,7 @@ function PublicationTypesFilter({props}) {
     let type_array = props.slice(1)
 
     return(
-        <Box ml={'20'}>
+        <Box ml={'20px'} mt={'30px'}>
             <Text>{'出版类型'}</Text>
             <Checkbox
                 isChecked={allChecked}
@@ -106,7 +111,7 @@ function AuthorsFilter({props}) {
     console.log(type_array)
 
     return(
-        <Box ml={'20'}>
+        <Box ml={'20px'} mt={'30px'}>
             <Text>{'作者'}</Text>
             <Checkbox
                 isChecked={allChecked}
@@ -192,9 +197,6 @@ function Filter() {
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             position={'absolute'}
         >
-            <Box ml={'10'} mt={'10'}>
-                <text style={{fontWeight:'bold',fontSize:'26px'}}>{'筛 选'}</text>
-            </Box>
             <TimeRangeFilterWithFilter/>
             <PublicationTypesFilter props={publication_types}/>
             <AuthorsFilter props={authors}/>
