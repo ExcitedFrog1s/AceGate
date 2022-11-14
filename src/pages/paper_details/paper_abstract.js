@@ -30,13 +30,14 @@ function Abstract() {
     return(
         <Box
             height={'200'}
-            width={'60%'}
+            width={'55%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             marginLeft={'3%'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            position={'absolute'}
         >
             <Text textDecoration={'none'}
                   color={'#161616'}
@@ -48,7 +49,7 @@ function Abstract() {
 
             <Text ml={8} color={'#161616'}
                   fontSize={'15'} noOfLines={5}
-            maxW={850}>{property.abstract}</Text>
+            maxW={850} mr={8}>{property.abstract}</Text>
 
             <Keywords/>
 

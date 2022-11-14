@@ -4,6 +4,7 @@
 import Abstract from "./paper_abstract";
 import Data from "./paper_data";
 import Op from "./paper_op"
+import Reference from "./paper_reference";
 import moment from "moment";
 import {Box, Link, Text} from "@chakra-ui/react";
 
@@ -34,10 +35,11 @@ function PaperDetails() {
             {/*    left={*/}
             {/*        <Abstract/>      }*/}
             {/*    right={*/}
-            {/*        <Data/>     } />*/}
-            <Abstract/>
 
+            <Abstract/>
+            <Data/>
             <Op/>
+            <Reference/>
         </Box>
     )
 }
@@ -66,7 +68,7 @@ function Authors(){
 
 function Info(){
     const property = {
-        title: "独白与对话:马克思主义中国化的方法论思考",
+        title: "独白与对话:马克思主义中国化的方法",
         source: "云南社会科学",
         date: moment("20070112").format('YYYY-MM-DD'),
         keywords: [],
@@ -75,10 +77,12 @@ function Info(){
     }
     return(
         <Box ml={'3%'} mb={20}>
-            <Text height={40} fontSize={30} mb={10}>
+            <Box>
+            <Text fontSize={30} mb={10}>
                 {property.title}
             </Text>
-            <Text  ml={2} mt={10} mb={10}>
+            </Box>
+            <Text  ml={2} mt={10} mb={10} position={'relative'}>
                 {property.date}&nbsp;&nbsp;&nbsp;{property.source}
             </Text>
             <Authors/>

@@ -1,41 +1,140 @@
 /**
  * @author AboveParadise 2022/11/12
  */
-import {Box, Text} from "@chakra-ui/react";
+import {Box, HStack, Text, Divider} from "@chakra-ui/react";
+
+import {} from "@chakra-ui/react";
+import {FormControl, InputLabel, MenuItem,Select} from "@mui/material";
+import * as React from "react";
 function Data() {
     const property = {
-        abs:'摘要',
-        kw:'关键词：',
-        keywords: ["马克思","中国化","方法论"],
-        abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现，谁到了副科级司法局萨克冷冻机房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键"
-        ,
-
+        para: [100,9888,1231,33333]
     }
+    const s = {left:200}
+    const r = {left:10, color:'#161616'}
+    const [kw, setKw] = React.useState('');
+
+    const handleChange = (event) => {
+        setKw(event.target.value);
+    };
 
     return(
         <Box
-            height={'200'}
-            width={'60%'}
+            height={'600'}
+            width={'35%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             marginLeft={'60%'}
+            mr={20}
             color={'#E2E8F0'}
+            position={'absolute'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Text textDecoration={'none'}
-                  color={'#161616'}
-                  fontSize={'25'}
-                  m={8}
-            >
-                {property.abs}
-            </Text>
 
-            <Text ml={8} color={'#161616'}
-                  fontSize={'15'} noOfLines={5}
-                  maxW={850}>{property.abstract}</Text>
+            <HStack>
+
+                <Box width={125}>
+                    <Text textDecoration={'none'}
+                          color={'#c42525'}
+                          fontSize={'25'}
+
+                          whiteSpace={'normal'}
+                          align={'center'}
+                    >
+                        引用量
+                    </Text>
+                    <Text color={'#161616'}
+                          fontSize={'25'}
+                          m={8}
+                          mt={20}
+                          whiteSpace={'normal'}
+                          align={'center'}>3333</Text>
+                </Box>
+                <Box width={125} m={8}>
+                    <Text textDecoration={'none'}
+                          color={'#34ea04'}
+                          fontSize={'25'}
+
+                          whiteSpace={'normal'}
+                          align={'center'}
+                    >
+                        被引用量
+                    </Text>
+                    <Text color={'#161616'}
+                          fontSize={'25'}
+                          m={8}
+                          mt={20}
+                          whiteSpace={'normal'}
+                          align={'center'}>3333</Text>
+                </Box>
+                <Box width={125} m={8}>
+                    <Text textDecoration={'none'}
+                          color={'#175bb4'}
+                          fontSize={'25'}
+
+                          whiteSpace={'normal'}
+                          align={'center'}
+                    >
+                        收藏量
+                    </Text>
+                    <Text color={'#161616'}
+                          fontSize={'25'}
+                          m={8}
+                          mt={20}
+                          whiteSpace={'normal'}
+                          align={'center'}>3333</Text>
+                </Box>
+                <Box width={125} m={8}>
+                    <Text textDecoration={'none'}
+                          color={'#faf14b'}
+                          fontSize={'25'}
+
+                          whiteSpace={'normal'}
+                          align={'center'}
+                    >
+                        评论量
+                    </Text>
+                    <Text color={'#161616'}
+                          fontSize={'25'}
+                          m={8}
+                          mt={20}
+                          whiteSpace={'normal'}
+                          align={'center'}>3333</Text>
+
+                </Box>
+            </HStack>
+            <hr style={r}/>
+            <Box sx={{ minWidth: 120, width:'100%'}}>
+                <HStack>
+                <Text mt={30} textDecoration={'none'}
+                      color={'#000000'}
+                      fontSize={'20'}
+
+                      whiteSpace={'normal'}
+                      align={'center'}>
+                    关键词分析
+                </Text>
+                    <div style={s}>
 
 
+                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-label">关键词</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={kw}
+                    label="kw"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl>
+                    </div>
+                </HStack>
+            </Box>
 
         </Box>
     )
