@@ -4,7 +4,6 @@ import {ChakraProvider} from "@chakra-ui/react";
 
 import {
     RouterProvider,
-    Route,
 } from "react-router-dom";
 
 import default_router from "./routes/default_router";
