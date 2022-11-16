@@ -1,21 +1,31 @@
 /**
  * @author AboveParadise 2022/11/12
  */
-import {Box, HStack, Text, Divider} from "@chakra-ui/react";
+import {Box, HStack, Text, Divider, Select, Link} from "@chakra-ui/react";
+import React, {Component} from 'react';
+import ReactECharts from 'echarts-for-react';
 
-import {} from "@chakra-ui/react";
-import {FormControl, InputLabel, MenuItem,Select} from "@mui/material";
-import * as React from "react";
+// import * as React from "react";
 function Data() {
     const property = {
-        para: [100,9888,1231,33333]
+        para: [100,9888,1231,33333],
+        kw: ['马克思','中国化','方法论']
+
     }
     const s = {left:200}
     const r = {left:10, color:'#161616'}
-    const [kw, setKw] = React.useState('');
-
-    const handleChange = (event) => {
-        setKw(event.target.value);
+    const option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: 'bar'
+        }]
     };
 
     return(
@@ -32,7 +42,7 @@ function Data() {
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
 
-            <HStack>
+            <HStack  mt={3} >
 
                 <Box width={125}>
                     <Text textDecoration={'none'}
@@ -45,11 +55,11 @@ function Data() {
                         引用量
                     </Text>
                     <Text color={'#161616'}
-                          fontSize={'25'}
+                          fontSize={'20'}
                           m={8}
-                          mt={20}
+                          mt={10}
                           whiteSpace={'normal'}
-                          align={'center'}>3333</Text>
+                          align={'center'}>{property.para[0]}</Text>
                 </Box>
                 <Box width={125} m={8}>
                     <Text textDecoration={'none'}
@@ -62,11 +72,11 @@ function Data() {
                         被引用量
                     </Text>
                     <Text color={'#161616'}
-                          fontSize={'25'}
+                          fontSize={'20'}
                           m={8}
-                          mt={20}
+                          mt={10}
                           whiteSpace={'normal'}
-                          align={'center'}>3333</Text>
+                          align={'center'}>{property.para[1]}</Text>
                 </Box>
                 <Box width={125} m={8}>
                     <Text textDecoration={'none'}
@@ -79,11 +89,11 @@ function Data() {
                         收藏量
                     </Text>
                     <Text color={'#161616'}
-                          fontSize={'25'}
+                          fontSize={'20'}
                           m={8}
-                          mt={20}
+                          mt={10}
                           whiteSpace={'normal'}
-                          align={'center'}>3333</Text>
+                          align={'center'}>{property.para[2]}</Text>
                 </Box>
                 <Box width={125} m={8}>
                     <Text textDecoration={'none'}
@@ -96,45 +106,44 @@ function Data() {
                         评论量
                     </Text>
                     <Text color={'#161616'}
-                          fontSize={'25'}
+                          fontSize={'20'}
                           m={8}
-                          mt={20}
+                          mt={10}
                           whiteSpace={'normal'}
-                          align={'center'}>3333</Text>
+                          align={'center'}>{property.para[3]}</Text>
 
                 </Box>
             </HStack>
-            <hr style={r}/>
+            <Divider/>
             <Box sx={{ minWidth: 120, width:'100%'}}>
-                <HStack>
-                <Text mt={30} textDecoration={'none'}
+                <HStack mt={30}>
+                <Text  textDecoration={'none'}
                       color={'#000000'}
                       fontSize={'20'}
-
+                      ml={10}
+                       mr={20}
                       whiteSpace={'normal'}
                       align={'center'}>
                     关键词分析
                 </Text>
-                    <div style={s}>
+                    <Select placeholder='Keywords' width={60} color={'#000000'}>{
+                        property.kw.map((value, key) => {
+                            return (
+                                <option key={key} value='option1'>{value}</option>
+                            );
+                        })
+                    }
+                    </Select>
 
 
-                <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-label">关键词</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={kw}
-                    label="kw"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
-                    </div>
+
                 </HStack>
             </Box>
+            <div>
+            <ReactECharts option={option} />
+            </div>
+
+        }
 
         </Box>
     )

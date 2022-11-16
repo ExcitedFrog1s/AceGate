@@ -12,8 +12,10 @@ import default_router from "./routes/default_router";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      {/*<ChakraProvider>*/}
+
+      <ChakraProvider>
           <RouterProvider router={default_router} />
-      {/*</ChakraProvider>*/}
+      </ChakraProvider>
+
   </React.StrictMode>
 );

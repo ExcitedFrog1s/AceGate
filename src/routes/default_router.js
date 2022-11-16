@@ -3,11 +3,11 @@ import {
 } from "react-router-dom";
 
 import Landing from '../pages/landing/landing.js'
-
+import PaperDetails from "../pages/paper_details/paper_details";
 const default_router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing />
+        element: <PaperDetails />
     }
 ])
 

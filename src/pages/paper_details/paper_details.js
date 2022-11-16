@@ -31,11 +31,6 @@ function PaperDetails() {
     return(
         <Box>
             <Info/>
-            {/*<SplitPane*/}
-            {/*    left={*/}
-            {/*        <Abstract/>      }*/}
-            {/*    right={*/}
-
             <Abstract/>
             <Data/>
             <Op/>
@@ -53,7 +48,7 @@ function Authors(){
                 <Link key={key} href={'/'}
                       textDecoration={'none'}
                       color={'#83a7cf'}
-                      mr={10}
+                      mr={7}
                 >
                     {value}
                 </Link>
@@ -76,13 +71,13 @@ function Info(){
 
     }
     return(
-        <Box ml={'3%'} mb={20}>
+        <Box ml={'3%'} mb={10}>
             <Box>
-            <Text fontSize={30} mb={10}>
+            <Text fontSize={30} >
                 {property.title}
             </Text>
             </Box>
-            <Text  ml={2} mt={10} mb={10} position={'relative'}>
+            <Text   mt={3} mb={3} position={'relative'}>
                 {property.date}&nbsp;&nbsp;&nbsp;{property.source}
             </Text>
             <Authors/>

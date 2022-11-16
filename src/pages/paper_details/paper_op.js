@@ -7,7 +7,7 @@ import { MdFileDownload } from 'react-icons/md'
 import {RiDoubleQuotesR} from 'react-icons/ri'
 import {AiOutlineStar, AiFillStar} from 'react-icons/ai'
 import {BsLink45Deg} from 'react-icons/bs'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 function Op() {
     const property = {
         abs:'摘要',
@@ -18,29 +18,32 @@ function Op() {
 
     }
     const [isClick, setIsClick] = useState(false)
-
+    const Style = {
+        cursor: 'pointer',
+        }
     const handleMouseDown = () => {
         if (isClick) {
             setIsClick(false)
         } else {
             setIsClick(true)
         }
+
     }
     return(
         <Box
             borderWidth={'5'}
-            marginLeft={'3.5%'}
-            mt={240}
+            marginLeft={'4.5%'}
+            mt={330}
 
             fontSize={25}
             position={'relative'}
         >
 
-            <Icon as={MdFileDownload} mr={15} />
-            <Icon as={RiDoubleQuotesR} mr={15}/>
-            {isClick && <Icon as={AiOutlineStar} mr={15} onMouseDown={handleMouseDown} />}
-            {!isClick && <Icon as={AiFillStar} mr={15} onMouseDown={handleMouseDown} />}
-            <Icon as={BsLink45Deg} />
+            <Icon as={MdFileDownload} mr={15} style={Style}/>
+            <Icon as={RiDoubleQuotesR} mr={15} style={Style}/>
+            {isClick && <Icon as={AiOutlineStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
+            {!isClick && <Icon as={AiFillStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
+            <Icon as={BsLink45Deg} style={Style}/>
 
         </Box>
     )
