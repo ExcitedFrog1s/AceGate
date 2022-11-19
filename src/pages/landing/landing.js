@@ -2,6 +2,7 @@ import React from 'react';
 import Header from "../../components/header/header";
 import landing_bg from "../../assets/landing_bg.png";
 import {Box, Button, Center, HStack, Input, Text, VStack} from "@chakra-ui/react";
+import RecommendVenuesCard from "./recommend-venues-card";
 
 function Landing(){
     return (
@@ -43,11 +44,11 @@ function Landing(){
             >
                 <Center>
                     <HStack
-                        spacing='5vh'
+                        spacing='8vw'
                     >
-                        <Box>
-                            Text1
-                        </Box>
+                        <RecommendVenuesCard subject={"Artificial Intelligence"} />
+                        <RecommendVenuesCard />
+                        <RecommendVenuesCard />
                     </HStack>
                 </Center>
             </Box>
