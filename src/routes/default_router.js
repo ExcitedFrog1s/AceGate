@@ -10,6 +10,7 @@ import Scholars from "../manage/scholar.js";
 import Check from "../manage/check.js";
 
 import PaperDetails from "../pages/paper_details/paper_details";
+import AdvancedSearch from '../pages/advancedSearch/advancedSearch.js'
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -40,7 +41,14 @@ const default_router = createBrowserRouter([
     {
         path: '/paperDetails',
         element: <PaperDetails />
+    },
+    {
+        path: '/advancedSearch',
+        element: <AdvancedSearch />
     }
+
 ])
 
 export default default_router;
+
+
