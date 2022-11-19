@@ -9,6 +9,7 @@ import Info from "../manage/info.js";
 import Scholars from "../manage/scholar.js";
 import Check from "../manage/check.js";
 
+import PaperDetails from "../pages/paper_details/paper_details";
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -35,6 +36,10 @@ const default_router = createBrowserRouter([
                 element: <Check />
             }
         ]
+    },
+    {
+        path: '/paperDetails',
+        element: <PaperDetails />
     }
 ])
 
