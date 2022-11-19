@@ -1,0 +1,42 @@
+/*学者列表页面样式*/
+.scholars{
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.chakra-input__group{
+    margin-bottom: 20px;
+}
+.chakra-input{
+    background-color: rgb(255, 255, 255) !important;
+    border-radius: 5px !important;
+    font-size: 14px !important;
+}
+.ant-input{
+    border-radius: 5px!important;
+    display: inline !important;
+}
+.sum{
+    margin-left: 2%;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.number{
+    font-size: 50px;
+    color: rgb(38, 106, 215);
+    margin-left: 4px;
+    margin-right: 4px;
+}
+.ant-table-filter-dropdown{
+    border-radius: 5px !important;
+}
+.chakra-avatar{
+    margin: 0px !important;
+    width: 40px !important;
+    height: 40px !important;
+}
+.chakra-avatar__initials{
+    font-size: 12px !important;
+}
+.ant-table-thead{
+    text-align: center !important;
+}
