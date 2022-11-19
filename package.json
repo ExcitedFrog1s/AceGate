@@ -21,6 +21,7 @@
     "echarts": "^5.4.0",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^7.6.5",
+    "nanoid": "^4.0.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "prop-types": "^15.8.1",
