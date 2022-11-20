@@ -6,7 +6,8 @@ import Data from "./paper_data";
 import Op from "./paper_op"
 import Reference from "./paper_reference";
 import moment from "moment";
-import {Box, Link, Text} from "@chakra-ui/react";
+import {Box, HStack, Link, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
+import {AddIcon} from "@chakra-ui/icons";
 
 function SplitPane(props) {
     let d = {display:'inline-block',float:'left'}
@@ -26,14 +27,14 @@ function PaperDetails() {
         author: ["Maple826"],
         keywords: [],
         abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现",
-
+        isstarred:true,
     }
     return(
         <Box>
             <Info/>
             <Abstract/>
             <Data/>
-            <Op/>
+            <Op isstarred={property.isstarred}/>
             <Reference/>
         </Box>
     )
@@ -66,12 +67,14 @@ function Info(){
         title: "独白与对话:马克思主义中国化的方法",
         source: "云南社会科学",
         date: moment("20070112").format('YYYY-MM-DD'),
-        keywords: [],
-        abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现",
+        tags:['jdg小贵', '马克思', 'lggggg'],
+    }
+    const addTag = () => {
+
 
     }
     return(
-        <Box ml={'3%'} mb={10}>
+        <Box ml={'3%'} mb={5}>
             <Box>
             <Text fontSize={30} >
                 {property.title}
@@ -81,7 +84,17 @@ function Info(){
                 {property.date}&nbsp;&nbsp;&nbsp;{property.source}
             </Text>
             <Authors/>
-
+            <HStack spacing={4} mt={4}>
+                {property.tags.map((value,key) => (
+                    <Tag size={'lg'} key={key} variant='subtle' colorScheme='cyan'>
+                        <TagLabel minH={21}>{value}</TagLabel>
+                    </Tag>
+                ))}
+                <Tag size={'lg'} variant='subtle' colorScheme='cyan' cursor={'pointer'} onClick={addTag}>
+                    <TagLeftIcon boxSize='12px' as={AddIcon} />
+                    <TagLabel >添加</TagLabel>
+                </Tag>
+            </HStack>
         </Box>
     )
 }

@@ -8,7 +8,7 @@ import {RiDoubleQuotesR} from 'react-icons/ri'
 import {AiOutlineStar, AiFillStar} from 'react-icons/ai'
 import {BsLink45Deg} from 'react-icons/bs'
 import {useEffect, useState} from "react";
-function Op() {
+function Op({isstarred}) {
     const property = {
         abs:'摘要',
         kw:'关键词：',
@@ -17,7 +17,7 @@ function Op() {
         ,
 
     }
-    const [isClick, setIsClick] = useState(false)
+    const [isClick, setIsClick] = useState(isstarred)
     const Style = {
         cursor: 'pointer',
         }
@@ -33,7 +33,7 @@ function Op() {
         <Box
             borderWidth={'5'}
             marginLeft={'4.5%'}
-            mt={330}
+            mt={320}
 
             fontSize={25}
             position={'relative'}
@@ -41,8 +41,8 @@ function Op() {
 
             <Icon as={MdFileDownload} mr={15} style={Style}/>
             <Icon as={RiDoubleQuotesR} mr={15} style={Style}/>
-            {isClick && <Icon as={AiOutlineStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
-            {!isClick && <Icon as={AiFillStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
+            {!isClick && <Icon as={AiOutlineStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
+            {isClick && <Icon as={AiFillStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
             <Icon as={BsLink45Deg} style={Style}/>
 
         </Box>
