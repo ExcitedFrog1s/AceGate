@@ -1,0 +1,19 @@
+/*审核认领页面样式*/
+.check{
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 3%;
+
+}
+.chosen{
+    padding-top: 5px !important;
+    padding-left: 20px;
+}
+.ant-btn{
+    border-radius: 8px;
+
+}
+.ant-btn-primary{
+    border-color:#3182ce;
+    background-color: #3182ce;
+}

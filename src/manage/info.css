@@ -1,0 +1,32 @@
+/* 平台概况样式 */
+.info{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 3%;
+}
+#chart1{
+    margin-top: 20px;
+    width: 600px;
+    height: 330px;
+}
+#chart2{
+    width: 200px;
+    height: 200px;
+}
+.ant-card-body{
+    padding-left: 50px!important;
+    padding-top: 20px!important;
+    padding-bottom: 20px!important;
+    background-color: rgb(224, 223, 223);
+    border-radius: 2px;
+}
+.ant-form-item{
+    margin-bottom: 4px !important;
+}
+.inline{
+    margin-left: 20;
+    font-weight: 600;
+    color: rgb(38, 106, 215);
+    font-size: 16px;
+}
+
