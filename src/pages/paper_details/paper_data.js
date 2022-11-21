@@ -116,7 +116,7 @@ function Data() {
             </HStack>
             <Divider/>
             <Box ml={8} mt={5} mb={5}>
-                <Text as={'b'} color={'black'} fontSize={15}>
+                <Text as={'b'} color={'black'} fontSize={20}>
                     领域
                 </Text>
                 <UnorderedList mt={2} color={'#175bb4'}>
@@ -136,7 +136,7 @@ function Data() {
                       ml={10}
                        mr={20}
                       whiteSpace={'normal'}
-                      align={'center'}>
+                      align={'center'} as={'b'}>
                     关键词分析
                 </Text>
                     <Select placeholder='Keywords' width={60} color={'#000000'}>{
