@@ -102,7 +102,8 @@ function TimeOrgan({props}) {
         <Box ml={'10'} mt={'10px'} float={'left'}>
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
-                {props.time + ' '}
+                {/*time stamp to year*/}
+                {new Date(props.time * 1000).getFullYear() + ' '}
             </i>
             <Link href={'/'}
             style={linkStyle}
@@ -240,11 +241,11 @@ function ResultCard({props}) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.title}/>
-            <Authors authors={props.authors}/>
-            <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
-            <Content content={props.content}/>
-            <Labels labels={props.labels}/>
+            <Title title={props.Pname}/>
+            <Authors authors={props.PAuthor}/>
+            <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
+            <Content content={props.Pabstract}/>
+            <Labels labels={props.CTname}/>
             <Operations props={props.isStar}/>
         </Box>
     )
