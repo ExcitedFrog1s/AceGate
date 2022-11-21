@@ -30,7 +30,9 @@ function Title({title}) {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
             >
-                {title}
+                <Text noOfLines={1}>
+                    {title}
+                </Text>
             </Link>
         </Box>
     )
@@ -131,12 +133,14 @@ function Content({content}) {
         color: '#a0a0a0',
         fontSize: '16px',
         cursor: 'pointer',
-        textDecoration: isHover ? 'underline' : 'none',
+        textDecoration: isHover ? 'underline' : 'none'
     }
     return(
         <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {content.slice(0,200) + '......'}
+                <Text noOfLines={3}>
+                    {content}
+                </Text>
             </Link>
         </Box>
     )
