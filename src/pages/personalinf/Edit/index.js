@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import {nanoid} from 'nanoid';
 import Item from '../Item';
 import Select from '../Select'
+import {Link} from 'react-router-dom';
 import React, { Component } from 'react'
 import Interest from '../Interest';
 
@@ -108,7 +109,7 @@ export default class Edit extends Component {
               <span>研究领域：</span>
             </div>
             <div className="infinput">
-              <input ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域,点击按钮可完成添加"/>
+              <input ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域，点击按钮可完成添加"/>
               <Button className="clickconfirm" onClick={this.addfield}> √ </Button>
             </div>
             <div className='select_wrap'>
@@ -144,8 +145,10 @@ export default class Edit extends Component {
                 }
             </div>
           </div>
-          <Button className="button1">完成</Button>
-          <Button className="button2">取消</Button>
+          <Link to="/personInfo">
+            <Button className="button1">完成</Button>
+            <Button className="button2">取消</Button>
+          </Link>
           </div>
         </div>
       </div>
