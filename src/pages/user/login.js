@@ -1,7 +1,7 @@
 import {Box, Center, Image, SimpleGrid} from '@chakra-ui/react'
 import Header from "../../components/header/header";
 
-
+import loginImg from '../../assets/login_img.jpg'
 
 function Login(){
     return (
@@ -17,15 +17,21 @@ function Login(){
                         width={'50vw'}
                         height={'60vh'}
 
-                        border={'2px solid black'}
                         borderRadius={"min(2vw, 18px)"}
                     >
                         <SimpleGrid columns={2} spacing={0}>
                             <Box
                                 width={'100%'}
                                 height={'60vh'}
+
+                                backgroundImage={loginImg}
+                                backgroundSize={'fill'}
+                                backgroundRepeat={'no-repeat'}
+                                backgroundPosition={'center'}
+
+                                borderRadius={"min(2vw, 18px)"}
                             >
-                                <Image src="https://bit.ly/dan-abramov" fit={'fill'}/>
+
                             </Box>
 
                             <Box>
