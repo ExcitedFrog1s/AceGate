@@ -11,10 +11,15 @@ import Check from "../manage/check.js";
 
 import PaperDetails from "../pages/paper_details/paper_details";
 import AdvancedSearch from '../pages/advancedSearch/advancedSearch.js'
+import Login from "../pages/user/login";
 const default_router = createBrowserRouter([
     {
         path: '/',
         element: <Landing />
+    },
+    {
+        path: '/login',
+        element: <Login />
     },
     {
       path: '/searchResults',

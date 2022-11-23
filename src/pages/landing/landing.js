@@ -32,7 +32,7 @@ function Landing(){
                             size='lg'
                             backgroundColor='white'
                             width='100%'
-                            placeholder="输入您想搜索的论文，学者等，敲下回车搜索..."
+                            placeholder="输入您想搜索的论文，学者等，敲下回车"
                             />
                     </Box>
                 </VStack>
@@ -44,9 +44,9 @@ function Landing(){
             >
                 <Center>
                     <HStack
-                        spacing='8vw'
+                        spacing='7vw'
                     >
-                        <RecommendVenuesCard subject={"Artificial Intelligence"} />
+                        <RecommendVenuesCard subject={"ComputerVision"} />
                         <RecommendVenuesCard />
                         <RecommendVenuesCard />
                     </HStack>
