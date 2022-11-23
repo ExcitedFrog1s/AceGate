@@ -10,9 +10,7 @@ import {AiFillStar, AiOutlineStar} from "react-icons/ai";
 import {useForceUpdate} from "framer-motion";
 function Heart({state}){
     const [isClick, setIsClick] = useState(state)
-    console.log(state)
-    console.log("isclick")
-    console.log(isClick)
+
 
     const handleMouseDown = () => {
         if(isClick) {
@@ -26,9 +24,10 @@ function Heart({state}){
     const Style = {
         onMouseDown: 'handleMouseDown',
         cursor: 'pointer',
-        align:'end',
-        marginTop: '15px',
+        // align:'end',
+        // marginTop: '15px',
         marginRight:20,
+        // float:'right',
         width:'30px',
         height:'30px'}
 
@@ -56,6 +55,7 @@ function Comment() {
     }
     const s = {
         align: 'end',
+        float: 'right',
     }
     let initialState = {};
     property.comments.map((value, key1) => {
@@ -78,19 +78,23 @@ function Comment() {
                         color={'#E2E8F0'}
                         boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
                     >
-                        <HStack mt={5} key={key}>
-                        <Link href={'/'} ml={4}  color={'#105dc2'} fontSize={20}>{value.author}</Link>
+                        <HStack mt={5} key={key} justifyContent={'space-between'} >
+                            <Box>
+                                <HStack>
+                                <Link href={'/'} ml={4}  color={'#105dc2'} fontSize={20}>{value.author}</Link>
 
-                        <Text color={'#000000'}>
-                            {value.like_num}点赞
-                        </Text>
-                            {/*<Text>*/}
-                            {/*    {property.comments[key].re_num}回复*/}
-                            {/*</Text>*/}
-                            <Text color={'#000000'}  align={'right'}>
-                                {value.date}
-                            </Text>
-                            <Box style={s}>
+                                <Text color={'#000000'}>
+                                    {value.like_num}点赞
+                                </Text>
+                                    {/*<Text>*/}
+                                    {/*    {property.comments[key].re_num}回复*/}
+                                    {/*</Text>*/}
+                                <Text color={'#000000'}  align={'right'}>
+                                        {value.date}
+                                </Text>
+                                </HStack>
+                            </Box>
+                            <Box style={s} float={'right'}>
                                 <Heart state={value.liked}/>
                             </Box>
 

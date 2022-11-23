@@ -1,7 +1,7 @@
 /**
  * @author AboveParadise 2022/11/12
  */
-import {Box, HStack, Text, Divider, Select, Link} from "@chakra-ui/react";
+import {Box, HStack, Text, Divider, Select, Link, UnorderedList, ListItem} from "@chakra-ui/react";
 import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
 
@@ -9,8 +9,8 @@ import ReactECharts from 'echarts-for-react';
 function Data() {
     const property = {
         para: [100,9888,1231,33333],
-        kw: ['马克思','中国化','方法论']
-
+        kw: ['马克思','中国化','方法论'],
+        fields:["Lorem ipsum dolor sit amet","Consectetur adipiscing elit","Integer molestie lorem at massa","Facilisis in pretium nisl aliquet"]
     }
     const s = {left:200}
     const r = {left:10, color:'#161616'}
@@ -30,14 +30,14 @@ function Data() {
 
     return(
         <Box
-            height={'600'}
+            // height={'800'}
             width={'35%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             marginLeft={'60%'}
             mr={20}
-            color={'#E2E8F0'}
+            // color={'#E2E8F0'}
             position={'absolute'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
@@ -115,6 +115,19 @@ function Data() {
                 </Box>
             </HStack>
             <Divider/>
+            <Box ml={8} mt={5} mb={5}>
+                <Text as={'b'} color={'black'} fontSize={15}>
+                    领域
+                </Text>
+                <UnorderedList mt={2} color={'#175bb4'}>
+                    {property.fields.map((value, key) => {
+                        return(<ListItem key={key}><Link href={'/'}> {value}
+                        </Link></ListItem>)
+                    })}
+                </UnorderedList>
+            </Box>
+
+            <Divider/>
             <Box sx={{ minWidth: 120, width:'100%'}}>
                 <HStack mt={30}>
                 <Text  textDecoration={'none'}
@@ -143,7 +156,7 @@ function Data() {
             <ReactECharts option={option} />
             </div>
 
-        }
+
 
         </Box>
     )
