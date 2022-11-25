@@ -11,6 +11,10 @@ import Check from "../manage/check.js";
 
 import PaperDetails from "../pages/paper_details/paper_details";
 import AdvancedSearch from '../pages/advancedSearch/advancedSearch.js'
+
+import ScholarPortal from '../pages/ScholarPortal/Portal.js'
+import EditPortal from '../pages/ScholarPortal/EditPortal.js'
+import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -45,6 +49,18 @@ const default_router = createBrowserRouter([
     {
         path: '/advancedSearch',
         element: <AdvancedSearch />
+    },
+    {
+        path: '/scholarPortal',
+        element: <ScholarPortal />
+    },
+    {
+        path: '/editPortal',
+        element: <EditPortal />
+    },
+    {
+        path: '/applyPortal',
+        element: <ApplyPortal />
     }
 
 ])
