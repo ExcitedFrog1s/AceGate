@@ -1,6 +1,6 @@
 import "antd/dist/antd.min.css";
 import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton} from 'antd';
-import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined} from '@ant-design/icons';
+import { UserOutlined, HomeOutlined, BulbOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 const { Header, Content, Footer, Sider } = Layout;
@@ -11,7 +11,7 @@ const onChange = (key) => {
     console.log(key);
 };
 
-function Portal() {
+function EditPortal() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const loadMoreData = () => {
@@ -89,17 +89,17 @@ function Portal() {
                         <Col span={4}>
                             <Button
                                 type="primary"
-                                icon={<FormOutlined />}
+                                icon={<CheckCircleOutlined />}
                                 size="large"
                                 shape={"round"}
                                 style={{
                                     float: 'right',
                                     margin: '25px 40px 16px 24px',
-                                    backgroundColor: '#859dda',
+                                    backgroundColor: '#8fbd72',
                                     border: 'none',
                                 }}
                             >
-                                编辑
+                                保存
                             </Button>
                         </Col>
                     </Row>
@@ -139,10 +139,10 @@ function Portal() {
                     </div>
                 </Content>
                 <Sider width={450}
-                    style={{
-                        padding: '50px 200px 0 0',
-                        backgroundColor: 'rgb(240,242,245)',
-                    }}
+                       style={{
+                           padding: '50px 200px 0 0',
+                           backgroundColor: 'rgb(240,242,245)',
+                       }}
                 >
                     <div
                         style={{
@@ -153,9 +153,9 @@ function Portal() {
                     >
                         <Typography>
                             <Title level={4}
-                                style={{
-                                    padding: '24px 24px 16px 24px',
-                                }}
+                                   style={{
+                                       padding: '24px 24px 16px 24px',
+                                   }}
                             >
                                 合著作者
                             </Title>
@@ -168,41 +168,41 @@ function Portal() {
                                     border: 'none',
                                 }}
                             >
-                            <InfiniteScroll
-                                dataLength={data.length}
-                                next={loadMoreData}
-                                hasMore={data.length < 50}
-                                loader={
-                                    <Skeleton
-                                        avatar
-                                        paragraph={{
-                                            rows: 1,
-                                        }}
-                                        active
-                                    />
-                                }
-                                endMessage={<Divider plain></Divider>}
-                                scrollableTarget="scrollableDiv"
-                            >
-                                <List
-                                    dataSource={data}
-                                    renderItem={(item) => (
-                                        <List.Item
-                                            key={item.email}
-                                            style={{
-                                                padding: '10px 0 10px 0',
+                                <InfiniteScroll
+                                    dataLength={data.length}
+                                    next={loadMoreData}
+                                    hasMore={data.length < 50}
+                                    loader={
+                                        <Skeleton
+                                            avatar
+                                            paragraph={{
+                                                rows: 1,
                                             }}
-                                        >
-                                            <List.Item.Meta
-                                                avatar={<Avatar src={item.picture.large} />}
-                                                title={<a href="https://ant.design">{item.name.last}</a>}
-                                                description={item.email}
-                                            />
-                                        </List.Item>
-                                    )}
-                                />
-                            </InfiniteScroll>
-                    </div>
+                                            active
+                                        />
+                                    }
+                                    endMessage={<Divider plain></Divider>}
+                                    scrollableTarget="scrollableDiv"
+                                >
+                                    <List
+                                        dataSource={data}
+                                        renderItem={(item) => (
+                                            <List.Item
+                                                key={item.email}
+                                                style={{
+                                                    padding: '10px 0 10px 0',
+                                                }}
+                                            >
+                                                <List.Item.Meta
+                                                    avatar={<Avatar src={item.picture.large} />}
+                                                    title={<a href="https://ant.design">{item.name.last}</a>}
+                                                    description={item.email}
+                                                />
+                                            </List.Item>
+                                        )}
+                                    />
+                                </InfiniteScroll>
+                            </div>
                         </Typography>
                     </div>
 
@@ -218,4 +218,4 @@ function Portal() {
         </Layout>
     );
 }
-export default Portal;
+export default EditPortal;
