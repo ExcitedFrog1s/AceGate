@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import Frame from '../Frame'
 import Edit from '../Edit'
+import { Route,Routes } from 'react-router-dom';
+import '../index.css';
 
 export default class Information extends Component {
     state = {accountinfs:[
@@ -30,9 +32,12 @@ export default class Information extends Component {
     const {personalinfs} = this.state
     const {interestwords} = this.state
     return (
-      <div>
-        <Frame accountinfs={accountinfs} personalinfs={personalinfs}/>
-        <Edit accountinfs={accountinfs} interestwords={interestwords}/>
+      <div className='infoBackground'>
+        <div>&nbsp;</div>
+        <Routes>
+          <Route path="/" element={<Frame  accountinfs={accountinfs} personalinfs={personalinfs} /> } />
+          <Route path="edit" element={<Edit  accountinfs={accountinfs} interestwords={interestwords}/>} />
+        </Routes>
       </div>
     )
   }

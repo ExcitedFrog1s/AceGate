@@ -4,6 +4,7 @@ import {
 
 import Landing from '../pages/landing/landing.js'
 import SearchResults from "../pages/serach_results/search_results";
+import Information from "../pages/personalinf/Information";
 import Manage from "../manage/left.js";
 import Info from "../manage/info.js";
 import Scholars from "../manage/scholar.js";
@@ -50,6 +51,17 @@ const default_router = createBrowserRouter([
     {
         path: '/advancedSearch',
         element: <AdvancedSearch />
+    },
+    {
+        path: '/personInfo',
+        element: <Information />,
+        children: [
+            {
+                path: 'edit',
+                element: <Information/>
+            }
+
+        ]
     }
 
 ])
