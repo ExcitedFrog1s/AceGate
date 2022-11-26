@@ -1,6 +1,7 @@
 //by wgx
 import { Button } from 'antd';
 import Item from '../Item';
+import {Link} from 'react-router-dom';
 import React, { Component } from 'react';
 import '../index.css';
 
@@ -26,7 +27,9 @@ export default class Frame extends Component {
               return<Item key={inf.id} {...inf}/>
             })
           }
-          <Button className="button1">编辑</Button>
+          <Link to="/personInfo/edit">
+            <Button className="button1">编辑</Button>
+          </Link>
         </div>
       </div>
     )

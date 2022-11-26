@@ -1,16 +1,42 @@
-import {Box, Text} from "@chakra-ui/react";
+import {Box, Flex, Link, Spacer, Text, VStack} from "@chakra-ui/react";
 
 function queryRecommendVenues(subject){
     let ret = []
-    if (subject === "Artificial Intelligence"){
+    if (subject === "ComputerVision"){
         ret = [
             {
-                name: 'ICCV',
-                impactFactor: '10.0'
+                key: 1,
+                abbrName: 'CVPR',
+                fullName: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition',
+                hIndex: 408
             },
             {
-                name: 'ECCV',
-                impactFactor: '6.0'
+                key: 2,
+                abbrName: 'ICCV',
+                fullName: 'IEEE/CVF International Conference on Computer Vision',
+                impactFactor: '10.0',
+                hIndex: 280
+            },
+            {
+                key: 3,
+                abbrName: 'ECCV',
+                fullName: 'European Conference on Computer Vision',
+                impactFactor: '10.0',
+                hIndex: 186
+            },
+            {
+                key: 4,
+                abbrName: 'TPAMI',
+                fullName: 'IEEE Transactions on Pattern Analysis and Machine Intelligence',
+                impactFactor: '10.0',
+                hIndex: 165
+            },
+            {
+                key: 5,
+                abbrName: 'TIP',
+                fullName: 'IEEE Transactions on Image Processing',
+                impactFactor: '10.0',
+                hIndex: 128
             }
         ]
     }
@@ -19,16 +45,43 @@ function queryRecommendVenues(subject){
 }
 
 
+function getDisplaySubjectName(subject){
+    let dict = {
+        ComputerVision: '计算机视觉'
+    }
+
+    return dict[subject]
+}
+
 
 function RecommendVenuesCard({subject}){
 
     const result = queryRecommendVenues(subject)
 
-    const layout_result = result.map(entry =>
-        <div>
-            <Text fontSize='18px'>{entry.name}</Text>
-            <Text fontSize='14px'>{entry.impactFactor}</Text>
-        </div>
+    const displaySubjectName = getDisplaySubjectName(subject)
+
+    const layout_result = result.map(entry => {
+            let fullName = entry.fullName
+            if(entry.fullName.length >= 42){
+                fullName = entry.fullName.substring(0, 42)
+                fullName = fullName + "..."
+            }
+            return (
+                <Box
+                    key={entry.key}
+
+                    height={'19%'}
+                >
+                    <Flex>
+                        <Text fontSize='15px'>{entry.abbrName}</Text>
+                        <Spacer />
+                        <Text fontSize='15px'>{entry.hIndex} H-Index</Text>
+                    </Flex>
+
+                    <Text fontSize='11px' color='grey'>{fullName}</Text>
+                </Box>
+                )
+        }
     )
 
     return (
@@ -37,12 +90,23 @@ function RecommendVenuesCard({subject}){
             borderRadius='3px'
             boxShadow='md'
 
-            minH='25vh'
-            minW='15vw'
-            padding='10px'
+            height='350px'
+            width='20vw'
+            padding='15px 15px 20px 20px'
         >
+            <Box
+                height={'15%'}
+            >
+                <Text fontSize='20px'>{displaySubjectName} 热门出版物</Text>
+            </Box>
 
-            {layout_result}
+            <Box
+                height={'85%'}
+            >
+                {layout_result}
+                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 出版物...</Link>
+            </Box>
+
         </Box>
     )
 }
