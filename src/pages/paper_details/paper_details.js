@@ -67,7 +67,7 @@ function Info(){
         title: "独白与对话:马克思主义中国化的方法",
         source: "云南社会科学",
         date: moment("20070112").format('YYYY-MM-DD'),
-        tags:['jdg小贵', '马克思', 'lggggg'],
+        tags:['jdg', '马克思', 'lggggg'],
     }
     const addTag = () => {
 
@@ -84,17 +84,17 @@ function Info(){
                 {property.date}&nbsp;&nbsp;&nbsp;{property.source}
             </Text>
             <Authors/>
-            <HStack spacing={4} mt={4}>
-                {property.tags.map((value,key) => (
-                    <Tag size={'lg'} key={key} variant='subtle' colorScheme='cyan'>
-                        <TagLabel minH={21}>{value}</TagLabel>
-                    </Tag>
-                ))}
-                <Tag size={'lg'} variant='subtle' colorScheme='cyan' cursor={'pointer'} onClick={addTag}>
-                    <TagLeftIcon boxSize='12px' as={AddIcon} />
-                    <TagLabel >添加</TagLabel>
-                </Tag>
-            </HStack>
+            {/*<HStack spacing={4} mt={4}>*/}
+            {/*    {property.tags.map((value,key) => (*/}
+            {/*        <Tag size={'lg'} key={key} variant='subtle' colorScheme='cyan'>*/}
+            {/*            <TagLabel minH={21}>{value}</TagLabel>*/}
+            {/*        </Tag>*/}
+            {/*    ))}*/}
+            {/*    <Tag size={'lg'} variant='subtle' colorScheme='cyan' cursor={'pointer'} onClick={addTag}>*/}
+            {/*        <TagLeftIcon boxSize='12px' as={AddIcon} />*/}
+            {/*        <TagLabel >添加</TagLabel>*/}
+            {/*    </Tag>*/}
+            {/*</HStack>*/}
         </Box>
     )
 }

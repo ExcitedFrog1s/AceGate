@@ -133,7 +133,7 @@ function Data() {
                 <Text  textDecoration={'none'}
                       color={'#000000'}
                       fontSize={'20'}
-                      ml={10}
+                      ml={8}
                        mr={20}
                       whiteSpace={'normal'}
                       align={'center'} as={'b'}>

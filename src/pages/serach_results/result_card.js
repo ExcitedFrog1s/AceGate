@@ -30,7 +30,9 @@ function Title({title}) {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
             >
-                {title}
+                <Text noOfLines={1}>
+                    {title}
+                </Text>
             </Link>
         </Box>
     )
@@ -68,14 +70,14 @@ function Author({author,key}) {
 
 function Authors({authors}) {
     return(
-    <Box ml={'10'} mt={'-5px'}>
-        {
-            authors.map((value, key) => {
-                return (
-                    <Author author={value} key={key}/>
-                );
-            })
-        }
+        <Box ml={'10'} mt={'-5px'}>
+            {
+                authors.map((value, key) => {
+                    return (
+                        <Author author={value} key={key}/>
+                    );
+                })
+            }
         </Box>
     )
 
@@ -102,12 +104,13 @@ function TimeOrgan({props}) {
         <Box ml={'10'} mt={'10px'} float={'left'}>
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
-                {props.time + ' '}
+                {/*time stamp to year*/}
+                {new Date(props.time * 1000).getFullYear() + ' '}
             </i>
             <Link href={'/'}
-            style={linkStyle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+                  style={linkStyle}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
             >
                 {props.organ}
             </Link>
@@ -130,12 +133,14 @@ function Content({content}) {
         color: '#a0a0a0',
         fontSize: '16px',
         cursor: 'pointer',
-        textDecoration: isHover ? 'underline' : 'none',
+        textDecoration: isHover ? 'underline' : 'none'
     }
     return(
         <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {content.slice(0,200) + '......'}
+                <Text noOfLines={3}>
+                    {content}
+                </Text>
             </Link>
         </Box>
     )
@@ -240,11 +245,11 @@ function ResultCard({props}) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.title}/>
-            <Authors authors={props.authors}/>
-            <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
-            <Content content={props.content}/>
-            <Labels labels={props.labels}/>
+            <Title title={props.Pname}/>
+            <Authors authors={props.PAuthor}/>
+            <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
+            <Content content={props.Pabstract}/>
+            <Labels labels={props.CTname}/>
             <Operations props={props.isStar}/>
         </Box>
     )
