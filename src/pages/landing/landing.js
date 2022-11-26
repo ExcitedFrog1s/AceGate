@@ -1,8 +1,9 @@
 import React from 'react';
 import Header from "../../components/header/header";
 import landing_bg from "../../assets/landing_bg.png";
-import {Box, Button, Center, HStack, Input, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Center, Grid, GridItem, HStack, Input, Text, VStack} from "@chakra-ui/react";
 import RecommendVenuesCard from "./recommend-venues-card";
+import RecommendPapersCard from "./recommend-papers-card";
 
 function Landing(){
     return (
@@ -38,19 +39,44 @@ function Landing(){
                 </VStack>
             </Box>
             <Box
-                height='50vh'
+                height='40vh'
                 position='relative'
                 top='-5vh'
             >
                 <Center>
                     <HStack
-                        spacing='7vw'
+                        spacing='4vw'
                     >
                         <RecommendVenuesCard subject={"ComputerVision"} />
-                        <RecommendVenuesCard />
+                        <RecommendPapersCard subject={"ComputerVision"} />
                         <RecommendVenuesCard />
                     </HStack>
                 </Center>
+            </Box>
+            <Box
+                height={'80vh'}
+                paddingBottom='15vh'
+            >
+                <Grid
+                    width='80%'
+                    height='100%'
+                    marginLeft='10%'
+                    marginRight='10%'
+
+                    templateRows='repeat(2, 1fr)'
+                    templateColumns='repeat(8, 1fr)'
+                    gap={6}
+                >
+                    <GridItem colSpan={4} rowSpan={2} bg='tomato' >
+
+                    </GridItem>
+                    <GridItem colSpan={4} rowSpan={1} bg='lightgrey'>
+
+                    </GridItem>
+                    <GridItem colSpan={4} rowSpan={1} bg='cyan'>
+
+                    </GridItem>
+                </Grid>
             </Box>
         </div>
 

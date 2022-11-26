@@ -1,4 +1,4 @@
-import {Box, Link, Text, VStack} from "@chakra-ui/react";
+import {Box, Flex, Link, Spacer, Text, VStack} from "@chakra-ui/react";
 
 function queryRecommendVenues(subject){
     let ret = []
@@ -8,15 +8,14 @@ function queryRecommendVenues(subject){
                 key: 1,
                 abbrName: 'CVPR',
                 fullName: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition',
-                impactFactor: '10.0',
-                hIndex: 389
+                hIndex: 408
             },
             {
                 key: 2,
                 abbrName: 'ICCV',
                 fullName: 'IEEE/CVF International Conference on Computer Vision',
                 impactFactor: '10.0',
-                hIndex: 239
+                hIndex: 280
             },
             {
                 key: 3,
@@ -63,8 +62,8 @@ function RecommendVenuesCard({subject}){
 
     const layout_result = result.map(entry => {
             let fullName = entry.fullName
-            if(entry.fullName.length >= 32){
-                fullName = entry.fullName.substring(0, 32)
+            if(entry.fullName.length >= 42){
+                fullName = entry.fullName.substring(0, 42)
                 fullName = fullName + "..."
             }
             return (
@@ -73,7 +72,12 @@ function RecommendVenuesCard({subject}){
 
                     height={'19%'}
                 >
-                    <Text fontSize='15px'>{entry.abbrName}｜H5-Index {entry.hIndex}</Text>
+                    <Flex>
+                        <Text fontSize='15px'>{entry.abbrName}</Text>
+                        <Spacer />
+                        <Text fontSize='15px'>{entry.hIndex} H-Index</Text>
+                    </Flex>
+
                     <Text fontSize='11px' color='grey'>{fullName}</Text>
                 </Box>
                 )
@@ -87,21 +91,20 @@ function RecommendVenuesCard({subject}){
             boxShadow='md'
 
             height='350px'
-            width='18vw'
-            maxW='260px'
-            padding='15px 15px 20px 15px'
+            width='20vw'
+            padding='15px 15px 20px 20px'
         >
             <Box
                 height={'15%'}
             >
-                <Text fontSize='20px'>{displaySubjectName} 推荐期刊</Text>
+                <Text fontSize='20px'>{displaySubjectName} 热门出版物</Text>
             </Box>
 
             <Box
                 height={'85%'}
             >
                 {layout_result}
-                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 期刊...</Link>
+                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 出版物...</Link>
             </Box>
 
         </Box>
