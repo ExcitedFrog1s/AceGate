@@ -5,15 +5,27 @@
     padding-top: 3%;
 
 }
-.chosen{
+.check .chosen{
     padding-top: 5px !important;
     padding-left: 20px;
 }
-.ant-btn{
+.check .ant-btn{
     border-radius: 8px;
 
 }
-.ant-btn-primary{
+.check .ant-btn-primary{
     border-color:#3182ce;
     background-color: #3182ce;
+}
+
+.check .css-1eu8csq{
+    background-color: #805AD5 !important;
+}
+
+.check .css-1xtr6yu{
+    background-color: #3A3AF1;
+}
+.check .css-hipoo1{
+    background-color: #805AD5;
+
 }
