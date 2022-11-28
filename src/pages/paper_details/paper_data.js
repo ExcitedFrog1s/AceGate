@@ -10,11 +10,13 @@ function Data() {
     const property = {
         para: [100,9888,1231,33333],
         kw: ['马克思','中国化','方法论'],
+
         fields:["Lorem ipsum dolor sit amet","Consectetur adipiscing elit","Integer molestie lorem at massa","Facilisis in pretium nisl aliquet"]
     }
-    const s = {left:200}
-    const r = {left:10, color:'#161616'}
-    const option = {
+    const select = (e) => {
+        console.log(e.target.value)
+    }
+    const option = [{
         xAxis: {
             type: 'category',
             data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -24,23 +26,20 @@ function Data() {
         },
         series: [{
             data: [120, 200, 150, 80, 70, 110, 130],
-            type: 'bar'
-        }]
-    };
-
+            type: 'line'
+        }],
+        lineStyle: {
+            color: '#6f60f7',
+            lineWidth: 4,
+        },
+    }];
+    const s = {
+        color:'#000000'
+    }
     return(
         <Box
-            // height={'800'}
-            width={'35%'}
-            borderWidth={'5'}
-            borderRadius={'12'}
-            borderStyle={'solid'}
-            marginLeft={'60%'}
-            mr={20}
-            // color={'#E2E8F0'}
-            position={'absolute'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-        >
+            width={'35%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'} marginLeft={'60%'}
+            mr={20} position={'absolute'} boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}>
 
             <HStack  mt={3} >
 
@@ -116,10 +115,10 @@ function Data() {
             </HStack>
             <Divider/>
             <Box ml={8} mt={5} mb={5}>
-                <Text as={'b'} color={'black'} fontSize={20}>
+                <Text as={'b'} color={'black'} fontSize={20} fontFamily={'宋体'}>
                     领域
                 </Text>
-                <UnorderedList mt={2} color={'#175bb4'}>
+                <UnorderedList mt={2} color={'#6f60f7'}>
                     {property.fields.map((value, key) => {
                         return(<ListItem key={key}><Link href={'/'}> {value}
                         </Link></ListItem>)
@@ -132,17 +131,18 @@ function Data() {
                 <HStack mt={30}>
                 <Text  textDecoration={'none'}
                       color={'#000000'}
-                      fontSize={'20'}
+                      fontSize={'20'} fontFamily={'宋体'}
                       ml={8}
                        mr={20}
                       whiteSpace={'normal'}
                       align={'center'} as={'b'}>
                     关键词分析
                 </Text>
-                    <Select placeholder='Keywords' width={60} color={'#000000'}>{
+                    <Select placeholder='Keywords' width={60} color={'#000000'} cursor={'pointer'}>{
                         property.kw.map((value, key) => {
                             return (
-                                <option key={key} value='option1'>{value}</option>
+                                <option key={key} value={value} cursor={'pointer'}
+                                        onClick={(e) => select(e)}>{value}</option>
                             );
                         })
                     }
@@ -153,7 +153,7 @@ function Data() {
                 </HStack>
             </Box>
             <div>
-            <ReactECharts option={option} />
+            <ReactECharts option={option[0]} style={s}/>
             </div>
 
 

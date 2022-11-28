@@ -20,17 +20,19 @@ function Title({title}) {
     const linkStyle = {
         color: '#161616',
         fontSize: '30px',
-        textDecoration: isHover ? 'underline' : 'none',
+        textDecoration: isHover ? 'underline' : 'none'
     }
 
     return (
-        <Box ml={'10'} mt={'20px'}>
+        <Box ml={'4'} mt={'20px'}>
             <Link href={'/'}
                   style={linkStyle}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
             >
-                <Text noOfLines={1}>
+
+                <Text noOfLines={1} padding={'30px'}>
+
                     {title}
                 </Text>
             </Link>
@@ -70,14 +72,16 @@ function Author({author,key}) {
 
 function Authors({authors}) {
     return(
-        <Box ml={'10'} mt={'-5px'}>
-            {
-                authors.map((value, key) => {
-                    return (
-                        <Author author={value} key={key}/>
-                    );
-                })
-            }
+
+    <Box ml={'10'} mt={'-20px'}>
+        {
+            authors.map((value, key) => {
+                return (
+                    <Author author={value} key={key}/>
+                );
+            })
+        }
+
         </Box>
     )
 
@@ -138,7 +142,9 @@ function Content({content}) {
     return(
         <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                <Text noOfLines={3}>
+
+                <Text noOfLines={3} wordBreak={'break-all'} marginRight={'50px'}>
+
                     {content}
                 </Text>
             </Link>
@@ -177,7 +183,7 @@ function Label({label,key}) {
 function Labels({labels}) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'标签'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'标签'}</Text>
             {
                 labels.map((value, key) => {
                     return (
@@ -207,7 +213,8 @@ function Star({props}) {
         color: '#3662ec',
         marginTop: '15px',
         width:'30px',
-        height:'30px'}
+        height:'30px'
+    }
 
     return(
         <Box>
@@ -234,7 +241,7 @@ function Operations({props}) {
 function ResultCard({props}) {
     return(
         <Box
-            height={'300'}
+            minHeight={'330'}
             width={'50%'}
             borderWidth={'5'}
             borderRadius={'12'}

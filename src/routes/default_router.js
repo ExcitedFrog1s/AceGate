@@ -17,6 +17,7 @@ const default_router = createBrowserRouter([
         element: <Landing />
     },
     {
+      name: 'searchResults',
       path: '/searchResults',
       element: <SearchResults/>
     },

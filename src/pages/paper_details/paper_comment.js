@@ -80,15 +80,15 @@ function Comment() {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link href={'/'} ml={4}  color={'#0087FF'} fontSize={20}>{value.author}</Link>
+                                <Link href={'/'} ml={4}  color={'#3a3af1'} fontSize={20}>{value.author}</Link>
 
-                                <Text color={'#000000'}>
+                                <Text color={'#6f60f7'}>
                                     {value.like_num}点赞
                                 </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
                                     {/*</Text>*/}
-                                <Text color={'#000000'}  align={'right'}>
+                                <Text color={'#0b1075'}  align={'right'}>
                                         {value.date}
                                 </Text>
                                 </HStack>

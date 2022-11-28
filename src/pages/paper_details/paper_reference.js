@@ -4,21 +4,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import './test.css'
-import {
-    Box,
-    HStack,
-    Text,
-    Divider,
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
-    List,
-    ListItem, Link
-} from "@chakra-ui/react";
+import {Box,HStack,Text,Divider,Tabs,TabList,TabPanels,Tab,TabPanel,List,ListItem, Link} from "@chakra-ui/react";
 import Comment from "./paper_comment";
-import ResultCard from "../serach_results/result_card";
 function Reference() {
     const property = {
         refs:[{title:"马克思主义中国化的道路",authors:["马克思","恩格斯"]},
@@ -29,13 +16,10 @@ function Reference() {
             'authors':['maple','AboveParadise','frog'],
 
         },],
-
-
     }
     const st = {
 
     }
-
     return(
         <Box
             width={'55%'}
@@ -46,9 +30,9 @@ function Reference() {
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             position={'absolute'}
         >
-            <Tabs align={'end'}>
+            <Tabs align={'end'} colorScheme={'purple'}>
                 <TabList >
-                    <Tab>参考文献</Tab>
+                    <Tab >参考文献</Tab>
                     <Tab>相关文献</Tab>
                     <Tab>文章评论</Tab>
                 </TabList>
