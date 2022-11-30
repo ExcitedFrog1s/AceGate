@@ -4,26 +4,71 @@
     margin-right: 5%;
     margin-top: 3%;
 }
-#chart1{
-    margin-top: 20px;
+.info #chart1{
+    margin-top: 35px;
     width: 600px;
     height: 330px;
+    margin-left: 20%;
 }
-#chart2{
+.info #chart2{
     width: 200px;
     height: 200px;
 }
-.ant-card-body{
-    padding-left: 50px!important;
-    padding-top: 20px!important;
-    padding-bottom: 20px!important;
-    background-color: rgb(224, 223, 223);
-    border-radius: 2px;
+.info .ant-card-meta-title{
+    font-size: 14px;
+    margin-bottom: 0 !important;
+    color: #878989 !important;
+
 }
-.ant-form-item{
+.info .ant-card-meta-description{
+    font-weight: 600 !important;
+    font-size: 25px !important;
+}
+.info .user .ant-card-meta-description{
+    color: #422AFB;
+}
+
+.info .sch .ant-card-meta-description{
+    color: #56C3FF;
+}
+
+.info .paper .ant-card-meta-description{
+    color: #01B574;
+}
+.info .ident .ant-card-meta-description{
+    color: #805AD5;
+}
+.info .field .ant-card-meta-description{
+    color: #00B5D8;
+}
+.info .search .ant-card-meta-description{
+    color: #319795;
+}
+.info .ant-row {
+    margin-bottom: 20px;
+}
+.info .ant-card{
+    padding-left: 40px!important;
+    background-color: rgb(249, 249, 249);
+    border-radius: 15px !important;
+    box-shadow: 4px 4px 6px #c0c3c3;
+}
+.info .ant-form-item{
     margin-bottom: 4px !important;
 }
-.inline{
+.info .chakra-avatar{
+    width: 50px !important;
+    height: 50px !important;
+}
+.info .ant-card-meta-avatar{
+    padding-top: 10px;
+    width: 70px;
+}
+.info .ant-card-meta-avatar .anticon svg{
+    width: 25px;
+    height: 25px;
+}
+.info .inline{
     margin-left: 20;
     font-weight: 600;
     color: rgb(38, 106, 215);
