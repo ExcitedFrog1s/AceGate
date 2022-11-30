@@ -6,6 +6,7 @@ import { Menu } from "antd";
 import { Outlet, useNavigate } from 'react-router-dom'
 import React from "react";
 import { Layout } from "antd";
+import './left.css'
 
 const { Header, Sider, Content } = Layout;
 
@@ -13,6 +14,7 @@ function getItem(label, key, icon){
     return {
         label,
         key: "/manage/" + key,
+        icon: icon
     }
 }
 
@@ -31,7 +33,7 @@ function LeftMenu(){
         console.log(1);
     }
     return(
-            <Menu style={{width: 200, height:700, marginTop:50}}
+            <Menu style={{width: 200}}
             defaultSelectedKeys={[1]}
             theme="light"
             items={items}
@@ -47,9 +49,9 @@ function Manage(){
         <Layout>
             <Header></Header>
             <Layout>
-                <Sider style={{width:200}}
+                <Sider style={{width:200, height:700}}
                 theme="light">
-                    <LeftMenu/>
+                    <div className='left'><LeftMenu/></div>
                 </Sider>
                 <Content>
                     <Outlet />

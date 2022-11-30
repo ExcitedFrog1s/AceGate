@@ -2,22 +2,23 @@ import React from 'react';
 import Header from "../../components/header/header";
 import landing_bg from "../../assets/landing_bg.png";
 import {Box, Button, Center, Grid, GridItem, HStack, Input, Text, VStack} from "@chakra-ui/react";
-import RecommendVenuesCard from "./recommend-venues-card";
+import RecommendConferencesCard from "./recommend-conferences-card";
 import RecommendPapersCard from "./recommend-papers-card";
+import RecommendJournalsCard from "./recommend-journals-card";
 
 function Landing(){
     return (
         <div>
             <Box
                 w='100%'
-                h='60vh'
+                h='max(60vh, 550px)'
                 backgroundImage={landing_bg}
                 bgSize='100%'
             >
+                <Header textColor={'white'} />
                 <VStack
                     spacing={7}
                 >
-                    <Header />
                     <Box h='8vh'>
 
                     </Box>
@@ -47,9 +48,9 @@ function Landing(){
                     <HStack
                         spacing='4vw'
                     >
-                        <RecommendVenuesCard subject={"ComputerVision"} />
+                        <RecommendConferencesCard subject={"ComputerVision"} />
                         <RecommendPapersCard subject={"ComputerVision"} />
-                        <RecommendVenuesCard />
+                        <RecommendJournalsCard subject={"ComputerVision"} />
                     </HStack>
                 </Center>
             </Box>

@@ -1,18 +1,23 @@
 import * as React from 'react'
+
+import "../serach_results/search_results.js"
+import { DatePicker} from 'antd';
+import { Col, Row } from 'antd';
 import { Box } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
 import { Select, Text } from '@chakra-ui/react'
-import { Col, Row } from 'antd';
 import { IconButton } from '@chakra-ui/react'
 import {Button, ButtonGroup} from '@chakra-ui/react'
+import {Heading, Stack, StackDivider} from '@chakra-ui/react'
 import { Search2Icon, RepeatIcon, AddIcon, MinusIcon} from '@chakra-ui/icons'
+
 import './advancedSearch.css';
-import { DatePicker} from 'antd';
 
 //antd组件汉化
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
+import SearchResults from '../serach_results/search_results.js';
 moment.locale('zh-cn')
 
 
@@ -73,12 +78,24 @@ function Search({}) {
     return(
         <Box boxShadow='2xl' rounded='md'
             borderRadius='20px' border='1px' borderColor='gray.200'
-            className='site-card-border-less-wrapper'>
+            className='site-card-border-less-wrapper'
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}>
             {dataList.map((item, index) => (
                 <Row style={{marginTop:'20px'}} key={index}>
-                    <Col span={2}>
+                    <Col span={3}>
                         {
-                            index != 0?(
+                            index !== 0?(
                                 <Select value={item.type} 
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
@@ -118,9 +135,9 @@ function Search({}) {
                                 setDataList([...dataList]);}}>
                         </Input>
                     </Col>
-                    <Col span={3} offset={1}>
+                    <Col span={2} offset={1}>
                     <IconButton
-                        colorScheme='blue'
+                        colorScheme='purple'
                         aria-label='Call Segun'
                         size='sm'
                         icon={<AddIcon />}
@@ -128,7 +145,7 @@ function Search({}) {
                             addItem(index);
                         }}/>
                         {
-                            index != 0?(
+                            index !== 0?(
                                 <IconButton
                                 style={{marginLeft: '5px'}}
                                 variant='outline'
@@ -149,15 +166,15 @@ function Search({}) {
                 </Row>
             ))}
             <Row style={{marginTop:'30px'}}>
-                <Col span={4} offset={2}>
-                    <Text fontSize='lg' fontWeight='550' style={{marginLeft:'20px'}}>请选择出版时间</Text>
+                <Col span={5} offset={2}>
+                    <Text className="time">请选择出版时间</Text>
                 </Col>
-                <Col span={18}>
+                <Col span={17}>
                     <RangePicker locale={locale} picker="month" className='datePicker'/>
                 </Col>
             </Row>
             <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '400px'}} >
-                <Button colorScheme='blue' leftIcon={<Search2Icon />}>
+                <Button colorScheme='purple' leftIcon={<Search2Icon />}>
                     搜索
                 </Button>
                 <Button variant='outline' colorScheme='blue' leftIcon={<RepeatIcon />}
@@ -171,5 +188,77 @@ function Search({}) {
     )
 }
 
+function Description({}) {
+    return(
+        <Box boxShadow='2xl' rounded='md'
+        borderRadius='20px' border='1px' borderColor='gray.200'
+        className='description'
+        css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#cccccc',
+              borderRadius: '24px',
+            },
+          }}
+        >
+            <Heading size='md' style={{marginBottom:'20px'}} className="d0">高级检索使用方法</Heading>
+            <Stack divider={<StackDivider />} spacing='4'>
+                <Box>
+                    <Heading size='xs' textTransform='uppercase' className="d1">
+                    高级检索特点
+                    </Heading>
+                    <Text pt='2' fontSize='sm'>
+                    高级检索支持多字段逻辑组合，并可通过检索控制等方法完成较复杂的检索，得到符合需求的检索结果。
+                    多字段组合检索的运算优先级，按从上到下的顺序依次进行。
+                    </Text>
+                </Box>
+                <Box>
+                    <Heading size='xs' textTransform='uppercase' className="d2">
+                    检索条件输入区
+                    </Heading>
+                    <Text pt='2' fontSize='sm'>
+                    默认显示篇关摘、作者、论文来源三个检索框, 可自由选择检索项、检索项间的逻辑关系。
+                    点击检索框后的、按钮可添加或删除检索项, 最多支持10个检索项的组合检索。
+                    </Text>
+                </Box>
+                <Box>
+                    <Heading size='xs' textTransform='uppercase' className="d3">
+                    检索项
+                    </Heading>
+                    <Text pt='2' fontSize='sm'>
+                    提供的检索项有: 主题、篇关摘、关键词、篇名、全文、作者、作者单位、基金、摘要、小标题、参考文献、分类号、文献来源、DOI。
+                    </Text>
+                </Box>
+            </Stack>
+        </Box>
+    )
+}
 
-export default Search;
+function AdvancedSearch({}) {
+    return(
+        <html>
+        <Box>
+            <Row>
+                <Heading size='md' style={{margin:'auto'}}>Header</Heading>
+            </Row>
+            <Row>
+                <Col span={17}>
+                    <Search ></Search>
+                </Col>
+                <Col span={6} style={{marginLeft:'40px'}}>
+                    <Description></Description>
+                </Col>
+            </Row>
+                <SearchResults></SearchResults>
+      
+        </Box>
+        </html>
+    )
+}
+
+export default AdvancedSearch;

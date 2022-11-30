@@ -6,9 +6,9 @@
     border-radius: 10px;
     padding-bottom: 12px;
     margin-top: 20px;
-    margin-bottom: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
+    margin-bottom: 20px;
+    margin-left: 300px;
+    margin-right: 300px;
 }
 
 
@@ -47,6 +47,7 @@
     line-height: 28px;
     min-height: 28px;
     margin-bottom: 12px;
+    margin-top: 12px;
 }
 
 .button1{
@@ -76,7 +77,7 @@
 
 
 .input1{
-    width: 220px;
+    width: 230px;
     color: #333;
     outline: none;
     caret-color: #333 !important;
@@ -88,10 +89,11 @@
 }
 /*  页面底色 */
 .infoBackground{
-    width: 150vh;
-    height: 100vh;
+    width: 100%;
+    height: 110%;
+    min-height: 100vh;
     background: rgb(235,237,240);
-    margin-top: 10px;
+    margin-top: 0px;
 }
 
 /* 关键词选择组件演示*/
@@ -99,12 +101,14 @@
 .option{
     max-width: 800px;
     min-width: 600px;
+    margin-right: 1000px;
     font-size: 12px;
     margin-top: 16px;
     color: #666;
     padding: 2px 4px 50px 20px;
     background-color: #f9f9fa;
 }
+
 
 .unselect-option{
     width:fit-content;
@@ -118,6 +122,11 @@
     line-height: 12px;
     cursor: pointer;
     float: left;
+}
+
+.unselect-option:hover{
+    background-color: #619bff;
+    color: #fff;
 }
 
 .selected{
@@ -136,10 +145,17 @@
     text-align: center;
     padding: 0px 6px;
     cursor: pointer;
+    
 }
+
 
 .select_wrap{
     padding-left: 130px;
     margin-top: 0px;
+}
+
+.cancelOption:hover{
+    color: #fff;
+    background-color: rgb(186, 205, 247);
 }
 
