@@ -20,17 +20,19 @@ function Title({title}) {
     const linkStyle = {
         color: '#161616',
         fontSize: '30px',
-        textDecoration: isHover ? 'underline' : 'none',
+        textDecoration: isHover ? 'underline' : 'none'
     }
 
     return (
-        <Box ml={'10'} mt={'20px'}>
+        <Box ml={'4'} mt={'20px'}>
             <Link href={'/'}
                   style={linkStyle}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
             >
-                {title}
+                <Text noOfLines={1} padding={'30px'}>
+                    {title}
+                </Text>
             </Link>
         </Box>
     )
@@ -68,14 +70,14 @@ function Author({author,key}) {
 
 function Authors({authors}) {
     return(
-    <Box ml={'10'} mt={'-5px'}>
-        {
-            authors.map((value, key) => {
-                return (
-                    <Author author={value} key={key}/>
-                );
-            })
-        }
+        <Box ml={'10'} mt={'-20px'}>
+            {
+                authors.map((value, key) => {
+                    return (
+                        <Author author={value} key={key}/>
+                    );
+                })
+            }
         </Box>
     )
 
@@ -102,12 +104,13 @@ function TimeOrgan({props}) {
         <Box ml={'10'} mt={'10px'} float={'left'}>
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
-                {props.time + ' '}
+                {/*time stamp to year*/}
+                {new Date(props.time * 1000).getFullYear() + ' '}
             </i>
             <Link href={'/'}
-            style={linkStyle}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+                  style={linkStyle}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
             >
                 {props.organ}
             </Link>
@@ -130,12 +133,14 @@ function Content({content}) {
         color: '#a0a0a0',
         fontSize: '16px',
         cursor: 'pointer',
-        textDecoration: isHover ? 'underline' : 'none',
+        textDecoration: isHover ? 'underline' : 'none'
     }
     return(
         <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {content.slice(0,200) + '......'}
+                <Text noOfLines={3} wordBreak={'break-all'} marginRight={'50px'}>
+                    {content}
+                </Text>
             </Link>
         </Box>
     )
@@ -172,7 +177,7 @@ function Label({label,key}) {
 function Labels({labels}) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'标签'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'标签'}</Text>
             {
                 labels.map((value, key) => {
                     return (
@@ -202,7 +207,8 @@ function Star({props}) {
         color: '#3662ec',
         marginTop: '15px',
         width:'30px',
-        height:'30px'}
+        height:'30px'
+    }
 
     return(
         <Box>
@@ -229,7 +235,7 @@ function Operations({props}) {
 function ResultCard({props}) {
     return(
         <Box
-            height={'300'}
+            minHeight={'330'}
             width={'50%'}
             borderWidth={'5'}
             borderRadius={'12'}
@@ -240,11 +246,11 @@ function ResultCard({props}) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.title}/>
-            <Authors authors={props.authors}/>
-            <TimeOrgan props={{'time':props.time,'organ':props.organ}}/>
-            <Content content={props.content}/>
-            <Labels labels={props.labels}/>
+            <Title title={props.Pname}/>
+            <Authors authors={props.PAuthor}/>
+            <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
+            <Content content={props.Pabstract}/>
+            <Labels labels={props.CTname}/>
             <Operations props={props.isStar}/>
         </Box>
     )
