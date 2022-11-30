@@ -12,8 +12,7 @@ export default class Edit extends Component {
   ],
   interests:[
 
-  ]
-
+  ],
   }
 
   addfield = ()=>{
@@ -65,6 +64,7 @@ export default class Edit extends Component {
   render() {
     const {accountinfs} = this.props
     const {interestwords} = this.props
+    const {scholar} = this.props
     const {fields} = this.state
     const {interests} = this.state
     return (
@@ -73,28 +73,43 @@ export default class Edit extends Component {
           <h2 className="frametitle">账户信息</h2>
           {
             accountinfs.map( inf =>{
-              return<Item key={inf.id} {...inf}/>
+              if(inf.id !== "002" || scholar){
+                return<Item key={inf.id} {...inf}/>
+              }
             })
           }
         </div>
         <div className="informationframe">
           <h2 className="frametitle">个人信息</h2>
-          <div className="list_container">
-            <div className="information_name">
-              <span>真实姓名：</span>
-            </div>
-            <div className="infinput">
-              <input className="input1" type="text" placeholder="请输入真实姓名"/>
-            </div>
-          </div>
-          <div className="list_container">
-            <div className="information_name">
-              <span>联系电话：</span>
-            </div>
-            <div className="infinput">
-              <input className="input1" type="text" placeholder="请输入联系电话"/>
-            </div>
-          </div>
+          {scholar
+           ?  <div>
+                <div className="list_container">
+                  <div className="information_name">
+                    <span>真实姓名：</span>
+                  </div>
+                  <div className="infinput">
+                    <input className="input1" type="text" placeholder="请输入真实姓名"/>
+                  </div>
+                </div>
+                <div className="list_container">
+                  <div className="information_name">
+                    <span>联系电话：</span>
+                  </div>
+                  <div className="infinput">
+                    <input className="input1" type="text" placeholder="请输入联系电话"/>
+                  </div>
+                </div>
+                <div className="list_container">
+                  <div className="information_name">
+                    <span>工作单位：</span>
+                  </div>
+                  <div className="infinput">
+                    <input className="input1" type="text" placeholder="请输入工作单位"/>
+                  </div>
+                </div>
+              </div>
+           :  <div/>
+          }
           <div className="list_container">
             <div className="information_name">
               <b style={{color: 'rgb(215, 38, 31)'}}>* </b>
