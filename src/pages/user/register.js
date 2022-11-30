@@ -15,19 +15,19 @@ import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
 
-function Login(){
+function Register(){
     return (
         <div>
             <Header textColor={'black'} />
             <Box
-                height={'80vh'}
+                height={'90vh'}
             >
                 <Center
                     height={'100%'}
                 >
                     <Box
-                        width={'50vw'}
-                        height={'60vh'}
+                        width={'60vw'}
+                        height={'70vh'}
 
                         borderRadius={"min(2vw, 18px)"}
 
@@ -36,7 +36,7 @@ function Login(){
                         <SimpleGrid columns={2}>
                             <Box
                                 width={'100%'}
-                                height={'60vh'}
+                                height={'70vh'}
 
                                 backgroundImage={loginImg}
                                 backgroundSize={'fill'}
@@ -54,35 +54,35 @@ function Login(){
                                     height={'94%'}
                                     mx={'13%'}
                                 >
-                                    <Box height={'30px'}/>
+                                    <Box height={'10px'}/>
                                     <VStack
                                         width={'100%'}
                                     >
                                         <Text fontSize={'32px'} fontWeight={'semibold'}>
-                                            欢迎回来
+                                            注册
                                         </Text>
                                     </VStack>
                                     <VStack
                                         width={'100%'}
-                                        spacing={'min(15px, 2vh)'}
+                                        spacing={'min(10px, 1.7vh)'}
                                     >
                                         <FormControl id="username">
-                                            <FormLabel fontSize={'15px'}>用户名/邮箱</FormLabel>
+                                            <FormLabel fontSize={'15px'}>用户名</FormLabel>
                                             <Input type="text" />
                                         </FormControl>
                                         <FormControl id="password">
                                             <FormLabel fontSize={'15px'}>密码</FormLabel>
                                             <Input type="password" />
                                         </FormControl>
+                                        <FormControl id="email">
+                                            <FormLabel fontSize={'15px'}>邮箱</FormLabel>
+                                            <Input type="email" />
+                                        </FormControl>
+                                        <FormControl id="emailVerifyCode">
+                                            <FormLabel fontSize={'15px'}>邮箱验证码</FormLabel>
+                                            <Input type="text" />
+                                        </FormControl>
                                     </VStack>
-                                    <Flex
-                                        w={'100%'}
-                                        alignItems={'center'}
-                                        justifyContent={'space-between'}
-                                    >
-                                        <Checkbox>记住登录</Checkbox>
-                                        <Link color={'blue.400'}>忘记密码?</Link>
-                                    </Flex>
                                     <Button
                                         bg={'#0087FF'}
                                         color={'white'}
@@ -91,7 +91,7 @@ function Login(){
                                         }}
                                         width={'100%'}
                                     >
-                                        登录
+                                        注册
                                     </Button>
                                 </VStack>
                                 <Center>
@@ -110,4 +110,4 @@ function Login(){
     )
 }
 
-export default Login
+export default Register;

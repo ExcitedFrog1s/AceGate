@@ -17,6 +17,7 @@ import ScholarPortal from '../pages/ScholarPortal/Portal.js'
 import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
+import Register from "../pages/user/register";
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -25,6 +26,10 @@ const default_router = createBrowserRouter([
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/register',
+        element: <Register />
     },
     {
       path: '/searchResults',

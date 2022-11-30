@@ -1,6 +1,6 @@
 import {Box, Flex, Link, Spacer, Text, VStack} from "@chakra-ui/react";
 
-function queryRecommendVenues(subject){
+function queryRecommendConferences(subject){
     let ret = []
     if (subject === "ComputerVision"){
         ret = [
@@ -54,9 +54,9 @@ function getDisplaySubjectName(subject){
 }
 
 
-function RecommendVenuesCard({subject}){
+function RecommendConferencesCard({subject}){
 
-    const result = queryRecommendVenues(subject)
+    const result = queryRecommendConferences(subject)
 
     const displaySubjectName = getDisplaySubjectName(subject)
 
@@ -91,24 +91,24 @@ function RecommendVenuesCard({subject}){
             boxShadow='md'
 
             height='350px'
-            width='20vw'
+            width='max(20vw, 330px)'
             padding='15px 15px 20px 20px'
         >
             <Box
                 height={'15%'}
             >
-                <Text fontSize='20px'>{displaySubjectName} 热门出版物</Text>
+                <Text fontSize='20px'>{displaySubjectName} 热门会议</Text>
             </Box>
 
             <Box
                 height={'85%'}
             >
                 {layout_result}
-                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 出版物...</Link>
+                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 会议...</Link>
             </Box>
 
         </Box>
     )
 }
 
-export default RecommendVenuesCard;
+export default RecommendConferencesCard;
