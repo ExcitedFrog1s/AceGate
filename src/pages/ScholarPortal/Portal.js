@@ -1,10 +1,11 @@
 import "antd/dist/antd.min.css";
 import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton} from 'antd';
-import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined} from '@ant-design/icons';
+import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 const { Header, Content, Footer, Sider } = Layout;
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 // tabs callback
 const onChange = (key) => {
@@ -53,8 +54,8 @@ function Portal() {
             </Header>
             <Content
                 style={{
-                    padding: '50px 200px 0 200px',
-                    backgroundColor: 'rgb(240,242,245)',
+                    padding: '50px 200px 20px 200px',
+                    backgroundColor: 'rgb(230,235,247)',
                 }}
             >
                 <div
@@ -62,6 +63,8 @@ function Portal() {
                         padding: '24px',
                         Height: '150px',
                         backgroundColor: 'white',
+                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                        borderRadius: '10px',
                     }}
                 >
                     <Row>
@@ -69,38 +72,61 @@ function Portal() {
                             <Avatar size={130} icon={<UserOutlined />} />
                         </Col>
                         <Col span={15}>
-                            <Typography>
+                            <Typography
+                                style={{
+                                    padding: '0 0 0 10px',
+                                }}
+                            >
                                 <Title>Name</Title>
                                 <Paragraph>
                                     <Space>
                                         <HomeOutlined />
                                     </Space>
                                     <Text> Beihang University - </Text>
-                                    <Link>个人主页</Link>
+                                    <Link to="/scholarPortal" component={Typography.Link}>个人主页</Link>
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
                                         <BulbOutlined />
                                     </Space>
-                                    <Link> Computer Vision</Link>
+                                    <Link to="/scholarPortal" component={Typography.Link}> Computer Vision</Link>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Space>
+                                        <MailOutlined />
+                                    </Space>
+                                    <Text> 20231183@buaa.edu.cn</Text>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Space>
+                                        <SolutionOutlined />
+                                    </Space>
+                                    <Text> 一段个人简介（如果有的话）</Text>
                                 </Paragraph>
                             </Typography>
                         </Col>
                         <Col span={4}>
-                            <Button
-                                type="primary"
-                                icon={<FormOutlined />}
-                                size="large"
-                                shape={"round"}
-                                style={{
-                                    float: 'right',
-                                    margin: '25px 40px 16px 24px',
-                                    backgroundColor: '#859dda',
-                                    border: 'none',
+                            <Link
+                                to={{
+                                    pathname: '/editPortal',
                                 }}
                             >
-                                编辑
-                            </Button>
+                                <Button
+                                    type="primary"
+                                    icon={<FormOutlined />}
+                                    size="large"
+                                    shape={"round"}
+                                    style={{
+                                        float: 'right',
+                                        margin: '25px 40px 16px 24px',
+                                        backgroundColor: '#859dda',
+                                        border: 'none',
+                                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                                    }}
+                                >
+                                    编辑
+                                </Button>
+                            </Link>
                         </Col>
                     </Row>
                 </div>
@@ -108,9 +134,9 @@ function Portal() {
             <Layout>
                 <Content
                     style={{
-                        padding: '50px 50px 0 200px',
+                        padding: '30px 50px 20px 200px',
                         width: '50%',
-                        backgroundColor: 'rgb(240,242,245)',
+                        backgroundColor: 'rgb(230,235,247)',
                     }}
                 >
                     <div
@@ -118,6 +144,8 @@ function Portal() {
                             padding: '24px',
                             backgroundColor: 'white',
                             height: '450px',
+                            boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                            borderRadius: '10px',
                         }}
                     >
                         <Tabs
@@ -140,8 +168,8 @@ function Portal() {
                 </Content>
                 <Sider width={450}
                     style={{
-                        padding: '50px 200px 0 0',
-                        backgroundColor: 'rgb(240,242,245)',
+                        padding: '30px 200px 20px 0',
+                        backgroundColor: 'rgb(230,235,247)',
                     }}
                 >
                     <div
@@ -149,6 +177,8 @@ function Portal() {
                             padding: '0',
                             backgroundColor: 'white',
                             height: '450px',
+                            boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                            borderRadius: '10px',
                         }}
                     >
                         <Typography>
@@ -211,6 +241,7 @@ function Portal() {
             <Footer
                 style={{
                     textAlign: 'center',
+                    backgroundColor: 'rgb(230,235,247)',
                 }}
             >
                 AceGate ©2022 Beihang University
