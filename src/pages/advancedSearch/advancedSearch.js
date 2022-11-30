@@ -149,7 +149,7 @@ function Search({}) {
                                 <IconButton
                                 style={{marginLeft: '5px'}}
                                 variant='outline'
-                                colorScheme='purple'
+                                colorScheme='blue'
                                 aria-label='Call Segun'
                                 size='sm'
                                 icon={<MinusIcon />}
@@ -177,7 +177,7 @@ function Search({}) {
                 <Button colorScheme='purple' leftIcon={<Search2Icon />}>
                     搜索
                 </Button>
-                <Button variant='outline' colorScheme='purple' leftIcon={<RepeatIcon />}
+                <Button variant='outline' colorScheme='blue' leftIcon={<RepeatIcon />}
                     onClick={() => {
                         clean();
                     }}>
