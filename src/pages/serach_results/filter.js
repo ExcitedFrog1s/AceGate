@@ -5,34 +5,25 @@
 import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
+import * as React from 'react';
+import {useLocation, useNavigate} from "react-router-dom";
 
-function TimeRangeFilterWithFilter() {
+function TimeRangeFilter(props) {
     const [start_time,setStartTime] = useState('1900')
     const [end_time,setEndTime] = useState('2022')
 
     const handleStartTimeChange = (e) => {
         setStartTime(e.target.value)
+        props.setStartTime(e.target.value)
     }
 
     const handleEndTimeChange = (e) => {
         setEndTime(e.target.value)
+        props.setEndTime(e.target.value)
     }
 
     return(
         <Box ml={'20px'} mt={'30px'}>
-            <Box>
-                <Button
-                    ml={'55%'}
-                    rightIcon={<AiOutlineFilter/>}
-                    colorScheme='blue'
-                    variant='outline'
-                    onClick={() => {
-                        alert('clicked');
-                    }}
-                >
-                    {'筛选'}
-                </Button>
-            </Box>
             <Text mb={'10px'}>{'发表年份'}</Text>
             <Input
                 value={start_time}
@@ -57,15 +48,14 @@ function TimeRangeFilterWithFilter() {
     )
 }
 
-function PublicationTypesFilter({props}) {
-    let len = props.length
+function PublicationTypesFilter(props) {
+    let len = props.content.length
 
-    const [checkedItems, setCheckedItems] = useState(new Array(len - 1).fill(true))
+    const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
 
     let allChecked = checkedItems.every(Boolean)
     let isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
-    let type_array = props.slice(1)
 
     return(
         <Box ml={'20px'} mt={'30px'}>
@@ -73,23 +63,29 @@ function PublicationTypesFilter({props}) {
             <Checkbox
                 isChecked={allChecked}
                 isIndeterminate={isIndeterminate}
-                onChange={(e) => setCheckedItems(new Array(len).fill(e.target.checked))}
+                onChange={(e) => {
+                    let array = new Array(len).fill(e.target.checked)
+                    setCheckedItems(array)
+                    props.setPublicationTypes(array)
+                }}
             >
-                {'全部 (' + props[0].number + ')'}
+                {'全部 (' + props.totalNumber + ')'}
             </Checkbox>
             <Stack pl={6} mt={1} spacing={1}>
                 {
-                    type_array.map((value, key) => {
+                    props.content.map((value, key) => {
                         return (
                             <Checkbox
                                 isChecked={checkedItems[key]}
                                 onChange={(e) => {
-                                    setCheckedItems(checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1)))
-                                    allChecked = checkedItems.every(true)
-                                    isIndeterminate = checkedItems.some(true) && !allChecked
+                                    let array = checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1))
+                                    setCheckedItems(array)
+                                    allChecked = checkedItems.every((e) => {return e})
+                                    isIndeterminate = checkedItems.some((e) => {return e}) && !allChecked
+                                    props.setPublicationTypes(array)
                                 }}
                             >
-                                {value.type + ' ('+ props[key].number + ')'}
+                                {value.publicationType + ' ('+ value.number + ')'}
                             </Checkbox>
                         )
                     })
@@ -99,15 +95,14 @@ function PublicationTypesFilter({props}) {
     )
 }
 
-function AuthorsFilter({props}) {
-    let len = props.length
+function AuthorsFilter(props) {
+    let len = props.content.length
 
-    const [checkedItems, setCheckedItems] = useState(new Array(len-1).fill(true))
+    const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
 
     let allChecked = checkedItems.every(Boolean)
     let isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
-    let type_array = props.slice(1)
 
     return(
         <Box ml={'20px'} mt={'30px'}>
@@ -115,23 +110,29 @@ function AuthorsFilter({props}) {
             <Checkbox
                 isChecked={allChecked}
                 isIndeterminate={isIndeterminate}
-                onChange={(e) => setCheckedItems(new Array(len).fill(e.target.checked))}
+                onChange={(e) => {
+                    let array = new Array(len).fill(e.target.checked)
+                    setCheckedItems(array)
+                    props.setAuthors(array)
+                }}
             >
-                {'全部 (' + props[0].number + ')'}
+                {'全部 (' + props.totalNumber + ')'}
             </Checkbox>
             <Stack pl={6} mt={1} spacing={1}>
                 {
-                    type_array.map((value, key) => {
+                    props.content.map((value, key) => {
                         return (
                             <Checkbox
                                 isChecked={checkedItems[key]}
                                 onChange={(e) => {
-                                    setCheckedItems(checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1)))
-                                    allChecked = checkedItems.every(true)
-                                    isIndeterminate = checkedItems.some(true) && !allChecked
+                                    let array = checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1))
+                                    setCheckedItems(array)
+                                    allChecked = checkedItems.every((e) => {return e})
+                                    isIndeterminate = checkedItems.some((e) => {return e}) && !allChecked
+                                    props.setAuthors(array)
                                 }}
                             >
-                                {value.name + ' ('+ props[key].number + ')'}
+                                {value.author + ' ('+ value.number + ')'}
                             </Checkbox>
                         )
                     })
@@ -141,48 +142,42 @@ function AuthorsFilter({props}) {
     )
 }
 
-function Filter() {
-    let publication_types = [
-        {
-            'type':'全部',
-            'number':1111
-        },
-        {
-            'type':'Journal',
-            'number':543
-        },
-        {
-            'type':'Conference',
-            'number':262
-        },
-        {
-            'type':'Book',
-            'number':252
-        },
-        {
-            'type':'Other',
-            'number':54
-        }
-    ]
+function Filter(props) {
+    const [publicationTypes,setPublicationTypes] = useState(new Array(props.filterInfos.publicationTypes.length).fill(true))
+    const [authors,setAuthors] = useState(new Array(props.filterInfos.authors.length).fill(true))
+    const [startTime,setStartTime] = useState("1900")
+    const [endTime,setEndTime] = useState("2022")
 
-    let authors = [
-        {
-            'name':'全部',
-            'number':1111
-        },
-        {
-            'name':'maple',
-            'number':23
-        },
-        {
-            'name':'AboveParadise',
-            'number':16
-        },
-        {
-            'name':'Chants',
-            'number':3
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    if(params.has('page')) {
+        params.delete('page')
+    }
+    const navigate = useNavigate();
+
+    const filter = () => {
+        let authorsArray = []
+        let publicationTypesArray = []
+        for(let i = 0;i < authors.length;i++) {
+            if(authors[i]) {
+                authorsArray.push(props.filterInfos.authors[i].author)
+            }
         }
-    ]
+        for(let i = 0;i < publicationTypes.length;i++) {
+            if(publicationTypes[i]) {
+                publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
+            }
+        }
+        params.set('startTime',startTime)
+        params.set('endTime',endTime)
+        if(!publicationTypes.every((e) => {return e})) {
+            params.set('publicationTypes',publicationTypesArray.join(','))
+        }
+        if(!authors.every((e) => {return e})) {
+            params.set('authors',authorsArray.join(','))
+        }
+        navigate('/searchResults?' + params.toString())
+    }
 
     return(
         <Box
@@ -196,9 +191,32 @@ function Filter() {
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             position={'absolute'}
         >
-            <TimeRangeFilterWithFilter/>
-            <PublicationTypesFilter props={publication_types}/>
-            <AuthorsFilter props={authors}/>
+            <Box>
+                <Button
+                    ml={'55%'}
+                    mt={'20px'}
+                    rightIcon={<AiOutlineFilter/>}
+                    colorScheme='blue'
+                    variant='outline'
+                    onClick={filter}
+                >
+                    {'筛选'}
+                </Button>
+            </Box>
+            <TimeRangeFilter
+                setStartTime={setStartTime}
+                setEndTime={setEndTime}
+            />
+            <PublicationTypesFilter
+                content={props.filterInfos.publicationTypes}
+                totalNumber={props.filterInfos.totalNumber}
+                setPublicationTypes={setPublicationTypes}
+            />
+            <AuthorsFilter
+            content={props.filterInfos.authors}
+            totalNumber={props.filterInfos.totalNumber}
+            setAuthors={setAuthors}
+            />
         </Box>
     )
 }

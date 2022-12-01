@@ -3,22 +3,27 @@
 //
 
 import * as React from 'react';
-import {Box, Select, useQuery} from "@chakra-ui/react";
+import {Box, Select} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
 import {MdArrowDropDown} from "react-icons/md";
 import {Pagination,Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 
 function Sort() {
-    const [sort_order, setSortOrder] = React.useState('默认');
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let navigate = useNavigate()
 
+    const [sort_order, setSortOrder] = React.useState('默认');
     const handleChange = (event) => {
-        setSortOrder(event.target.value);
+        setSortOrder(event.target.value)
+        params.set('sort',event.target.value)
+        navigate('/searchResults?' + params.toString())
     };
 
     return(
@@ -36,6 +41,7 @@ function Sort() {
 
 function SearchResults(props) {
     const [infos,setInfos] = React.useState()
+    const [filterInfos,setFilterInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const navigate = useNavigate()
 
@@ -47,6 +53,7 @@ function SearchResults(props) {
     let current_page_index
     let card_index_min
     let card_index_max
+
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     if(params.has('page')) {
@@ -59,12 +66,22 @@ function SearchResults(props) {
         params.set('page',page)
         navigate('/searchResults?' + params.toString())
     }
-
     React.useEffect(() => {
         const formData = new FormData()
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/searchResults",formData)
+        if(params.has('startTime')) {
+            formData.append('startTime', params.get('startTime'))
+        }
+
+        if(params.has('authors')) {
+            formData.append('filterAuthors', params.get('authors').split(','))
+        }
+        if(params.has('publicationTypes')) {
+            formData.append('filterPublicationTypes', params.get('publicationTypes').split(','))
+        }
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/SearchResults",formData)
             .then(res => {
-                setInfos(res.data)
+                setInfos(res.data.results)
+                setFilterInfos(res.data.filterItems)
                 setLoading(false)
             })
     },[])
@@ -89,7 +106,7 @@ function SearchResults(props) {
     return(
         <Box>
             {/*右侧界面*/}
-            <Filter/>
+            <Filter filterInfos={filterInfos}/>
             <Box>
                 {/*排序*/}
                 <Sort/>
