@@ -91,7 +91,12 @@ function SearchResults(props) {
         if(params.has('startTime')) {
             formData.append('startTime', params.get('startTime'))
         }
-
+        if(params.has('endTime')) {
+            formData.append('endTime', params.get('endTime'))
+        }
+        if(params.has('order')) {
+            formData.append('order',params.get('order'))
+        }
         if(params.has('authors')) {
             formData.append('filterAuthors', params.get('authors').split(','))
         }
