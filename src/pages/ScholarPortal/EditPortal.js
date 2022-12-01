@@ -1,38 +1,98 @@
 import "antd/dist/antd.min.css";
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton} from 'antd';
-import { UserOutlined, HomeOutlined, BulbOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import {
+    Typography,
+    Layout,
+    message,
+    Upload,
+    Col,
+    Row,
+    Button,
+    Form, Input,
+    Menu,
+} from 'antd';
+import { LoadingOutlined, PlusOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 const { Header, Content, Footer, Sider } = Layout;
-const { Title, Paragraph, Text, Link } = Typography;
+const { Title, Paragraph, Text} = Typography;
 
 // tabs callback
 const onChange = (key) => {
     console.log(key);
 };
 
+const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+};
+
+const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+};
+
+const layout = {
+    labelCol: {
+        span: 6,
+    },
+    wrapperCol: {
+        span: 16,
+    },
+};
+
+const validateMessages = {
+    required: '${label}为必填项',
+    types: {
+        email: '请输入有效的${label}!',
+        number: '${label} is not a valid number!',
+    },
+    number: {
+        range: '${label} must be between ${min} and ${max}',
+    },
+};
+
 function EditPortal() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const loadMoreData = () => {
-        if (loading) {
+    const [imageUrl, setImageUrl] = useState();
+    const handleChange = (info) => {
+        if (info.file.status === 'uploading') {
+            setLoading(true);
             return;
         }
-        setLoading(true);
-        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-            .then((res) => res.json())
-            .then((body) => {
-                setData([...data, ...body.results]);
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj, (url) => {
                 setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
+                setImageUrl(url);
             });
+        }
     };
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div
+                style={{
+                    marginTop: 8,
+                }}
+            >
+                Upload
+            </div>
+        </div>
+    );
 
-    useEffect(() => {
-        loadMoreData();
-    }, []);
+    const onFinish = (values) => {
+        console.log(values);
+    };
 
     return (
         <Layout className="layout">
@@ -53,164 +113,170 @@ function EditPortal() {
             </Header>
             <Content
                 style={{
-                    padding: '50px 200px 0 200px',
-                    backgroundColor: 'rgb(240,242,245)',
+                    padding: '50px 200px 20px 200px',
+                    backgroundColor: 'rgb(230,235,247)',
                 }}
             >
                 <div
                     style={{
-                        padding: '24px',
-                        Height: '150px',
+                        padding: '50px 50px 30px 50px',
+                        Height: '200px',
                         backgroundColor: 'white',
+                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                        borderRadius: '10px',
                     }}
                 >
                     <Row>
-                        <Col span={5}>
-                            <Avatar size={130} icon={<UserOutlined />} />
-                        </Col>
-                        <Col span={15}>
+                        <Col span={3}></Col>
+                        <Col>
                             <Typography>
-                                <Title>Name</Title>
-                                <Paragraph>
-                                    <Space>
-                                        <HomeOutlined />
-                                    </Space>
-                                    <Text> Beihang University - </Text>
-                                    <Link>个人主页</Link>
-                                </Paragraph>
-                                <Paragraph>
-                                    <Space>
-                                        <BulbOutlined />
-                                    </Space>
-                                    <Link> Computer Vision</Link>
-                                </Paragraph>
+                                <Title
+                                    style={{
+                                        fontSize: '50px',
+                                        textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
+                                    }}
+                                >Name</Title>
                             </Typography>
                         </Col>
-                        <Col span={4}>
+                    </Row>
+                    <Form
+                        {...layout}
+                        name="nest-messages"
+                        onFinish={onFinish}
+                        validateMessages={validateMessages}
+                        style={{
+                            padding: '20px 0 0 0',
+                        }}
+                    >
+                        <Form.Item
+                            name={['user', 'avatar']}
+                            label="头像"
+                            rules={[
+                                {
+                                    required: false,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                beforeUpload={beforeUpload}
+                                onChange={handleChange}
+
+                            >
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        alt="avatar"
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                    />
+                                ) : (
+                                    uploadButton
+                                )}
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item
+                            name={['user', 'workplace']}
+                            label="工作单位"
+                            rules={[
+                                {
+                                    required: false,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="修改前的工作单位"/>
+                        </Form.Item>
+                        <Form.Item
+                            name={['user', 'email']}
+                            label="电子邮箱"
+                            rules={[
+                                {
+                                    type: 'email',
+                                    required: false,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="修改前的电子邮箱"/>
+                        </Form.Item>
+                        <Form.Item
+                            name={['user', 'search-area']}
+                            label="研究领域"
+                            rules={[
+                                {
+                                    required: false,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="多个研究领域用英文半角逗号(,)分隔" />
+                        </Form.Item>
+                        <Form.Item
+                            name={['user', 'website']} label="个人主页"
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="修改前的个人主页"/>
+                        </Form.Item>
+                        <Form.Item
+                            name={['user', 'introduction']} label="个人简介"
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input.TextArea placeholder="修改前的个人简介"/>
+                        </Form.Item>
+                    </Form>
+                    <Row
+                        style={{
+                            padding: '8px 0 0 0',
+                        }}
+                    >
+                        <Link
+                            to={{
+                                pathname: '/scholarPortal',
+                            }}
+                            style={{
+                                margin: "auto",
+                            }}
+                        >
                             <Button
                                 type="primary"
                                 icon={<CheckCircleOutlined />}
                                 size="large"
                                 shape={"round"}
                                 style={{
-                                    float: 'right',
-                                    margin: '25px 40px 16px 24px',
-                                    backgroundColor: '#8fbd72',
+                                    backgroundColor: '#50af78',
                                     border: 'none',
+                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                                 }}
                             >
                                 保存
                             </Button>
-                        </Col>
+                        </Link>
                     </Row>
                 </div>
             </Content>
-            <Layout>
-                <Content
-                    style={{
-                        padding: '50px 50px 0 200px',
-                        width: '50%',
-                        backgroundColor: 'rgb(240,242,245)',
-                    }}
-                >
-                    <div
-                        style={{
-                            padding: '24px',
-                            backgroundColor: 'white',
-                            height: '450px',
-                        }}
-                    >
-                        <Tabs
-                            defaultActiveKey="1"
-                            onChange={onChange}
-                            items={[
-                                {
-                                    label: `发表文献`,
-                                    key: '1',
-                                    children: `Content of Tab Pane 1`,
-                                },
-                                {
-                                    label: `数据分析`,
-                                    key: '2',
-                                    children: `Content of Tab Pane 2`,
-                                },
-                            ]}
-                        />
-                    </div>
-                </Content>
-                <Sider width={450}
-                       style={{
-                           padding: '50px 200px 0 0',
-                           backgroundColor: 'rgb(240,242,245)',
-                       }}
-                >
-                    <div
-                        style={{
-                            padding: '0',
-                            backgroundColor: 'white',
-                            height: '450px',
-                        }}
-                    >
-                        <Typography>
-                            <Title level={4}
-                                   style={{
-                                       padding: '24px 24px 16px 24px',
-                                   }}
-                            >
-                                合著作者
-                            </Title>
-                            <div
-                                id="scrollableDiv"
-                                style={{
-                                    height: 350,
-                                    overflow: 'auto',
-                                    padding: '0 16px 0 0',
-                                    border: 'none',
-                                }}
-                            >
-                                <InfiniteScroll
-                                    dataLength={data.length}
-                                    next={loadMoreData}
-                                    hasMore={data.length < 50}
-                                    loader={
-                                        <Skeleton
-                                            avatar
-                                            paragraph={{
-                                                rows: 1,
-                                            }}
-                                            active
-                                        />
-                                    }
-                                    endMessage={<Divider plain></Divider>}
-                                    scrollableTarget="scrollableDiv"
-                                >
-                                    <List
-                                        dataSource={data}
-                                        renderItem={(item) => (
-                                            <List.Item
-                                                key={item.email}
-                                                style={{
-                                                    padding: '10px 0 10px 0',
-                                                }}
-                                            >
-                                                <List.Item.Meta
-                                                    avatar={<Avatar src={item.picture.large} />}
-                                                    title={<a href="https://ant.design">{item.name.last}</a>}
-                                                    description={item.email}
-                                                />
-                                            </List.Item>
-                                        )}
-                                    />
-                                </InfiniteScroll>
-                            </div>
-                        </Typography>
-                    </div>
-
-                </Sider>
-            </Layout>
             <Footer
                 style={{
                     textAlign: 'center',
+                    backgroundColor: 'rgb(230,235,247)'
                 }}
             >
                 AceGate ©2022 Beihang University

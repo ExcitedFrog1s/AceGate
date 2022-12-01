@@ -3,40 +3,43 @@
     margin-left: 5%;
     margin-right: 5%;
 }
-.chakra-input__group{
+.scholars .chakra-input__group{
     margin-bottom: 20px;
 }
-.chakra-input{
+.scholars .chakra-input{
     background-color: rgb(255, 255, 255) !important;
     border-radius: 5px !important;
     font-size: 14px !important;
 }
-.ant-input{
+.scholars .ant-input{
     border-radius: 5px!important;
     display: inline !important;
 }
-.sum{
+.scholars .sum{
     margin-left: 2%;
     margin-bottom: 10px;
     overflow: hidden;
 }
-.number{
+.scholars .number{
     font-size: 50px;
-    color: rgb(38, 106, 215);
+    color: #3A3AF1;
     margin-left: 4px;
     margin-right: 4px;
 }
-.ant-table-filter-dropdown{
+.scholars .ant-table-filter-dropdown{
     border-radius: 5px !important;
 }
-.chakra-avatar{
+.scholars .chakra-avatar{
     margin: 0px !important;
     width: 40px !important;
     height: 40px !important;
 }
-.chakra-avatar__initials{
+.scholars .chakra-avatar__initials{
     font-size: 12px !important;
 }
-.ant-table-thead{
+.scholars .ant-table-thead{
     text-align: center !important;
+}
+.scholars .css-1eu8csq{
+    background-color: #3A3AF1 !important;
 }

@@ -108,7 +108,6 @@ function AuthorsFilter({props}) {
     let isIndeterminate = checkedItems.some(Boolean) && !allChecked
 
     let type_array = props.slice(1)
-    console.log(type_array)
 
     return(
         <Box ml={'20px'} mt={'30px'}>

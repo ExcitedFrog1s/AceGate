@@ -7,26 +7,31 @@ function queryRecommendPapers(subject){
             {
                 id: 'cv-paper-1',
                 title: 'SurfaceNet: An End-to-End 3D Neural Network for Multiview Stereopsis',
+                citations: 1000,
                 venue: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition'
             },
             {
                 id: 'cv-paper-2',
                 title: 'SurfaceNet: An End-to-End 3D Neural Network for Multiview Stereopsis',
+                citations: 1000,
                 venue: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition'
             },
             {
                 id: 'cv-paper-3',
                 title: 'SurfaceNet: An End-to-End 3D Neural Network for Multiview Stereopsis',
+                citations: 1000,
                 venue: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition'
             },
             {
                 id: 'cv-paper-4',
                 title: 'SurfaceNet: An End-to-End 3D Neural Network for Multiview Stereopsis',
+                citations: 1000,
                 venue: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition'
             },
             {
                 id: 'cv-paper-5',
                 title: 'SurfaceNet: An End-to-End 3D Neural Network for Multiview Stereopsis',
+                citations: 1000,
                 venue: 'IEEE/CVF Conference on Computer Vision and Pattern Recognition'
             }
         ]

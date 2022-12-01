@@ -10,7 +10,7 @@ export default class Select extends Component {
     const {id,value} = this.props
     return (
       <div  className='selected'>
-        <span>{value}<b onClick={this.handledelete} >&nbsp;&nbsp;×</b></span>
+        <span>{value}&nbsp;<b className='cancelOption' onClick={this.handledelete} >&nbsp;×&nbsp;</b></span>
       </div>
     )
   }
