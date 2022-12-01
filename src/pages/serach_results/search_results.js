@@ -3,11 +3,11 @@
 //
 
 import * as React from 'react';
-import {Box, Select} from "@chakra-ui/react";
+import {Box} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
 import {MdArrowDropDown} from "react-icons/md";
-import {Pagination,Spin} from "antd";
+import {Pagination, Select, Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -20,20 +20,40 @@ function Sort() {
     let navigate = useNavigate()
 
     const [sort_order, setSortOrder] = React.useState('默认');
-    const handleChange = (event) => {
-        setSortOrder(event.target.value)
-        params.set('sort',event.target.value)
+    const handleChange = (value) => {
+        if(params.has('page')) {
+            params.delete('page')
+        }
+        setSortOrder(value)
+        params.set('sort',value)
         navigate('/searchResults?' + params.toString())
     };
 
     return(
         <Box float={'right'} mr={'20%'} mt={'-50'}>
-            <Select onChange={handleChange} icon={<MdArrowDropDown />} size={'sm'} colorScheme={'blue'} focusBorderColor={'blue.500'}>
-                <option value={'默认'}>{'默认'}</option>
-                <option value={'最新'}>{'最新'}</option>
-                <option value={'最相关'}>{'最相关'}</option>
-                <option value={'引用量最高'}>{'引用量最高'}</option>
-            </Select>
+            <Select
+                onChange={handleChange}
+                style={{width:120}}
+                defaultValue={params.has('order') ? params.get('order') : "默认"}
+                options={[
+                    {
+                    value: '默认',
+                    label: '默认'
+                    },
+                    {
+                        value: '最相关',
+                        label: '最相关'
+                    },
+                    {
+                        value: '最新',
+                        label: '最新'
+                    },
+                    {
+                        value: '引用量最多',
+                        label: '引用量最多'
+                    },
+                ]}
+            />
         </Box>
     )
 }

@@ -153,6 +153,9 @@ function Filter(props) {
     if(params.has('page')) {
         params.delete('page')
     }
+    if(params.has('order')) {
+        params.delete('order')
+    }
     const navigate = useNavigate();
 
     const filter = () => {
