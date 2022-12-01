@@ -1,0 +1,36 @@
+.title{
+    margin:auto;
+    height: 400px;
+    overflow: auto;
+    margin-top: 50px;
+    margin-left: 50px;
+    padding: 70px;
+}
+
+.index{
+    margin:auto;
+    overflow: auto;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.keywords{
+    margin:auto;
+    height: 400px;
+    overflow: auto;
+    margin-top: 50px;
+    padding: 50px;
+}
+
+.keywordItem{
+    margin-left: 30px;
+    margin-top: 10px;
+}
+
+.chart{
+    margin:auto;
+    height: 450px;
+    overflow: auto;
+    margin-top: 50px;
+    padding: 70px;
+}

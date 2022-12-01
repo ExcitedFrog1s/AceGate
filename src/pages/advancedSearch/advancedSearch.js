@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import "../serach_results/search_results.js"
+import SearchResults from '../serach_results/search_results.js';
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
 import { Box } from '@chakra-ui/react'
@@ -17,7 +17,7 @@ import './advancedSearch.css';
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
-import SearchResults from '../serach_results/search_results.js';
+
 moment.locale('zh-cn')
 
 
