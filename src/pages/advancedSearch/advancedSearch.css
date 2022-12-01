@@ -5,19 +5,13 @@
     overflow: auto;
     margin-top: 50px;
     margin-left: 50px;
-    padding: 50px 20px 50px 20px;
+    padding: 30px 20px 50px 20px;
 }
-/*select*/
-.site-card-border-less-wrapper .css-7p9xsp{
-    border-radius: 8px !important;
-    border: 2px #e3e3e3 solid !important;
-    font-size: 16px;
-    font-weight: 600;
+/*面包屑*/
+.site-card-border-less-wrapper .css-spn4bz:hover{
+    color: #1b3bbb;
 }
-/*input*/
-.site-card-border-less-wrapper .css-1kp110w{
-    border: 2px #e3e3e3 solid !important;
-}
+
 /*publish time*/
 .site-card-border-less-wrapper .time{
     font-size: 16px;
@@ -26,17 +20,17 @@
     margin-top:5px;
 }
 .site-card-border-less-wrapper .datePicker{
-    width: 644px;
+    width: 650px;
     height: 40px;
     border-radius: 8px;
-    border: 2px #e3e3e3 solid;
+    border: 1.5px #a0aec051 solid;
 }
 .site-card-border-less-wrapper .ant-picker-focused{
-    border-color: #3182ce!important;
-    box-shadow: 0 0 0 1.5px #3182ce !important;
+    border-color: #1b3bbb!important;
+    box-shadow: 0 0 0 2px #1b3bbb!important;
 }
 .site-card-border-less-wrapper .ant-picker-focused,.ant-picker:hover{
-    border-color: rgb(196, 196, 196) !important;
+    border-color: #a0aec0a0 !important;
 }
 
 /* Description */
@@ -66,11 +60,11 @@
  background: #1b3bbb !important;
 }
 .css-730w10:hover{
-    background: #3653bae0 !important;
+    background: #3653bac7 !important;
 }
 .css-yw8y58{
     background: #1b3bbb !important;
 }
 .css-yw8y58:hover{
-    background: #3653bae0 !important;
+    background: #3653bac7 !important;
 }

@@ -1,36 +1,86 @@
 .title{
     margin:auto;
     height: 400px;
-    overflow: auto;
+    width: 980px;
     margin-top: 50px;
-    margin-left: 50px;
+    margin-left: 80px;
     padding: 70px;
 }
 
 .index{
     margin:auto;
-    overflow: auto;
     margin-top: 100px;
     margin-left: 100px;
+}
+
+.index-data{
+    color: #422afb;
+}
+
+.index-name{
+    color: #A0AEC0;
 }
 
 .keywords{
     margin:auto;
     height: 400px;
-    overflow: auto;
+    width: 480px;
     margin-top: 50px;
     padding: 50px;
 }
 
 .keywordItem{
-    margin-left: 30px;
+    margin-left: 5px;
     margin-top: 10px;
+    color: #A0AEC0;
 }
 
 .chart{
     margin:auto;
-    height: 450px;
-    overflow: auto;
+    height: 420px;
     margin-top: 50px;
-    padding: 70px;
+    padding: 40px 30px 30px 30px;
+}
+
+.chart-icon{
+    font-size: 28px;
+    color: #422afb;
+    margin-top: 3px;
+}
+
+.chart-head{
+    font-size: 25px !important;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.apexcharts-menu-item {
+    width: 105px;
+}
+
+.list{
+    margin:auto;
+    width: 1570px;
+    margin-top: 50px;
+    margin-left: 80px;
+    padding: 50px;
+}
+
+.institutionList{
+    padding: 40px;
+}
+
+.institutionList .ant-table-thead>tr>th {
+    color: #A0AEC0;
+    font-weight: 800;
+    font-size: 17px;
+}
+
+.institutionList .ant-table-tbody>tr>td {
+    font-size: 15px;
+    font-weight: 550;
+}
+
+.institutionList .css-spn4bz:hover {
+   color: #1b3bbb;
 }
