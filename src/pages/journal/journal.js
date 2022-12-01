@@ -37,6 +37,11 @@ function Title({}) {
                 IEEE Transactions on Information Forensics and Security 
             </Heading>
             </Row>
+            <Row>
+                <Link href='/' isExternal className='link'>
+                    前往官网<ExternalLinkIcon mx='2px' />
+                </Link>
+            </Row>
             <Row className='index'>
                 <Col span={8}>
                     <Heading as='h3' size='lg' className='index-data'>3,369</Heading>
