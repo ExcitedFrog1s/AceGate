@@ -176,8 +176,18 @@ function Filter(props) {
         if(!publicationTypes.every((e) => {return e})) {
             params.set('publicationTypes',publicationTypesArray.join(','))
         }
+        else {
+            if(params.has('publicationTypes')) {
+                params.delete('publicationTypes')
+            }
+        }
         if(!authors.every((e) => {return e})) {
             params.set('authors',authorsArray.join(','))
+        }
+        else {
+            if(params.has('authors')) {
+                params.delete('authors')
+            }
         }
         navigate('/searchResults?' + params.toString())
     }
