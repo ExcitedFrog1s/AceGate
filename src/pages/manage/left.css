@@ -1,27 +1,27 @@
 
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+.left .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
     /* border-color: #3a3af19d !important; */
     border-right: 4px solid #3a3af1 !important;
     background-color: #3a3af110 !important;
 }
 
-.ant-menu-title-content{
+.left .ant-menu-title-content{
     color: rgb(60, 58, 58);
     font-size: 16px;
     font-weight: 500;
 }
 
-.ant-menu-item{
+.left .ant-menu-item{
     height: 50px !important;
     line-height: 50px !important;
 }
-.ant-menu-item:hover .anticon{
+.left .ant-menu-item:hover .anticon{
     color: #3a3af1 !important; 
 }
-.ant-menu-item-selected .anticon{
+.left .ant-menu-item-selected .anticon{
     color: #3a3af1 !important;  
 }
-.ant-menu-item .anticon svg {
+.left .ant-menu-item .anticon svg {
     width: 18px !important;
     height: 18px !important;
 }

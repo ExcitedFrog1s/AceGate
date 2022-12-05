@@ -5,10 +5,12 @@ import {
 import Landing from '../pages/landing/landing.js'
 import SearchResults from "../pages/serach_results/search_results";
 import Information from "../pages/personalinf/Information";
-import Manage from "../manage/left.js";
-import Info from "../manage/info.js";
-import Scholars from "../manage/scholar.js";
-import Check from "../manage/check.js";
+import Manage from "../pages/manage/left.js";
+import Info from "../pages/manage/info.js";
+import Scholars from "../pages/manage/scholar.js";
+import Check from "../pages/manage/check.js";
+
+import Institute from "../pages/institute/institute.js";
 
 import PaperDetails from "../pages/paper_details/paper_details";
 import AdvancedSearch from '../pages/advancedSearch/advancedSearch.js'
@@ -52,6 +54,10 @@ const default_router = createBrowserRouter([
                 element: <Check />
             }
         ]
+    },
+    {
+        path: '/institute',
+        element: <Institute />
     },
     {
         path: '/paperDetails',
