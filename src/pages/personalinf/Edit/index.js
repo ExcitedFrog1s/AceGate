@@ -88,7 +88,7 @@ export default class Edit extends Component {
                     <span>真实姓名：</span>
                   </div>
                   <div className="infinput">
-                    <input className="input1" type="text" placeholder="请输入真实姓名"/>
+                    <input maxlength="15" className="input1" type="text" placeholder="请输入真实姓名"/>
                   </div>
                 </div>
                 <div className="list_container">
@@ -96,7 +96,7 @@ export default class Edit extends Component {
                     <span>联系电话：</span>
                   </div>
                   <div className="infinput">
-                    <input className="input1" type="text" placeholder="请输入联系电话"/>
+                    <input maxlength="20" className="input1" type="text" placeholder="请输入联系电话"/>
                   </div>
                 </div>
                 <div className="list_container">
@@ -104,7 +104,7 @@ export default class Edit extends Component {
                     <span>工作单位：</span>
                   </div>
                   <div className="infinput">
-                    <input className="input1" type="text" placeholder="请输入工作单位"/>
+                    <input maxlength="20" className="input1" type="text" placeholder="请输入工作单位"/>
                   </div>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default class Edit extends Component {
               <span>E-mail：</span>
             </div>
             <div className="infinput">
-              <input className="input1" type="text" placeholder="请输入E-mail"/>
+              <input maxlength="20" className="input1" type="text" placeholder="请输入E-mail"/>
             </div>
           </div>
           <div className="list_container">
@@ -124,7 +124,7 @@ export default class Edit extends Component {
               <span>研究领域：</span>
             </div>
             <div className="infinput">
-              <input ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域，点击按钮可完成添加"/>
+              <input maxlength="15" ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域，点击按钮可完成添加"/>
               <Button className="clickconfirm" onClick={this.addfield}> √ </Button>
             </div>
             <div className='select_wrap'>
@@ -140,7 +140,7 @@ export default class Edit extends Component {
               <span>我的兴趣词：</span>
             </div>
             <div className="infinput">
-              <input ref={c => this.interest = c} className="input1" type="text" placeholder="请输入兴趣词，点击按钮可完成添加"/>
+              <input maxlength="15" ref={c => this.interest = c} className="input1" type="text" placeholder="请输入兴趣词，点击按钮可完成添加"/>
               <Button className="clickconfirm" onClick={this.addinterest}> √ </Button>
             </div>
             <div className='select_wrap'>
