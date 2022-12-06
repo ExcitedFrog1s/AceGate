@@ -1,8 +1,16 @@
 import * as React from 'react'
 
-import "../serach_results/search_results.js"
+import SearchResults from '../serach_results/search_results.js';
+
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
+
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbSeparator,
+  } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
 import { Select, Text } from '@chakra-ui/react'
@@ -17,7 +25,7 @@ import './advancedSearch.css';
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
-import SearchResults from '../serach_results/search_results.js';
+
 moment.locale('zh-cn')
 
 
@@ -91,12 +99,25 @@ function Search({}) {
                   borderRadius: '24px',
                 },
               }}>
+
+            <Breadcrumb fontSize='15px' color='#4A5568'>
+                <BreadcrumbItem >
+                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbItem isCurrentPage>
+                    <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>
+                </BreadcrumbItem>
+            </Breadcrumb>
             {dataList.map((item, index) => (
                 <Row style={{marginTop:'20px'}} key={index}>
                     <Col span={3}>
                         {
                             index !== 0?(
-                                <Select value={item.type} 
+                                <Select
+                                    fontWeight='550'
+                                    border='1.5px #A0AEC0 solid'
+                                    focusBorderColor='navy.500' 
+                                    value={item.type} 
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
                                         setDataList([...dataList]);
@@ -111,7 +132,11 @@ function Search({}) {
                         }
                     </Col>
                     <Col span={3}>
-                        <Select style={{marginLeft: '5px'}} value={item.category}
+                        <Select
+                            fontWeight='550'
+                            border='1.5px #A0AEC0 solid'
+                            focusBorderColor='navy.500'  
+                            style={{marginLeft: '5px'}} value={item.category}
                             onChange={(e) => {
                                 dataList[index].category = e.target.value;
                                 setDataList([...dataList]);
@@ -129,6 +154,8 @@ function Search({}) {
                     </Col>
                     <Col span={14} offset={1}>
                         <Input 
+                            border='1.5px #A0AEC0 solid'
+                            focusBorderColor='navy.500'
                             value={item.content}
                             onChange={(e) => {
                                 dataList[index].content = e.target.value;

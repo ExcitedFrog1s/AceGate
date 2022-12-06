@@ -15,6 +15,8 @@ import Institute from "../pages/institute/institute.js";
 import PaperDetails from "../pages/paper_details/paper_details";
 import AdvancedSearch from '../pages/advancedSearch/advancedSearch.js'
 
+import Journal from '../pages/journal/journal'
+
 import ScholarPortal from '../pages/ScholarPortal/Portal.js'
 import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
@@ -36,6 +38,10 @@ const default_router = createBrowserRouter([
     {
       path: '/searchResults',
       element: <SearchResults/>
+    },
+    {
+        path: '/journal',
+        element: <Journal/>
     },
     {
         path: '/manage',
