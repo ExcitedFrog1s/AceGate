@@ -21,6 +21,9 @@ function Op({isstarred}) {
     const Style = {
         cursor: 'pointer',
         }
+    const download = () => {
+        // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
+    }
     const handleMouseDown = () => {
         if (isClick) {
             setIsClick(false)
@@ -39,7 +42,7 @@ function Op({isstarred}) {
             position={'relative'}
         >
 
-            <Icon as={MdFileDownload} mr={15} style={Style}/>
+            <Icon as={MdFileDownload} mr={15}  style={Style}/>
             <Icon as={RiDoubleQuotesR} mr={15} style={Style}/>
             {!isClick && <Icon as={AiOutlineStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}
             {isClick && <Icon as={AiFillStar} mr={15} onMouseDown={handleMouseDown} style={Style}/>}

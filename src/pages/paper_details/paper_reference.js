@@ -92,7 +92,7 @@ function Reference() {
 
                     </TabPanel>
                     <TabPanel>
-                        <ResultCard props={property.related[0]}/>
+                        {/*<ResultCard props={property.related[0]}/>*/}
 
                     </TabPanel>
                     <TabPanel>
