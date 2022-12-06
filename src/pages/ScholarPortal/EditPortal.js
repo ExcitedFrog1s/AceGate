@@ -94,6 +94,20 @@ function EditPortal() {
         console.log(values);
     };
 
+    // save button hover style
+    const [saveIsHover, setSaveIsHover] = useState(false)
+    const handleMouseEnterSave = () => {
+        setSaveIsHover(true)
+    }
+    const handleMouseLeaveSave = () => {
+        setSaveIsHover(false);
+    }
+    const saveStyle = {
+        backgroundColor: saveIsHover ? '#5bc28b' : '#50af78',
+        border: 'none',
+        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+    }
+
     return (
         <Layout className="layout">
             <Header>
@@ -257,15 +271,13 @@ function EditPortal() {
                             }}
                         >
                             <Button
-                                type="primary"
+                                type={"primary"}
                                 icon={<CheckCircleOutlined />}
                                 size="large"
                                 shape={"round"}
-                                style={{
-                                    backgroundColor: '#50af78',
-                                    border: 'none',
-                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                                }}
+                                style={saveStyle}
+                                onMouseEnter={handleMouseEnterSave}
+                                onMouseLeave={handleMouseLeaveSave}
                             >
                                 保存
                             </Button>

@@ -254,10 +254,6 @@ function CheckList() {
     )
 }
 
-/**
- * 通过/拒绝的弹窗，只接受type = 0 / 1, 0表示通过，1表示拒绝
- * @param {*} type 
- */
 
 
 function Check(){

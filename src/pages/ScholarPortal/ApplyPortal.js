@@ -1,6 +1,6 @@
-import "antd/dist/antd.min.css";
+import 'antd/dist/antd.variable.min.css';
 import Info from './info';
-import { Typography, Layout, Menu, Button, Divider, Steps, message, Input, Col, Row} from 'antd';
+import { ConfigProvider, Typography, Layout, Menu, Button, Divider, Steps, message, Input, Col, Row} from 'antd';
 import { FormOutlined, CheckCircleOutlined, IdcardOutlined, CheckCircleFilled} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
@@ -15,6 +15,13 @@ const onFinish = (values) => {
     console.log(values);
 };
 
+ConfigProvider.config({
+    theme: {
+        primaryColor: '#3a3af1',
+        successColor: '#50af78',
+    },
+});
+
 function Portal() {
     const [current, setCurrent] = useState(0);
     const next = () => {
@@ -27,9 +34,10 @@ function Portal() {
         {
             title: '个人信息',
             status: 'finish',
-            icon: <FormOutlined
-                    style={{
-                        color: current>=0 ? '#3a3af1' : undefined }}
+            icon:
+                <FormOutlined
+                    // style={{
+                    //     color: current>=0 ? '#3a3af1' : undefined }}
                 />,
             content: (
                 <div>
@@ -41,8 +49,8 @@ function Portal() {
             title: '选择门户',
             status: 'finish',
             icon: <IdcardOutlined
-                style={{
-                    color: current>0 ? '#3a3af1' : undefined }}
+                // style={{
+                //     color: current>0 ? '#3a3af1' : undefined }}
             />,
             content: (
                 <div>
@@ -61,8 +69,8 @@ function Portal() {
             title: '完成',
             status: 'wait',
             icon: <CheckCircleOutlined
-                    style={{
-                        color: current>1 ? '#3a3af1' : undefined }}
+                    // style={{
+                    //     color: current>1 ? '#3a3af1' : undefined }}
                 />,
             content: (
                 <div>
@@ -143,7 +151,6 @@ function Portal() {
                         items={items}
                         style={{
                             padding: '24px',
-                            color: '#3a3af1',
                         }}
                     />
                     <Divider dashed/>
@@ -165,7 +172,7 @@ function Portal() {
                                     size="large"
                                     style={{
                                         margin: 'auto',
-                                        backgroundColor: '#3a3af1',
+                                        // backgroundColor: '#3a3af1',
                                         border: 'none',
                                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                                     }}
@@ -184,7 +191,6 @@ function Portal() {
                                         size="large"
                                         style={{
                                             margin: '0 10px',
-                                            color: '#3a3af1',
                                         }}
                                         onClick={() => prev()}
                                     >
@@ -196,7 +202,6 @@ function Portal() {
                                         shape={"round"}
                                         size="large"
                                         style={{
-                                            backgroundColor: '#3a3af1',
                                             border: 'none',
                                         }}
                                     >
@@ -221,7 +226,6 @@ function Portal() {
                                         shape={"round"}
                                         size="large"
                                         style={{
-                                            backgroundColor: '#3a3af1',
                                             border: 'none',
                                         }}
                                     >

@@ -6,7 +6,7 @@ import {
     FormLabel,
     HStack,
     Image,
-    Input, Link,
+    Input, InputGroup, InputRightAddon, InputRightElement, Link,
     SimpleGrid,
     Text,
     VStack
@@ -76,7 +76,15 @@ function Register(){
                                         </FormControl>
                                         <FormControl id="email">
                                             <FormLabel fontSize={'15px'}>邮箱</FormLabel>
-                                            <Input type="email" />
+                                            <InputGroup>
+                                                <Input type="email" />
+                                                <InputRightElement  w={'110px'}>
+                                                    <Button>
+                                                        {"发送验证码"}
+                                                    </Button>
+                                                </InputRightElement>
+                                            </InputGroup>
+
                                         </FormControl>
                                         <FormControl id="emailVerifyCode">
                                             <FormLabel fontSize={'15px'}>邮箱验证码</FormLabel>
@@ -93,6 +101,7 @@ function Register(){
                                     >
                                         注册
                                     </Button>
+                                    <Link color={'blue.400'}>去登录</Link>
                                 </VStack>
                                 <Center>
                                     <Text fontSize={'12px'} color={'darkgray'}>

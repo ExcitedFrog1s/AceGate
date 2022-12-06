@@ -1,0 +1,60 @@
+.institute{
+    padding-left: 8%;
+    padding-right: 8%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+.icard .insinfo{
+    padding-top: 20px;
+    word-wrap: break-word;
+}
+
+.icard .ant-card{
+    border-radius: 15px 0 0 15px;
+    width: 900px;
+    height: 300px;
+    padding-right: 35px;
+}
+.icard .title{
+    font-size: 30px;
+    font-weight: 600;
+    
+}
+
+.icard .ant-btn{
+    border-radius: 8px;
+}
+
+
+.scard .ant-card{
+    border-radius: 0 15px 15px  0;
+    width: 360px;
+    height: 300px;
+    padding-left: 30px;
+    padding-top: 15px;
+}
+.scardInfo{
+    height: 84px;
+}
+.scardInfo .title1{
+    display: inline;
+    font-size: 23px;
+    font-weight: 500;
+    padding-right: 50px;
+}
+
+.scardInfo .num1{
+    display: inline;
+    font-size: 30px;
+    color: #3A3AF1;
+}
+
+.scardInfo .icon1{
+    display: inline;
+    margin-bottom: -5px;
+    width: 30px;
+    height: 30px;
+    color: rgb(155, 152, 152);
+    margin-right: 10px;
+}
