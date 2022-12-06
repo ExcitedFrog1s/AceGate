@@ -3,32 +3,57 @@
 //
 
 import * as React from 'react';
-import {Box, Select, useQuery} from "@chakra-ui/react";
+import {Box} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
 import {MdArrowDropDown} from "react-icons/md";
-import {Pagination,Spin} from "antd";
+import {Pagination, Select, Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 
 function Sort() {
-    const [sort_order, setSortOrder] = React.useState('默认');
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let navigate = useNavigate()
 
-    const handleChange = (event) => {
-        setSortOrder(event.target.value);
+    const [sort_order, setSortOrder] = React.useState('默认');
+    const handleChange = (value) => {
+        if(params.has('page')) {
+            params.delete('page')
+        }
+        setSortOrder(value)
+        params.set('sort',value)
+        navigate('/searchResults?' + params.toString())
     };
 
     return(
         <Box float={'right'} mr={'20%'} mt={'-50'}>
-            <Select onChange={handleChange} icon={<MdArrowDropDown />} size={'sm'} colorScheme={'blue'} focusBorderColor={'blue.500'}>
-                <option value={'默认'}>{'默认'}</option>
-                <option value={'最新'}>{'最新'}</option>
-                <option value={'最相关'}>{'最相关'}</option>
-                <option value={'引用量最高'}>{'引用量最高'}</option>
-            </Select>
+            <Select
+                onChange={handleChange}
+                style={{width:120}}
+                defaultValue={params.has('order') ? params.get('order') : "默认"}
+                options={[
+                    {
+                    value: '默认',
+                    label: '默认'
+                    },
+                    {
+                        value: '最相关',
+                        label: '最相关'
+                    },
+                    {
+                        value: '最新',
+                        label: '最新'
+                    },
+                    {
+                        value: '引用量最多',
+                        label: '引用量最多'
+                    },
+                ]}
+            />
         </Box>
     )
 }
@@ -36,6 +61,7 @@ function Sort() {
 
 function SearchResults(props) {
     const [infos,setInfos] = React.useState()
+    const [filterInfos,setFilterInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const navigate = useNavigate()
 
@@ -47,6 +73,7 @@ function SearchResults(props) {
     let current_page_index
     let card_index_min
     let card_index_max
+
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     if(params.has('page')) {
@@ -59,12 +86,27 @@ function SearchResults(props) {
         params.set('page',page)
         navigate('/searchResults?' + params.toString())
     }
-
     React.useEffect(() => {
         const formData = new FormData()
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/searchResults",formData)
+        if(params.has('startTime')) {
+            formData.append('startTime', params.get('startTime'))
+        }
+        if(params.has('endTime')) {
+            formData.append('endTime', params.get('endTime'))
+        }
+        if(params.has('order')) {
+            formData.append('order',params.get('order'))
+        }
+        if(params.has('authors')) {
+            formData.append('filterAuthors', params.get('authors').split(','))
+        }
+        if(params.has('publicationTypes')) {
+            formData.append('filterPublicationTypes', params.get('publicationTypes').split(','))
+        }
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/SearchResults",formData)
             .then(res => {
-                setInfos(res.data)
+                setInfos(res.data.results)
+                setFilterInfos(res.data.filterItems)
                 setLoading(false)
             })
     },[])
@@ -89,7 +131,7 @@ function SearchResults(props) {
     return(
         <Box>
             {/*右侧界面*/}
-            <Filter/>
+            <Filter filterInfos={filterInfos}/>
             <Box>
                 {/*排序*/}
                 <Sort/>
