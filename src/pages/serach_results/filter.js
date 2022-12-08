@@ -163,7 +163,7 @@ function Filter(props) {
         let publicationTypesArray = []
         for(let i = 0;i < authors.length;i++) {
             if(authors[i]) {
-                authorsArray.push(props.filterInfos.authors[i].author)
+                authorsArray.push(props.filterInfos.authors[i].UID)
             }
         }
         for(let i = 0;i < publicationTypes.length;i++) {

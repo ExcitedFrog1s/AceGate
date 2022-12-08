@@ -2,11 +2,11 @@
 // Created by zyc on 2022/11/11.
 //
 
+import Header from '../../components/header/header'
 import * as React from 'react';
 import {Box} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
-import {MdArrowDropDown} from "react-icons/md";
 import {Pagination, Select, Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
@@ -88,6 +88,9 @@ function SearchResults(props) {
     }
     React.useEffect(() => {
         const formData = new FormData()
+        if(params.has('q')) {
+            formData.append('normalSearch', params.get('q'))
+        }
         if(params.has('startTime')) {
             formData.append('startTime', params.get('startTime'))
         }
@@ -130,6 +133,7 @@ function SearchResults(props) {
 
     return(
         <Box>
+            {/*<Header textColor={'black'} />*/}
             {/*右侧界面*/}
             <Filter filterInfos={filterInfos}/>
             <Box>
