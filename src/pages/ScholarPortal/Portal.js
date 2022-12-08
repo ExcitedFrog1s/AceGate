@@ -1,5 +1,5 @@
 import "antd/dist/antd.min.css";
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table} from 'antd';
+import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
 import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
@@ -86,10 +86,22 @@ function ScholarPaperList() {
             date: '2020-01-04',
             cite: 0,
         },
+        {
+            key: '5',
+            name: 'paper5',
+            authors: 'author1, author2',
+            date: '2020-01-05',
+            cite: 0,
+        },
+        {
+            key: '6',
+            name: 'paper6',
+            authors: 'author1, author2',
+            date: '2020-01-06',
+            cite: 100,
+        }
     ];
-    const onChange = (pagination, filters, sorter, extra) => {
-        console.log('params', pagination, filters, sorter, extra);
-    };
+
     return (
         <div
             style={{
@@ -99,16 +111,43 @@ function ScholarPaperList() {
                 border: 'none',
             }}
         >
-            <Table columns={columns} dataSource={data} onChange={onChange} />
+            <div
+                id="scrollablePaperList"
+                style={{
+                    height: 450,
+                    overflow: 'auto',
+                    padding: '0 16px 0 0',
+                    border: 'none',
+                }}
+            >
+                <InfiniteScroll
+                    dataLength={data.length}
+                    hasMore={data.length < 50}
+                    // loader={
+                    //     <Row
+                    //         style={{
+                    //             padding: '16px 0 0 0',
+                    //         }}
+                    //     >
+                    //         <Spin
+                    //             style={{
+                    //                 margin: 'auto',
+                    //             }}
+                    //         />
+                    //     </Row>
+                    // }
+                    endMessage={<Divider plain></Divider>}
+                    scrollableTarget="scrollablePaperList"
+                >
+                    <Table columns={columns} dataSource={data} pagination={false}/>
+                </InfiniteScroll>
+            </div>
         </div>
     );
 }
 
 
 function Portal() {
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-
     // hover style
     // homepage
     const [homepageIsHover, setHomepageIsHover] = useState(false)
@@ -135,20 +174,14 @@ function Portal() {
         textDecoration: areaIsHover ? 'underline' : 'none'
     }
 
+    const [data, setData] = useState([]);
+
     const loadMoreData = () => {
-        if (loading) {
-            return;
-        }
-        setLoading(true);
         fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
             .then((res) => res.json())
             .then((body) => {
                 setData([...data, ...body.results]);
-                setLoading(false);
             })
-            .catch(() => {
-                setLoading(false);
-            });
     };
 
     useEffect(() => {
@@ -297,7 +330,7 @@ function Portal() {
                                 {
                                     label: `发表文献`,
                                     key: '1',
-                                    children: <ScholarPaperList data={data} loading={loading} loadMoreData={loadMoreData}/>,
+                                    children: <ScholarPaperList data={data}/>,
                                 },
                                 {
                                     label: `数据分析`,
