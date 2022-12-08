@@ -11,6 +11,7 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
+import {Spin} from "antd";
 
 function PaperDetails() {
     const property = {
@@ -21,20 +22,28 @@ function PaperDetails() {
         isstarred:true,
     }
     const [infos,setInfos] = React.useState()
+    const [isLoading, setLoading] = React.useState(true)
+
     React.useEffect( () => {
         const formData = new FormData()
         formData.append('PID', "1")
         console.log(formData)
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156",formData)
             .then(function (res){
-                console.log(res.data)
-                setInfos(res.data.details)
+                setInfos(res.data)
+                setLoading(false)
             })
     },[])
     // console.log(infos["Pname"])
+    if(isLoading) {
+        return (
+            <Spin tip={"加载中"}/>
+        )
+    }
+    console.log(infos)
     return(
         <Box>
-            <Info prop={infos}/>
+            <Info infos={infos}/>
             <Abstract/>
             <Data/>
             <Op isstarred={property.isstarred}/>
@@ -63,32 +72,33 @@ function Authors({prop}){
    )
 }
 
-function Info({prop}){
+function Info(prop){
     const property = {
         title: "独白与对话:马克思主义中国化的方法",
         source: "云南社会科学",
         date: moment("20070112").format('YYYY-MM-DD'),
         tags:['jdg', '马克思', 'lggggg'],
     }
-    const [p,setP] = React.useState()
-    const [title,setTitle] = React.useState()
-    const [date,setDate] = React.useState()
-    const [source,setSource] = React.useState()
-    // setP(prop)
-    // setTitle(prop.Pname)
-    // setDate(prop.Pdate)
-    // setSource(prop.P_Vname)
+    // const [p,setP] = React.useState()
+    // const [title,setTitle] = React.useState()
+    // const [date,setDate] = React.useState()
+    // const [source,setSource] = React.useState()
+    // console.log(prop.infos)
+    // setP(prop.infos)
+    // // setTitle(prop.infos.Pname)
+    // // setDate(prop.infos.Pdate)
+    // // setSource(prop.infos.P_Vname)
     // console.log(p)
     return(
         <Box ml={'3%'} mb={5}>
             <Box>
             <Text fontSize={30} fontFamily={'宋体'}>
-                {property.title}
+                {prop.infos.Pname}
             </Text>
             </Box>
             <HStack>
                 <Text mt={3} mb={3} mr={5} fontSize={17}  fontFamily={"Times New Roman"}>
-                    {property.date}
+                    {prop.infos.Pdate}
                 </Text>
                 <Text fontFamily={'宋体'} fontSize={17}>
                     {property.source}
