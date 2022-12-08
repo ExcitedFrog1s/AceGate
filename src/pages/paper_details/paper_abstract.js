@@ -1,8 +1,7 @@
 /**
  * @author AboveParadise 2022/11/11
  */
-import {Box, Link, Text} from '@chakra-ui/react'
-import Op from "./paper_op"
+import {Box, HStack, Link, Text} from '@chakra-ui/react'
 function Keywords(){
     const property = {
         kw:'关键词：',
@@ -10,11 +9,25 @@ function Keywords(){
     }
     let k = [property.kw, ...property.keywords].join('\t\t');
 
-    return ( <Text textDecoration={'none'}
-                   color={'#161616'}
-                   margin={8}
+    return ( <HStack>
+            <Text textDecoration={'none'}
+                  color={'#161616'}
+                  as={'b'}
+                  ml={8} mt={5} mb={5}
+                  fontFamily={'宋体'}
+                  fontSize={18}>{property.kw}</Text>
+            {property.keywords.map((value,key) => {
+                return (
+                    <Text textDecoration={'none'}
+                          color={'#161616'}
+                          key={key}
+                          mt={5}
+                          fontFamily={'宋体'}
+                          fontSize={18}>{value}</Text>
+                )
+            })}
+             </HStack>
 
-                   fontSize={18}>{k}</Text>
     )
 
 }
@@ -29,7 +42,6 @@ function Abstract() {
 
     return(
         <Box
-            // height={'200'}
             width={'55%'}
             borderWidth={'5'}
             borderRadius={'12'}
@@ -41,14 +53,15 @@ function Abstract() {
         >
             <Text textDecoration={'none'}
                   color={'#161616'}
-                  fontSize={'25'}
+                  fontSize={25} fontFamily={'宋体'}
                   m={3}
                   ml={8}
+                  fontWeight={'bold'}
             >
                 {property.abs}
             </Text>
 
-            <Text ml={8} color={'#161616'}
+            <Text ml={8} color={'#161616'} fontFamily={'宋体'}
                   fontSize={'15'} noOfLines={5}
             maxW={850} mr={8}>{property.abstract}</Text>
 

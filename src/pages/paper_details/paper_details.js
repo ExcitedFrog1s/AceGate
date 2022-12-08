@@ -8,18 +8,9 @@ import Reference from "./paper_reference";
 import moment from "moment";
 import {Box, HStack, Link, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
-
-function SplitPane(props) {
-    let d = {display:'inline-block',float:'left'}
-    return (
-        <div className="SplitPane1" >
-            <div className="SplitPane-left"style={d}>
-                {props.left}      </div>
-            <div className="SplitPane-right"style={d}>
-                {props.right}      </div>
-        </div>
-    );
-}
+import * as React from "react";
+import axios from "axios";
+import {None} from "framer-motion";
 
 function PaperDetails() {
     const property = {
@@ -29,9 +20,21 @@ function PaperDetails() {
         abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现",
         isstarred:true,
     }
+    const [infos,setInfos] = React.useState()
+    React.useEffect( () => {
+        const formData = new FormData()
+        formData.append('PID', "1")
+        console.log(formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156",formData)
+            .then(function (res){
+                console.log(res.data)
+                setInfos(res.data.details)
+            })
+    },[])
+    // console.log(infos["Pname"])
     return(
         <Box>
-            <Info/>
+            <Info prop={infos}/>
             <Abstract/>
             <Data/>
             <Op isstarred={property.isstarred}/>
@@ -39,16 +42,17 @@ function PaperDetails() {
         </Box>
     )
 }
-function Authors(){
+function Authors({prop}){
     const property = {
         authors: ["Maple826","AboveParadise","euphoria"],
     }
+    // console.log(prop)
     return (
         property.authors.map((value, key) => {
             return (
-                <Link key={key} href={'/'}
+                <Link key={key} href={'/'} fontSize={15}
                       textDecoration={'none'}
-                      color={'#83a7cf'}
+                      color={'#3311DB'}
                       mr={7}
                 >
                     {value}
@@ -57,44 +61,42 @@ function Authors(){
         })
 
    )
-
-
-
 }
 
-function Info(){
+function Info({prop}){
     const property = {
         title: "独白与对话:马克思主义中国化的方法",
         source: "云南社会科学",
         date: moment("20070112").format('YYYY-MM-DD'),
-        tags:['jdg小贵', '马克思', 'lggggg'],
+        tags:['jdg', '马克思', 'lggggg'],
     }
-    const addTag = () => {
-
-
-    }
+    const [p,setP] = React.useState()
+    const [title,setTitle] = React.useState()
+    const [date,setDate] = React.useState()
+    const [source,setSource] = React.useState()
+    // setP(prop)
+    // setTitle(prop.Pname)
+    // setDate(prop.Pdate)
+    // setSource(prop.P_Vname)
+    // console.log(p)
     return(
         <Box ml={'3%'} mb={5}>
             <Box>
-            <Text fontSize={30} >
+            <Text fontSize={30} fontFamily={'宋体'}>
                 {property.title}
             </Text>
             </Box>
-            <Text   mt={3} mb={3} position={'relative'}>
-                {property.date}&nbsp;&nbsp;&nbsp;{property.source}
-            </Text>
-            <Authors/>
-            <HStack spacing={4} mt={4}>
-                {property.tags.map((value,key) => (
-                    <Tag size={'lg'} key={key} variant='subtle' colorScheme='cyan'>
-                        <TagLabel minH={21}>{value}</TagLabel>
-                    </Tag>
-                ))}
-                <Tag size={'lg'} variant='subtle' colorScheme='cyan' cursor={'pointer'} onClick={addTag}>
-                    <TagLeftIcon boxSize='12px' as={AddIcon} />
-                    <TagLabel >添加</TagLabel>
-                </Tag>
+            <HStack>
+                <Text mt={3} mb={3} mr={5} fontSize={17}  fontFamily={"Times New Roman"}>
+                    {property.date}
+                </Text>
+                <Text fontFamily={'宋体'} fontSize={17}>
+                    {property.source}
+                </Text>
             </HStack>
+
+            <Authors prop={prop}/>
+
         </Box>
     )
 }

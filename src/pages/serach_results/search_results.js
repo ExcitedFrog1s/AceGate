@@ -3,6 +3,7 @@
 //
 
 import * as React from 'react';
+
 import {Box} from "@chakra-ui/react";
 import ResultCard from "./result_card";
 import Filter from "./filter";
@@ -11,6 +12,7 @@ import {Pagination, Select, Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
+
 
 
 
@@ -61,7 +63,9 @@ function Sort() {
 
 function SearchResults(props) {
     const [infos,setInfos] = React.useState()
+
     const [filterInfos,setFilterInfos] = React.useState()
+
     const [isLoading, setLoading] = React.useState(true)
     const navigate = useNavigate()
 
@@ -86,6 +90,7 @@ function SearchResults(props) {
         params.set('page',page)
         navigate('/searchResults?' + params.toString())
     }
+
     React.useEffect(() => {
         const formData = new FormData()
         if(params.has('startTime')) {
@@ -107,10 +112,11 @@ function SearchResults(props) {
             .then(res => {
                 setInfos(res.data.results)
                 setFilterInfos(res.data.filterItems)
+
                 setLoading(false)
             })
     },[])
-
+    console.log(infos)
     if(isLoading) {
         return (
             <Spin tip={"加载中"}/>
