@@ -14,8 +14,40 @@ import {
 import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
+import {useContext, useState} from "react";
+import axios from "axios";
+import {tokenContext} from "../../contexts/tokenContext";
+
+
+async function loginUser(usernameOrEmail, password) {
+    let ret = ""
+    let status = ""
+    axios.post('/user/login', {
+        usernameOrEmail: usernameOrEmail,
+        password: password
+    })
+        .then(res => {
+            console.log(res.data)
+            status = res.data.status
+            ret = res.data.token
+        })
+    return ret;
+}
+
 
 function Login(){
+
+    const [usernameOrEmail, setUsernameOrEmail] = useState();
+    const [password, setPassword] = useState();
+
+
+    const handleLogin = async e => {
+        e.preventDefault();
+        let token = await loginUser(usernameOrEmail, password);
+        // localStorage.setItem("userToken", token);
+    }
+
+
     return (
         <div>
             <Header textColor={'black'} />
@@ -68,11 +100,11 @@ function Login(){
                                     >
                                         <FormControl id="username">
                                             <FormLabel fontSize={'15px'}>用户名/邮箱</FormLabel>
-                                            <Input type="text" />
+                                            <Input type="text" onChange={e => setUsernameOrEmail(e.target.value)} />
                                         </FormControl>
                                         <FormControl id="password">
                                             <FormLabel fontSize={'15px'}>密码</FormLabel>
-                                            <Input type="password" />
+                                            <Input type="password" onChange={e => setPassword(e.target.value)} />
                                         </FormControl>
                                     </VStack>
                                     <Flex
@@ -90,6 +122,7 @@ function Login(){
                                             bg: 'rgb(0, 160, 255)',
                                         }}
                                         width={'100%'}
+                                        onClick={handleLogin}
                                     >
                                         登录
                                     </Button>
