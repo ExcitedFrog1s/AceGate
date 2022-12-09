@@ -22,6 +22,8 @@ import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
 import Register from "../pages/user/register";
+import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
+import AdvancedSearchResults from "../pages/serach_results/advanced_search/advanced_search_results";
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -36,8 +38,12 @@ const default_router = createBrowserRouter([
         element: <Register />
     },
     {
-      path: '/searchResults',
-      element: <SearchResults/>
+      path: '/defaultSearchResults',
+      element: <DefaultSearchResults />
+    },
+    {
+        path: '/advancedSearchResults',
+        element: <AdvancedSearchResults />
     },
     {
         path: '/journal',

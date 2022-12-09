@@ -25,6 +25,7 @@ import './advancedSearch.css';
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
+import {useNavigate} from "react-router-dom";
 
 moment.locale('zh-cn')
 
@@ -48,7 +49,7 @@ function Search({}) {
         content: "",
         type: 1,
     }]);
-        
+        console.log(dataList)
     const addItem = (index) => {
         dataList.splice(index+1, 0, {
             category: '',
@@ -83,6 +84,11 @@ function Search({}) {
         setDataList([...dataList]);
     };
 
+    let navigate = useNavigate()
+    const search = () => {
+        navigate("/advance", {state: dataList})
+    }
+
     return(
         <Box boxShadow='2xl' rounded='md'
             borderRadius='20px' border='1px' borderColor='gray.200'
@@ -116,8 +122,8 @@ function Search({}) {
                                 <Select
                                     fontWeight='550'
                                     border='1.5px #A0AEC0 solid'
-                                    focusBorderColor='navy.500' 
-                                    value={item.type} 
+                                    focusBorderColor='navy.500'
+                                    value={item.type}
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
                                         setDataList([...dataList]);
@@ -135,7 +141,7 @@ function Search({}) {
                         <Select
                             fontWeight='550'
                             border='1.5px #A0AEC0 solid'
-                            focusBorderColor='navy.500'  
+                            focusBorderColor='navy.500'
                             style={{marginLeft: '5px'}} value={item.category}
                             onChange={(e) => {
                                 dataList[index].category = e.target.value;
@@ -153,7 +159,7 @@ function Search({}) {
                         </Select>
                     </Col>
                     <Col span={14} offset={1}>
-                        <Input 
+                        <Input
                             border='1.5px #A0AEC0 solid'
                             focusBorderColor='navy.500'
                             value={item.content}
@@ -182,13 +188,13 @@ function Search({}) {
                                 icon={<MinusIcon />}
                                 onClick={() => {
                                     deleteItem(index);
-                                }} 
+                                }}
                                 />
                             ):(
                                 <div></div>
                             )
-                        }    
-                    
+                        }
+
                     </Col>
                 </Row>
             ))}
@@ -201,7 +207,7 @@ function Search({}) {
                 </Col>
             </Row>
             <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '400px'}} >
-                <Button colorScheme='purple' leftIcon={<Search2Icon />}>
+                <Button colorScheme='purple' leftIcon={<Search2Icon />} onClick={search}>
                     搜索
                 </Button>
                 <Button variant='outline' colorScheme='blue' leftIcon={<RepeatIcon />}
@@ -282,7 +288,7 @@ function AdvancedSearch({}) {
                 </Col>
             </Row>
                 <SearchResults></SearchResults>
-      
+
         </Box>
         </html>
     )
