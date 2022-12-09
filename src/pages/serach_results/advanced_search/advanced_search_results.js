@@ -106,7 +106,6 @@ function AdvancedSearchResults(props) {
             formData.append("adv_startTime", params.get('startTime'));
             formData.append("adv_endTime", params.get('endTime'));
         });
-        
         if(params.has('startTime')) {
             formData.append('startTime', params.get('startTime'))
         }
