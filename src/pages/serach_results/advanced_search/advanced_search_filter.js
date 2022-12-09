@@ -155,21 +155,13 @@ function AdvancedSearchFilter(props) {
 
     React.useEffect(() => {
         PubSub.subscribe('PubParams', (msg, params) => {
-            setAdvParamList(params.get('dataList'))
-            setAdvStartTime(params.get('startTime'))
-            setAdvEndTime(params.get('endTime'))
+            setAdvParamList(params.dataList)
+            setAdvStartTime(params.startTime)
+            setAdvEndTime(params.endTime)
+            setAuthors(new Array(props.filterInfos.authors.length).fill(true))
+            setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
         });
     })
-
-    let location = useLocation()
-    let params = new URLSearchParams(location.search)
-    if(params.has('page')) {
-        params.delete('page')
-    }
-    if(params.has('order')) {
-        params.delete('order')
-    }
-    const navigate = useNavigate();
 
     const filter = () => {
         let authorsArray = []
@@ -184,25 +176,31 @@ function AdvancedSearchFilter(props) {
                 publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
             }
         }
-        let formData = new FormData
-        console.log(advParamList,advStartTime, advEndTime)
-        formData.append("advanceSearch", advParamList);
-        formData.append("advStartTime", advStartTime);
-        formData.append("advEndTime", advEndTime);
-        formData.append("startTime",startTime)
-        formData.append("endTime",endTime)
-        formData.append("filterAuthors",authorsArray)
-        formData.append("filterPublicationTypes",publicationTypesArray)
+        props.setStartTime(startTime)
+        props.setEndTime(endTime)
+        props.setAuthorArray(authorsArray)
+        props.setPublicationTypesArray(publicationTypesArray)
+
+        let data = {}
+        data.advancedSearch = advParamList
+        data.advStartTime = advStartTime
+        data.advEndTime = advEndTime
+        data.filterAuthors = authorsArray
+        data.filterPublicationTypes = publicationTypesArray
+        data.startTime = startTime
+        data.endTime = endTime
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
         props.setLoading(true)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
+        axios(config)
             .then(res => {
                 props.setInfos(res.data.results)
                 props.setFilterInfos(res.data.filterItems)
                 props.setCurrentPageIndex(1)
-                setAuthors(new Array(props.filterInfos.authors.length).fill(true))
-                setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
-                setStartTime("1900")
-                setEndTime("2022")
                 props.setLoading(false)
             })
     }

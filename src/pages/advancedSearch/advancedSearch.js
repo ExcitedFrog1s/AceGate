@@ -95,14 +95,13 @@ function Search({}) {
     };
 
     const search = () => {
-        const params = new FormData();
-        params.append("dataList", dataList)
-        params.append("startTime", startTime)
-        params.append("endTime", endTime)
+        const params = {
+            dataList: dataList,
+            startTime: startTime,
+            endTime: endTime
+        };
         PubSub.publish('PubParams', params);
     }
-
-    let navigate = useNavigate()
 
     return(
         <Box boxShadow='2xl' rounded='md'
