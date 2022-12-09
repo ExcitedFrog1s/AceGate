@@ -53,9 +53,9 @@
     padding: 40px 30px 30px 30px;
 }
 
-.chart-icon{
+.journal .chart-icon{
     font-size: 28px;
-    color: #422afb;
+    color: #422afb !important;
     margin-top: 3px;
 }
 
