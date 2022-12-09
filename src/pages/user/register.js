@@ -14,8 +14,33 @@ import {
 import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
+import {useState} from "react";
+
+async function registerUser() {
+    // TODO
+}
+
+async function sendVerificationEmail() {
+
+}
+
 
 function Register(){
+
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const [email, setEmail] = useState();
+    const [verifyCode, setVerifycode] = useState();
+    const [countdown, setCountdown] = useState();
+
+    const handleSendVerifyEmail = e => {
+
+    }
+
+    const handleRegister = e => {
+
+    }
+
     return (
         <div>
             <Header textColor={'black'} />
