@@ -508,7 +508,7 @@ function InstitutionList({}) {
 
 function Journal({}) {
     return(
-        <html >
+        <html className='journal'>
             <Row>
                 <Col span={16}>
                     <Title ></Title>
