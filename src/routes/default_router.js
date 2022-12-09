@@ -38,7 +38,7 @@ const default_router = createBrowserRouter([
         element: <Register />
     },
     {
-      path: '/defaultSearchResults',
+      path: '/defaultSearch',
       element: <DefaultSearchResults />
     },
     {
