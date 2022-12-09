@@ -66,9 +66,13 @@ function ResetPassword(){
                                         width={'100%'}
                                         spacing={'min(15px, 2vh)'}
                                     >
-                                        <FormControl id="username">
-                                            <FormLabel fontSize={'15px'}>注册账户时使用的邮箱</FormLabel>
-                                            <Input type="text" />
+                                        <FormControl id="newPassword">
+                                            <FormLabel fontSize={'15px'}>新密码</FormLabel>
+                                            <Input type="password" />
+                                        </FormControl>
+                                        <FormControl id="confirmPassword">
+                                            <FormLabel fontSize={'15px'}>确认新密码</FormLabel>
+                                            <Input type="password" />
                                         </FormControl>
                                     </VStack>
                                     <Button
@@ -79,7 +83,7 @@ function ResetPassword(){
                                         }}
                                         width={'100%'}
                                     >
-                                        发送找回邮件
+                                        设置新密码
                                     </Button>
                                 </VStack>
                                 <Center>
