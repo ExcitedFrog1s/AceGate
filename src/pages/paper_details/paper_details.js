@@ -13,6 +13,7 @@ import axios from "axios";
 import {None} from "framer-motion";
 import {Spin} from "antd";
 import "./test.css"
+import {useLocation, useNavigate} from "react-router-dom";
 
 function PaperDetails() {
     const property = {
@@ -22,10 +23,24 @@ function PaperDetails() {
         abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现",
         isstarred:true,
     }
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let navigate = useNavigate()
     const [infos,setInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const getPID = () => parse(window.location.href.split('/')[2]);
     // console.log(getPID())
+    let PID
+    if(params.has('PID')) {
+        PID = params.get('PID')
+    }
+    else {
+        PID = 0
+    }
+
+    params.set('PID',PID)
+    navigate('/paperDetails?' + params.toString())
+
     React.useEffect( () => {
         const formData = new FormData()
         formData.append('PID', "1")
