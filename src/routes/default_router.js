@@ -3,7 +3,6 @@ import {
 } from "react-router-dom";
 
 import Landing from '../pages/landing/landing.js'
-import SearchResults from "../pages/serach_results/search_results";
 import Information from "../pages/personalinf/Information";
 import Manage from "../pages/manage/left.js";
 import Info from "../pages/manage/info.js";

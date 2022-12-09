@@ -1,13 +1,12 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
-import Header from '../../../components/header/header'
+import PubSub from 'pubsub-js';
 import * as React from 'react';
 import {Box} from "@chakra-ui/react";
+import { Skeleton, Stack } from '@chakra-ui/react'
 import ResultCard from "../result_card";
-import AdvancedSearchSearchFilter from "./advanced_search_filter";
-import {Pagination, Select, Spin} from "antd";
+import {Pagination, Row, Select, Col} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -21,10 +20,24 @@ function Sort(props) {
     let navigate = useNavigate()
 
     const [sort_order, setSortOrder] = React.useState('默认');
+    const [advParamList, setAdvParamList] = React.useState();
+    const [advEndTime, setAdvEndTime] = React.useState();
+    const [advStartTime, setAdvStartTime] = React.useState();
+
+    React.useEffect(() => {
+        PubSub.subscribe('PubParams', (msg, params) => {
+            setAdvParamList(params.get('dataList'))
+            setAdvStartTime(params.get('startTime'))
+            setAdvEndTime(params.get('endTime'))
+        });
+    })
     const handleChange = (value) => {
         setSortOrder(value)
         let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
+        console.log(advParamList,advStartTime, advEndTime)
+        formData.append("advanceSearch", advParamList);
+        formData.append("advStartTime", advStartTime);
+        formData.append("advEndTime", advEndTime);
         formData.append("sort",sort_order)
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
             .then(res => {
@@ -35,7 +48,7 @@ function Sort(props) {
     };
 
     return(
-        <Box float={'right'} mr={'20%'} mt={'-50'}>
+        <Box float={'right'} mr={'15%'} mt={'-50'} >
             <Select
                 onChange={handleChange}
                 style={{width:120}}
@@ -65,21 +78,6 @@ function Sort(props) {
 
 
 function AdvancedSearchResults(props) {
-    let dataList = [{
-        category: 'main',
-        content: "",
-        type: 1,
-        },
-        {
-            category: 'author',
-            content: "",
-            type: 1,
-        },
-        {
-            category: 'source',
-            content: "",
-            type: 1,
-        }]
 
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
@@ -103,6 +101,12 @@ function AdvancedSearchResults(props) {
     }
     React.useEffect(() => {
         const formData = new FormData()
+        PubSub.subscribe('PubParams', (msg, params) => {
+            formData.append("advanceSearch", params.get('dataList'));
+            formData.append("adv_startTime", params.get('startTime'));
+            formData.append("adv_endTime", params.get('endTime'));
+        });
+        
         if(params.has('startTime')) {
             formData.append('startTime', params.get('startTime'))
         }
@@ -128,7 +132,44 @@ function AdvancedSearchResults(props) {
 
     if(isLoading) {
         return (
-            <Spin tip={"加载中"}/>
+            <Stack ml={'150px'} mt={'100px'}>
+                <Row>
+                    <Col span={6}>
+                        <Skeleton height='30px' width='100px' mt='100px'/>
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                    </Col>
+                    <Col span={17} offset={1}>
+                        <Skeleton height='50px' width='700px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px'/>
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                    </Col>
+                </Row>
+                
+            </Stack>
         )
     }
     else {
@@ -148,6 +189,7 @@ function AdvancedSearchResults(props) {
             {/*<Header textColor={'black'} />*/}
             {/*右侧界面*/}
             <AdvancedSearchFilter
+            marginLeft='200px'
                 setInfos={setInfos}
                 setFilterInfos={setFilterInfos}
                 setLoading={setLoading}
@@ -156,13 +198,13 @@ function AdvancedSearchResults(props) {
             />
             <Box>
                 {/*排序*/}
-                <Sort
+                <Sort  
                     setInfos={setInfos}
                     setFilterInfos={setFilterInfos}
                     setCurrentPageIndex={setCurrentPageIndex}
                 />
                 {/*论文卡片*/}
-                <Box mt={'200'}>
+                <Box mt={'120'} ml={'80px'}>
                     {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {

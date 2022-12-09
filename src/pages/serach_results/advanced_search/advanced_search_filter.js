@@ -1,7 +1,7 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
+import PubSub from 'pubsub-js';
 import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
@@ -149,6 +149,18 @@ function AdvancedSearchFilter(props) {
     const [startTime,setStartTime] = useState("1900")
     const [endTime,setEndTime] = useState("2022")
 
+    const [advParamList, setAdvParamList] = React.useState();
+    const [advEndTime, setAdvEndTime] = React.useState();
+    const [advStartTime, setAdvStartTime] = React.useState();
+
+    React.useEffect(() => {
+        PubSub.subscribe('PubParams', (msg, params) => {
+            setAdvParamList(params.get('dataList'))
+            setAdvStartTime(params.get('startTime'))
+            setAdvEndTime(params.get('endTime'))
+        });
+    })
+
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     if(params.has('page')) {
@@ -173,7 +185,10 @@ function AdvancedSearchFilter(props) {
             }
         }
         let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
+        console.log(advParamList,advStartTime, advEndTime)
+        formData.append("advanceSearch", advParamList);
+        formData.append("advStartTime", advStartTime);
+        formData.append("advEndTime", advEndTime);
         formData.append("startTime",startTime)
         formData.append("endTime",endTime)
         formData.append("filterAuthors",authorsArray)
@@ -196,7 +211,7 @@ function AdvancedSearchFilter(props) {
         <Box
             minHeight={'1000px'}
             width={'25%'}
-            ml={'20px'}
+            ml={'100px'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
