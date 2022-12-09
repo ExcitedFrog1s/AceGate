@@ -1,7 +1,7 @@
 /**
  * 后台管理/入驻学者
  */
-import "./scholar.css"
+import "./checked.css"
 import { Col, Row, Space, Table, Input } from 'antd';
 import React, { useRef, useState } from 'react';
 import { Button, Avatar } from '@chakra-ui/react'
@@ -242,11 +242,11 @@ function List() {
     )
 }
 
-function Scholars(){
+function Checked(){
     return (
-        <div className="scholars">
+        <div className="checked">
             <List />
         </div>
     )
 }
-export default Scholars;
+export default Checked;

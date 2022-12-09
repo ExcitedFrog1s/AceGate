@@ -20,8 +20,8 @@ function getItem(label, key, icon){
 
 const items = [
     getItem("平台概况", "info", <InfoCircleOutlined />),
-    getItem("入驻学者", "scholars", <TeamOutlined />),
-    getItem("审核认领", "check", <BarsOutlined />),
+    getItem("已审核认领", "checked", <TeamOutlined />),
+    getItem("待审核认领", "uncheck", <BarsOutlined />),
 ]
 
 

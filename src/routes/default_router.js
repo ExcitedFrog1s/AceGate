@@ -7,8 +7,8 @@ import SearchResults from "../pages/serach_results/search_results";
 import Information from "../pages/personalinf/Information";
 import Manage from "../pages/manage/left.js";
 import Info from "../pages/manage/info.js";
-import Scholars from "../pages/manage/scholar.js";
-import Check from "../pages/manage/check.js";
+import Checked from "../pages/manage/checked.js";
+import UnCheck from "../pages/manage/uncheck.js";
 
 import Institute from "../pages/institute/institute.js";
 
@@ -63,12 +63,12 @@ const default_router = createBrowserRouter([
                 element: <Info />
             },
             {
-                path: 'scholars',
-                element: <Scholars />
+                path: 'checked',
+                element: <Checked />
             },
             {
-                path: 'check',
-                element: <Check />
+                path: 'uncheck',
+                element: <UnCheck />
             }
         ]
     },
