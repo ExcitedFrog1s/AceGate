@@ -6,6 +6,7 @@ import Select from '../Select'
 import {Link} from 'react-router-dom';
 import React, { Component } from 'react'
 import Interest from '../Interest';
+import {RollbackOutlined, CheckCircleOutlined} from '@ant-design/icons';
 
 export default class Edit extends Component {
   state = {fields:[
@@ -14,6 +15,8 @@ export default class Edit extends Component {
 
   ],
   }
+
+  
 
   addfield = ()=>{
     const field = this.field
@@ -62,6 +65,11 @@ export default class Edit extends Component {
   }
   
   render() {
+    const saveStyle = {
+      backgroundColor: '#50af78',
+      border: 'none',
+      boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+    }
     const {accountinfs} = this.props
     const {interestwords} = this.props
     const {scholar} = this.props
@@ -161,8 +169,24 @@ export default class Edit extends Component {
             </div>
           </div>
           <Link to="/personInfo">
-            <Button className="button1">完成</Button>
-            <Button className="button2">取消</Button>
+            <Button className="button1"
+            type={"primary"}
+            icon={<CheckCircleOutlined />}
+            size="middle"
+            shape={"round"}
+            style={saveStyle}
+            >完成</Button>
+            <Button className="button2" 
+            icon = {<RollbackOutlined />}
+            type="primary"
+            size="middle"
+            shape={"round"}
+            style={{
+                margin: '25px 40px 16px 30px',
+                border: 'none',
+                boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+            }}
+            >取消</Button>
           </Link>
           </div>
         </div>
