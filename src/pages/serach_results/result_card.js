@@ -32,7 +32,7 @@ function Title({title}) {
             >
 
 
-                <Text noOfLines={1} padding={'30px'}>
+                <Text noOfLines={1} pt={'30px'} pl={'30px'}>
                     {title}
                 </Text>
             </Link>
@@ -56,7 +56,8 @@ function Author({author,key}) {
         color: '#83a7cf',
         fontSize: '14px',
         textDecoration: isHover ? 'underline' : 'none',
-        marginRight: '10px'
+        marginRight: '10px',
+        paddingTop: '20px'
     }
 
     return(
@@ -74,7 +75,7 @@ function Authors({authors}) {
     return(
 
 
-    <Box ml={'10'} mt={'-20px'}>
+    <Box ml={'10'} mt={'20px'}>
         {
             authors.map((value, key) => {
                 return (
