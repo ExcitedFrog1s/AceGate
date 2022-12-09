@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {Box,HStack,Text,Link,VStack,Icon} from "@chakra-ui/react";
 import {useEffect, useReducer, useState} from "react";
 import {AiFillStar, AiOutlineStar} from "react-icons/ai";
-import {useForceUpdate} from "framer-motion";
 function Heart({state}){
     const [isClick, setIsClick] = useState(state)
 
@@ -26,10 +25,10 @@ function Heart({state}){
         cursor: 'pointer',
         // align:'end',
         // marginTop: '15px',
-        marginRight:20,
+        marginRight:23,
         // float:'right',
-        width:'30px',
-        height:'30px'}
+        width:'25px',
+        height:'25px'}
 
     return(
         <Box>
@@ -81,15 +80,15 @@ function Comment() {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link href={'/'} ml={4}  color={'#105dc2'} fontSize={20}>{value.author}</Link>
+                                <Link href={'/'} ml={4}  color={'#3311DB'} fontSize={20}>{value.author}</Link>
 
-                                <Text color={'#000000'}>
+                                <Text color={'#7551FF'}>
                                     {value.like_num}点赞
                                 </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
                                     {/*</Text>*/}
-                                <Text color={'#000000'}  align={'right'}>
+                                <Text color={'#0b1075'}  align={'right'}>
                                         {value.date}
                                 </Text>
                                 </HStack>
@@ -99,7 +98,7 @@ function Comment() {
                             </Box>
 
                         </HStack>
-                        <Text ml={5}>
+                        <Text ml={5} mt={4} color={'gray'}>
                             {value.comment}
                         </Text>
                     </Box>

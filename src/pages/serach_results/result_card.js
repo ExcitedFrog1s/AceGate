@@ -30,7 +30,9 @@ function Title({title}) {
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
             >
-                <Text noOfLines={1} pt={'30px'} pl={'30px'}>
+
+
+                <Text noOfLines={1} padding={'30px'}>
                     {title}
                 </Text>
             </Link>
@@ -70,14 +72,18 @@ function Author({author,key}) {
 
 function Authors({authors}) {
     return(
-        <Box ml={'10'} mt={'20px'}>
-            {
-                authors.map((value, key) => {
-                    return (
-                        <Author author={value} key={key}/>
-                    );
-                })
-            }
+
+
+    <Box ml={'10'} mt={'-20px'}>
+        {
+            authors.map((value, key) => {
+                return (
+                    <Author author={value} key={key}/>
+                );
+            })
+        }
+
+
         </Box>
     )
 
@@ -138,6 +144,8 @@ function Content({content}) {
     return(
         <Box ml={'10'} mt={'30px'}>
             <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+
+
                 <Text noOfLines={3} wordBreak={'break-all'} marginRight={'50px'}>
                     {content}
                 </Text>
