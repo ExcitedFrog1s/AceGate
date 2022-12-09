@@ -24,7 +24,7 @@ const NavLink = ({ children }) => (
 
 function Header({textColor, isLanding=false}){
 
-    const sections = ['实用工具', '选项2', '选项3']
+    const sections = ['工具箱']
 
     // 只有white和black两种选项
     if (textColor.localeCompare("white") !== 0){
@@ -52,12 +52,18 @@ function Header({textColor, isLanding=false}){
                         as={'nav'}
                         spacing={'2vw'}
                         display={{ base: 'none', md: 'flex' }}>
-                        <Input
-                            size='md'
-                            backgroundColor='white'
-                            width='20vw'
-                            placeholder="快捷搜索……"
-                        />
+
+                        {isLanding ?
+                            <Box />
+                            :
+                            <Input
+                                size='md'
+                                backgroundColor='white'
+                                width='20vw'
+                                placeholder="快捷搜索……"
+                            />
+                        }
+
                         {sections.map((link) => (
                             <NavLink key={link}>{link}</NavLink>
                         ))}
