@@ -2,8 +2,9 @@ import "antd/dist/antd.min.css";
 import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
 import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from "axios";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -12,12 +13,12 @@ const onChange = (key) => {
     console.log(key);
 };
 
-function ScholarPaperList() {
+function ScholarPaperList({props}) {
     const columns = [
         {
             title: '',
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: 'Pname',
+            key: 'Pname',
             width: '65%',
             render: (_, record) => (
                 <div>
@@ -27,10 +28,10 @@ function ScholarPaperList() {
                                 style={{
                                     fontSize: '20px',
                                 }}
-                            >{record.name}</Link>
+                            >{record.Pname}</Link>
                         </Row>
                         <Row>
-                            <Text>{record.authors}</Text>
+                            <Text>{record.Pauthor}</Text>
                         </Row>
                     </Typography>
                 </div>
@@ -38,68 +39,24 @@ function ScholarPaperList() {
         },
         {
             title: '发表时间',
-            dataIndex: 'date',
-            key: 'date',
+            dataIndex: 'Pdate',
+            key: 'Pdate',
             sorter: (a, b) => {
-                let aDate = new Date(a.date).getTime();
-                let bDate = new Date(b.date).getTime();
+                let aDate = new Date(a.Pdate).getTime();
+                let bDate = new Date(b.Pdate).getTime();
                 console.log("a",a);
                 return aDate - bDate;
             },
         },
         {
             title: '引用次数',
-            dataIndex: 'cite',
-            key: 'cite',
+            dataIndex: 'Pcite',
+            key: 'Pcite',
             sorter: {
-                compare: (a, b) => a.cite - b.cite,
+                compare: (a, b) => a.Pcite - b.Pcite,
                 multiple: 1,
             },
         },
-    ];
-    const data = [
-        {
-            key: '1',
-            name: 'paper1',
-            authors: 'author1, author2',
-            date: '2020-01-01',
-            cite: 10,
-        },
-        {
-            key: '2',
-            name: 'paper2',
-            authors: 'author1, author2',
-            date: '2020-01-02',
-            cite: 5,
-        },
-        {
-            key: '3',
-            name: 'paper3',
-            authors: 'author1, author2',
-            date: '2020-01-03',
-            cite: 15,
-        },
-        {
-            key: '4',
-            name: 'paper4',
-            authors: 'author1, author2',
-            date: '2020-01-04',
-            cite: 0,
-        },
-        {
-            key: '5',
-            name: 'paper5',
-            authors: 'author1, author2',
-            date: '2020-01-05',
-            cite: 0,
-        },
-        {
-            key: '6',
-            name: 'paper6',
-            authors: 'author1, author2',
-            date: '2020-01-06',
-            cite: 100,
-        }
     ];
 
     return (
@@ -120,27 +77,17 @@ function ScholarPaperList() {
                     border: 'none',
                 }}
             >
-                <InfiniteScroll
-                    dataLength={data.length}
-                    hasMore={data.length < 50}
-                    // loader={
-                    //     <Row
-                    //         style={{
-                    //             padding: '16px 0 0 0',
-                    //         }}
-                    //     >
-                    //         <Spin
-                    //             style={{
-                    //                 margin: 'auto',
-                    //             }}
-                    //         />
-                    //     </Row>
-                    // }
-                    endMessage={<Divider plain></Divider>}
-                    scrollableTarget="scrollablePaperList"
-                >
-                    <Table columns={columns} dataSource={data} pagination={false}/>
-                </InfiniteScroll>
+                {/*<InfiniteScroll*/}
+                {/*    // dataLength={props.length}*/}
+                {/*    endMessage={<Divider plain></Divider>}*/}
+                {/*    scrollableTarget="scrollablePaperList"*/}
+                {/*>*/}
+                    <Table
+                        columns={columns}
+                        dataSource={props}
+                        pagination={false}
+                    />
+                {/*</InfiniteScroll>*/}
             </div>
         </div>
     );
@@ -148,6 +95,29 @@ function ScholarPaperList() {
 
 
 function Portal() {
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    // let RID = params.get('RID')
+    const [data, setData] = useState([]);
+
+    const getData = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/scholarPortal",
+            data: {
+                RID: params.get('RID'),
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                }
+            )
+    }
+    useEffect(() => {
+        getData();
+    }, [])
+
     // hover style
     // homepage
     const [homepageIsHover, setHomepageIsHover] = useState(false)
@@ -173,20 +143,6 @@ function Portal() {
         color: '#1890ff',
         textDecoration: areaIsHover ? 'underline' : 'none'
     }
-
-    const [data, setData] = useState([]);
-
-    const loadMoreData = () => {
-        fetch('https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo')
-            .then((res) => res.json())
-            .then((body) => {
-                setData([...data, ...body.results]);
-            })
-    };
-
-    useEffect(() => {
-        loadMoreData();
-    }, []);
 
     return (
         <Layout className="layout">
@@ -224,10 +180,11 @@ function Portal() {
                         <Col span={5}>
                             <Avatar
                                 size={130}
-                                icon={<UserOutlined />}
+                                // icon={<UserOutlined />}
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)'
                                 }}
+                                src={data?.Ravatar}
                             />
                         </Col>
                         <Col span={15}>
@@ -240,19 +197,24 @@ function Portal() {
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
                                     }}
-                                >Name</Title>
+                                >{data.Rname}</Title>
                                 <Paragraph>
                                     <Space>
                                         <HomeOutlined />
                                     </Space>
-                                    <Text> Beihang University - </Text>
-                                    <Link
-                                        to="/scholarPortal"
-                                        component={Typography.Link}
-                                        style={homepageStyle}
-                                        onMouseEnter={handleMouseEnterHomepage}
-                                        onMouseLeave={handleMouseLeaveHomepage}
-                                    >个人主页</Link>
+                                    <Text> {data.Rinstitute} </Text>
+                                    {data.RpersonalPage &&
+                                        <Space>
+                                            <Text>-</Text>
+                                            <Link
+                                            to="/scholarPortal"
+                                            component={Typography.Link}
+                                            style={homepageStyle}
+                                            onMouseEnter={handleMouseEnterHomepage}
+                                            onMouseLeave={handleMouseLeaveHomepage}
+                                            >{data.RpersonalPage}</Link>
+                                        </Space>
+                                    }
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
@@ -264,44 +226,46 @@ function Portal() {
                                         style={areaStyle}
                                         onMouseEnter={handleMouseEnterArea}
                                         onMouseLeave={handleMouseLeaveArea}
-                                    > Computer Vision</Link>
+                                    > {data?.Rconcepts}</Link>
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
                                         <MailOutlined />
                                     </Space>
-                                    <Text> 20231183@buaa.edu.cn</Text>
+                                    <Text> {data?.Rcontact}</Text>
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
                                         <SolutionOutlined />
                                     </Space>
-                                    <Text> 一段个人简介（如果有的话）</Text>
+                                    <Text> {data?.Rgateinfo}</Text>
                                 </Paragraph>
                             </Typography>
                         </Col>
                         <Col span={4}>
-                            <Link
-                                to={{
-                                    pathname: '/editPortal',
-                                }}
-                            >
-                                <Button
-                                    type="primary"
-                                    icon={<FormOutlined />}
-                                    size="large"
-                                    shape={"round"}
-                                    style={{
-                                        float: 'right',
-                                        margin: '25px 40px 16px 24px',
-                                        // backgroundColor: '#859dda',
-                                        border: 'none',
-                                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                            {data.Rapplied === true &&
+                                <Link
+                                    to={{
+                                        pathname: '/editPortal',
                                     }}
                                 >
-                                    编辑
-                                </Button>
-                            </Link>
+                                    <Button
+                                        type="primary"
+                                        icon={<FormOutlined />}
+                                        size="large"
+                                        shape={"round"}
+                                        style={{
+                                            float: 'right',
+                                            margin: '25px 40px 16px 24px',
+                                            // backgroundColor: '#859dda',
+                                            border: 'none',
+                                            boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                                        }}
+                                    >
+                                        编辑
+                                    </Button>
+                                </Link>
+                            }
                         </Col>
                     </Row>
                 </div>
@@ -330,7 +294,7 @@ function Portal() {
                                 {
                                     label: `发表文献`,
                                     key: '1',
-                                    children: <ScholarPaperList data={data}/>,
+                                    children: <ScholarPaperList props={data.RpaperList}/>,
                                 },
                                 {
                                     label: `数据分析`,
@@ -373,40 +337,38 @@ function Portal() {
                                     border: 'none',
                                 }}
                             >
-                                <InfiniteScroll
-                                    dataLength={data.length}
-                                    next={loadMoreData}
-                                    hasMore={data.length < 50}
-                                    loader={
-                                        <Skeleton
-                                            avatar
-                                            paragraph={{
-                                                rows: 1,
-                                            }}
-                                            active
-                                        />
-                                    }
-                                    endMessage={<Divider plain></Divider>}
-                                    scrollableTarget="scrollableDiv"
-                                >
+                                {/*<InfiniteScroll*/}
+                                {/*    dataLength={data.RcoauthorList.length}*/}
+                                {/*    loader={*/}
+                                {/*        <Skeleton*/}
+                                {/*            avatar*/}
+                                {/*            paragraph={{*/}
+                                {/*                rows: 1,*/}
+                                {/*            }}*/}
+                                {/*            active*/}
+                                {/*        />*/}
+                                {/*    }*/}
+                                {/*    endMessage={<Divider plain></Divider>}*/}
+                                {/*    scrollableTarget="scrollableDiv"*/}
+                                {/*>*/}
                                     <List
-                                        dataSource={data}
+                                        dataSource={data.RcoauthorList}
                                         renderItem={(item) => (
                                             <List.Item
-                                                key={item.email}
+                                                key={item.Rinstitute}
                                                 style={{
                                                     padding: '10px 0 10px 0',
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src={item.picture.large} />}
-                                                    title={<a href="https://ant.design">{item.name.last}</a>}
-                                                    description={item.email}
+                                                    avatar={<Avatar src={item.Ravatar.large} />}
+                                                    title={<a href="http://localhost:3000/scholarPortal">{item.Rname}</a>}
+                                                    description={item.Rinstitute}
                                                 />
                                             </List.Item>
                                         )}
                                     />
-                                </InfiniteScroll>
+                                {/*</InfiniteScroll>*/}
                             </div>
                         </Typography>
                     </div>
