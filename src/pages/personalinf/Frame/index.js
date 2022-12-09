@@ -1,9 +1,19 @@
 //by wgx
 import { Button } from 'antd';
+import {ConfigProvider} from 'antd';
+import 'antd/dist/antd.variable.min.css';
 import Item from '../Item';
 import {Link} from 'react-router-dom';
 import React, { Component } from 'react';
 import '../index.css';
+import {FormOutlined} from '@ant-design/icons';
+
+ConfigProvider.config({
+  theme: {
+      primaryColor: '#3a3af1',
+      successColor: '#50af78',
+  },
+});
 
 export default class Frame extends Component {
 
@@ -33,7 +43,20 @@ export default class Frame extends Component {
             })
           }
           <Link to="/personInfo/edit">
-            <Button className="button1">编辑</Button>
+            <Button className="button1" 
+            type="primary"
+            icon={<FormOutlined />}
+            size="middle"
+            shape={"round"}
+            style={{
+                margin: '25px 40px 16px 260px',
+                // backgroundColor: '#859dda',
+                border: 'none',
+      
+                boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+            }}
+            >编辑
+            </Button>
           </Link>
         </div>
       </div>

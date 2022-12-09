@@ -1,8 +1,9 @@
 
-import {Box, Center, Flex, Grid, GridItem, HStack, Link, Text, useColorModeValue} from '@chakra-ui/react'
+import {Box, Center, Flex, Grid, GridItem, HStack, Input, Link, Text, useColorModeValue} from '@chakra-ui/react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUser} from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 
 
 
@@ -21,9 +22,9 @@ const NavLink = ({ children }) => (
 );
 
 
-function Header({textColor}){
+function Header({textColor, isLanding=false}){
 
-    const sections = ['选项1', '选项2', '选项3']
+    const sections = ['工具箱']
 
     // 只有white和black两种选项
     if (textColor.localeCompare("white") !== 0){
@@ -43,16 +44,30 @@ function Header({textColor}){
                 justifyContent={'space-between'}
             >
                 <HStack
-                    spacing={'20vw'}
+                    spacing={'15vw'}
                 >
                     <Text fontSize={28}>Logo</Text>
                     <HStack
+
                         as={'nav'}
-                        spacing={'5vw'}
+                        spacing={'2vw'}
                         display={{ base: 'none', md: 'flex' }}>
+
+                        {isLanding ?
+                            <Box />
+                            :
+                            <Input
+                                size='md'
+                                backgroundColor='white'
+                                width='20vw'
+                                placeholder="快捷搜索……"
+                            />
+                        }
+
                         {sections.map((link) => (
                             <NavLink key={link}>{link}</NavLink>
                         ))}
+
                     </HStack>
                 </HStack>
                 <Text>登录</Text>
