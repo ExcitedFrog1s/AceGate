@@ -26,6 +26,7 @@ import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
 import {useNavigate} from "react-router-dom";
+import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
 
 moment.locale('zh-cn')
 
@@ -287,7 +288,7 @@ function AdvancedSearch({}) {
                     <Description></Description>
                 </Col>
             </Row>
-                <SearchResults></SearchResults>
+                <AdvancedSearchResults/>
 
         </Box>
         </html>
