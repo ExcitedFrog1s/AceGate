@@ -16,9 +16,10 @@ import {
 } from "@chakra-ui/react";
 import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
+import axios from "axios";
 
 // import * as React from "react";
-function Data() {
+function Data(prop) {
     const property = {
         para: [100,9888,1231,33333],
         kw: ['马克思','中国化','方法论'],
@@ -48,87 +49,36 @@ function Data() {
     const s = {
         color:'#000000'
     }
+    const [Pdata,setPdata] = React.useState()
+    const [Fields,setFields] = React.useState()
+    const [isLoading, setLoading] = React.useState(true)
+    React.useEffect( () => {
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53888779", formData)
+            .then(function (res){
+                setPdata(res.data)
+                // setLoading(false)
+            })
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/papaerDetails", formData)
+            .then(function (res){
+                setFields(res.data)
+                setLoading(false)
+            })
+    },[])
+    if(isLoading){
+        return <></>
+    }
     return(
         <Box
             width={'35%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'} marginLeft={'60%'}
             mr={20} position={'absolute'} boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}>
 
-            {/*<HStack  mt={3} >*/}
-
-                {/*<Box width={125}>*/}
-                {/*    <Text textDecoration={'none'}*/}
-                {/*          color={'#c42525'}*/}
-                {/*          fontSize={'25'}*/}
-
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}*/}
-                {/*    >*/}
-                {/*        引用量*/}
-                {/*    </Text>*/}
-                {/*    <Text color={'#161616'}*/}
-                {/*          fontSize={'20'}*/}
-                {/*          m={8}*/}
-                {/*          mt={10}*/}
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}>{property.para[0]}</Text>*/}
-                {/*</Box>*/}
-                {/*<Box width={125} m={8}>*/}
-                {/*    <Text textDecoration={'none'}*/}
-                {/*          color={'#34ea04'}*/}
-                {/*          fontSize={'25'}*/}
-
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}*/}
-                {/*    >*/}
-                {/*        被引用量*/}
-                {/*    </Text>*/}
-                {/*    <Text color={'#161616'}*/}
-                {/*          fontSize={'20'}*/}
-                {/*          m={8}*/}
-                {/*          mt={10}*/}
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}>{property.para[1]}</Text>*/}
-                {/*</Box>*/}
-                {/*<Box width={125} m={8}>*/}
-                {/*    <Text textDecoration={'none'}*/}
-                {/*          color={'#175bb4'}*/}
-                {/*          fontSize={'25'}*/}
-
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}*/}
-                {/*    >*/}
-                {/*        收藏量*/}
-                {/*    </Text>*/}
-                {/*    <Text color={'#161616'}*/}
-                {/*          fontSize={'20'}*/}
-                {/*          m={8}*/}
-                {/*          mt={10}*/}
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}>{property.para[2]}</Text>*/}
-                {/*</Box>*/}
-                {/*<Box width={125} m={8}>*/}
-                {/*    <Text textDecoration={'none'}*/}
-                {/*          color={'#faf14b'}*/}
-                {/*          fontSize={'25'}*/}
-
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}*/}
-                {/*    >*/}
-                {/*        评论量*/}
-                {/*    </Text>*/}
-                {/*    <Text color={'#161616'}*/}
-                {/*          fontSize={'20'}*/}
-                {/*          m={8}*/}
-                {/*          mt={10}*/}
-                {/*          whiteSpace={'normal'}*/}
-                {/*          align={'center'}>{property.para[3]}</Text>*/}
-
-                {/*</Box>*/}
-            {/*</HStack>*/}
             <StatGroup mt={10} mb={7} textAlign={'center'}>
                 <Stat>
                     <StatLabel fontFamily={'宋体'}>引用量</StatLabel>
-                    <StatNumber color={'#5808fb'}>345,670</StatNumber>
+                    <StatNumber color={'#5808fb'}>{Pdata.Pcited}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='increase' />
                         23.36%
@@ -137,7 +87,7 @@ function Data() {
 
                 <Stat>
                     <StatLabel fontFamily={'宋体'}>被引用量</StatLabel>
-                    <StatNumber  color={'#650ff8'}>45</StatNumber>
+                    <StatNumber  color={'#650ff8'}>{Pdata.Pbecited}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='decrease' />
                         9.05%
@@ -145,7 +95,7 @@ function Data() {
                 </Stat>
                 <Stat>
                     <StatLabel fontFamily={'宋体'}>收藏量</StatLabel>
-                    <StatNumber color={"#8720ef"}>345,670</StatNumber>
+                    <StatNumber color={"#8720ef"}>{Pdata.Pcollected}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='increase' />
                         23.36%
@@ -154,7 +104,7 @@ function Data() {
 
                 <Stat>
                     <StatLabel fontFamily={'宋体'}>评论量</StatLabel>
-                    <StatNumber color={"#9929ea"}>45</StatNumber>
+                    <StatNumber color={"#9929ea"}>{Pdata.Pcomment}</StatNumber>
                     <StatHelpText>
                         <StatArrow type='decrease' />
                         9.05%
@@ -167,7 +117,7 @@ function Data() {
                     领域
                 </Text>
                 <UnorderedList mt={2} color={'#7551FF'}>
-                    {property.fields.map((value, key) => {
+                    {Fields.field.map((value, key) => {
                         return(<ListItem key={key}><Link href={'/'}> {value}
                         </Link></ListItem>)
                     })}

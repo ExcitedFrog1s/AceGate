@@ -28,7 +28,7 @@ function PaperDetails() {
     let navigate = useNavigate()
     const [infos,setInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
-    const getPID = () => parse(window.location.href.split('/')[2]);
+    let UID = window.localStorage.getItem('userToken')
     // console.log(getPID())
     let PID
     if(params.has('PID')) {
@@ -38,14 +38,19 @@ function PaperDetails() {
         PID = 0
     }
 
+
     params.set('PID',PID)
-    navigate('/paperDetails?' + params.toString())
+    // navigate('/paperDetails?' + params.toString())
 
     React.useEffect( () => {
+        let body = {
+            PID:PID
+        }
+        console.log(body)
         const formData = new FormData()
-        formData.append('PID', "1")
+        formData.append('PID', PID)
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156",formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156", formData)
             .then(function (res){
                 setInfos(res.data)
                 setLoading(false)
@@ -70,9 +75,9 @@ function PaperDetails() {
         <Box>
             <Info infos={infos}/>
             <Abstract ab={infos.Pabstract} kw={infos.Pconcepts}/>
-            <Data/>
-            <Op isstarred={property.isstarred}/>
-            <Reference/>
+            <Data pid={PID}/>
+            <Op  pid={PID}/>
+            <Reference refs={infos.Preferences} rels={infos.Prelated} />
         </Box>
     )
 }
