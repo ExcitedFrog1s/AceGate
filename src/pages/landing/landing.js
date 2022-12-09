@@ -15,7 +15,7 @@ function Landing(){
                 backgroundImage={landing_bg}
                 bgSize='100%'
             >
-                <Header textColor={'white'} />
+                <Header textColor={'white'} isLanding={true} />
                 <VStack
                     spacing={7}
                 >

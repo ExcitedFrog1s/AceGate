@@ -202,7 +202,7 @@ function EditPortal() {
                             label="工作单位"
                             rules={[
                                 {
-                                    required: false,
+                                    required: true,
                                 },
                             ]}
                             style={{
@@ -217,7 +217,7 @@ function EditPortal() {
                             rules={[
                                 {
                                     type: 'email',
-                                    required: false,
+                                    required: true,
                                 },
                             ]}
                             style={{
@@ -231,7 +231,7 @@ function EditPortal() {
                             label="研究领域"
                             rules={[
                                 {
-                                    required: false,
+                                    required: true,
                                 },
                             ]}
                             style={{
@@ -278,6 +278,7 @@ function EditPortal() {
                                 style={saveStyle}
                                 onMouseEnter={handleMouseEnterSave}
                                 onMouseLeave={handleMouseLeaveSave}
+                                onClick={() => message.success('修改成功!')}
                             >
                                 保存
                             </Button>

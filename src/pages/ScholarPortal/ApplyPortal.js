@@ -1,10 +1,21 @@
 import 'antd/dist/antd.variable.min.css';
 import Info from './info';
-import { ConfigProvider, Typography, Layout, Menu, Button, Divider, Steps, message, Input, Col, Row} from 'antd';
-import { FormOutlined, CheckCircleOutlined, IdcardOutlined, CheckCircleFilled} from '@ant-design/icons';
+import { ConfigProvider, Typography, Layout, Menu, Button, Divider, Steps, message, Input, Col, Row, Radio, Space, Card} from 'antd';
+import {
+    FormOutlined,
+    CheckCircleOutlined,
+    IdcardOutlined,
+    CheckCircleFilled,
+    HomeOutlined,
+    BulbOutlined,
+    MailOutlined,
+    LinkOutlined,
+    FileOutlined
+} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import ResultCard from "../serach_results/result_card";
 const { Header, Content, Footer} = Layout;
 const { Title, Paragraph, Text} = Typography;
 
@@ -22,7 +33,62 @@ ConfigProvider.config({
     },
 });
 
-function Portal() {
+function ApplyPortal() {
+    // const {portalList} = props;
+    const portalList = [
+        {
+            key: '1',
+            name: 'name',
+            id: 'id1',
+            email: 'email1',
+            institution: 'institution1',
+            area: 'area1',
+            papers: 10,
+            cites: 10,
+        },
+        {
+            key: '2',
+            name: 'name',
+            id: 'id2',
+            email: 'email2',
+            institution: 'institution2',
+            area: 'area2',
+            papers: 10,
+            cites: 10,
+        },
+        {
+            key: '3',
+            name: 'name',
+            id: 'id3',
+            email: 'email3',
+            institution: 'institution3',
+            area: 'area3',
+            papers: 10,
+            cites: 10,
+        }
+    ];
+    const [value, setValue] = useState(1);
+    const onChange = (e) => {
+        console.log('radio checked', e.target.value);
+        setValue(e.target.value);
+    };
+
+    // page2 hover create portal
+    const [createIsHover, setCreateIsHover] = useState(false)
+    const handleMouseEnterCreate = () => {
+        setCreateIsHover(true)
+    }
+    const handleMouseLeaveCreate = () => {
+        setCreateIsHover(false);
+    }
+    const createStyle = {
+        color: createIsHover ? '#8484f1' : '#3a3af1',
+        textDecoration: createIsHover ? 'underline' : 'none',
+        margin: '0 0 0 20px',
+        fontSize: '16px',
+    }
+
+    // page
     const [current, setCurrent] = useState(0);
     const next = () => {
         setCurrent(current + 1);
@@ -54,24 +120,149 @@ function Portal() {
             />,
             content: (
                 <div>
-                    <Text
+                    <Row>
+                        <Text
+                            style={{
+                                fontSize: '20px',
+                                paddingBottom: '25px',
+                            }}
+                        >
+                            已根据您的姓名检索出以下门户，请选择：
+                        </Text>
+                    </Row>
+                    <div
                         style={{
-                            fontSize: '20px',
+                            width: '100%',
+                            overflow: 'auto',
                         }}
                     >
-                        已根据您的姓名检索出以下门户，请选择：
-                    </Text>
-
+                        <Radio.Group
+                            onChange={onChange}
+                            value={value}
+                            defaultValue={1}
+                            style={{
+                                width: '100%',
+                                overflow: 'auto',
+                            }}
+                        >
+                            <Space direction="vertical">
+                                {
+                                    portalList.map((value,key) => {
+                                        return (
+                                            <Radio
+                                                value={value.key}
+                                                style={{
+                                                    padding: '5px 20px 15px 20px',
+                                                    width: '100%',
+                                                    overflow: 'auto',
+                                                }}
+                                            >
+                                                <Card
+                                                    hoverable={true}
+                                                    style={{
+                                                        width: '80vh',
+                                                        height: '22vh',
+                                                        overflow: 'auto',
+                                                        margin: '0 0 0 20px',
+                                                    }}
+                                                >
+                                                    <Row>
+                                                        <Typography>
+                                                                <Title level={2}>
+                                                                    {value.name}
+                                                                </Title>
+                                                                <HomeOutlined/>
+                                                                <Text> </Text>
+                                                                <Text>
+                                                                    {value.institution}
+                                                                </Text>
+                                                        </Typography>
+                                                        <Divider
+                                                            type={"vertical"}
+                                                            style={{
+                                                                height: '15vh',
+                                                                overflow: 'auto',
+                                                                margin: '0 20px 0 20px',
+                                                            }}
+                                                        />
+                                                        <Typography>
+                                                            <Row>
+                                                                <Space>
+                                                                    <BulbOutlined />
+                                                                    <Text> </Text>
+                                                                </Space>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: '16px',
+                                                                    }}
+                                                                >{value.area}</Text>
+                                                            </Row>
+                                                            <Row>
+                                                                <Space>
+                                                                    <MailOutlined />
+                                                                    <Text> </Text>
+                                                                </Space>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: '16px',
+                                                                    }}
+                                                                >{value.email}</Text>
+                                                            </Row>
+                                                            <Row>
+                                                                <Space>
+                                                                    <FileOutlined />
+                                                                    <Text> </Text>
+                                                                </Space>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: '16px',
+                                                                    }}
+                                                                >共发表论文{value.papers}篇</Text>
+                                                            </Row>
+                                                            <Row>
+                                                                <Space>
+                                                                    <LinkOutlined />
+                                                                    <Text> </Text>
+                                                                </Space>
+                                                                <Text
+                                                                    style={{
+                                                                        fontSize: '16px',
+                                                                    }}
+                                                                >共计被引用{value.cites}次</Text>
+                                                            </Row>
+                                                        </Typography>
+                                                    </Row>
+                                                </Card>
+                                            </Radio>
+                                        )
+                                    })
+                                }
+                                <Radio
+                                    value={0}
+                                    style={{
+                                        padding: '10px 20px 10px 20px',
+                                        width: '100%',
+                                        overflow: 'auto',
+                                    }}
+                                >
+                                    <Text
+                                        style={createStyle}
+                                        onMouseEnter={handleMouseEnterCreate}
+                                        onMouseLeave={handleMouseLeaveCreate}
+                                    >
+                                        没有我的门户？创建一个
+                                    </Text>
+                                </Radio>
+                            </Space>
+                        </Radio.Group>
+                    </div>
                 </div>
             ),
         },
         {
             title: '完成',
             status: 'wait',
-            icon: <CheckCircleOutlined
-                    // style={{
-                    //     color: current>1 ? '#3a3af1' : undefined }}
-                />,
+            icon: <CheckCircleOutlined />,
             content: (
                 <div>
                     <Row>
@@ -80,6 +271,7 @@ function Portal() {
                                 fontSize: '100px',
                                 color: '#50af78',
                                 margin: "auto",
+                                marginTop: '30px',
                             }}
                         />
                     </Row>
@@ -99,6 +291,7 @@ function Portal() {
                             style={{
                                 fontSize: '16px',
                                 margin: "auto",
+                                marginBottom: '40px',
                             }}
                         >
                             您的申请将于3天内由管理员审核，请耐心等待。
@@ -175,6 +368,7 @@ function Portal() {
                                         // backgroundColor: '#3a3af1',
                                         border: 'none',
                                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                                        marginBottom: '20px',
                                     }}
                                 >
                                     下一步
@@ -191,6 +385,7 @@ function Portal() {
                                         size="large"
                                         style={{
                                             margin: '0 10px',
+                                            marginBottom: '20px',
                                         }}
                                         onClick={() => prev()}
                                     >
@@ -203,6 +398,7 @@ function Portal() {
                                         size="large"
                                         style={{
                                             border: 'none',
+                                            marginBottom: '20px',
                                         }}
                                     >
                                         确定
@@ -227,6 +423,7 @@ function Portal() {
                                         size="large"
                                         style={{
                                             border: 'none',
+                                            marginBottom: '20px',
                                         }}
                                     >
                                         返回
@@ -248,4 +445,4 @@ function Portal() {
         </Layout>
     );
 }
-export default Portal;
+export default ApplyPortal;

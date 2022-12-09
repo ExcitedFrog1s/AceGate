@@ -1,5 +1,5 @@
 //
-// Created by zyc on 2022/11/12.
+// Created by zyc on 2022/12/09.
 //
 
 import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
@@ -7,8 +7,9 @@ import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
 import * as React from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import axios from "axios";
 
-function TimeRangeFilter(props) {
+function AdvancedSearchTimeRangeFilter(props) {
     const [start_time,setStartTime] = useState('1900')
     const [end_time,setEndTime] = useState('2022')
 
@@ -48,7 +49,7 @@ function TimeRangeFilter(props) {
     )
 }
 
-function PublicationTypesFilter(props) {
+function AdvancedSearchPublicationTypesFilter(props) {
     let len = props.content.length
 
     const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
@@ -95,7 +96,7 @@ function PublicationTypesFilter(props) {
     )
 }
 
-function AuthorsFilter(props) {
+function AdvancedSearchAuthorsFilter(props) {
     let len = props.content.length
 
     const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
@@ -142,7 +143,7 @@ function AuthorsFilter(props) {
     )
 }
 
-function Filter(props) {
+function AdvancedSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState(new Array(props.filterInfos.publicationTypes.length).fill(true))
     const [authors,setAuthors] = useState(new Array(props.filterInfos.authors.length).fill(true))
     const [startTime,setStartTime] = useState("1900")
@@ -171,25 +172,24 @@ function Filter(props) {
                 publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
             }
         }
-        params.set('startTime',startTime)
-        params.set('endTime',endTime)
-        if(!publicationTypes.every((e) => {return e})) {
-            params.set('publicationTypes',publicationTypesArray.join(','))
-        }
-        else {
-            if(params.has('publicationTypes')) {
-                params.delete('publicationTypes')
-            }
-        }
-        if(!authors.every((e) => {return e})) {
-            params.set('authors',authorsArray.join(','))
-        }
-        else {
-            if(params.has('authors')) {
-                params.delete('authors')
-            }
-        }
-        navigate('/searchResults?' + params.toString())
+        let formData = new FormData
+        formData.append("normalSearch",params.get("q"))
+        formData.append("startTime",startTime)
+        formData.append("endTime",endTime)
+        formData.append("filterAuthors",authorsArray)
+        formData.append("filterPublicationTypes",publicationTypesArray)
+        props.setLoading(true)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
+            .then(res => {
+                props.setInfos(res.data.results)
+                props.setFilterInfos(res.data.filterItems)
+                props.setCurrentPageIndex(1)
+                setAuthors(new Array(props.filterInfos.authors.length).fill(true))
+                setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
+                setStartTime("1900")
+                setEndTime("2022")
+                props.setLoading(false)
+            })
     }
 
     return(
@@ -216,22 +216,22 @@ function Filter(props) {
                     {'筛选'}
                 </Button>
             </Box>
-            <TimeRangeFilter
+            <AdvancedSearchTimeRangeFilter
                 setStartTime={setStartTime}
                 setEndTime={setEndTime}
             />
-            <PublicationTypesFilter
+            <AdvancedSearchPublicationTypesFilter
                 content={props.filterInfos.publicationTypes}
                 totalNumber={props.filterInfos.totalNumber}
                 setPublicationTypes={setPublicationTypes}
             />
-            <AuthorsFilter
-            content={props.filterInfos.authors}
-            totalNumber={props.filterInfos.totalNumber}
-            setAuthors={setAuthors}
+            <AdvancedSearchAuthorsFilter
+                content={props.filterInfos.authors}
+                totalNumber={props.filterInfos.totalNumber}
+                setAuthors={setAuthors}
             />
         </Box>
     )
 }
 
-export default Filter
+export default AdvancedSearchFilter
