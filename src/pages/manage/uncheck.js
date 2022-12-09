@@ -15,16 +15,19 @@ function CheckList() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const toast = useToast();
+    const getData = ()=>{
+      axios({
+        method: "post",
+        url:"https://mock.apifox.cn/m1/1955876-0-default/manage/unchecklist"
+      })
+      .then(res => {
+          console.log(res.data)
+          setData(res.data)
+        }
+      )
+    }
     useEffect(() => {
-      const getData = ()=>{
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/manage/unchecklist")
-        .then(res => {
-            console.log(res.data)
-            setData(res.data)
-          }
-        )
-      }
-      getData()
+      getData();
     }, [])
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
@@ -189,6 +192,7 @@ function CheckList() {
             })
             setContent("");
             setIsModalOpen(false);
+            getData();
           })
       };
       const handleCancel = () => {
@@ -226,7 +230,7 @@ function CheckList() {
         dataIndex: 'AAtype',
         key: 'AAtype',
         render: (_, record)=>(
-          record.AAtype == 1 && <Tag color='blue'>认领</Tag> || record.AAtype == 2 && <Tag color='blue'>新建</Tag>
+          record.AAtype == 1 && <Tag color='purple'>认领</Tag> || record.AAtype == 2 && <Tag color='blue'>新建</Tag>
         )
       },
       {

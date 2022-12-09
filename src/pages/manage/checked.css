@@ -43,3 +43,9 @@
 .checked .css-1eu8csq{
     background-color: #3A3AF1 !important;
 }
+.checked .count{
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}

@@ -6,7 +6,6 @@ import { Menu } from "antd";
 import { Outlet, useNavigate } from 'react-router-dom'
 import React from "react";
 import { Layout } from "antd";
-import './left.css'
 
 const { Header, Sider, Content } = Layout;
 
