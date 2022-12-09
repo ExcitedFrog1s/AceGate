@@ -47,8 +47,8 @@ const default_router = createBrowserRouter([
       element: <DefaultSearchResults />
     },
     {
-        path: '/advancedSearchResults',
-        element: <AdvancedSearchResults />
+        path: '/advancedSearch',
+        element: <AdvancedSearch />
     },
     {
         path: '/journal',
