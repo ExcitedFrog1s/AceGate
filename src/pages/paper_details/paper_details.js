@@ -5,13 +5,14 @@ import Abstract from "./paper_abstract";
 import Data from "./paper_data";
 import Op from "./paper_op"
 import Reference from "./paper_reference";
-import moment from "moment";
-import {Box, HStack, Link, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
+import moment, {parse} from "moment";
+import {Box, HStack, Link, Spinner, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
 import {Spin} from "antd";
+import "./test.css"
 
 function PaperDetails() {
     const property = {
@@ -23,11 +24,12 @@ function PaperDetails() {
     }
     const [infos,setInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
-
+    const getPID = () => parse(window.location.href.split('/')[2]);
+    // console.log(getPID())
     React.useEffect( () => {
         const formData = new FormData()
         formData.append('PID', "1")
-        console.log(formData)
+        // console.log(formData)
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156",formData)
             .then(function (res){
                 setInfos(res.data)
@@ -37,27 +39,35 @@ function PaperDetails() {
     // console.log(infos["Pname"])
     if(isLoading) {
         return (
-            <Spin tip={"加载中"}/>
+            <Spinner
+                ml={'45%'}
+                mt={'25%'}
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />
         )
     }
-    console.log(infos)
+    // console.log(infos)
     return(
         <Box>
             <Info infos={infos}/>
-            <Abstract/>
+            <Abstract ab={infos.Pabstract} kw={infos.Pconcepts}/>
             <Data/>
             <Op isstarred={property.isstarred}/>
             <Reference/>
         </Box>
     )
 }
-function Authors({prop}){
+function Authors(prop){
     const property = {
         authors: ["Maple826","AboveParadise","euphoria"],
     }
-    // console.log(prop)
+    console.log(prop)
     return (
-        property.authors.map((value, key) => {
+        prop.Pauthor.map((value, key) => {
             return (
                 <Link key={key} href={'/'} fontSize={15}
                       textDecoration={'none'}
@@ -79,16 +89,7 @@ function Info(prop){
         date: moment("20070112").format('YYYY-MM-DD'),
         tags:['jdg', '马克思', 'lggggg'],
     }
-    // const [p,setP] = React.useState()
-    // const [title,setTitle] = React.useState()
-    // const [date,setDate] = React.useState()
-    // const [source,setSource] = React.useState()
-    // console.log(prop.infos)
-    // setP(prop.infos)
-    // // setTitle(prop.infos.Pname)
-    // // setDate(prop.infos.Pdate)
-    // // setSource(prop.infos.P_Vname)
-    // console.log(p)
+
     return(
         <Box ml={'3%'} mb={5}>
             <Box>
@@ -101,11 +102,11 @@ function Info(prop){
                     {prop.infos.Pdate}
                 </Text>
                 <Text fontFamily={'宋体'} fontSize={17}>
-                    {property.source}
+                    {prop.infos.P_Vname}
                 </Text>
             </HStack>
 
-            <Authors prop={prop}/>
+            <Authors Pauthor={prop.infos.Pauthor}/>
 
         </Box>
     )

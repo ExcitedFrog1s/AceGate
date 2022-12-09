@@ -33,8 +33,6 @@ function Title({title}) {
 
 
                 <Text noOfLines={1} padding={'30px'}>
-
-
                     {title}
                 </Text>
             </Link>
