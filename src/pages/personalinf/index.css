@@ -7,8 +7,9 @@
     padding-bottom: 12px;
     margin-top: 20px;
     margin-bottom: 20px;
-    margin-left: 300px;
+    margin-left: 220px;
     margin-right: 300px;
+    width: 855px;
 }
 
 
@@ -82,7 +83,7 @@
 
 
 .input1{
-    width: 230px;
+    width: 400px;
     height: 30px;
     color: #333;
     outline: none;
