@@ -58,7 +58,7 @@ function Sort(props) {
     };
 
     return(
-        <Box float={'right'} mr={'15%'} mt={'-50'} >
+        <Box float={'right'} mr={'19%'} mt={'-50'} >
             <Select
                 onChange={handleChange}
                 style={{width:120}}

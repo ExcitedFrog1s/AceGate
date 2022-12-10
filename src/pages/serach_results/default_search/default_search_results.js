@@ -12,6 +12,7 @@ import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import DefaultSearchFilter from "../default_search/default_search_filter";
+import Recommendation from "./recommendation";
 
 
 
@@ -50,7 +51,7 @@ function Sort(props) {
     };
 
     return(
-        <Box float={'right'} mr={'20%'} mt={'-50'}>
+        <Box float={'right'} mr={'21%'} mt={'-50'}>
             <Select
                 onChange={handleChange}
                 style={{width:120}}
@@ -82,6 +83,7 @@ function Sort(props) {
 function DefaultSearchResults(props) {
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
+    const [recommendationInfos,setRecommendationInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
     const [authorsArray,setAuthorArray] = React.useState()
@@ -115,6 +117,7 @@ function DefaultSearchResults(props) {
             .then(res => {
                 setInfos(res.data.results)
                 setFilterInfos(res.data.filterItems)
+                setRecommendationInfos(res.data.recommendation)
                 setCurrentPageIndex(1)
                 setLoading(false)
             })
@@ -173,7 +176,6 @@ function DefaultSearchResults(props) {
         card_index_min = paper_show_num_per_page * (current_page_index - 1)
         card_index_max = paper_show_num_per_page * (current_page_index) - 1
     }
-
     return(
         <Box>
             {/*<Header textColor={'black'} />*/}
@@ -189,6 +191,7 @@ function DefaultSearchResults(props) {
                 setEndTime={setEndTime}
                 filterInfos={filterInfos}
             />
+            <Recommendation recommendation={recommendationInfos}/>
             <Box>
                 <Input
                     size='lg'
@@ -210,7 +213,7 @@ function DefaultSearchResults(props) {
                     endTime={endTime}
                 />
                 {/*论文卡片*/}
-                <Box mt={'200'}>
+                <Box mt={'200'} ml={'-60px'}>
                     {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {
