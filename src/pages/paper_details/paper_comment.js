@@ -4,20 +4,48 @@
 import * as React from 'react';
 import {FaHeart, FaRegHeart} from 'react-icons/fa'
 import PropTypes from 'prop-types';
-import {Box,HStack,Text,Link,VStack,Icon} from "@chakra-ui/react";
+import {
+    Box,
+    HStack,
+    Text,
+    Link,
+    VStack,
+    Icon,
+    Input,
+    Button,
+    Textarea,
+    Spinner,
+    Alert,
+    AlertIcon
+} from "@chakra-ui/react";
 import {useEffect, useReducer, useState} from "react";
 import {AiFillStar, AiOutlineStar} from "react-icons/ai";
-function Heart({state}){
-    const [isClick, setIsClick] = useState(state)
-
-
+import axios from "axios";
+function Heart(prop){
+    const [isClick, setIsClick] = useState(prop.state)
     const handleMouseDown = () => {
-        if(isClick) {
-            setIsClick(false)
-        }
-        else {
-            setIsClick(true)
-        }
+        // 点赞/取消点赞
+        const formData = new FormData()
+        formData.append('CID', prop.CID)
+        // console.log(formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53379528",formData)
+            .then(function (res){
+                if(res.status !== 200){
+                    return (
+                        <Alert status='error'>
+                            <AlertIcon />
+                            操作失败！
+                        </Alert>)
+                }
+                else{
+                    if(isClick) {
+                        setIsClick(false)
+                    }
+                    else {
+                        setIsClick(true)
+                    }
+                }
+            })
     }
 
     const Style = {
@@ -36,10 +64,8 @@ function Heart({state}){
             {!isClick && <Icon as={FaRegHeart} onMouseDown={handleMouseDown} style={Style}/>}
         </Box>
     )
-    // {initialState[key] && <Icon as={FaHeart} color={'red'} onMouseDown={()=>HandleMouseDown(key)} />}
-    // {!initialState[key] && <Icon as={FaRegHeart}  onMouseDown={()=>HandleMouseDown(key)} />}
 }
-function Comment() {
+function Comment(prop) {
     const property = {
         comments:[{author:"lily史密斯",
             like_num:5,
@@ -57,19 +83,78 @@ function Comment() {
         float: 'right',
     }
     let initialState = {};
+    const [comments,setComs] = React.useState()
+    const [isLoading, setLoading] = React.useState(true)
     property.comments.map((value, key1) => {
         initialState[key1] = value.liked;
 
     })
+    let [value, setValue] = React.useState('')
+    React.useEffect( () => {
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        formData.append('UID', window.localStorage.getItem('userToken'))
+        // console.log(formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53289067",formData)
+            .then(function (res){
+                setComs(res.data.comments)
+                setLoading(false)
+            })
+    },[])
 
+    if(isLoading) {
+        return (
+            <Spinner
+                ml={'45%'}
+                mt={'25%'}
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />
+        )
+    }
+    let handleInputChange = (e) => {
+        let inputValue = e.target.value
+        setValue(inputValue)
+    }
+    // 新增评论
+    const NewComment = () => {
+
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53293860",formData)
+            .then(function (res){
+                if(res.status !== 200){
+                    return (
+                        <Alert status='error'>
+                            <AlertIcon />
+                            评论失败！
+                        </Alert>)
+                }
+                else{
+                    formData.append('UID', window.localStorage.getItem('userToken'))
+                    // console.log(formData)
+                    axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53289067",formData)
+                        .then(function (res){
+                            setComs(res.data.comments)
+                            setLoading(false)
+                        })
+                }
+            })
+    }
+    console.log(value)
     return(
+        <>
         <VStack >{
 
-            property.comments.map((value, key) => {
+            comments.map((value, key) => {
                 return (
                     <Box
                         key={key}
-                        height={'120'}
+                        minH={'120'}
                         width={'90%'}
                         borderWidth={'5'}
                         borderRadius={'12'}
@@ -80,34 +165,44 @@ function Comment() {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link href={'/'} ml={4}  color={'#3311DB'} fontSize={20}>{value.author}</Link>
+                                <Link href={'/'} ml={4}  color={'#3311DB'} fontSize={20}>{value.Uname}</Link>
 
                                 <Text color={'#7551FF'}>
-                                    {value.like_num}点赞
+                                    {value.Clikes}点赞
                                 </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
                                     {/*</Text>*/}
                                 <Text color={'#0b1075'}  align={'right'}>
-                                        {value.date}
+                                        {value.Ctime}
                                 </Text>
                                 </HStack>
                             </Box>
                             <Box style={s} float={'right'}>
-                                <Heart state={value.liked}/>
+                                <Heart state={value.like} CID={value.CID}/>
                             </Box>
 
                         </HStack>
-                        <Text ml={5} mt={4} color={'gray'}>
-                            {value.comment}
+                        <Text ml={5} mt={4} mb={5} color={'gray'}>
+                            {value.content}
                         </Text>
                     </Box>
 
                 );
             })}
         }
-        </VStack>
 
+
+        </VStack>
+        <Box ml={9} mt={30} width={'90%'} size='lg'>
+            <Textarea placeholder='请发表你的见解' value={value} fontFamily={'宋体'}
+                      onChange={handleInputChange}/>
+            <Button mt={5} onClick={NewComment} ml={'90.5%'} color={"white"} fontFamily={'宋体'}
+                    colorScheme='purple' bgColor={'#7551FF'}>
+                发布
+            </Button>
+        </Box>
+        </>
     )
 }
 export default Comment

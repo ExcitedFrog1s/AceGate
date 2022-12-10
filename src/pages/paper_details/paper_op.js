@@ -27,7 +27,7 @@ import {
     ListItem,
     Link,
     HStack,
-    InputGroup, Input, InputRightElement, Divider, InputLeftElement, Alert, AlertIcon, Tooltip
+    InputGroup, Input, InputRightElement, Divider, InputLeftElement, Alert, AlertIcon, Tooltip, Spinner
 } from "@chakra-ui/react";
 import React from "react";
 import { MdFileDownload } from 'react-icons/md'
@@ -37,20 +37,23 @@ import {BsLink45Deg} from 'react-icons/bs'
 import {useEffect, useState} from "react";
 import {AddIcon} from "@chakra-ui/icons";
 import {None} from "framer-motion";
-function Cite() {
-    const property = {
-
-    }
+import axios from "axios";
+function Cite(prop) {
     const Style = {
         cursor: 'pointer',
     }
     const { isOpen, onOpen,  onToggle, onClose } = useDisclosure()
+    const formData = new FormData()
+    formData.append('PID', prop.pid)
 
+    axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53125874",formData)
+        .then(function (res){
+
+        })
     return (
         <>
             <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
                 <span><Icon as={RiDoubleQuotesR} onClick={onOpen} mr={15} style={Style}/></span>
-
             </Tooltip>
 
             <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
@@ -59,7 +62,11 @@ function Cite() {
                     <ModalHeader textAlign={'center'}>引用</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-
+                        <HStack>
+                            <Text>
+                                GB/T 7714-2015 格式引文
+                            </Text>
+                        </HStack>
                     </ModalBody>
 
                     <ModalFooter>
@@ -84,7 +91,27 @@ function Newfav() {
                 clearInterval(test);
             };
         }
-        console.log(value);
+        else{
+            const formData = new FormData()
+            formData.append('CTname', value)
+
+            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=54115224",formData)
+                .then(function (res){
+                    if(res.status !== 200){
+                        return (
+                            <Alert status='error'>
+                                <AlertIcon />
+                                新建失败！
+                            </Alert>)
+                    }
+                })
+            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53124605",formData)
+                .then(function (res){
+
+                })
+            console.log(value);
+        }
+
     }
     const [vis, setVis] = useState(false)
     const [value, setValue] = React.useState('')
@@ -112,9 +139,22 @@ function Newfav() {
         </>
     )
 }
-function Starred({property}){
-    const { isOpen, onOpen,  onToggle} = useDisclosure()
+function Starred(prop){
+    const property = {
+        abs:'摘要',
+        kw:'关键词：',
+        keywords: ["马克思","中国化","方法论"],
+        abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现，谁到了副科级司法局萨克冷冻机房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键"
+        ,
+        favorite:[{name:"默认收藏夹",nums:71},{name:"test",nums: 12},{name:"myfav",nums: 12}],
+        defaultfav:["默认收藏夹"],
+        newfav:[],
+
+    }
+    const { isOpen, onOpen, onToggle, } = useDisclosure()
     const [changed, setChanged] = useState(false)
+    const [infos,setInfos] = React.useState()
+    const [isLoading, setLoading] = React.useState(true)
     const Style = {
         cursor: 'pointer',
     }
@@ -122,6 +162,27 @@ function Starred({property}){
         width:'100%',
         marginLeft:'10%',
     }
+    let isstarred = false
+    // if(prop.pc !== undefined){
+    //     setLoading(false)
+    // }
+    // else{
+    //     return (
+    //         <Spinner ml={'45%'} mt={'25%'} thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500'
+    //             size='xl'
+    //         />)
+    // }
+    React.useEffect( () => {
+        if(prop.pc.length !== 0){
+            isstarred = true
+        }
+        else{
+            isstarred = false
+            // onClose()
+        }
+    },[])
+
+
     const Change = (value) => {
         // 数组元素先按字符升序排序再转成字符串比较是否和初始状态相同
         let a = value.sort((p, q) =>
@@ -153,11 +214,11 @@ function Starred({property}){
     }
     return (
         <>
-        {!isOpen && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+        {isstarred && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
             <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
 
         </Tooltip>}
-        {isOpen && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+        {!isstarred && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
             <span><Icon as={AiFillStar} mr={15} onClick={onOpen} style={Style}/></span>
 
         </Tooltip>}
@@ -206,7 +267,7 @@ function Starred({property}){
         </>
     )
 }
-function Op({isstarred}) {
+function Op(prop) {
     const property = {
         abs:'摘要',
         kw:'关键词：',
@@ -216,16 +277,52 @@ function Op({isstarred}) {
         favorite:[{name:"默认收藏夹",nums:71},{name:"test",nums: 12},{name:"myfav",nums: 12}],
         defaultfav:["默认收藏夹"],
         newfav:[],
-        isstarred:isstarred,
+
     }
     const Style = {
         cursor: 'pointer',
         }
-
+    const [All,setAll] = React.useState()
+    const [Pc,setPc] = React.useState()
+    const [isLoading, setLoading] = React.useState(true)
     const download = () => {
         // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
     }
+    let isstarred = false
+    React.useEffect( () => {
 
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        formData.append('UID', window.localStorage.getItem('userToken'))
+        // console.log(formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53124605", formData)
+            .then(function (res){
+                setAll(res.data.AllCollected)
+                setPc(res.data.PaperCollected)
+                console.log("666",res.data)
+                setLoading(false)
+            })
+    },[])
+    if(!isLoading){
+        if(Pc.length !== 0){
+            isstarred = true
+        }
+        else{
+            isstarred = false
+        }
+    }
+    else{
+        return (
+            <Spinner
+                ml={'45%'}
+                mt={'25%'}
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />)
+    }
     return(
 
         <Box borderWidth={'5'} marginLeft={'4.5%'} mt={320} fontSize={25} position={'relative'}>
@@ -236,8 +333,8 @@ function Op({isstarred}) {
                 </span>
             </Tooltip>
 
-            <Cite/>
-            <Starred property={property}/>
+            <Cite pid={prop.pid}/>
+            <Starred pc={Pc}/>
 
             <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
                 <span>
