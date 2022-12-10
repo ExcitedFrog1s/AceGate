@@ -215,7 +215,7 @@ function DefaultSearchResults(props) {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {
                                 return (
-                                    <ResultCard props={value} />
+                                    <ResultCard infos={value} />
                                 )
                             }
                             return <></>

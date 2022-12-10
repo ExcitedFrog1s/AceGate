@@ -1,6 +1,6 @@
 import * as React from 'react'
 import PubSub from 'pubsub-js';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
 
 import { DatePicker} from 'antd';
@@ -30,24 +30,26 @@ moment.locale('zh-cn')
 
 const { RangePicker } = DatePicker;
 
-function Search({}) {
-    const [dataList, setDataList] = React.useState([
-    {
-        category: 'main',
-        content: "",
-        type: 1,
-    },
-    {
-        category: 'author',
-        content: "",
-        type: 1,
-    },
-    {
-        category: 'source',
-        content: "",
-        type: 1,
-    }]);
-
+function Search() {
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let initState = [
+        {
+            category: 'main',
+            content: "",
+            type: 1,
+        },
+        {
+            category: 'author',
+            content: "",
+            type: 1,
+        },
+        {
+            category: 'source',
+            content: "",
+            type: 1,
+        }];
+    const [dataList,setDataList] = React.useState(initState)
     const [startTime, setStartTime] = React.useState();
     const [endTime, setEndTime] = React.useState();
     const [timeValue, setTimeValue] = React.useState();
@@ -102,6 +104,29 @@ function Search({}) {
         };
         PubSub.publish('PubParams', params);
     }
+
+
+    React.useEffect(() => {
+        if(params.has('label')) {
+            setDataList([
+                {
+                    category: 'PsystemTags',
+                    content: params.get('label'),
+                    type: 1
+                }
+            ])
+            PubSub.publish('PubParams', {
+                dataList: [
+                    {
+                        category: 'PsystemTags',
+                        content: params.get('label'),
+                        type: 1
+                    }],
+                startTime: startTime,
+                endTime: endTime
+            });
+        }
+    }, [])
 
     return(
         <Box boxShadow='2xl' rounded='md'
@@ -162,14 +187,15 @@ function Search({}) {
                                 setDataList([...dataList]);
                             }}>
                             <option value='main'>篇关摘</option>
-                            <option value='title'>篇名</option>
-                            <option value='abstract'>摘要</option>
-                            <option value='keyword'>关键词</option>
-                            <option value='author'>作者</option>
-                            <option value='institute'>作者机构</option>
-                            <option value='field'>领域</option>
+                            <option value='Pname'>篇名</option>
+                            <option value='Pabstract'>摘要</option>
+                            <option value='Pconcepts'>关键词</option>
+                            <option value='Pauthor'>作者</option>
+                            <option value='Iname'>作者机构</option>
+                            <option value='Cname'>领域</option>
                             <option value='source'>论文来源</option>
                             <option value='DOI'>DOI</option>
+                            <option value='PsystemTags'>标签</option>
                         </Select>
                     </Col>
                     <Col span={14} offset={1}>
@@ -295,10 +321,10 @@ function AdvancedSearch({}) {
             </Row>
             <Row>
                 <Col span={17}>
-                    <Search ></Search>
+                    <Search/>
                 </Col>
                 <Col span={6} style={{marginLeft:'40px'}}>
-                    <Description></Description>
+                    <Description />
                 </Col>
             </Row>
                 <AdvancedSearchResults/>

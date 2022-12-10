@@ -5,6 +5,9 @@
 import {Box, Link, Text,Tag} from '@chakra-ui/react'
 import {useState} from "react"
 import {AiFillStar,AiOutlineStar} from "react-icons/ai"
+import * as React from 'react';
+import PubSub from "pubsub-js";
+import {useNavigate} from "react-router-dom";
 
 function Title({title}) {
     const [isHover, setIsHover] = useState(false)
@@ -154,7 +157,7 @@ function Content({content}) {
     )
 }
 
-function Label({label,key}) {
+function Label(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -163,6 +166,10 @@ function Label({label,key}) {
 
     const handleMouseLeave = () => {
         setIsHover(false);
+    }
+
+    const handleClick = () => {
+        window.open('/advancedSearch?label=' + props.label)
     }
 
     const labelBoxStyle = {
@@ -174,20 +181,26 @@ function Label({label,key}) {
     }
 
     return(
-        <Link href={'/'} fontSize={'17px'} textDecoration={'none'} textColor={'blue'}>
-            <Tag style={labelBoxStyle} key={key} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-                {label}
+        <Link fontSize={'17px'} textDecoration={'none'} textColor={'blue'}>
+            <Tag
+                style={labelBoxStyle}
+                key={props.key}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+            >
+                {props.label}
             </Tag>
         </Link>
     )
 }
 
-function Labels({labels}) {
+function Labels(props) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'标签'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'领域'}</Text>
             {
-                labels.map((value, key) => {
+                props.labels.map((value, key) => {
                     return (
                         <Label label={value} key={key}/>
                     )
@@ -240,7 +253,7 @@ function Operations({props}) {
     )
 }
 
-function ResultCard({props}) {
+function ResultCard(props) {
     return(
         <Box
             minHeight={'330'}
@@ -254,12 +267,12 @@ function ResultCard({props}) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.Pname}/>
-            <Authors authors={props.PAuthor}/>
-            <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
-            <Content content={props.Pabstract}/>
-            <Labels labels={props.STname}/>
-            <Operations props={props.isStar}/>
+            <Title title={props.infos.Pname}/>
+            <Authors authors={props.infos.PAuthor}/>
+            <TimeOrgan props={{'time':props.infos.Pdate,'organ':props.IName}}/>
+            <Content content={props.infos.Pabstract}/>
+            <Labels labels={props.infos.PsystemTags}/>
+            <Operations props={props.infos.isStar}/>
         </Box>
     )
 }
