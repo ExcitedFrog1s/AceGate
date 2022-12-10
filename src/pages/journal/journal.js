@@ -3,11 +3,14 @@ import { useRef, useState } from 'react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
 
+import {useLocation, useNavigate} from "react-router-dom";
+
 import {ProjectOutlined, BarsOutlined, BarChartOutlined, KeyOutlined, RedoOutlined} from '@ant-design/icons';
 import { Col, Row } from 'antd';
 import {Table} from 'antd';
 import {Divider} from 'antd'
 
+import {HStack,Tag, TagLabel} from '@chakra-ui/react'
 import { Progress } from '@chakra-ui/react'
 import { Button, Avatar } from '@chakra-ui/react'
 import {Box } from '@chakra-ui/react'
@@ -141,7 +144,6 @@ function PaperAmount(props) {
     )
     const [series, setSeries] = React.useState(
         [{
-            data: [1,2,3,4,5]
         }]
     );
     return(
@@ -418,29 +420,29 @@ function InstitutionList(props) {
             dataIndex: 'Iimage',
             key: 'Iimage',
             render: (_, record) => (
-                <Avatar name={record.Iname} src={record.Iimage} />
+                <Avatar name={record.Pname} src={record.Iimage} />
             ),
             width: 100,
         },{
             title: '',
-            dataIndex: 'Iname',
-            key: 'Iname',
-            ...getColumnSearchProps('Iname'),
-            sorter: (a, b) => a.Iname.localeCompare(b.Iname),
+            dataIndex: 'Pname',
+            key: 'Pname',
+            ...getColumnSearchProps('Pname'),
+            sorter: (a, b) => a.Pname.localeCompare(b.Pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
                 <Link href='/institute' isExternal>
-                    {record.Iname} <ExternalLinkIcon mx='2px' />
+                    {record.Pname} <ExternalLinkIcon mx='2px' />
                 </Link>
             ),
             ellipsis: true,
             width: 400
         },{
             title: '国家',
-            dataIndex: 'Icountry',
-            key: 'Icountry',
-            ...getColumnSearchProps('Icountry'),
-            sorter: (a, b) => a.Icountry.localeCompare(b.Icountry),
+            dataIndex: 'Pauthor',
+            key: 'Pauthor',
+            ...getColumnSearchProps('Pauthor'),
+            sorter: (a, b) => a.Pauthor.localeCompare(b.Pauthor),
             sortDirections: ['descend', 'ascend'],
             width: 180
         },{
@@ -502,6 +504,255 @@ function InstitutionList(props) {
     )
 }    
 
+function PaperList(props) {
+    React.useEffect(() => {
+        var data = props.vid;
+        var config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/venue/paper',
+            headers: { 
+                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
+                'Content-Type': 'application/json'
+            },
+            data : data
+        };
+        axios(config).then( res => {
+            console.log(res.data.papers)
+            setData(res.data.papers)
+            var max = 0
+            res.data.papers.forEach((item)=>{
+                item.author = item.Pauthor[0]
+                item.field = item.PsystemTags[0]
+                if(item.Pcite > max){
+                    max = item.Pcite
+                }
+            });
+            res.data.papers.forEach((item)=>{
+                item.max_cite = max
+            });
+            
+        });
+    },[])
+
+    const [data, setData] = React.useState([])
+
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+    
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+      confirm();
+      setSearchText(selectedKeys[0]);
+      setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters, dataIndex, confirm) => {
+      clearFilters();
+      handleSearch([], confirm, dataIndex);
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters}) => (
+        <div
+          style={{
+            padding: 10,
+          }}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+        <Row gutter={8}>
+          <Col span={17}>
+          <Input
+            size='sm'
+            focusBorderColor='navy.500'
+            ref={searchInput}
+            placeholder={`请输入关键词`}
+            value={selectedKeys[0]}
+            onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          />
+          </Col>
+          <Col span={3}>
+            <Button
+              onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+              size="sm"
+              color='navy.500'
+              style={{marginTop:3}}
+            >
+              <SearchIcon />
+            </Button>
+          </Col>
+          <Col span={3}>
+            <Button
+              onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
+              size="sm"
+              color='navy.500'
+              style={{marginTop:3}} >
+                <RedoOutlined />
+            </Button>
+          </Col>
+          </Row>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchIcon
+          style={{
+            color: filtered ? '#1b3bbb' : undefined,
+          }}
+        />
+      ),
+      onFilter: (value, record) =>
+        record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+      onFilterDropdownOpenChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInput.current?.select(), 100);
+        }
+      },
+    });
+    const [current, setCurrent]=React.useState(1);
+    const columns = [
+        {
+            title: '序号',
+            dataIndex: '',
+            key: '',
+            render: (text,record,index) => (
+                <Text>{(current- 1) * 10 + index +1}</Text>
+            ),
+            width: 80
+        },{
+            title: '名称',
+            dataIndex: 'Pname',
+            key: 'Pname',
+            ...getColumnSearchProps('Pname'),
+            sorter: (a, b) => a.Pname.localeCompare(b.Pname),
+            sortDirections: ['descend', 'ascend'],
+            render: (_, record) => (
+                <Link href={"/paperDetails?PID=" + record.PID} isExternal>
+                    {record.Pname} <ExternalLinkIcon mx='2px' />
+                </Link>
+            ),
+            ellipsis: true,
+            width: 450
+        },{
+            title: '第一作者',
+            dataIndex: 'author',
+            key: 'author',
+            ...getColumnSearchProps('author'),
+            sorter: (a, b) => a.author.localeCompare(b.author),
+            sortDirections: ['descend', 'ascend'],
+            width: 200
+        },{
+            title: '发表时间',
+            dataIndex: 'Pdate',
+            key: 'Pdate',
+            sorter: (a, b) => a.Pdate.localeCompare(b.Pdate),
+            sortDirections: ['descend', 'ascend'],
+            width: 150
+        },{
+            title: '领域',
+            dataIndex: 'field',
+            key: 'field',
+            render: (_,record) => (
+                <HStack spacing={4}>
+                    <Tag size='lg'  variant='subtle' bg='navy.200' color='white'>
+                    <TagLabel>{record.field}</TagLabel>
+                    </Tag>
+                </HStack>
+            ),
+            width: 160
+        },{
+            title: '引用量',
+            dataIndex: 'Pcite',
+            key: 'Pcite',
+            sorter: (a, b) => a.Pcite - b.Pcite,
+            sortDirections: ['descend', 'ascend'],
+            width: 200,
+            render:(_,record) =>(
+                <Row>
+                        <Text>{record.Pcite}</Text>
+                        <Progress
+                            style={{margin:'auto'}}
+                            colorScheme='frog'
+                            h='7px'
+                            borderRadius='10px'
+                            w='120px'
+                            value={100 * record.Pcite / record.max_cite}/>
+                </Row>
+            )
+        }
+    ];
+    const options= {
+        chart: {
+          type: 'area',
+          zoom: {
+            enabled: false
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        colors:['#90cdf4'],
+        stroke: {
+          curve: 'smooth'
+        },
+        title: {
+          text: '引用量',
+          align: 'left'
+        },
+        xaxis: {
+            categories: [2017,2018,2019,2020,2021]
+        },
+    }
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='list'>
+            <Row>
+                <BarsOutlined style={{ fontSize: '36px', color: '#422afb', marginTop:'3px'}}></BarsOutlined>
+                <Text className='institution-Title'>论文</Text>
+            </Row>
+            <Text mt='20px' ml='20px' color='gray.500' fontSize='md'>共有 {data.length} 篇论文</Text>
+            <Table dataSource={data} columns={columns} 
+                    pagination={{
+                        onChange: page => setCurrent(page)
+                    }}
+                    className='institutionList'
+                    rowKey={(record) => record.PID}
+                    expandable={{
+                        expandedRowRender: (record) => (
+                            <Row >
+                                <Col span={17} offset={1}>
+                                    <Heading as='h4' size='md'>{record.Pname}</Heading>
+                                    <Row className='expand'>
+                                    {
+                                        record.Pauthor.map((value, key) => {
+                                            return (
+                                                <Text fontSize='sm' mr='25px' mt='5px' color='blue.200'>{value}</Text>
+                                            );})
+                                    }
+                                    </Row>
+                                    <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.Pabstract}</Text>
+                                    <Row>
+                                    {
+                                        record.PsystemTags.map((value, key) => {
+                                            return (
+                                                <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
+                                                    <TagLabel>{value}</TagLabel>
+                                                </Tag>
+                                            );})
+                                    }
+                                    </Row>
+                                </Col>
+                                <Col span={5} style={{marginLeft:'20px'}}>
+                                <Chart options={options} 
+                                    series={[{data:record.Pcitednum}]} 
+                                    type="area" height={250} />
+                                </Col>
+                            </Row>
+                        ),
+                    }}>
+            </Table>
+        </Box>
+    )
+}    
+
 function Journal({}) {
     const [data,setData] = React.useState({
         Vfullname:'',
@@ -512,6 +763,9 @@ function Journal({}) {
         Vconceptscores:[],
         VworksCount:[]
     });
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let vid = params.get('VID')
     React.useEffect(() => {
         var config = {
             method: 'post',
@@ -520,7 +774,7 @@ function Journal({}) {
                 'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
                 'Content-Type': 'application/json'
             },
-            data : '0'
+            data :vid
         };
         axios(config).then(res => {
             console.log(res.data)
@@ -553,7 +807,8 @@ function Journal({}) {
                     <CitationAmountAcc count={data.VcitesAccumulate}></CitationAmountAcc>
                 </Col>
             </Row>
-            <InstitutionList ></InstitutionList>
+            {/* <InstitutionList ></InstitutionList> */}
+            <PaperList vid = {vid}></PaperList>
         </html>
     )
 }

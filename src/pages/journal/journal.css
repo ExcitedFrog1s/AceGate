@@ -1,4 +1,4 @@
-.title{
+.journal .title{
     margin:auto;
     height: 400px;
     width: 900px;
@@ -7,35 +7,35 @@
     padding: 70px;
 }
 
-.link{
+.journal .link{
     margin-top: 20px;
     margin-left: 70px;
     font-size: 16px;
     letter-spacing:0.4mm;
 }
 
-.title .css-spn4bz:hover {
+.journal .title .css-spn4bz:hover {
     color: #000000 !important;
 }
 
-.index{
+.journal .index{
     margin:auto;
     margin-top: 60px;
     margin-left: 100px;
 }
 
-.index-data{
+.journal .index-data{
     color: #422afb;
 }
 
-.index-name{
+.journal .index-name{
     color: #A0AEC0;
     margin-top: 10px;
     margin-left: 20px;
     letter-spacing: 0.5mm;
 }
 
-.keywords{
+.journal .keywords{
     margin:auto;
     height: 400px;
     width: 600px;
@@ -43,13 +43,13 @@
     padding: 40px;
 }
 
-.keywordItem{
+.journal .keywordItem{
     margin-left: 5px;
     margin-top: 10px;
     font-weight: 600;
 }
 
-.chart{
+.journal .chart{
     margin:auto;
     height: 360px;
     margin-top: 50px;
@@ -63,18 +63,18 @@
     margin-left: 15px;
 }
 
-.chart-head{
+.journal .chart-head{
     font-size: 23px !important;
     margin-left: 10px;
     margin-bottom: 10px;
     letter-spacing:0.7mm;
 }
 
-.apexcharts-menu-item {
+.journal .apexcharts-menu-item {
     width: 105px;
 }
 
-.list{
+.journal .list{
     margin:auto;
     width: 1570px;
     margin-top: 50px;
@@ -82,29 +82,33 @@
     padding: 50px;
 }
 
-.institutionList{
-    padding: 40px;
+.journal .institutionList{
+    margin-top: 10px;
 }
 
-.institutionList .ant-table-thead>tr>th {
+.journal .institutionList .ant-table-thead>tr>th {
     color: #A0AEC0;
     font-weight: 800;
     font-size: 17px;
 }
 
-.institutionList .ant-table-tbody>tr>td {
+.journal .institutionList .ant-table-tbody>tr>td {
     font-size: 15px;
     font-weight: 550;
 }
 
-.institutionList .css-spn4bz:hover {
+.journal .institutionList .css-spn4bz:hover {
    color: #1b3bbb;
 }
 
-.institution-Title{
+.journal .institution-Title{
     margin-left: 20px;
     margin-top: 3px;
     letter-spacing: 0.7mm;
     font-weight: 600;
     font-size: 24px;
+}
+
+.journal .expand{
+    font-weight: 400 !important;
 }
