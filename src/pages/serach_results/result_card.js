@@ -120,7 +120,8 @@ function TimeOrgan({props}) {
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
                 {/*time stamp to year*/}
-                {new Date(props.time * 1000).getFullYear() + ' '}
+                {new Date(props.time * 1000).getFullYear() + ' 年 ' +
+                    new Date(props.time * 1000).getMonth() + ' 月'}
             </i>
             <Link href={'/'}
                   style={linkStyle}

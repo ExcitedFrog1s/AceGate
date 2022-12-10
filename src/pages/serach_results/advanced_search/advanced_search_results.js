@@ -15,50 +15,55 @@ import AdvancedSearchFilter from "./advanced_search_filter";
 
 
 function Sort(props) {
-    const [sort_order, setSortOrder] = React.useState('默认');
-    const [advanceSearch,setAdvanceSearch] = React.useState()
-    const [advStartTime,setAdvStartTime] = React.useState()
-    const [advEndTime,setAdvEndTime] = React.useState()
+    const cmpMostRecent = (a,b) => {
+        if(a.Pdate > b.Pdata) {
+            return -1
+        }
+        else if(a.Pdate < b.Pdata) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
 
-    PubSub.subscribe('PubParams', (msg, params) => {
-        setAdvanceSearch(params.dataList)
-        setAdvStartTime(params.startTime)
-        setAdvEndTime(params.endTime)
-    })
+    const cmpMostCited = (a,b) => {
+        if(Number(a.Pcite) > Number(b.Pcite)) {
+            return -1
+        }
+        else if(Number(a.Pcite) < Number(b.Pcite)) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
 
+    const [sort_order, setSortOrder] = React.useState('默认')
     const handleChange = (value) => {
         setSortOrder(value)
-        let data = {}
-        data.advancedSearch = advanceSearch
-        data.advStartTime = advStartTime
-        data.advEndTime = advEndTime
-        if(props.authorsArray !== undefined) {
-            data.filterAuthors = props.authorsArray
+        if(value === '默认') {
+            const temp = [...props.defaultSort]
+            props.setInfos(temp)
         }
-        if(props.publicationTypesArray !== undefined) {
-            data.filterPublicationTypes = props.publicationTypesArray
+        else if(value === '最新') {
+            const temp = [...props.infos.sort(cmpMostRecent)]
+            props.setInfos(temp)
+            // for (let i = 0;i < temp.length;i++) {
+            //     console.log(i + ":" + temp[i].Pdate)
+            // }
         }
-        if(props.startTime !== undefined) {
-            data.startTime = props.startTime
+        else if(value === '最多被引') {
+            const temp = [...props.infos.sort(cmpMostCited)]
+            props.setInfos(temp)
+            // for (let i = 0;i < temp.length;i++) {
+            //     console.log(i + ":" + props.infos[i].Pcite)
+            // }
         }
-        if(props.endTime !== undefined) {
-            data.endTime = props.endTime
-        }
-        console.log(data)
-        let config = {
-            method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
-            data : data
-        };
-        axios(config)
-            .then(res => {
-                props.setInfos(res.data.results)
-                props.setFilterInfos(res.data.filterItems)
-            })
     };
 
     return(
-        <Box float={'right'} mr={'19%'} mt={'-50'} >
+        <Box float={'right'} mr={'21%'} mt={'-50'}>
             <Select
                 onChange={handleChange}
                 style={{width:120}}
@@ -69,16 +74,12 @@ function Sort(props) {
                         label: '默认'
                     },
                     {
-                        value: '最相关',
-                        label: '最相关'
-                    },
-                    {
                         value: '最新',
                         label: '最新'
                     },
                     {
-                        value: '引用量最多',
-                        label: '引用量最多'
+                        value: '最多被引',
+                        label: '最多被引'
                     },
                 ]}
             />
@@ -92,6 +93,7 @@ function AdvancedSearchResults(props) {
     const [filterInfos,setFilterInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
+    const [defaultSort,setDefaultSort] = React.useState()
     const [authorsArray,setAuthorArray] = React.useState()
     const [publicationTypesArray,setPublicationTypesArray] = React.useState()
     const [startTime,setStartTime] = React.useState()
@@ -111,11 +113,14 @@ function AdvancedSearchResults(props) {
 
     PubSub.unsubscribe('PubParams');
     PubSub.subscribe('PubParams', (msg, params) => {
-        console.log('---')
         let data = {}
-        data.advancedSearch = params.dataList
-        data.advStartTime = params.startTime
-        data.advEndTime = params.endTime
+        data.advancedSearch = params.dataList === undefined ? [] : params.dataList
+        data.advStartTime = params.startTime === undefined ? '' : params.startTime
+        data.advEndTime = params.endTime === undefined ? '' : params.endTime
+        data.filterAuthors = ''
+        data.filterPublicationTypes = ''
+        data.startTime = ''
+        data.endTime = ''
         console.log(data)
         let config = {
             method: 'post',
@@ -126,6 +131,7 @@ function AdvancedSearchResults(props) {
         axios(config)
             .then(res => {
                 setInfos(res.data.results)
+                setDefaultSort([...res.data.results])
                 setFilterInfos(res.data.filterItems)
                 setCurrentPageIndex(1)
                 setLoading(false)
@@ -137,6 +143,13 @@ function AdvancedSearchResults(props) {
     React.useEffect(() => {
         if(!params.has('label')) {
             let data = {}
+            data.advancedSearch = []
+            data.advStartTime = ''
+            data.advEndTime = ''
+            data.filterAuthors = ''
+            data.filterPublicationTypes = ''
+            data.startTime = ''
+            data.endTime = ''
             console.log(data)
             let config = {
                 method: 'post',
@@ -146,6 +159,7 @@ function AdvancedSearchResults(props) {
             axios(config)
                 .then(res => {
                     setInfos(res.data.results)
+                    setDefaultSort([...res.data.results])
                     setFilterInfos(res.data.filterItems)
                     setCurrentPageIndex(1)
                     setLoading(false)
@@ -227,14 +241,10 @@ function AdvancedSearchResults(props) {
             <Box>
                 {/*排序*/}
                 <Sort
+                    defaultSort={defaultSort}
+                    infos={infos}
                     setInfos={setInfos}
-                    setFilterInfos={setFilterInfos}
-                    setCurrentPageIndex={setCurrentPageIndex}
                     setLoading={setLoading}
-                    authorsArray={authorsArray}
-                    publicationTypesArray={publicationTypesArray}
-                    startTime={startTime}
-                    endTime={endTime}
                 />
                 {/*论文卡片*/}
                 <Box mt={'120'} ml={'80px'}>

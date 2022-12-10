@@ -4,7 +4,7 @@
 
 import Header from '../../../components/header/header'
 import * as React from 'react';
-import {Box, Input, Skeleton, Stack} from "@chakra-ui/react";
+import {Box, HStack, Input, Skeleton, Stack, Text} from "@chakra-ui/react";
 import ResultCard from "../result_card";
 import DefaultFilter from "../default_search/default_search_filter";
 import {Col, Pagination, Row, Select, Spin} from "antd";
@@ -14,40 +14,52 @@ import {useLocation, useNavigate} from "react-router-dom";
 import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
-
-
 function Sort(props) {
-    let location = useLocation()
-    let params = new URLSearchParams(location.search)
+    const cmpMostRecent = (a,b) => {
+        if(a.Pdate > b.Pdata) {
+            return -1
+        }
+        else if(a.Pdate < b.Pdata) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
 
-    const [sort_order, setSortOrder] = React.useState('默认');
+    const cmpMostCited = (a,b) => {
+        if(Number(a.Pcite) > Number(b.Pcite)) {
+            return -1
+        }
+        else if(Number(a.Pcite) < Number(b.Pcite)) {
+            return 1
+        }
+        else {
+            return 0
+        }
+    }
+
+    const [sort_order, setSortOrder] = React.useState('默认')
     const handleChange = (value) => {
         setSortOrder(value)
-        let data = {}
-        data.normalSearch = params.get('q')
-        if(props.authorsArray !== undefined) {
-            data.filterAuthors = props.authorsArray
+        if(value === '默认') {
+            const temp = [...props.defaultSort]
+            props.setInfos(temp)
         }
-        if(props.publicationTypesArray !== undefined) {
-            data.filterPublicationTypes = props.publicationTypesArray
+        else if(value === '最新') {
+            const temp = [...props.infos.sort(cmpMostRecent)]
+            props.setInfos(temp)
+            // for (let i = 0;i < temp.length;i++) {
+            //     console.log(i + ":" + temp[i].Pdate)
+            // }
         }
-        if(props.startTime !== undefined) {
-            data.startTime = props.startTime
+        else if(value === '最多被引') {
+            const temp = [...props.infos.sort(cmpMostCited)]
+            props.setInfos(temp)
+            // for (let i = 0;i < temp.length;i++) {
+            //     console.log(i + ":" + props.infos[i].Pcite)
+            // }
         }
-        if(props.endTime !== undefined) {
-            data.endTime = props.endTime
-        }
-        console.log(data)
-        let config = {
-            method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults',
-            data : data
-        };
-        axios(config)
-            .then(res => {
-                props.setInfos(res.data.results)
-                props.setFilterInfos(res.data.filterItems)
-            })
     };
 
     return(
@@ -62,16 +74,12 @@ function Sort(props) {
                         label: '默认'
                     },
                     {
-                        value: '最相关',
-                        label: '最相关'
-                    },
-                    {
                         value: '最新',
                         label: '最新'
                     },
                     {
-                        value: '引用量最多',
-                        label: '引用量最多'
+                        value: '最多被引',
+                        label: '最多被引'
                     },
                 ]}
             />
@@ -86,6 +94,7 @@ function DefaultSearchResults(props) {
     const [recommendationInfos,setRecommendationInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
+    const [defaultSort,setDefaultSort] = React.useState()
     const [authorsArray,setAuthorArray] = React.useState()
     const [publicationTypesArray,setPublicationTypesArray] = React.useState()
     const [startTime,setStartTime] = React.useState()
@@ -106,6 +115,10 @@ function DefaultSearchResults(props) {
     React.useEffect(() => {
         let data = {}
         data.normalSearch = params.get('q')
+        data.filterAuthors = ''
+        data.filterPublicationTypes = ''
+        data.startTime = ''
+        data.endTime = ''
         console.log(data)
         let config = {
             method: 'post',
@@ -116,6 +129,7 @@ function DefaultSearchResults(props) {
         axios(config)
             .then(res => {
                 setInfos(res.data.results)
+                setDefaultSort([...res.data.results])
                 setFilterInfos(res.data.filterItems)
                 setRecommendationInfos(res.data.recommendation)
                 setCurrentPageIndex(1)
@@ -178,7 +192,8 @@ function DefaultSearchResults(props) {
     }
     return(
         <Box>
-            {/*<Header textColor={'black'} />*/}
+        <Header textColor={'black'} />
+        <Box>
             {/*左侧界面*/}
             <DefaultSearchFilter
                 setInfos={setInfos}
@@ -193,25 +208,18 @@ function DefaultSearchResults(props) {
             />
             <Recommendation recommendation={recommendationInfos}/>
             <Box>
-                <Input
-                    size='lg'
-                    backgroundColor='white'
-                    placeholder="输入您想搜索的论文，学者等，敲下回车"
-                    maxWidth={'35%'}
-                    ml={'30%'}
-                    mt={'-80px'}
-                    position={'absolute'}
-                />
                 {/*排序*/}
                 <Sort
+                    defaultSort={defaultSort}
+                    infos={infos}
                     setInfos={setInfos}
-                    setFilterInfos={setFilterInfos}
-                    setCurrentPageIndex={setCurrentPageIndex}
-                    authorsArray={authorsArray}
-                    publicationTypesArray={publicationTypesArray}
-                    startTime={startTime}
-                    endTime={endTime}
+                    setLoading={setLoading}
                 />
+                <HStack float={'left'} ml={'30%'} mt={'-50'}>
+                    <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
+                    <Text color={'#161616'} fontSize={'24px'}>{filterInfos.totalNumber}</Text>
+                    <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
+                </HStack>
                 {/*论文卡片*/}
                 <Box mt={'200'} ml={'-60px'}>
                     {
@@ -235,6 +243,7 @@ function DefaultSearchResults(props) {
                 </Box>
             </Box>
         </Box>
+            </Box>
     )
 }
 
