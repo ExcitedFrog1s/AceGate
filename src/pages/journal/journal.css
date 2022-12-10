@@ -83,7 +83,7 @@
 }
 
 .journal .institutionList{
-    margin-top: 10px;
+    padding: 40px;
 }
 
 .journal .institutionList .ant-table-thead>tr>th {
@@ -107,8 +107,4 @@
     letter-spacing: 0.7mm;
     font-weight: 600;
     font-size: 24px;
-}
-
-.journal .expand{
-    font-weight: 400 !important;
 }
