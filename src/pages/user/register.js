@@ -74,19 +74,19 @@ function Register(){
             alert("用户名为空！");
             return -1;
         }
-        if (username.length <= 5) {
-            alert("用户名长度至少为6！")
+        if (username.length < 6) {
+            alert("用户名长度至少为6！");
             return -1;
         }
-        if (username.length > 15) {
-            alert("用户名长度至多为15！")
+        if (username.length > 20) {
+            alert("用户名长度至多为20！");
             return -1;
         }
-        if (password.length <= 8) {
+        if (password.length < 8) {
             alert("密码长度过短，至少需要8位字符");
             return -1;
         }
-        if (password.length >= 16) {
+        if (password.length > 16) {
             alert("密码长度过长，至多16位字符");
             return -1;
         }
@@ -161,16 +161,16 @@ function Register(){
                                     >
                                         <FormControl id="username">
                                             <FormLabel fontSize={'15px'}>用户名</FormLabel>
-                                            <Input type="text" />
+                                            <Input type="text" onChange={e => setUsername(e.target.value)} />
                                         </FormControl>
                                         <FormControl id="password">
                                             <FormLabel fontSize={'15px'}>密码</FormLabel>
-                                            <Input type="password" />
+                                            <Input type="password" onChange={e => setPassword((e.target.value))} />
                                         </FormControl>
                                         <FormControl id="email">
                                             <FormLabel fontSize={'15px'}>邮箱</FormLabel>
                                             <InputGroup>
-                                                <Input type="email" />
+                                                <Input type="email" onChange={e => setEmail(e.target.value)}/>
                                                 <InputRightElement  w={'110px'}>
                                                     <Button isDisabled={(countdown !== 0)} onClick={handleSendVerifyEmail}>
                                                         {"发送验证码"}
@@ -179,9 +179,9 @@ function Register(){
                                             </InputGroup>
 
                                         </FormControl>
-                                        <FormControl id="emailVerifyCode" onClick={handleSendVerifyEmail}>
+                                        <FormControl id="emailVerifyCode">
                                             <FormLabel fontSize={'15px'}>邮箱验证码</FormLabel>
-                                            <Input type="text" />
+                                            <Input type="text" onChange={e => setVerifycode(e.target.value)}/>
                                         </FormControl>
                                     </VStack>
                                     <Button
