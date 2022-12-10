@@ -13,9 +13,10 @@ import {
     FileOutlined
 } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import ResultCard from "../serach_results/result_card";
+import axios from "axios";
 const { Header, Content, Footer} = Layout;
 const { Title, Paragraph, Text} = Typography;
 
@@ -35,6 +36,29 @@ ConfigProvider.config({
 
 function ApplyPortal() {
     // const {portalList} = props;
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    // let RID = params.get('RID')
+    const [data, setData] = useState([]);
+
+    const getData = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal?apifoxApiId=53122434",
+            data: {
+                RID: params.get('UID'),
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                }
+            )
+    }
+    useEffect(() => {
+        getData();
+    }, [])
+
     const portalList = [
         {
             key: '1',
