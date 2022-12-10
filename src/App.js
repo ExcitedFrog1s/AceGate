@@ -32,11 +32,11 @@ const theme = extendTheme({
 function App() {
 
   return (
-      <React.StrictMode>
+      // <React.StrictMode>
         <ChakraProvider theme={theme}>
             <RouterProvider router={default_router} />
         </ChakraProvider>
-      </React.StrictMode>
+      // </React.StrictMode>
   );
 }
 
