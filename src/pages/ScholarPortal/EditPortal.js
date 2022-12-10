@@ -216,7 +216,7 @@ function EditPortal() {
                             label="电子邮箱"
                             rules={[
                                 {
-                                    //type: 'email',
+                                    type: 'email',
                                     required: false,
                                 },
                             ]}

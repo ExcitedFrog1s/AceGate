@@ -11,26 +11,23 @@ import axios from 'axios';
 
 export default class Edit extends Component {
   state = {fields:[
-    'test'
   ],
   interests:[
-    'tst'
   ],
   }
 
   
 
   addfield = ()=>{
-    const field = this.field
-    const {fields} = this.state
-    if (field.value.trim() === ''){
-      alert('输入不能为空')
-      return
+    const field = this.field;
+    const {fields} = this.state;
+    if (field.input.value.trim() === ''){
+      alert('输入不能为空');
+      return;
     }
-    const newfield = {id:nanoid(),value:field.value}
-    const newfields = [...fields,newfield]
-    this.setState({fields:newfields})
-    field.value = ''
+    const newfield = {id:nanoid(),value:field.input.value};
+    const newfields = [...fields,newfield];
+    this.setState({fields:newfields});
   }
 
   deletefieldint = (id)=>{
@@ -49,14 +46,14 @@ export default class Edit extends Component {
   addinterest = ()=>{
     const interest = this.interest
     const {interests} = this.state
-    if (interest.value.trim() === ''){
+    if (interest.input.value.trim() === ''){
       alert('输入不能为空')
       return
     }
-    const newinterest = {id:nanoid(),value:interest.value}
+    const newinterest = {id:nanoid(),value:interest.input.value}
     const newinterests = [...interests,newinterest]
     this.setState({interests:newinterests})
-    interest.value = ''
+    interest.input.value = ''
   }
 
   selectinterest = (inter)=>{
@@ -68,14 +65,18 @@ export default class Edit extends Component {
 
 
   changeInfo = () =>{
+    const {name} = this.name;
+    const {contact} = this.contact;
+    const {institute} = this.institute;
+    const {email} = this.email;
     axios({
       method: 'POST',
       url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
       data:{
-        Rname:'hh',
-        Rcontact: '1',
-        Rinstitute: '2',
-        Uemail: '3',
+        Rname: {name},
+        Rcontact: {contact},
+        Rinstitute: {institute},
+        Uemail: {email},
         Ufield: ['1', '2', '3'],
         Uinterest: ['1', '2', '3']
       }
@@ -107,6 +108,8 @@ export default class Edit extends Component {
     const {scholar} = this.props
     const {fields} = this.state
     const {interests} = this.state
+    let field;
+    let interest;
     return (
         <div>
         <div className="informationframe">
@@ -119,7 +122,7 @@ export default class Edit extends Component {
             })
           }
         </div>
-        <Form>
+        <Form >
           <div className="informationframe">
             <h2 className="frametitle">个人信息</h2>
             {scholar
@@ -129,7 +132,6 @@ export default class Edit extends Component {
                     </div>
                     <div className="infinput">
                       <Form.Item
-                          name={['user', 'search-area']}
                           label= {<span>真实姓名</span>}
                           rules={[
                               {
@@ -137,7 +139,7 @@ export default class Edit extends Component {
                               },
                           ]}
                       >
-                          <Input maxLength="15" className="input1" type="text" placeholder="请输入真实姓名"/>
+                          <Input ref={c => this.name = c} maxLength="15" className="input1" type="text" placeholder="请输入真实姓名"/>
                       </Form.Item>
                     </div>
                   </div>
@@ -146,7 +148,6 @@ export default class Edit extends Component {
                     </div>
                     <div className="infinput">
                       <Form.Item
-                          name={['user', 'search-area']}
                           label= {<span>联系电话</span>}
                           rules={[
                               {
@@ -154,7 +155,7 @@ export default class Edit extends Component {
                               },
                           ]}
                       >
-                          <Input maxLength="20" className="input1" type="text" placeholder="请输入联系电话"/>
+                          <Input ref={c => this.contact = c} maxLength="20" className="input1" type="text" placeholder="请输入联系电话"/>
                       </Form.Item>
                     </div>
                   </div>
@@ -170,7 +171,7 @@ export default class Edit extends Component {
                               },
                           ]}
                       >
-                          <Input maxLength="20" className="input1" type="text" placeholder="请输入工作单位"/>
+                          <Input ref={c => this.institute = c} maxLength="20" className="input1" type="text" placeholder="请输入工作单位"/>
                       </Form.Item>
                     </div>
                   </div>
@@ -178,6 +179,8 @@ export default class Edit extends Component {
             :  <div/>
             }
             <div className="list_container">
+              <div className="information_name">
+              </div>
               <div className="infinput">
               <Form.Item
                 label={
@@ -193,9 +196,11 @@ export default class Edit extends Component {
                     },
                 ]}
               >
-                <Input maxLength="20" className="input1" type="text" placeholder="请输入E-mail"/>
+                <Input maxLength="20" ref={c => this.email = c} className="input1" type="text" placeholder="请输入E-mail"/>
               </Form.Item>
+                
               </div>
+             
             </div>
             <div className="list_container">
               <div className="information_name">
@@ -208,13 +213,15 @@ export default class Edit extends Component {
                             required: false,
                         },
                     ]}
+                    style={{
+                     float: 'left'
+                  }}
                 >
                       <Input maxLength="15" ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域，点击按钮可完成添加"/>
                 </Form.Item>
                 <Button className="clickconfirm" onClick={this.addfield}> √ </Button>
               </div>
               <div className='select_wrap'>
-              <div>hello</div>
                 {
                   fields.map( inf =>{
                   return<Select deletefieldint={this.deletefieldint} key={inf.id} {...inf}/>
@@ -224,10 +231,21 @@ export default class Edit extends Component {
             </div>
             <div className="list_container">
               <div className="information_name">
-                <span>我的兴趣词：</span>
               </div>
               <div className="infinput">
-                <input maxLength="15" ref={c => this.interest = c} className="input1" type="text" placeholder="请输入兴趣词，点击按钮可完成添加"/>
+                <Form.Item
+                  label= {<span>我的兴趣</span>}
+                  rules={[
+                      {
+                          required: false,
+                      },
+                  ]}
+                  style={{
+                    float: 'left'
+                 }}
+                >
+                     <Input maxLength="15" ref={c => this.interest = c} className="input1" type="text" placeholder="请输入兴趣词，点击按钮可完成添加"/>
+                </Form.Item>
                 <Button className="clickconfirm" onClick={this.addinterest}> √ </Button>
               </div>
               <div className='select_wrap'>
