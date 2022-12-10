@@ -111,6 +111,7 @@ function AdvancedSearchResults(props) {
 
     PubSub.unsubscribe('PubParams');
     PubSub.subscribe('PubParams', (msg, params) => {
+        console.log('---')
         let data = {}
         data.advancedSearch = params.dataList
         data.advStartTime = params.startTime
@@ -131,21 +132,26 @@ function AdvancedSearchResults(props) {
             })
     })
 
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
     React.useEffect(() => {
-        let data = {}
-        let config = {
-            method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
-            data : data
-        };
-        axios(config)
-            .then(res => {
-                setInfos(res.data.results)
-                setFilterInfos(res.data.filterItems)
-                setCurrentPageIndex(1)
-                setLoading(false)
-            })
-    },[])
+        if(!params.has('label')) {
+            let data = {}
+            console.log(data)
+            let config = {
+                method: 'post',
+                url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+                data: data
+            };
+            axios(config)
+                .then(res => {
+                    setInfos(res.data.results)
+                    setFilterInfos(res.data.filterItems)
+                    setCurrentPageIndex(1)
+                    setLoading(false)
+                })
+        }
+    }, [])
 
     if(isLoading) {
         return (
@@ -201,6 +207,7 @@ function AdvancedSearchResults(props) {
         card_index_max = page_show_num * (current_page_index) - 1
     }
 
+
     return(
         <Box>
             {/*<Header textColor={'black'} />*/}
@@ -235,7 +242,7 @@ function AdvancedSearchResults(props) {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {
                                 return (
-                                    <ResultCard props={value} />
+                                    <ResultCard infos={value}/>
                                 )
                             }
                             return <></>

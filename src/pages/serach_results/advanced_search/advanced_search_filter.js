@@ -6,7 +6,6 @@ import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
 import * as React from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
 import axios from "axios";
 
 function AdvancedSearchTimeRangeFilter(props) {
