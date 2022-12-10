@@ -35,10 +35,10 @@
 .info .paper .ant-card-meta-description{
     color: #01B574;
 }
-.info .ident .ant-card-meta-description{
+.info .field .ant-card-meta-description{
     color: #805AD5;
 }
-.info .field .ant-card-meta-description{
+.info .ident .ant-card-meta-description{
     color: #00B5D8;
 }
 .info .search .ant-card-meta-description{

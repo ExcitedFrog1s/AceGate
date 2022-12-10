@@ -6,7 +6,6 @@ import { Menu } from "antd";
 import { Outlet, useNavigate } from 'react-router-dom'
 import React from "react";
 import { Layout } from "antd";
-import './left.css'
 
 const { Header, Sider, Content } = Layout;
 
@@ -20,8 +19,8 @@ function getItem(label, key, icon){
 
 const items = [
     getItem("平台概况", "info", <InfoCircleOutlined />),
-    getItem("入驻学者", "scholars", <TeamOutlined />),
-    getItem("审核认领", "check", <BarsOutlined />),
+    getItem("已审核认领", "checked", <TeamOutlined />),
+    getItem("待审核认领", "uncheck", <BarsOutlined />),
 ]
 
 
