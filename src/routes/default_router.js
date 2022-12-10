@@ -3,12 +3,11 @@ import {
 } from "react-router-dom";
 
 import Landing from '../pages/landing/landing.js'
-import SearchResults from "../pages/serach_results/search_results";
 import Information from "../pages/personalinf/Information";
 import Manage from "../pages/manage/left.js";
 import Info from "../pages/manage/info.js";
-import Scholars from "../pages/manage/scholar.js";
-import Check from "../pages/manage/check.js";
+import Checked from "../pages/manage/checked.js";
+import UnCheck from "../pages/manage/uncheck.js";
 
 import Institute from "../pages/institute/institute.js";
 
@@ -23,11 +22,17 @@ import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
 import Register from "../pages/user/register";
 import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
-import AdvancedSearchResults from "../pages/serach_results/advanced_search/advanced_search_results";
 import RecoverPassword from "../pages/user/recover-password";
+import ResetPassword from "../pages/user/reset-password";
+import {useState} from "react";
+
 const default_router = createBrowserRouter([
     {
         path: '/',
+        element: <Landing />
+    },
+    {
+        path: '/landing',
         element: <Landing />
     },
     {
@@ -41,6 +46,10 @@ const default_router = createBrowserRouter([
     {
         path: '/recoverPassword',
         element: <RecoverPassword />
+    },
+    {
+        path: '/resetPassword',
+        element: <ResetPassword />
     },
     {
       path: '/defaultSearch',
@@ -63,12 +72,12 @@ const default_router = createBrowserRouter([
                 element: <Info />
             },
             {
-                path: 'scholars',
-                element: <Scholars />
+                path: 'checked',
+                element: <Checked />
             },
             {
-                path: 'check',
-                element: <Check />
+                path: 'uncheck',
+                element: <UnCheck />
             }
         ]
     },

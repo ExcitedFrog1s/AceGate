@@ -4,32 +4,48 @@
 
 import Header from '../../../components/header/header'
 import * as React from 'react';
-import {Box, Input} from "@chakra-ui/react";
+import {Box, Input, Skeleton, Stack} from "@chakra-ui/react";
 import ResultCard from "../result_card";
 import DefaultFilter from "../default_search/default_search_filter";
-import {Pagination, Select, Spin} from "antd";
+import {Col, Pagination, Row, Select, Spin} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
+import DefaultSearchFilter from "../default_search/default_search_filter";
 
 
 
 function Sort(props) {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    let navigate = useNavigate()
 
     const [sort_order, setSortOrder] = React.useState('默认');
     const handleChange = (value) => {
         setSortOrder(value)
-        let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
-        formData.append("sort",sort_order)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults",formData)
+        let data = {}
+        data.normalSearch = params.get('q')
+        if(props.authorsArray !== undefined) {
+            data.filterAuthors = props.authorsArray
+        }
+        if(props.publicationTypesArray !== undefined) {
+            data.filterPublicationTypes = props.publicationTypesArray
+        }
+        if(props.startTime !== undefined) {
+            data.startTime = props.startTime
+        }
+        if(props.endTime !== undefined) {
+            data.endTime = props.endTime
+        }
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults',
+            data : data
+        };
+        axios(config)
             .then(res => {
                 props.setInfos(res.data.results)
                 props.setFilterInfos(res.data.filterItems)
-                props.setCurrentPageIndex(1)
             })
     };
 
@@ -68,8 +84,10 @@ function DefaultSearchResults(props) {
     const [filterInfos,setFilterInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
-    const navigate = useNavigate()
-
+    const [authorsArray,setAuthorArray] = React.useState()
+    const [publicationTypesArray,setPublicationTypesArray] = React.useState()
+    const [startTime,setStartTime] = React.useState()
+    const [endTime,setEndTime] = React.useState()
     // showed cards per page
     let paper_show_num_per_page = 10
     let page_num
@@ -84,21 +102,64 @@ function DefaultSearchResults(props) {
         setCurrentPageIndex(page)
     }
     React.useEffect(() => {
-        const formData = new FormData()
-        if(params.has('q')) {
-            formData.append('normalSearch', params.get('q'))
-        }
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults",formData)
+        let data = {}
+        data.normalSearch = params.get('q')
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults',
+            data : data
+        };
+        setLoading(true)
+        axios(config)
             .then(res => {
                 setInfos(res.data.results)
                 setFilterInfos(res.data.filterItems)
+                setCurrentPageIndex(1)
                 setLoading(false)
             })
     },[])
 
     if(isLoading) {
         return (
-            <Spin tip={"加载中"}/>
+            <Stack ml={'150px'} mt={'100px'}>
+                <Row>
+                    <Col span={6}>
+                        <Skeleton height='30px' width='100px' mt='100px'/>
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                    </Col>
+                    <Col span={17} offset={1}>
+                        <Skeleton height='50px' width='700px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px'/>
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                    </Col>
+                </Row>
+
+            </Stack>
         )
     }
     else {
@@ -116,12 +177,16 @@ function DefaultSearchResults(props) {
     return(
         <Box>
             {/*<Header textColor={'black'} />*/}
-            {/*右侧界面*/}
-            <DefaultFilter
+            {/*左侧界面*/}
+            <DefaultSearchFilter
                 setInfos={setInfos}
                 setFilterInfos={setFilterInfos}
                 setLoading={setLoading}
                 setCurrentPageIndex={setCurrentPageIndex}
+                setAuthorArray={setAuthorArray}
+                setPublicationTypesArray={setPublicationTypesArray}
+                setStartTime={setStartTime}
+                setEndTime={setEndTime}
                 filterInfos={filterInfos}
             />
             <Box>
@@ -139,6 +204,10 @@ function DefaultSearchResults(props) {
                     setInfos={setInfos}
                     setFilterInfos={setFilterInfos}
                     setCurrentPageIndex={setCurrentPageIndex}
+                    authorsArray={authorsArray}
+                    publicationTypesArray={publicationTypesArray}
+                    startTime={startTime}
+                    endTime={endTime}
                 />
                 {/*论文卡片*/}
                 <Box mt={'200'}>

@@ -6,16 +6,57 @@ import {
     FormLabel,
     HStack,
     Image,
-    Input, InputGroup, InputRightAddon, InputRightElement, Link,
+    Input, InputGroup, InputRightElement, Link,
     SimpleGrid,
     Text,
     VStack
 } from '@chakra-ui/react'
+import {Link as RouterLink} from "react-router-dom";
 import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
+import {useState} from "react";
+import axios from "axios";
+
+async function registerUser(username, password, email, verificationCode) {
+    let status = "ERR";
+    axios.post('/user/register', {
+        uesrname: username,
+        password: password,
+        email: email,
+        verificationCode: verificationCode
+    })
+        .then(res => {
+            status = res.data.status
+        })
+    return status;
+}
+
+async function sendVerificationEmail(email) {
+
+}
+
 
 function Register(){
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [verifyCode, setVerifycode] = useState(0);
+    const [countdown, setCountdown] = useState(0);
+
+    const handleSendVerifyEmail = e => {
+        if (countdown === 0) {
+            let result = sendVerificationEmail(email);
+            setCountdown(1);
+            setInterval(() => setCountdown(0), 60000);
+        }
+    }
+
+    const handleRegister = e => {
+
+    }
+
     return (
         <div>
             <Header textColor={'black'} />
@@ -79,14 +120,14 @@ function Register(){
                                             <InputGroup>
                                                 <Input type="email" />
                                                 <InputRightElement  w={'110px'}>
-                                                    <Button>
+                                                    <Button isDisabled={(countdown !== 0)} onClick={handleSendVerifyEmail}>
                                                         {"发送验证码"}
                                                     </Button>
                                                 </InputRightElement>
                                             </InputGroup>
 
                                         </FormControl>
-                                        <FormControl id="emailVerifyCode">
+                                        <FormControl id="emailVerifyCode" onClick={handleSendVerifyEmail}>
                                             <FormLabel fontSize={'15px'}>邮箱验证码</FormLabel>
                                             <Input type="text" />
                                         </FormControl>
@@ -101,7 +142,7 @@ function Register(){
                                     >
                                         注册
                                     </Button>
-                                    <Link color={'blue.400'}>去登录</Link>
+                                    <Link as={RouterLink} to={'/login'} color={'blue.400'}>去登录</Link>
                                 </VStack>
                                 <Center>
                                     <Text fontSize={'12px'} color={'darkgray'}>

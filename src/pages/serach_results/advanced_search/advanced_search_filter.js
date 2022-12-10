@@ -1,7 +1,7 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
+import PubSub from 'pubsub-js';
 import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
@@ -149,15 +149,19 @@ function AdvancedSearchFilter(props) {
     const [startTime,setStartTime] = useState("1900")
     const [endTime,setEndTime] = useState("2022")
 
-    let location = useLocation()
-    let params = new URLSearchParams(location.search)
-    if(params.has('page')) {
-        params.delete('page')
-    }
-    if(params.has('order')) {
-        params.delete('order')
-    }
-    const navigate = useNavigate();
+    const [advParamList, setAdvParamList] = React.useState();
+    const [advEndTime, setAdvEndTime] = React.useState();
+    const [advStartTime, setAdvStartTime] = React.useState();
+
+    React.useEffect(() => {
+        PubSub.subscribe('PubParams', (msg, params) => {
+            setAdvParamList(params.dataList)
+            setAdvStartTime(params.startTime)
+            setAdvEndTime(params.endTime)
+            setAuthors(new Array(props.filterInfos.authors.length).fill(true))
+            setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
+        });
+    })
 
     const filter = () => {
         let authorsArray = []
@@ -172,22 +176,31 @@ function AdvancedSearchFilter(props) {
                 publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
             }
         }
-        let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
-        formData.append("startTime",startTime)
-        formData.append("endTime",endTime)
-        formData.append("filterAuthors",authorsArray)
-        formData.append("filterPublicationTypes",publicationTypesArray)
+        props.setStartTime(startTime)
+        props.setEndTime(endTime)
+        props.setAuthorArray(authorsArray)
+        props.setPublicationTypesArray(publicationTypesArray)
+
+        let data = {}
+        data.advancedSearch = advParamList
+        data.advStartTime = advStartTime
+        data.advEndTime = advEndTime
+        data.filterAuthors = authorsArray
+        data.filterPublicationTypes = publicationTypesArray
+        data.startTime = startTime
+        data.endTime = endTime
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
         props.setLoading(true)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
+        axios(config)
             .then(res => {
                 props.setInfos(res.data.results)
                 props.setFilterInfos(res.data.filterItems)
                 props.setCurrentPageIndex(1)
-                setAuthors(new Array(props.filterInfos.authors.length).fill(true))
-                setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
-                setStartTime("1900")
-                setEndTime("2022")
                 props.setLoading(false)
             })
     }
@@ -196,7 +209,7 @@ function AdvancedSearchFilter(props) {
         <Box
             minHeight={'1000px'}
             width={'25%'}
-            ml={'20px'}
+            ml={'100px'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}

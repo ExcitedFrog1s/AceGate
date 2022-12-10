@@ -1,6 +1,8 @@
 
 import {Box, Center, Flex, Grid, GridItem, HStack, Input, Link, Text, useColorModeValue} from '@chakra-ui/react'
 
+import {Link as RouterLink} from 'react-router-dom'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import React from "react";
@@ -12,9 +14,10 @@ const NavLink = ({ children }) => (
         px={2}
         py={1}
         rounded={'sm'}
+        fontSize={'16px'}
         _hover={{
             textDecoration: 'none',
-            bg: useColorModeValue('gray.200', 'gray.700'),
+            // bg: useColorModeValue('gray.200', 'gray.700'),
         }}
         href={'#'}>
         {children}
@@ -50,7 +53,7 @@ function Header({textColor, isLanding=false}){
                     <HStack
 
                         as={'nav'}
-                        spacing={'2vw'}
+                        spacing={'5vw'}
                         display={{ base: 'none', md: 'flex' }}>
 
                         {isLanding ?
@@ -59,18 +62,27 @@ function Header({textColor, isLanding=false}){
                             <Input
                                 size='md'
                                 backgroundColor='white'
-                                width='20vw'
+                                width='25vw'
                                 placeholder="快捷搜索……"
                             />
                         }
 
-                        {sections.map((link) => (
-                            <NavLink key={link}>{link}</NavLink>
-                        ))}
-
                     </HStack>
                 </HStack>
-                <Text>登录</Text>
+                <HStack spacing={'3vw'}>
+                    {sections.map((link) => (
+                        <NavLink key={link}>{link}</NavLink>
+                    ))}
+                    <Link
+                        as={RouterLink} to={'/login'}
+                        fontSize={'16px'}
+                        _hover={{
+                            textDecoration: 'none',
+                            color: 'black'
+                        }}
+                    >登录</Link>
+                </HStack>
+
             </Flex>
         </Box>
 

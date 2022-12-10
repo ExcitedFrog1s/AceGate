@@ -152,12 +152,6 @@ function DefaultSearchFilter(props) {
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    if(params.has('page')) {
-        params.delete('page')
-    }
-    if(params.has('order')) {
-        params.delete('order')
-    }
 
     const filter = () => {
         let authorsArray = []
@@ -172,22 +166,35 @@ function DefaultSearchFilter(props) {
                 publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
             }
         }
-        let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
-        formData.append("startTime",startTime)
-        formData.append("endTime",endTime)
-        formData.append("filterAuthors",authorsArray)
-        formData.append("filterPublicationTypes",publicationTypesArray)
+        props.setStartTime(startTime)
+        props.setEndTime(endTime)
+        props.setAuthorArray(authorsArray)
+        props.setPublicationTypesArray(publicationTypesArray)
+        let data = {}
+        if(props.authorsArray !== undefined) {
+            data.filterAuthors = props.authorsArray
+        }
+        if(props.publicationTypesArray !== undefined) {
+            data.filterPublicationTypes = props.publicationTypesArray
+        }
+        if(props.startTime !== undefined) {
+            data.startTime = props.startTime
+        }
+        if(props.endTime !== undefined) {
+            data.endTime = props.endTime
+        }
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
         props.setLoading(true)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults",formData)
+        axios(config)
             .then(res => {
                 props.setInfos(res.data.results)
                 props.setFilterInfos(res.data.filterItems)
                 props.setCurrentPageIndex(1)
-                setAuthors(new Array(props.filterInfos.authors.length).fill(true))
-                setPublicationTypes(new Array(props.filterInfos.publicationTypes.length).fill(true))
-                setStartTime("1900")
-                setEndTime("2022")
                 props.setLoading(false)
             })
     }

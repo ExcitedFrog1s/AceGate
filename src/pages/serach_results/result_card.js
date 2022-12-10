@@ -32,7 +32,7 @@ function Title({title}) {
             >
 
 
-                <Text noOfLines={1} padding={'30px'}>
+                <Text noOfLines={1} pt={'30px'} pl={'30px'}>
                     {title}
                 </Text>
             </Link>
@@ -74,11 +74,11 @@ function Authors({authors}) {
     return(
 
 
-    <Box ml={'10'} mt={'-20px'}>
+    <Box ml={'10'} mt={'15px'}>
         {
             authors.map((value, key) => {
                 return (
-                    <Author author={value} key={key}/>
+                    <Author author={value.name} key={key}/>
                 );
             })
         }
@@ -258,7 +258,7 @@ function ResultCard({props}) {
             <Authors authors={props.PAuthor}/>
             <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
             <Content content={props.Pabstract}/>
-            <Labels labels={props.CTname}/>
+            <Labels labels={props.STname}/>
             <Operations props={props.isStar}/>
         </Box>
     )

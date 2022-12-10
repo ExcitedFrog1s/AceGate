@@ -13,6 +13,7 @@ import axios from "axios";
 import {None} from "framer-motion";
 import {Spin} from "antd";
 import "./test.css"
+import {useLocation, useNavigate} from "react-router-dom";
 
 function PaperDetails() {
     const property = {
@@ -22,15 +23,34 @@ function PaperDetails() {
         abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现",
         isstarred:true,
     }
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    let navigate = useNavigate()
     const [infos,setInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
-    const getPID = () => parse(window.location.href.split('/')[2]);
+    let UID = window.localStorage.getItem('userToken')
     // console.log(getPID())
+    let PID
+    if(params.has('PID')) {
+        PID = params.get('PID')
+    }
+    else {
+        PID = 0
+    }
+
+
+    params.set('PID',PID)
+    // navigate('/paperDetails?' + params.toString())
+
     React.useEffect( () => {
+        let body = {
+            PID:PID
+        }
+        console.log(body)
         const formData = new FormData()
-        formData.append('PID', "1")
+        formData.append('PID', PID)
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156",formData)
+        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156", formData)
             .then(function (res){
                 setInfos(res.data)
                 setLoading(false)
@@ -55,9 +75,9 @@ function PaperDetails() {
         <Box>
             <Info infos={infos}/>
             <Abstract ab={infos.Pabstract} kw={infos.Pconcepts}/>
-            <Data/>
-            <Op isstarred={property.isstarred}/>
-            <Reference/>
+            <Data pid={PID}/>
+            <Op  pid={PID}/>
+            <Reference refs={infos.Preferences} rels={infos.Prelated} />
         </Box>
     )
 }

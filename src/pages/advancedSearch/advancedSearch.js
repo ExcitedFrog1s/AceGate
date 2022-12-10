@@ -1,6 +1,7 @@
 import * as React from 'react'
-
-import SearchResults from '../serach_results/search_results.js';
+import PubSub from 'pubsub-js';
+import {useNavigate} from "react-router-dom";
+import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
 
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
@@ -9,7 +10,6 @@ import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
-    BreadcrumbSeparator,
   } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
@@ -25,9 +25,6 @@ import './advancedSearch.css';
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
-import {useNavigate} from "react-router-dom";
-import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
-
 moment.locale('zh-cn')
 
 
@@ -50,7 +47,16 @@ function Search({}) {
         content: "",
         type: 1,
     }]);
-        console.log(dataList)
+
+    const [startTime, setStartTime] = React.useState();
+    const [endTime, setEndTime] = React.useState();
+    const [timeValue, setTimeValue] = React.useState();
+
+    const changeTime = (date, dateString) => {
+        setStartTime(dateString[0]);
+        setEndTime(dateString[1]);
+    };
+
     const addItem = (index) => {
         dataList.splice(index+1, 0, {
             category: '',
@@ -83,11 +89,18 @@ function Search({}) {
             type: 1,
         });
         setDataList([...dataList]);
+        setStartTime(undefined);
+        setEndTime(undefined);
+        setTimeValue(new Date)
     };
 
-    let navigate = useNavigate()
     const search = () => {
-        navigate("/advance", {state: dataList})
+        const params = {
+            dataList: dataList,
+            startTime: startTime,
+            endTime: endTime
+        };
+        PubSub.publish('PubParams', params);
     }
 
     return(
@@ -149,9 +162,9 @@ function Search({}) {
                                 setDataList([...dataList]);
                             }}>
                             <option value='main'>篇关摘</option>
-                            <option value='article'>全文</option>
                             <option value='title'>篇名</option>
                             <option value='abstract'>摘要</option>
+                            <option value='keyword'>关键词</option>
                             <option value='author'>作者</option>
                             <option value='institute'>作者机构</option>
                             <option value='field'>领域</option>
@@ -204,7 +217,8 @@ function Search({}) {
                     <Text className="time">请选择出版时间</Text>
                 </Col>
                 <Col span={17}>
-                    <RangePicker locale={locale} picker="month" className='datePicker'/>
+                    <RangePicker locale={locale} picker="month" className='datePicker'
+                        onChange={changeTime} key={timeValue}/>
                 </Col>
             </Row>
             <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '400px'}} >
@@ -275,7 +289,6 @@ function Description({}) {
 
 function AdvancedSearch({}) {
     return(
-        <html>
         <Box>
             <Row>
                 <Heading size='md' style={{margin:'auto'}}>Header</Heading>
@@ -289,9 +302,7 @@ function AdvancedSearch({}) {
                 </Col>
             </Row>
                 <AdvancedSearchResults/>
-
         </Box>
-        </html>
     )
 }
 

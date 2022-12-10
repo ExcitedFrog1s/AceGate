@@ -12,8 +12,9 @@ import {
 } from 'antd';
 import { LoadingOutlined, PlusOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import axios from "axios";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text} = Typography;
 
@@ -31,11 +32,11 @@ const getBase64 = (img, callback) => {
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
+        message.error('请上传JPG/PNG格式的文件!');
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+        message.error('图片必须小于2MB!');
     }
     return isJpgOrPng && isLt2M;
 };
@@ -64,6 +65,29 @@ function EditPortal() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
+
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    // let RID = params.get('RID')
+
+    const getData = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/scholarPortal",
+            data: {
+                RID: params.get('RID'),
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                }
+            )
+    }
+    useEffect(() => {
+        getData();
+    }, [])
+
     const handleChange = (info) => {
         if (info.file.status === 'uploading') {
             setLoading(true);
@@ -149,7 +173,7 @@ function EditPortal() {
                                         fontSize: '50px',
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
                                     }}
-                                >Name</Title>
+                                >{data.Rname}</Title>
                             </Typography>
                         </Col>
                     </Row>
@@ -209,7 +233,7 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder="修改前的工作单位"/>
+                            <Input placeholder={data.Rinstitute}/>
                         </Form.Item>
                         <Form.Item
                             name={['user', 'email']}
@@ -224,7 +248,7 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder="修改前的电子邮箱"/>
+                            <Input placeholder={data.Rcontact}/>
                         </Form.Item>
                         <Form.Item
                             name={['user', 'search-area']}
@@ -238,7 +262,7 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder="多个研究领域用英文半角逗号(,)分隔" />
+                            <Input placeholder={data.Rconcepts} />
                         </Form.Item>
                         <Form.Item
                             name={['user', 'website']} label="个人主页"
@@ -246,7 +270,7 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder="修改前的个人主页"/>
+                            <Input placeholder={data.RpersonalPage}/>
                         </Form.Item>
                         <Form.Item
                             name={['user', 'introduction']} label="个人简介"
@@ -254,7 +278,7 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input.TextArea placeholder="修改前的个人简介"/>
+                            <Input.TextArea placeholder={data.Rgateinfo}/>
                         </Form.Item>
                     </Form>
                     <Row

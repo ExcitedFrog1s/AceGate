@@ -8,6 +8,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import default_router from "./routes/default_router";
+import App from "./App";
 
 const theme = extendTheme({
     colors: {
@@ -28,16 +29,11 @@ const theme = extendTheme({
     },
 })
 
-axios.defaults.baseURL = 'http://localhost:8080'
-axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
+axios.defaults.baseURL = 'https://mock.apifox.cn/m1/1955876-0-default'
+// axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <ChakraProvider theme={theme}>
-            <RouterProvider router={default_router} />
-        </ChakraProvider>
-    </React.StrictMode>
+    <App />
 );
