@@ -4,12 +4,22 @@ import { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
 import { Avatar } from '@chakra-ui/react';
 import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { wait } from '@testing-library/user-event/dist/utils';
 
 function List() {
     const [data, setData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const navigate = useNavigate();
+    let location = useLocation();
+    const toPortal = (rid)=>{
+      let params = new URLSearchParams(location.search);
+      params.set('RID', rid);
+      wait(2)
+      navigate('/scholarPortal?' + params.toString())
+    }
     const getData = ()=>{
       axios({
         method: "post",
@@ -156,7 +166,7 @@ function List() {
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button type='primary'>跳转学者门户</Button>
+            <Button type='primary' onClick={()=>toPortal(record.RID)}>跳转学者门户</Button>
           </Space>
         ),
       },

@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts'
 import { Card, Layout, Row, Col, Avatar, Button, Space, Table, Input } from 'antd';
 import axios from "axios";
-var IID = "4313316464"
+import { useLocation } from "react-router-dom";
 const { Header, Content } = Layout;
 // var insdata = {
 //     Iname: "Georgia Institute of Technology",
@@ -38,6 +38,14 @@ function separator(numb) {
 
 function Icard(){
     const [insdata, setInsdata] = useState({});
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    console.log(params)
+    var IID;
+    if(params.has('IID')){
+        IID = params.get('IID')
+    }
+    console.log('IID:' + IID)
     const getData = ()=>{
         axios({
             method: "post",
