@@ -84,6 +84,37 @@ function EditPortal() {
                 }
             )
     }
+
+    const [form] = Form.useForm();
+    const Ravatar = Form.useWatch('Ravatar', form);
+    const Rinstitute = Form.useWatch('Rinstitute', form);
+    const Rcontact = Form.useWatch('Rcontact', form);
+    const Rconcepts = Form.useWatch('Rconcepts', form);
+    const RpersonalPage = Form.useWatch('RpersonalPage', form);
+    const Rgateinfo = Form.useWatch('Rgateinfo', form);
+
+
+    const pushData = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/editPortal2",
+            data: {
+                RID: params.get('RID'),
+                Ravatar: Ravatar,
+                Rinstitute: Rinstitute,
+                Rcontact: Rcontact,
+                Rconcepts: Rconcepts,
+                RpersonalPage: RpersonalPage,
+                Rgateinfo: Rgateinfo,
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                }
+            )
+    }
+
+
     useEffect(() => {
         getData();
     }, [])
@@ -179,7 +210,7 @@ function EditPortal() {
                     </Row>
                     <Form
                         {...layout}
-                        name="nest-messages"
+                        form={form}
                         onFinish={onFinish}
                         validateMessages={validateMessages}
                         style={{
@@ -187,7 +218,7 @@ function EditPortal() {
                         }}
                     >
                         <Form.Item
-                            name={['user', 'avatar']}
+                            name="Ravatar"
                             label="头像"
                             rules={[
                                 {
@@ -222,7 +253,7 @@ function EditPortal() {
                             </Upload>
                         </Form.Item>
                         <Form.Item
-                            name={['user', 'workplace']}
+                            name="Rinstitute"
                             label="工作单位"
                             rules={[
                                 {
@@ -236,7 +267,7 @@ function EditPortal() {
                             <Input placeholder={data.Rinstitute}/>
                         </Form.Item>
                         <Form.Item
-                            name={['user', 'email']}
+                            name="Rcontact"
                             label="电子邮箱"
                             rules={[
                                 {
@@ -251,7 +282,7 @@ function EditPortal() {
                             <Input placeholder={data.Rcontact}/>
                         </Form.Item>
                         <Form.Item
-                            name={['user', 'search-area']}
+                            name="Rconcepts"
                             label="研究领域"
                             rules={[
                                 {
@@ -265,7 +296,7 @@ function EditPortal() {
                             <Input placeholder={data.Rconcepts} />
                         </Form.Item>
                         <Form.Item
-                            name={['user', 'website']} label="个人主页"
+                            name="RpersonalPage" label="个人主页"
                             style={{
                                 padding: '10px',
                             }}
@@ -273,7 +304,7 @@ function EditPortal() {
                             <Input placeholder={data.RpersonalPage}/>
                         </Form.Item>
                         <Form.Item
-                            name={['user', 'introduction']} label="个人简介"
+                            name="Rgateinfo" label="个人简介"
                             style={{
                                 padding: '10px',
                             }}
@@ -302,7 +333,7 @@ function EditPortal() {
                                 style={saveStyle}
                                 onMouseEnter={handleMouseEnterSave}
                                 onMouseLeave={handleMouseLeaveSave}
-                                onClick={() => message.success('修改成功!')}
+                                onClick={pushData}
                             >
                                 保存
                             </Button>

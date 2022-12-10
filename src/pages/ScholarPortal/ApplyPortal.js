@@ -46,7 +46,7 @@ function ApplyPortal() {
             method: "post",
             url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal?apifoxApiId=53122434",
             data: {
-                RID: params.get('UID'),
+                UID: params.get('UID'),
             }
         })
             .then(res => {
