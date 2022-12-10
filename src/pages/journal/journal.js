@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { useRef, useState } from 'react';
 import Chart from 'react-apexcharts'
-
+import axios from "axios";
 
 import {ProjectOutlined, BarsOutlined, BarChartOutlined, KeyOutlined, RedoOutlined} from '@ant-design/icons';
 import { Col, Row } from 'antd';
 import {Table} from 'antd';
+import {Divider} from 'antd'
 
 import { Progress } from '@chakra-ui/react'
 import { Button, Avatar } from '@chakra-ui/react'
-import {List,ListItem,ListIcon} from '@chakra-ui/react'
 import {Box } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
 import {Heading, Text} from '@chakra-ui/react'
@@ -26,7 +26,7 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 
-function Title({}) {
+function Title(props) {
     return(
         <Box boxShadow='xs' rounded='md'
             borderRadius='25px' border='2px' borderColor='gray.200'
@@ -34,33 +34,29 @@ function Title({}) {
             <Row>
             <ProjectOutlined style={{ fontSize: '42px', color: '#422afb'}}></ProjectOutlined>
             <Heading as='h2' size='xl' style={{marginLeft:'25px', width:'650px'}}>
-                IEEE Transactions on Information Forensics and Security 
+                {props.name} 
             </Heading>
             </Row>
             <Row>
-                <Link href='/' isExternal className='link'>
+                <Link href={props.homepage}  isExternal className='link'>
                     前往官网<ExternalLinkIcon mx='2px' />
                 </Link>
             </Row>
             <Row className='index'>
                 <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>3,369</Heading>
-                    <Text fontSize='xl' className='index-name'>Papers</Text>
+                    <Heading as='h3' size='lg' className='index-data'>{props.work} </Heading>
+                    <Text fontSize='xl' className='index-name'>论文</Text>
                 </Col>
                 <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>115,988</Heading>
-                    <Text fontSize='xl' className='index-name'>Citations</Text>
-                </Col>
-                <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>143</Heading>
-                    <Text fontSize='xl' className='index-name'>H-index</Text>
+                    <Heading as='h3' size='lg' className='index-data'>{props.cite} </Heading>
+                    <Text fontSize='xl' className='index-name'>引用</Text>
                 </Col>
             </Row>
         </Box>
     )
 }
 
-function Keywords({}) {
+function Keywords(props) {
     const CircleIcon = (props) => (
         <Icon viewBox='0 0 200 200' {...props} style={{marginTop:'20px',marginLeft:'20px'}}>
           <path
@@ -68,262 +64,276 @@ function Keywords({}) {
             d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
           />
         </Icon>
-      )
+    )
     return(
         <Box boxShadow='xs' rounded='md'
         borderRadius='25px' border='2px' borderColor='gray.200'
         className='keywords'>
             <Row>
                 <KeyOutlined style={{ fontSize: '30px', color: '#422afb'}}></KeyOutlined>
-                <Heading  style={{marginLeft:'15px', marginBottom:'15px', fontSize:'25px'}}>Keywords </Heading>
+                <Heading  style={{marginLeft:'15px', marginBottom:'15px', fontSize:'24px'}}>领 域</Heading>
             </Row>
-            <List spacing={3}>
-                <ListItem>
-                    <Row>
-                        <ListIcon as={CircleIcon} color='frog.500' />
-                        <Text fontSize='xl' className='keywordItem'>Computer network</Text>
-                    </Row>
-                </ListItem>
-                <ListItem>
-                    <Row>
-                        <ListIcon as={CircleIcon} color='frog.500' />
-                        <Text fontSize='xl' className='keywordItem'>Theoretical computer science</Text>
-                    </Row>
-                </ListItem>
-                <ListItem>
-                    <Row>
-                        <ListIcon as={CircleIcon} color='frog.500' />
-                        <Text fontSize='xl' className='keywordItem'>Pattern recognition</Text>
-                    </Row>
-                </ListItem>
-            </List>
+            <Row style={{marginTop:'10px'}}>
+                <Col span={17}>
+                    <Text color='#A0AEC0' mb='10px' fontWeight={'600'} fontSize={'17px'}>名 称</Text>
+                    <Divider style={{margin:3}}/>
+                    {props.Cname.map((item, index) => (
+                        <Row  key={index} style={{height:'45px'}} >
+                            <Text fontSize='lg' className='keywordItem'>{item}</Text>
+                        </Row>
+                    ))}
+                </Col>
+                <Col span={7}>
+                    <Text color='#A0AEC0' mb='10px' fontWeight={'800'} fontSize={'17px'}>相 关 度</Text>
+                    <Divider style={{margin:5}} />
+                    {props.Vconceptscores.map((item, index) => (
+                        <Row  key={index} style={{height:'45px'}} >
+                            <Heading style={{margin:'12px 0'}}  as='h6' size='xs'>{item}</Heading>
+                            <Progress
+                            style={{margin:'auto'}}
+                            colorScheme='frog'
+                            h='7px'
+                            ml='0'
+                            borderRadius='10px'
+                            w='90px'
+                            value={item}/>
+
+                        </Row>
+                    ))}
+                </Col>
+            </Row>
         </Box>
     )
 }
+ 
+function PaperAmount(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+            plotOptions: {
+                bar: {
+                  columnWidth: '40%',
+                  borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical', 
+                    gradientToColors: ['#1b3bbb'], 
+                    opacityFrom: 0.96, 
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },        
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+            data: [1,2,3,4,5]
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>论文数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+        </Box>
+    )
+}    
+function CitationAmount(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+            plotOptions: {
+                bar: {
+                  columnWidth: '40%',
+                  borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical', 
+                    gradientToColors: ['#1b3bbb'], 
+                    opacityFrom: 0.96, 
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },        
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+            data: props.count
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>被引数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+        </Box>
+    )
+}    
+function PaperAmountAcc(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+            plotOptions: {
+                bar: {
+                  columnWidth: '40%',
+                  borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical', 
+                    gradientToColors: ['#1b3bbb'], 
+                    opacityFrom: 0.96, 
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },        
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+            data: props.count
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>累计论文数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+        </Box>
+    )
+}    
+function CitationAmountAcc(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+            plotOptions: {
+                bar: {
+                  columnWidth: '40%',
+                  borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical', 
+                    gradientToColors: ['#1b3bbb'], 
+                    opacityFrom: 0.96, 
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },        
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+            data: props.count
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>累计被引数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+        </Box>
+    )
+}    
 
-function HIndex({}) {
-    const [options, setOptions] = React.useState(
-        {
-            chart: {
-                type: 'bar',
-            },
-            xaxis: {
-                categories: [2012,'',2014,'',2016,'',2018,'',2020,'']
-            },
-            plotOptions: {
-                bar: {
-                  columnWidth: '40%',
-                  borderRadius: 6
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
-                    opacityTo: 0.2,
-                    stops:[0,100]
-                }
-            },        
-        }
-    )
-    const [series, setSeries] = React.useState(
-        [{
-            name: "H-index",
-            data: [47,53,63,74,84,96,107,122,135,143]
-        }]
-    );
-    return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
-        className='chart'>
-            <Row>
-                <BarChartOutlined className='chart-icon'  />
-                <Heading className='chart-head'>H-index Statistics</Heading>
-            </Row>
-            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
-        </Box>
-    )
-}    
-function PaperAmount({}) {
-    const [options, setOptions] = React.useState(
-        {
-            chart: {
-                type: 'bar',
-            },
-            xaxis: {
-                categories: [2012,'',2014,'',2016,'',2018,'',2020,'']
-            },
-            plotOptions: {
-                bar: {
-                  columnWidth: '40%',
-                  borderRadius: 6
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
-                    opacityTo: 0.2,
-                    stops:[0,100]
-                }
-            },        
-        }
-    )
-    const [series, setSeries] = React.useState(
-        [{
-            name: "Paper Amount",
-            data: [205,218,250,225,291,339,261,472,261,234]
-        }]
-    );
-    return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
-        className='chart'>
-            <Row>
-                <BarChartOutlined className='chart-icon'  />
-                <Heading className='chart-head'>Paper Amount Statistics</Heading>
-            </Row>
-            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
-        </Box>
-    )
-}    
-function CitationAmount({}) {
-    const [options, setOptions] = React.useState(
-        {
-            chart: {
-                type: 'bar',
-            },
-            xaxis: {
-                categories: [2012,'',2014,'',2016,'',2018,'',2020,'']
-            },
-            plotOptions: {
-                bar: {
-                  columnWidth: '40%',
-                  borderRadius: 6
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
-                    opacityTo: 0.2,
-                    stops:[0,100]
-                }
-            },        
-        }
-    )
-    const [series, setSeries] = React.useState(
-        [{
-            name: "New Citation Amount",
-            data: [3292,4260,6569,7950,9458,12023,14683,18090,18722,13111]
-        }]
-    );
-    return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
-        className='chart'>
-            <Row>
-                <BarChartOutlined className='chart-icon'  />
-                <Heading className='chart-head'>New Citation Amount Statistics</Heading>
-            </Row>
-            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
-        </Box>
-    )
-}    
 
-function InstitutionList({}) {
-    const max_count = 7026;
-    const max_citation = 737;
-    const max_hindex = 12;
-    const data = [
-        {
-          name: 'Chinese Academy of Sciences',
-          country: 'china',
-          count: '7026',
-          citation: '737',
-          h_index: '4',
-          link:'/',
-          picUrl: 'https://bit.ly/dan-abramov',
-        },
-        {
-            name: 'Nanyang Technological University',
-            country: 'Australia',
-            count: '3428',
-            citation: '719',
-            h_index: '12',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-        {
-            name: 'Peking University',
-            country: 'Germany',
-            count: '3369',
-            citation: '364',
-            h_index: '2',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },{
-            name: 'New York University',
-            country: 'china',
-            count: '1682',
-            citation: '267',
-            h_index: '5',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-        {
-            name: 'Tsinghua University',
-            country: 'Australia',
-            count: '690',
-            citation: '101',
-            h_index: '12',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-        {
-            name: 'Purdue University',
-            country: 'Canada',
-            count: '2287',
-            citation: '85',
-            h_index: "6",
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-        {
-            name: 'Katholieke Universiteit Leuven',
-            country: 'Germany',
-            count: '1357',
-            citation: '33',
-            h_index: '3',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-        {
-            name: 'Massachusetts Institute of Technology',
-            country: 'Canada',
-            count: '2736',
-            citation: '21',
-            h_index: '1',
-            link:'/',
-            picUrl: 'https://bit.ly/dan-abramov'
-        },
-    
-    ];
+function InstitutionList(props) {
+    React.useEffect(() => {
+        var data = props.vid;
+        var config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/venue/institute',
+            headers: { 
+                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
+                'Content-Type': 'application/json'
+            },
+            data : data
+        };
+        axios(config).then( res => {
+            setData(res.data.institute)
+            res.data.institute.forEach((item)=>{
+                if(item.Icount>max_work)
+                    setMaxWork(item.Icount)
+                if(item.Icited>max_cite)
+                    setMaxCite(item.Icited)
+            });
+        });
+    },[])
+    const [max_work, setMaxWork] = React.useState(0);
+    const [max_cite, setMaxCite] = React.useState(0);
+    const [data, setData] = React.useState([])
+   
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
@@ -404,90 +414,76 @@ function InstitutionList({}) {
             ),
             width: 80
         },{
-            title: 'name',
-            dataIndex: 'picUrl',
-            key: 'picUrl',
+            title: '名称',
+            dataIndex: 'Iimage',
+            key: 'Iimage',
             render: (_, record) => (
-                <Avatar name={record.name} src={record.picUrl} />
+                <Avatar name={record.Iname} src={record.Iimage} />
             ),
             width: 100,
         },{
             title: '',
-            dataIndex: 'name',
-            key: 'name',
-            ...getColumnSearchProps('name'),
-            sorter: (a, b) => a.name.localeCompare(b.name),
+            dataIndex: 'Iname',
+            key: 'Iname',
+            ...getColumnSearchProps('Iname'),
+            sorter: (a, b) => a.Iname.localeCompare(b.Iname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <Link href={record.link} isExternal>
-                    {record.name} <ExternalLinkIcon mx='2px' />
+                <Link href='/institute' isExternal>
+                    {record.Iname} <ExternalLinkIcon mx='2px' />
                 </Link>
             ),
             ellipsis: true,
             width: 400
         },{
-            title: 'country',
-            dataIndex: 'country',
-            key: 'country',
-            ...getColumnSearchProps('country'),
-            sorter: (a, b) => a.country.localeCompare(b.country),
+            title: '国家',
+            dataIndex: 'Icountry',
+            key: 'Icountry',
+            ...getColumnSearchProps('Icountry'),
+            sorter: (a, b) => a.Icountry.localeCompare(b.Icountry),
             sortDirections: ['descend', 'ascend'],
-            width: 200
+            width: 180
         },{
-            title: 'paper count',
-            dataIndex: 'count',
-            key: 'count',
-            sorter: (a, b) => a.count-b.count,
+            title: '类别',
+            dataIndex: 'Itype',
+            key: 'Itype',
+            width: 180
+        },{
+            title: '论文数量',
+            dataIndex: 'Icount',
+            key: 'Icount',
+            sorter: (a, b) => a.Icount-b.Icount,
             sortDirections: ['descend', 'ascend'],
-            width: 210,
+            width: 240,
             render:(_,record) =>(
                 <Row>
-                        <Text>{record.count}</Text>
+                        <Text>{record.Icount}</Text>
                         <Progress
                             style={{margin:'auto'}}
                             colorScheme='frog'
                             h='7px'
                             borderRadius='10px'
-                            w='70px'
-                            value={record.count/max_count*100}/>
+                            w='90px'
+                            value={record.Icount/max_work*100}/>
                 </Row>
             ),
         },{
-            title: 'citation',
-            dataIndex: 'citation',
-            key: 'citation',
-            sorter: (a, b) => a.citation - b.citation,
+            title: '引用数量',
+            dataIndex: 'Icited',
+            key: 'Icited',
+            sorter: (a, b) => a.Icited - b.Icited,
             sortDirections: ['descend', 'ascend'],
-            width: 210,
+            width: 240,
             render:(_,record) =>(
                 <Row>
-                        <Text>{record.citation}</Text>
+                        <Text>{record.Icited}</Text>
                         <Progress
                             style={{margin:'auto'}}
                             colorScheme='frog'
                             h='7px'
                             borderRadius='10px'
-                            w='70px'
-                            value={record.citation/max_citation*100}/>
-                </Row>
-            )
-        },{
-            title: 'H-index',
-            dataIndex: 'h_index',
-            key: 'h_index',
-            sorter: (a, b) => a.h_index - b.h_index,
-            sortDirections: ['descend', 'ascend'],
-            width: 210,
-            render:(_,record) =>(
-                <Row>
-                        <Text>{record.h_index}</Text>
-                        <Progress
-                            style={{margin:'auto'}}
-                            colorScheme='frog'
-                            h='7px'
-                            borderRadius='10px'
-                            w='70px'
-                            value={record.h_index/max_hindex*100}/>
+                            w='90px'
+                            value={record.Icited/max_cite*100}/>
                 </Row>
             )
         }
@@ -498,7 +494,7 @@ function InstitutionList({}) {
         className='list'>
             <Row>
                 <BarsOutlined style={{ fontSize: '36px', color: '#422afb', marginTop:'3px'}}></BarsOutlined>
-                <Heading  as='h3' size='lg' style={{marginLeft:'20px'}}>Institution List</Heading>
+                <Text className='institution-Title'>相关机构</Text>
             </Row>
             <Table dataSource={data} columns={columns} pagination={false} className='institutionList'>
             </Table>
@@ -507,29 +503,57 @@ function InstitutionList({}) {
 }    
 
 function Journal({}) {
+    const [data,setData] = React.useState({
+        Vfullname:'',
+        Vworkscount:'',
+        Vcitecount:'',
+        Vhomepage:'',
+        Cname:[],
+        Vconceptscores:[],
+        VworksCount:[]
+    });
+    React.useEffect(() => {
+        var config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/venue',
+            headers: { 
+                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
+                'Content-Type': 'application/json'
+            },
+            data : '0'
+        };
+        axios(config).then(res => {
+            console.log(res.data)
+            setData(res.data)
+        })
+
+    },[])
     return(
         <html className='journal'>
             <Row>
-                <Col span={16}>
-                    <Title ></Title>
+                <Col span={14}>
+                    <Title name={data.Vfullname} cite={data.Vcitecount}
+                        work={data.Vworkscount} homepage={data.Vhomepage}></Title>
                 </Col>
-                <Col span={8}>
-                    <Keywords></Keywords>
+                <Col span={10}>
+                    <Keywords Cname={data.Cname} Vconceptscores={data.Vconceptscores}></Keywords>
                 </Col>
             </Row>
             <Row>
-                <Col span={7} style={{marginLeft:'80px'}}>
-                    <HIndex></HIndex>
+                <Col span={5} style={{marginLeft:'80px'}} >
+                    <PaperAmount count={data.Vworksyear}></PaperAmount>
                 </Col>
-                <Col span={7} style={{marginLeft:'50px'}}>
-                    <PaperAmount></PaperAmount>
+                <Col span={5} style={{marginLeft:'50px'}}>
+                    <CitationAmount count={data.Vcitesyear}></CitationAmount>
                 </Col>
-                <Col span={7} style={{marginLeft:'50px'}}>
-                    <CitationAmount></CitationAmount>
+                <Col span={5} style={{marginLeft:'50px'}}>
+                    <PaperAmountAcc count={data.VworksAccumulate}></PaperAmountAcc>
                 </Col>
-                
+                <Col span={5} style={{marginLeft:'50px'}}>
+                    <CitationAmountAcc count={data.VcitesAccumulate}></CitationAmountAcc>
+                </Col>
             </Row>
-            <InstitutionList></InstitutionList>
+            <InstitutionList ></InstitutionList>
         </html>
     )
 }

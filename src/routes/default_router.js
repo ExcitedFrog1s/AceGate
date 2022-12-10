@@ -22,7 +22,6 @@ import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
 import Register from "../pages/user/register";
 import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
-import AdvancedSearchResults from "../pages/serach_results/advanced_search/advanced_search_results";
 import RecoverPassword from "../pages/user/recover-password";
 import ResetPassword from "../pages/user/reset-password";
 import {useState} from "react";
