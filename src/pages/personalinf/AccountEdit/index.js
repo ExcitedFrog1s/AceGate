@@ -1,39 +1,22 @@
 import "antd/dist/antd.min.css";
 import {
-    Typography,
     Layout,
-    message,
-    Upload,
-    Col,
     Row,
     Button,
     Form, Input,
     Menu,
+
 } from 'antd';
-import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
+import { CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer} = Layout;
 
 
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
 
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('请上传JPG/PNG格式的文件!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('图片必须小于2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-};
+// tabs callback
+
 
 const layout = {
     labelCol: {
@@ -55,10 +38,8 @@ const validateMessages = {
     },
 };
 
-function Edit() {
-    const [loading, setLoading] = useState(false);
+function AccountEdit() {
     const [data, setData] = useState([]);
-    const [imageUrl, setImageUrl] = useState();
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -67,7 +48,7 @@ function Edit() {
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo/accountedit",
             data: {
                 UID: params.get('UID'),
             }
@@ -80,39 +61,16 @@ function Edit() {
     }
 
     const [form] = Form.useForm();
-    const Uavatar = Form.useWatch('Uavatar', form);
-    const Uname = Form.useWatch('Uname', form);
-
-    // const pushData = ()=>{
-    //     axios({
-    //         method: "post",
-    //         url: "https://mock.apifox.cn/m1/1955876-0-default/editPortal2",
-    //         data: {
-    //             RID: params.get('RID'),
-    //             Ravatar: Ravatar,
-    //             Rinstitute: Rinstitute,
-    //             Rcontact: Rcontact,
-    //             Rconcepts: Rconcepts,
-    //             RpersonalPage: RpersonalPage,
-    //             Rgateinfo: Rgateinfo,
-    //         }
-    //     })
-    //         .then(res => {
-    //                 console.log(res.data)
-    //             }
-    //         )
-    // }
-
-   
-
+    const Uemail = Form.useWatch('Uemail', form);
+    const password = Form.useWatch('password', form);
     const changeInfo = () =>{
         axios({
           method: 'POST',
           url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
           data:{
-            UID : params.get('UID'),
-            Uavatar : Uavatar,
-            Uname : Uname,
+            UID: params.get('UID'),
+            Uemail : Uemail,
+            Upassword : password,
           }
         }).then(response =>{
           console.log(response)
@@ -123,31 +81,6 @@ function Edit() {
         getData();
     }, [])
 
-    const handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-            });
-        }
-    };
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
 
     const onFinish = (values) => {
         console.log(values);
@@ -210,10 +143,11 @@ function Edit() {
                         }}
                     >
                         <Form.Item
-                            name="Uavatar"
-                            label="头像"
+                            name="Uemail"
+                            label="电子邮箱"
                             rules={[
                                 {
+                                    type: 'email',
                                     required: false,
                                 },
                             ]}
@@ -221,41 +155,64 @@ function Edit() {
                                 padding: '10px',
                             }}
                         >
-                            <Upload
-                                name="avatar"
-                                listType="picture-card"
-                                className="avatar-uploader"
-                                showUploadList={false}
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                beforeUpload={beforeUpload}
-                                onChange={handleChange}
-                            >
-                                {imageUrl ? (
-                                    <img
-                                        src={imageUrl}
-                                        alt="avatar"
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                    />
-                                ) : (
-                                    uploadButton
-                                )}
-                            </Upload>
+                            <Input placeholder='如需修改邮箱，请输入新的邮箱'/>
                         </Form.Item>
                         <Form.Item
-                            name="Uname"
-                            label="用户名"
+                            label="密码"
+                            name="oldpassword"
+                            required
                             rules={[
-                                {
-                                    required: true,
-                                },
+                                ({ getFieldValue }) => ({
+                                    validator(rule, value) {
+                                        if (!value || data.Upassword === value) {
+                                            console.log(data.Upassword);
+                                            return Promise.resolve();
+                                        }
+                                        console.log(data.Upassword);
+                                        return Promise.reject('密码错误！');
+                                    },
+                                }),
                             ]}
                             style={{
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder={data.Uname}/>
+                            <Input.Password placeholder="请输入密码" />
+                        </Form.Item>
+                        <Form.Item
+                            label="新密码"
+                            name="password"
+                            rules={[{
+                                pattern:
+                                    /^(?![^a-zA-Z]+$)(?!\\D+$).{8,16}$/,
+                                message: "8-16位字符，必须包括字母和数字",
+                            }]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input.Password placeholder="如需修改密码，则请输入新的密码" />
+                        </Form.Item>
+
+                        <Form.Item
+                            label="确认密码"
+                            name="reNewPassword"
+                            dependencies={['password']}
+                            rules={[
+                                ({ getFieldValue }) => ({
+                                    validator(rule, value) {
+                                        if (!value || getFieldValue('password') === value) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject('两次输入的新密码不同！');
+                                    },
+                                }),
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input.Password placeholder="请再次输入新密码" />
                         </Form.Item>
                     </Form>
                     <Row
@@ -265,7 +222,7 @@ function Edit() {
                     >
                         <Link
                             to={{
-                                pathname: '/personInfo',
+                                pathname: '/personInfo/account',
                             }}
                             style={{
                                 margin: "auto",
@@ -311,4 +268,4 @@ function Edit() {
         </Layout>
     );
 }
-export default Edit;
+export default AccountEdit;
