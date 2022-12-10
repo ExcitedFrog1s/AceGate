@@ -61,6 +61,7 @@ function Data(prop) {
                 setPdata(res.data)
                 // setLoading(false)
             })
+
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/papaerDetails", formData)
             .then(function (res){
                 setFields(res.data)
