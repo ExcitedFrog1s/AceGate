@@ -1,13 +1,12 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
-import Header from '../../../components/header/header'
+import PubSub from 'pubsub-js';
 import * as React from 'react';
 import {Box} from "@chakra-ui/react";
+import { Skeleton, Stack } from '@chakra-ui/react'
 import ResultCard from "../result_card";
-import AdvancedSearchSearchFilter from "./advanced_search_filter";
-import {Pagination, Select, Spin} from "antd";
+import {Pagination, Row, Select, Col} from "antd";
 import "antd/dist/antd.min.css";
 import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -16,30 +15,54 @@ import AdvancedSearchFilter from "./advanced_search_filter";
 
 
 function Sort(props) {
-    let location = useLocation()
-    let params = new URLSearchParams(location.search)
-    let navigate = useNavigate()
-
     const [sort_order, setSortOrder] = React.useState('默认');
+    const [advanceSearch,setAdvanceSearch] = React.useState()
+    const [advStartTime,setAdvStartTime] = React.useState()
+    const [advEndTime,setAdvEndTime] = React.useState()
+
+    PubSub.subscribe('PubParams', (msg, params) => {
+        setAdvanceSearch(params.dataList)
+        setAdvStartTime(params.startTime)
+        setAdvEndTime(params.endTime)
+    })
+
     const handleChange = (value) => {
         setSortOrder(value)
-        let formData = new FormData
-        formData.append("normalSearch",params.get("q"))
-        formData.append("sort",sort_order)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
+        let data = {}
+        data.advancedSearch = advanceSearch
+        data.advStartTime = advStartTime
+        data.advEndTime = advEndTime
+        if(props.authorsArray !== undefined) {
+            data.filterAuthors = props.authorsArray
+        }
+        if(props.publicationTypesArray !== undefined) {
+            data.filterPublicationTypes = props.publicationTypesArray
+        }
+        if(props.startTime !== undefined) {
+            data.startTime = props.startTime
+        }
+        if(props.endTime !== undefined) {
+            data.endTime = props.endTime
+        }
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
+        axios(config)
             .then(res => {
                 props.setInfos(res.data.results)
                 props.setFilterInfos(res.data.filterItems)
-                props.setCurrentPageIndex(1)
             })
     };
 
     return(
-        <Box float={'right'} mr={'20%'} mt={'-50'}>
+        <Box float={'right'} mr={'15%'} mt={'-50'} >
             <Select
                 onChange={handleChange}
                 style={{width:120}}
-                defaultValue={params.has('order') ? params.get('order') : "默认"}
+                defaultValue={sort_order}
                 options={[
                     {
                         value: '默认',
@@ -65,27 +88,14 @@ function Sort(props) {
 
 
 function AdvancedSearchResults(props) {
-    let dataList = [{
-        category: 'main',
-        content: "",
-        type: 1,
-        },
-        {
-            category: 'author',
-            content: "",
-            type: 1,
-        },
-        {
-            category: 'source',
-            content: "",
-            type: 1,
-        }]
-
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
-    const navigate = useNavigate()
+    const [authorsArray,setAuthorArray] = React.useState()
+    const [publicationTypesArray,setPublicationTypesArray] = React.useState()
+    const [startTime,setStartTime] = React.useState()
+    const [endTime,setEndTime] = React.useState()
 
     // showed cards per page
     let page_show_num = 10
@@ -95,40 +105,88 @@ function AdvancedSearchResults(props) {
     let card_index_min
     let card_index_max
 
-    let location = useLocation()
-    let params = new URLSearchParams(location.search)
-
     const handleChange = (page,pageSize) => {
         setCurrentPageIndex(page)
     }
-    React.useEffect(() => {
-        const formData = new FormData()
-        if(params.has('startTime')) {
-            formData.append('startTime', params.get('startTime'))
-        }
-        if(params.has('endTime')) {
-            formData.append('endTime', params.get('endTime'))
-        }
-        if(params.has('order')) {
-            formData.append('order',params.get('order'))
-        }
-        if(params.has('authors')) {
-            formData.append('filterAuthors', params.get('authors').split(','))
-        }
-        if(params.has('publicationTypes')) {
-            formData.append('filterPublicationTypes', params.get('publicationTypes').split(','))
-        }
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults",formData)
+
+    PubSub.unsubscribe('PubParams');
+    PubSub.subscribe('PubParams', (msg, params) => {
+        let data = {}
+        data.advancedSearch = params.dataList
+        data.advStartTime = params.startTime
+        data.advEndTime = params.endTime
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
+        setLoading(true)
+        axios(config)
             .then(res => {
                 setInfos(res.data.results)
                 setFilterInfos(res.data.filterItems)
+                setCurrentPageIndex(1)
+                setLoading(false)
+            })
+    })
+
+    React.useEffect(() => {
+        let data = {}
+        let config = {
+            method: 'post',
+            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            data : data
+        };
+        axios(config)
+            .then(res => {
+                setInfos(res.data.results)
+                setFilterInfos(res.data.filterItems)
+                setCurrentPageIndex(1)
                 setLoading(false)
             })
     },[])
 
     if(isLoading) {
         return (
-            <Spin tip={"加载中"}/>
+            <Stack ml={'150px'} mt={'100px'}>
+                <Row>
+                    <Col span={6}>
+                        <Skeleton height='30px' width='100px' mt='100px'/>
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+
+                        <Skeleton height='20px' width='250px' mt='40px'/>
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                    </Col>
+                    <Col span={17} offset={1}>
+                        <Skeleton height='50px' width='700px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+
+                        <Skeleton height='50px' width='700px' mt='100px'/>
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='200px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='20px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                        <Skeleton height='20px' width='800px' mt='10px' />
+                    </Col>
+                </Row>
+
+            </Stack>
         )
     }
     else {
@@ -148,10 +206,15 @@ function AdvancedSearchResults(props) {
             {/*<Header textColor={'black'} />*/}
             {/*右侧界面*/}
             <AdvancedSearchFilter
+                marginLeft='200px'
                 setInfos={setInfos}
                 setFilterInfos={setFilterInfos}
                 setLoading={setLoading}
                 setCurrentPageIndex={setCurrentPageIndex}
+                setAuthorArray={setAuthorArray}
+                setPublicationTypesArray={setPublicationTypesArray}
+                setStartTime={setStartTime}
+                setEndTime={setEndTime}
                 filterInfos={filterInfos}
             />
             <Box>
@@ -160,9 +223,14 @@ function AdvancedSearchResults(props) {
                     setInfos={setInfos}
                     setFilterInfos={setFilterInfos}
                     setCurrentPageIndex={setCurrentPageIndex}
+                    setLoading={setLoading}
+                    authorsArray={authorsArray}
+                    publicationTypesArray={publicationTypesArray}
+                    startTime={startTime}
+                    endTime={endTime}
                 />
                 {/*论文卡片*/}
-                <Box mt={'200'}>
+                <Box mt={'120'} ml={'80px'}>
                     {
                         infos.map((value,key) => {
                             if(key >= card_index_min && key <= card_index_max) {

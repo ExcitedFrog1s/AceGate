@@ -56,8 +56,7 @@ function Author({author,key}) {
         color: '#83a7cf',
         fontSize: '14px',
         textDecoration: isHover ? 'underline' : 'none',
-        marginRight: '10px',
-        paddingTop: '20px'
+        marginRight: '10px'
     }
 
     return(
@@ -75,11 +74,11 @@ function Authors({authors}) {
     return(
 
 
-    <Box ml={'10'} mt={'20px'}>
+    <Box ml={'10'} mt={'15px'}>
         {
             authors.map((value, key) => {
                 return (
-                    <Author author={value} key={key}/>
+                    <Author author={value.name} key={key}/>
                 );
             })
         }
@@ -259,7 +258,7 @@ function ResultCard({props}) {
             <Authors authors={props.PAuthor}/>
             <TimeOrgan props={{'time':props.Pdate,'organ':props.IName}}/>
             <Content content={props.Pabstract}/>
-            <Labels labels={props.CTname}/>
+            <Labels labels={props.STname}/>
             <Operations props={props.isStar}/>
         </Box>
     )
