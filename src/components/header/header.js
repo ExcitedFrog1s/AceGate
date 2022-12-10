@@ -17,7 +17,7 @@ const NavLink = ({ children }) => (
         fontSize={'16px'}
         _hover={{
             textDecoration: 'none',
-            bg: useColorModeValue('gray.200', 'gray.700'),
+            // bg: useColorModeValue('gray.200', 'gray.700'),
         }}
         href={'#'}>
         {children}
@@ -67,20 +67,22 @@ function Header({textColor, isLanding=false}){
                             />
                         }
 
-                        {sections.map((link) => (
-                            <NavLink key={link}>{link}</NavLink>
-                        ))}
-
                     </HStack>
                 </HStack>
-                <Link
-                    as={RouterLink} to={'/login'}
-                    fontSize={'16px'}
-                    _hover={{
-                        textDecoration: 'none',
-                        color: 'black'
-                    }}
-                >登录</Link>
+                <HStack spacing={'3vw'}>
+                    {sections.map((link) => (
+                        <NavLink key={link}>{link}</NavLink>
+                    ))}
+                    <Link
+                        as={RouterLink} to={'/login'}
+                        fontSize={'16px'}
+                        _hover={{
+                            textDecoration: 'none',
+                            color: 'black'
+                        }}
+                    >登录</Link>
+                </HStack>
+
             </Flex>
         </Box>
 

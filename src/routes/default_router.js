@@ -34,6 +34,10 @@ const default_router = createBrowserRouter([
         element: <Landing />
     },
     {
+        path: '/landing',
+        element: <Landing />
+    },
+    {
         path: '/login',
         element: <Login />
     },

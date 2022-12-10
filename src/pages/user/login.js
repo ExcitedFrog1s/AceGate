@@ -13,16 +13,18 @@ import {
 } from '@chakra-ui/react'
 import Header from "../../components/header/header";
 
+
 import loginImg from '../../assets/login_img.jpg'
 import {useContext, useState} from "react";
 import axios from "axios";
 import {tokenContext} from "../../contexts/tokenContext";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
 
 
 async function loginUser(usernameOrEmail, password) {
     let ret = ""
     let status = ""
-    axios.post('/user/login', {
+    await axios.post('/user/login', {
         usernameOrEmail: usernameOrEmail,
         password: password
     })
@@ -31,7 +33,10 @@ async function loginUser(usernameOrEmail, password) {
             status = res.data.status
             ret = res.data.token
         })
-    return ret;
+    return {
+        token: ret,
+        status: status
+    };
 }
 
 
@@ -39,12 +44,18 @@ function Login(){
 
     const [usernameOrEmail, setUsernameOrEmail] = useState();
     const [password, setPassword] = useState();
-
+    const navigate = useNavigate();
 
     const handleLogin = async e => {
         e.preventDefault();
-        let token = await loginUser(usernameOrEmail, password);
-        // localStorage.setItem("userToken", token);
+        let data = await loginUser(usernameOrEmail, password);
+        console.log(data.token);
+        console.log(data.status);
+        if (data.token !== "" && data.status === 1) {
+            // localStorage.setItem("userToken", data.token);
+            alert("登录成功！");
+            navigate("/landing");
+        }
     }
 
 
@@ -126,6 +137,7 @@ function Login(){
                                     >
                                         登录
                                     </Button>
+                                    <Link as={RouterLink} to={'/register'} color={'blue.400'}>没有账号？去注册</Link>
                                 </VStack>
                                 <Center>
                                     <Text fontSize={'12px'} color={'darkgray'}>

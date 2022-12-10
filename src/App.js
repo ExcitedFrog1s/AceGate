@@ -27,9 +27,6 @@ const theme = extendTheme({
   },
 })
 
-axios.defaults.baseURL = 'https://mock.apifox.cn/m1/1955876-0-default'
-// axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
 function App() {
