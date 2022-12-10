@@ -20,11 +20,14 @@ import axios from "axios";
 
 async function registerUser(username, password, email, verificationCode) {
     let status = "ERR";
-    axios.post('/user/register', {
-        uesrname: username,
-        password: password,
-        email: email,
-        verificationCode: verificationCode
+    await axios.get('/user/register', {
+        params: {
+            username: username,
+            password: password,
+            email: email,
+            verificationCode: verificationCode
+        }
+
     })
         .then(res => {
             status = res.data.status
@@ -33,8 +36,10 @@ async function registerUser(username, password, email, verificationCode) {
 }
 
 async function sendVerificationEmail(email) {
-    await axios.post('/user.sendVerifyEmail',{
-        email: email
+    await axios.get('/user/sendVerifyEmail',{
+        params: {
+            email: email
+        }
     })
 }
 
