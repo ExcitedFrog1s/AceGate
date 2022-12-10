@@ -286,7 +286,7 @@ function ResultCard(props) {
             <TimeOrgan props={{'time':props.infos.Pdate,'organ':props.IName}}/>
             <Content content={props.infos.Pabstract} PID={props.infos.PID}/>
             <Labels labels={props.infos.PsystemTags}/>
-            <Operations props={props.infos.isStar}/>
+            {/*<Operations props={props.infos.isStar}/>*/}
         </Box>
     )
 }
