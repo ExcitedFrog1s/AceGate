@@ -25,6 +25,7 @@ import DefaultSearchResults from "../pages/serach_results/default_search/default
 import RecoverPassword from "../pages/user/recover-password";
 import ResetPassword from "../pages/user/reset-password";
 import {useState} from "react";
+import Toolbox from "../pages/discover/toolbox";
 
 const default_router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const default_router = createBrowserRouter([
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/toolbox',
+        element: <Toolbox />
     },
     {
         path: '/register',

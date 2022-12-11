@@ -75,7 +75,7 @@ function RecommendJournalsCard({subject}){
                     <Flex>
                         <Text fontSize='15px'>{entry.abbrName}</Text>
                         <Spacer />
-                        <Text fontSize='15px'>{entry.hIndex} H-Index</Text>
+                        <Text fontSize='15px'>{entry.hIndex} 引用</Text>
                     </Flex>
 
                     <Text fontSize='11px' color='grey'>{fullName}</Text>
@@ -104,7 +104,6 @@ function RecommendJournalsCard({subject}){
                 height={'85%'}
             >
                 {layout_result}
-                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 期刊...</Link>
             </Box>
 
         </Box>
