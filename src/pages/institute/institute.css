@@ -14,7 +14,8 @@
     border-radius: 15px 0 0 15px;
     width: 900px;
     height: 300px;
-    padding-right: 35px;
+    padding-right: 25px;
+    padding-left: 20px;
 }
 .icard .title{
     font-size: 30px;
@@ -31,7 +32,7 @@
     border-radius: 0 15px 15px  0;
     width: 360px;
     height: 300px;
-    padding-left: 30px;
+    padding-left: 10px;
     padding-top: 15px;
 }
 .scardInfo{
@@ -39,9 +40,9 @@
 }
 .scardInfo .title1{
     display: inline;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
-    padding-right: 50px;
+    padding-right: 10px;
 }
 
 .scardInfo .num1{

@@ -152,8 +152,11 @@ function CheckList() {
                     <div>{props.A.AAinstitution}</div>
                   </Form.Item>
                   <Form.Item label='个人主页链接'>
-                    <div>{props.A.AAhomepage}</div>
+                    <a href={props.A.AAhomepage}>{props.A.AAhomepage}</a>
                   </Form.Item>
+                  {props.A.AAtype == 1 && <Form.Item label='学者门户'>
+                    <a href={"/scholarPortal?RID="+props.A.AA_RID}>跳转学者门户</a>
+                  </Form.Item>}
                 </Form>
               </Card>
             </Col>

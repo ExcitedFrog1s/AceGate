@@ -51,6 +51,7 @@ function Manage(){
                 <Sider style={{width:200, height:700}}
                 theme="light">
                     <div className='left'><LeftMenu/></div>
+                    <img src={require('../../assets/manageleft.png')} style={{marginTop:350}} />
                 </Sider>
                 <Content>
                     <Outlet />

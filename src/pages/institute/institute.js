@@ -7,25 +7,8 @@ import React, { useEffect, useState } from 'react';
 import * as echarts from 'echarts'
 import { Card, Layout, Row, Col, Avatar, Button, Space, Table, Input } from 'antd';
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content } = Layout;
-// var insdata = {
-//     Iname: "Georgia Institute of Technology",
-//     Icountry: "None",
-//     Itype: "institute",
-//     Iimage: "https://www.acemap.info/api/v2/img/affiliation/2102344316.jpg",
-//     Iacronyms: "GIN",
-//     Iworksnum: 123,
-//     Icitednum: 1346,
-//     Ichinesename: "佐治亚理工学院",
-//     Ialternames: "佐治亚",
-//     IassociateIns: [],
-//     Iresearchers: [],
-//     Ischolars: 48,
-//     Ihomepage: "https://www.gatech.edu/"
-
-// }
-
 
 
 function separator(numb) {
@@ -37,6 +20,7 @@ function separator(numb) {
 
 
 function Icard(){
+    const navigate = useNavigate();
     const [insdata, setInsdata] = useState({});
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -49,50 +33,68 @@ function Icard(){
     const getData = ()=>{
         axios({
             method: "post",
-            url:"https://mock.apifox.cn/m1/1955876-0-default/institute/info",
+            url:"/institute/info",
             data: {
                 IID: IID
+            },
+            headers: {
+                "Content-Type": "application/json",
             }
           })
           .then(res => {
-              console.log(res.data)
-              setInsdata(res.data)
+              setInsdata(res.data.data)
+              console.log(res.data.data)
             }
           )
     }
+    const handleHomepage = (url)=>{
+        window.location.href=url
+    }
+
     useEffect(() =>{
         getData()
       }, [])
     function info(){
-        var flag = 0;
-        var strs = [];
-        var str = insdata.Iname + (insdata.Iacronyms ? (" (" + insdata.Iacronyms + ")") : "")
-        if(insdata.Ichinesename){
-            strs.push("中文名为" + insdata.Ichinesename)
-            flag += 1;
-        }
-            
-        if(insdata.Ialternames){
-            strs.push("别名" + insdata.Ialternames )
-            flag += 1;
-        }
-        if(insdata.Icountry)
-            strs.push("机构所属国家为" + insdata.Icountry)
-        if(insdata.Ischolars)
-            strs.push("机构共有学者 " + insdata.Ischolars + " 位")
-        if(insdata.Iworksnum)
-            strs.push("机构下学者已发表论文 " + insdata.Iworksnum + " 篇")
-        if(insdata.Icitednum)
-            strs.push("目前机构下论文已被引 " + insdata.Icitednum + " 次")
-        for(var i in strs){
-            if(i == flag){
-                str += ".  "
+        if(insdata.type != undefined){
+            var flag = 0;
+            var strs = [];
+            var str = insdata.iname + (insdata.Iacronyms[0] ? (" (" + insdata.Iacronyms[0] + ")") : "")
+            let j = insdata.ialtername.length
+            if(j > 0){
+                var altername = "别名" + insdata.ialtername[0];
+                for(let k = 1; k <= j; k++){
+                    altername += ", " + insdata.altername[k];
+                    j++;
+                }
+                strs.push(altername)
+                flag += 1;
             }
-            else str += ', ';
-            str += strs[i];
+
+            if(insdata.ichinesename){
+                strs.push("中文名为" + insdata.ichinesename)
+                flag += 1;
+            }
+                
+            
+            if(insdata.icountry)
+                strs.push("机构所属国家为" + insdata.icountry)
+            if(insdata.Ischolars)
+                strs.push("机构共有学者 " + insdata.Ischolars + " 位")
+            if(insdata.iworksum)
+                strs.push("机构下学者已发表论文 " + insdata.iworksum + " 篇")
+            if(insdata.icitednum)
+                strs.push("目前机构下论文已被引 " + insdata.icitednum + " 次")
+            for(var i in strs){
+                if(i == flag){
+                    str += ".  "
+                }
+                else str += ', ';
+                str += strs[i];
+            }
+            str += '. '
+            return str
         }
-        str += '. '
-        return str
+        return ''
     }
     return (
         <Row gutter={20}>
@@ -101,16 +103,17 @@ function Icard(){
         <Card >
             <Row gutter={16}>
                 <Col span={4}>
-                    {insdata.Iimage && <Avatar size={120} src={insdata.Iimage}></Avatar>}
-                    {!insdata.Iimage && <Avatar size={120} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',}}></Avatar>}
+                    {insdata.iimage && <Avatar size={115} src={insdata.iimage} style={{marginTop:30}}></Avatar>}
+                    {!insdata.iimage && <Avatar size={115} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',marginTop:30}}></Avatar>}
                 </Col>
                 <Col span={20} style={{paddingTop: 20}}>
-                    <div className="title">{insdata.Iname + (insdata.Iacronyms ? (" (" + insdata.Iacronyms + ")") : "")}</div>
-                    {insdata.Ichinesename && <div className="title">{insdata.Ichinesename}</div>}
+                    <div className="title">{insdata.iname + (insdata.Iacronyms ? (" (" + insdata.Iacronyms + ")") : "")}</div>
+                    {insdata.ichinesename && <div className="title">{insdata.ichinesename}</div>}
                     <div className="insinfo">
                         {info()}
                     </div>
-                    <Button type="primary" style={{marginTop:20}}>机构主页</Button>
+                    <Button type="primary" style={{marginTop:20}}
+                    onClick={()=>handleHomepage(insdata.ihomepage)}>机构主页</Button>
                 </Col>
             </Row>
         </Card>
@@ -120,8 +123,8 @@ function Icard(){
         <div className="scard">
             <Card>
                 <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="学者总数" num={insdata.IschNum}></ItemScard>
-                <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.Iworksnum}></ItemScard>
-                <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.Icitednum}></ItemScard>
+                <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.iworksum}></ItemScard>
+                <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.icitednum}></ItemScard>
             </Card>
         </div>
         </Col>

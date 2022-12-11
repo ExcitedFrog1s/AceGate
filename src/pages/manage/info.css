@@ -5,15 +5,12 @@
     margin-top: 3%;
 }
 .info #chart1{
-    margin-top: 35px;
+    
     width: 600px;
     height: 330px;
-    margin-left: 20%;
+    margin-left: 5%;
 }
-.info #chart2{
-    width: 200px;
-    height: 200px;
-}
+
 .info .ant-card-meta-title{
     font-size: 14px;
     margin-bottom: 0 !important;
