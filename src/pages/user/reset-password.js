@@ -16,7 +16,7 @@ import Header from "../../components/header/header";
 import loginImg from '../../assets/login_img.jpg'
 import {useState} from "react";
 import axios from "axios";
-import {useNavigate, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 async function resetPassword(email, newPassword, key){
     let ret = 0;
@@ -41,7 +41,11 @@ function ResetPassword(){
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const navigate = useNavigate();
 
-    const {key, email} = useParams();
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    const email = params.email
+    const key = params.key
+
 
     const handleResetPassword = async e => {
         if (newPassword.length < 8) {
