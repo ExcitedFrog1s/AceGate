@@ -120,13 +120,14 @@ function TimeOrgan({props}) {
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
                 {/*time stamp to year*/}
-                {new Date(props.time * 1000).getFullYear() + ' 年 ' +
-                    new Date(props.time * 1000).getMonth() + ' 月'}
+                {new Date(props.time).getFullYear() + ' 年 ' +
+                    new Date(props.time).getMonth() + ' 月'}
             </i>
             <Link href={'/'}
                   style={linkStyle}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
+                  ml={'20px'}
             >
                 {props.organ}
             </Link>
@@ -281,12 +282,12 @@ function ResultCard(props) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.infos.Pname} PID={props.infos.PID}/>
-            <Authors authors={props.infos.PAuthor}/>
-            <TimeOrgan props={{'time':props.infos.Pdate,'organ':props.IName}}/>
-            <Content content={props.infos.Pabstract} PID={props.infos.PID}/>
-            <Labels labels={props.infos.PsystemTags}/>
-            {/*<Operations props={props.infos.isStar}/>*/}
+            <Title title={props.infos.pname} PID={props.infos.pID}/>
+            {/*<Authors />*/}
+            <TimeOrgan props={{'time':props.infos.pdate,'organ':"111"}}/>
+            <Content content={props.infos.pabstract} PID={props.infos.pID}/>
+            <Labels labels={props.infos.psystemTags}/>
+            <Operations props={props.infos.isStar}/>
         </Box>
     )
 }

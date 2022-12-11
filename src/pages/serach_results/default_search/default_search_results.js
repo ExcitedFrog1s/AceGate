@@ -16,10 +16,10 @@ import Recommendation from "./recommendation";
 
 function Sort(props) {
     const cmpMostRecent = (a,b) => {
-        if(a.Pdate > b.Pdata) {
+        if(a.pdate > b.pdate) {
             return -1
         }
-        else if(a.Pdate < b.Pdata) {
+        else if(a.pdate < b.pdate) {
             return 1
         }
         else {
@@ -28,10 +28,10 @@ function Sort(props) {
     }
 
     const cmpMostCited = (a,b) => {
-        if(Number(a.Pcite) > Number(b.Pcite)) {
+        if(Number(a.pcite) > Number(b.pcite)) {
             return -1
         }
-        else if(Number(a.Pcite) < Number(b.Pcite)) {
+        else if(Number(a.pcite) < Number(b.pcite)) {
             return 1
         }
         else {
@@ -139,7 +139,6 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(null)
                 setCurrentPageIndex(1)
                 setLoading(false)
-                console.log(res.data)
             })
     },[])
 
@@ -196,23 +195,22 @@ function DefaultSearchResults(props) {
         card_index_min = paper_show_num_per_page * (current_page_index - 1)
         card_index_max = paper_show_num_per_page * (current_page_index) - 1
     }
-
     return(
         <Box>
         <Header textColor={'black'} />
         <Box>
             {/*左侧界面*/}
-            <DefaultSearchFilter
-                setInfos={setInfos}
-                setFilterInfos={setFilterInfos}
-                setLoading={setLoading}
-                setCurrentPageIndex={setCurrentPageIndex}
-                setAuthorArray={setAuthorArray}
-                setPublicationTypesArray={setPublicationTypesArray}
-                setStartTime={setStartTime}
-                setEndTime={setEndTime}
-                filterInfos={filterInfos}
-            />
+            {/*<DefaultSearchFilter*/}
+            {/*    setInfos={setInfos}*/}
+            {/*    setFilterInfos={setFilterInfos}*/}
+            {/*    setLoading={setLoading}*/}
+            {/*    setCurrentPageIndex={setCurrentPageIndex}*/}
+            {/*    setAuthorArray={setAuthorArray}*/}
+            {/*    setPublicationTypesArray={setPublicationTypesArray}*/}
+            {/*    setStartTime={setStartTime}*/}
+            {/*    setEndTime={setEndTime}*/}
+            {/*    filterInfos={filterInfos}*/}
+            {/*/>*/}
             {/*<Recommendation recommendation={recommendationInfos}/>*/}
             <Box>
                 {/*排序*/}

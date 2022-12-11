@@ -16,10 +16,10 @@ import AdvancedSearchFilter from "./advanced_search_filter";
 
 function Sort(props) {
     const cmpMostRecent = (a,b) => {
-        if(a.Pdate > b.Pdata) {
+        if(a.pdate > b.pdate) {
             return -1
         }
-        else if(a.Pdate < b.Pdata) {
+        else if(a.pdate < b.pdate) {
             return 1
         }
         else {
@@ -28,10 +28,10 @@ function Sort(props) {
     }
 
     const cmpMostCited = (a,b) => {
-        if(Number(a.Pcite) > Number(b.Pcite)) {
+        if(Number(a.pcite) > Number(b.pcite)) {
             return -1
         }
-        else if(Number(a.Pcite) < Number(b.Pcite)) {
+        else if(Number(a.pcite) < Number(b.pcite)) {
             return 1
         }
         else {
@@ -143,9 +143,9 @@ function AdvancedSearchResults(props) {
     React.useEffect(() => {
         if(!(params.has('label') && params.has('source'))) {
             let data = {}
-            data.advancedSearch = []
-            data.advStartTime = ''
-            data.advEndTime = ''
+            data.advancedSearch = null
+            data.advStartTime = null
+            data.advEndTime = null
             data.filterAuthors = ''
             data.filterPublicationTypes = ''
             data.startTime = ''
@@ -158,9 +158,9 @@ function AdvancedSearchResults(props) {
             };
             axios(config)
                 .then(res => {
-                    setInfos(res.data.results)
-                    setDefaultSort([...res.data.results])
-                    setFilterInfos(res.data.filterItems)
+                    setInfos(res.data.data.results)
+                    setDefaultSort([...res.data.data.results])
+                    setFilterInfos(res.data.data.filterItems)
                     setCurrentPageIndex(1)
                     setLoading(false)
                 })
