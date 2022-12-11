@@ -20,7 +20,6 @@ function separator(numb) {
 
 
 function Icard(){
-    const navigate = useNavigate();
     const [insdata, setInsdata] = useState({});
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -48,53 +47,51 @@ function Icard(){
           )
     }
     const handleHomepage = (url)=>{
-        window.location.href=url
+        window.open(url)
     }
 
     useEffect(() =>{
         getData()
       }, [])
     function info(){
-        if(insdata.type != undefined){
-            var flag = 0;
-            var strs = [];
-            var str = insdata.iname + (insdata.Iacronyms[0] ? (" (" + insdata.Iacronyms[0] + ")") : "")
-            let j = insdata.ialtername.length
-            if(j > 0){
-                var altername = "别名" + insdata.ialtername[0];
-                for(let k = 1; k <= j; k++){
-                    altername += ", " + insdata.altername[k];
-                    j++;
-                }
-                strs.push(altername)
-                flag += 1;
-            }
-
-            if(insdata.ichinesename){
-                strs.push("中文名为" + insdata.ichinesename)
-                flag += 1;
-            }
-                
-            
-            if(insdata.icountry)
-                strs.push("机构所属国家为" + insdata.icountry)
-            if(insdata.Ischolars)
-                strs.push("机构共有学者 " + insdata.Ischolars + " 位")
-            if(insdata.iworksum)
-                strs.push("机构下学者已发表论文 " + insdata.iworksum + " 篇")
-            if(insdata.icitednum)
-                strs.push("目前机构下论文已被引 " + insdata.icitednum + " 次")
-            for(var i in strs){
-                if(i == flag){
-                    str += ".  "
-                }
-                else str += ', ';
-                str += strs[i];
-            }
-            str += '. '
-            return str
+        var flag = 0;
+        var strs = [];
+        var str = insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")
+        if(insdata.ichinesename){
+            strs.push("中文名为" + insdata.ichinesename)
+            flag += 1;
         }
-        return ''
+            
+        if(insdata.ialternames){
+            let j = insdata.ialternames.length;
+            if(j > 0){
+                let altername = "别名" + insdata.ialternames[0]
+                for(let k = 1; k < j; k++){
+                    altername += ", " +  insdata.ialternames[k];
+                }
+                strs.push(altername);
+                flag += 1;
+            }
+        }
+        if(insdata.itype)
+            strs.push("机构类型为" + insdata.itype)
+        if(insdata.icountry)
+            strs.push("机构所属国家为" + insdata.icountry)
+        if(insdata.Ischolars)
+            strs.push("机构共有学者 " + insdata.Ischolars + " 位")
+        if(insdata.iworksum)
+            strs.push("机构下学者已发表论文 " + insdata.iworksum + " 篇")
+        if(insdata.icitednum)
+            strs.push("目前机构下论文已被引 " + insdata.icitednum + " 次")
+        for(var i in strs){
+            if(i == flag){
+                str += ".  "
+            }
+            else str += ', ';
+            str += strs[i];
+        }
+        str += '. '
+        return str
     }
     return (
         <Row gutter={20}>
@@ -149,12 +146,12 @@ var option = {
     },
     tooltip: {},
     xAxis: {
-      data: ['A', 'B', 'C', 'D', 'E']
+      data: []
     },
     yAxis: {},
     series: [
       {
-        data: [10, 22, 28, 23, 19],
+        data: [],
         type: 'line',
         smooth: true
       }
