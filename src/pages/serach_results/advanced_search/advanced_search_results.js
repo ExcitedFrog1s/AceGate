@@ -141,7 +141,7 @@ function AdvancedSearchResults(props) {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     React.useEffect(() => {
-        if(!params.has('label')) {
+        if(!(params.has('label') && params.has('source'))) {
             let data = {}
             data.advancedSearch = []
             data.advStartTime = ''
