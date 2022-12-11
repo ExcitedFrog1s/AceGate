@@ -7,11 +7,11 @@ import axios from "axios";
 import Left from "../Left";
 
 const { Header, Content, Footer, Sider } = Layout;
-const { Title,  } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 
 
-function PersonInfo() {
+function Account() {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     // let RID = params.get('RID')
@@ -20,9 +20,9 @@ function PersonInfo() {
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo/account",
             data: {
-                RID: params.get('RID'),
+                UID: params.get('UID'),
             }
         })
             .then(res => {
@@ -37,6 +37,7 @@ function PersonInfo() {
 
     // hover style
     // homepage
+
     return (
         <Layout className="layout">
             <Header>
@@ -72,35 +73,31 @@ function PersonInfo() {
                 >
                     <Left/>
                     <Row>
-                        <Col span={5}>
-                            <Avatar
-                                size={130}
-                                icon={<UserOutlined />}
-                                style={{
-                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
-                                }}
-                                src={data?.Uavatar}
-                            />
-                        </Col>
+                        
                         <Col span={15}>
                             <Typography
                                 style={{
                                     padding: '0 0 0 10px',
                                 }}
                             >
-                                <Title
-                                    style={{
-                                        textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
-                                        textAlign: "center",
-                                        margin: '100 0 0 0px'
-                                    }}
-                                >{data.Uname}</Title>
+                               
+                                <Paragraph
+                                style={{
+                                    fontSize: '30px',
+                                    textAlign: 'center'
+                                }}
+                                >
+                                    <Space>
+                                        <MailOutlined />
+                                    </Space>
+                                    <Text> {data?.Uemail}</Text>
+                                </Paragraph>
                             </Typography>
                         </Col>
                         <Col span={4}>
                         <Link
                                     to={{
-                                        pathname: '/personInfo/edit',
+                                        pathname: '/personInfo/accountedit',
                                     }}
                                 >
                                     <Button
@@ -134,4 +131,4 @@ function PersonInfo() {
         </Layout>
     );
 }
-export default PersonInfo;
+export default Account;

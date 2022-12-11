@@ -110,7 +110,16 @@ const default_router = createBrowserRouter([
             {
                 path: 'edit',
                 element: <Information/>
-            }
+            },
+            {
+                path: 'account',
+                element: <Information/>
+            },
+            {
+                path: 'accountedit',
+                element: <Information/>
+            },
+            
 
         ]
     },
