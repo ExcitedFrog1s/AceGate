@@ -18,14 +18,10 @@ function Reference(prop) {
 
         },],
     }
-    React.useEffect( () => {
-        if(prop.refs.length !== 0 && prop.rels.length !== 0){
+    const handleClick = (PID) => {
+        window.open('/paperDetails?PID=' + PID)
+    }
 
-        }
-        else{
-
-        }
-    },[])
     return(
         <Box
             width={'55%'}
@@ -58,7 +54,7 @@ function Reference(prop) {
                         <List mt={4} fontSize={'15'}>
                             {prop.refs.map((value, key) => {
                                 return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link href={'/'} style={{ textDecoration:'none'}}>
+                                        <Link style={{ textDecoration:'none'}} onClick={()=>handleClick(value.PID)}>
                                         [{key+1}]&nbsp;&nbsp;
                                         {value.Pname}
 
@@ -95,7 +91,7 @@ function Reference(prop) {
                         <List mt={4} fontSize={'15'}>
                             {prop.rels.map((value, key) => {
                                 return (<ListItem key={key} mb={4} className={'t'}>
-                                    <Link href={'/'} style={{ textDecoration:'none'}}>
+                                    <Link onClick={()=>handleClick(value.PID)} style={{ textDecoration:'none'}}>
                                         [{key+1}]&nbsp;&nbsp;
                                         {value.Pname}
 
@@ -118,7 +114,7 @@ function Reference(prop) {
 
 
                     </TabPanel>
-                    <TabPanel>
+                    <TabPanel ml={8}>
                         <Comment pid={prop.pid}/>
                     </TabPanel>
                 </TabPanels>
