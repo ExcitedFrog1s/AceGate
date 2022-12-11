@@ -104,15 +104,7 @@ function Comment(prop) {
 
     if(isLoading) {
         return (
-            <Spinner
-                ml={'45%'}
-                mt={'25%'}
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
-            />
+            <></>
         )
     }
     let handleInputChange = (e) => {
@@ -145,7 +137,9 @@ function Comment(prop) {
                 }
             })
     }
-    console.log(value)
+    const handleClick = (UID) => {
+        window.open('/scholarPortal?UID=' + UID)
+    }
     return(
         <>
         <VStack >{
@@ -165,7 +159,8 @@ function Comment(prop) {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link href={'/'} ml={4}  color={'#3311DB'} fontSize={20}>{value.Uname}</Link>
+                                <Link  ml={4} onClick={()=>handleClick(value.UID)} color={'#3311DB'} fontSize={20}>
+                                    {value.Uname}</Link>
 
                                 <Text color={'#7551FF'}>
                                     {value.Clikes}点赞
