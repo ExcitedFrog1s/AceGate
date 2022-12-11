@@ -222,8 +222,10 @@ function LoginAndRegister () {
             <Content
                 className="content"
                 style={{
+                    background: currentIsLogin ? 'linear-gradient(90deg,#f7fafc, rgba(158, 171, 196, 0.8))' : 'linear-gradient(270deg,#f7fafc, rgba(158, 171, 196, 0.8))',
                     padding: '50px 200px 20px 200px',
                     height: '100vh',
+                    transition: '0.5s',
                 }}
 
             >
