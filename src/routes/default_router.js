@@ -20,11 +20,13 @@ import ScholarPortal from '../pages/ScholarPortal/Portal.js'
 import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
+import LoginAndRegister from "../pages/user/loginAndRegister";
 import Register from "../pages/user/register";
 import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
 import RecoverPassword from "../pages/user/recover-password";
 import ResetPassword from "../pages/user/reset-password";
 import {useState} from "react";
+import Toolbox from "../pages/discover/toolbox";
 
 const default_router = createBrowserRouter([
     {
@@ -40,6 +42,14 @@ const default_router = createBrowserRouter([
         element: <Login />
     },
     {
+        path: '/toolbox',
+        element: <Toolbox />
+    },
+    {
+        path: '/login2',
+        element: <LoginAndRegister />
+    },
+    {
         path: '/register',
         element: <Register />
     },
@@ -48,7 +58,7 @@ const default_router = createBrowserRouter([
         element: <RecoverPassword />
     },
     {
-        path: '/resetPassword',
+        path: '/resetPassword/:key/:email',
         element: <ResetPassword />
     },
     {
@@ -100,7 +110,16 @@ const default_router = createBrowserRouter([
             {
                 path: 'edit',
                 element: <Information/>
-            }
+            },
+            {
+                path: 'account',
+                element: <Information/>
+            },
+            {
+                path: 'accountedit',
+                element: <Information/>
+            },
+            
 
         ]
     },

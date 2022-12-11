@@ -14,8 +14,51 @@ import {
 import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
+import {useState} from "react";
+import axios from "axios";
+
+async function sendRecoverEmail(email){
+    let ret = 0;
+    await axios.get('/user/sendRecoverEmail', {
+        params: {
+            email: email
+        }
+    })
+        .catch((error) => {
+            ret = -1;
+            console.error({ error });
+        });
+    console.log(ret)
+    return ret;
+}
+
+const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+
+
 
 function RecoverPassword(){
+
+    const [email, setEmail] = useState();
+
+    const handleSendRecoverEmail = async e => {
+        if (!validateEmail(email)) {
+            alert("邮箱格式错误！");
+            return -1;
+        }
+        let result = await sendRecoverEmail(email);
+        if (result !== 0) {
+            alert("发送邮件过程出现错误。")
+            return -1;
+        }
+        alert("如果您输入的邮箱已经在AceGate注册过，那么我们将向该邮箱发送找回邮件。")
+    }
+
     return (
         <div>
             <Header textColor={'black'} />
@@ -68,7 +111,7 @@ function RecoverPassword(){
                                     >
                                         <FormControl id="username">
                                             <FormLabel fontSize={'15px'}>注册账户时使用的邮箱</FormLabel>
-                                            <Input type="text" />
+                                            <Input type="email" onChange={e => setEmail(e.target.value)} />
                                         </FormControl>
                                     </VStack>
                                     <Button
@@ -78,6 +121,7 @@ function RecoverPassword(){
                                             bg: 'rgb(0, 160, 255)',
                                         }}
                                         width={'100%'}
+                                        onClick={handleSendRecoverEmail}
                                     >
                                         发送找回邮件
                                     </Button>

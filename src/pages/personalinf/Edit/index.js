@@ -1,295 +1,314 @@
-//by wgx
-import { Button, Form, Input } from 'antd';
-import {nanoid} from 'nanoid';
-import Item from '../Item';
-import Select from '../Select'
-import {Link} from 'react-router-dom';
-import React, { Component } from 'react'
-import Interest from '../Interest';
-import {RollbackOutlined, CheckCircleOutlined} from '@ant-design/icons';
-import axios from 'axios';
+import "antd/dist/antd.min.css";
+import {
+    Typography,
+    Layout,
+    message,
+    Upload,
+    Col,
+    Row,
+    Button,
+    Form, Input,
+    Menu,
+} from 'antd';
+import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
+import {Link, useLocation} from 'react-router-dom'
+import axios from "axios";
+const { Header, Content, Footer, Sider } = Layout;
 
-export default class Edit extends Component {
-  state = {fields:[
-  ],
-  interests:[
-  ],
-  }
 
-  
+const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+};
 
-  addfield = ()=>{
-    const field = this.field;
-    const {fields} = this.state;
-    if (field.input.value.trim() === ''){
-      alert('输入不能为空');
-      return;
+const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        message.error('请上传JPG/PNG格式的文件!');
     }
-    const newfield = {id:nanoid(),value:field.input.value};
-    const newfields = [...fields,newfield];
-    this.setState({fields:newfields});
-  }
-
-  deletefieldint = (id)=>{
-    const {fields} = this.state
-    const {interests} = this.state
-    const newfields = fields.filter((field)=>{
-      return field.id !==id
-    })
-    const newinterests = interests.filter((interest)=>{
-      return interest.id !==id
-    })
-    this.setState({fields:newfields})
-    this.setState({interests:newinterests})
-  }
-
-  addinterest = ()=>{
-    const interest = this.interest
-    const {interests} = this.state
-    if (interest.input.value.trim() === ''){
-      alert('输入不能为空')
-      return
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        message.error('图片必须小于2MB!');
     }
-    const newinterest = {id:nanoid(),value:interest.input.value}
-    const newinterests = [...interests,newinterest]
-    this.setState({interests:newinterests})
-    interest.input.value = ''
-  }
+    return isJpgOrPng && isLt2M;
+};
 
-  selectinterest = (inter)=>{
-    const {interests} = this.state
-    const newinterest = {id:nanoid(),value:inter}
-    const newinterests = [...interests,newinterest]
-    this.setState({interests:newinterests})
-  }
+const layout = {
+    labelCol: {
+        span: 6,
+    },
+    wrapperCol: {
+        span: 16,
+    },
+};
 
+const validateMessages = {
+    required: '${label}为必填项',
+    types: {
+        email: '请输入有效的${label}!',
+        number: '${label} is not a valid number!',
+    },
+    number: {
+        range: '${label} must be between ${min} and ${max}',
+    },
+};
 
-  changeInfo = () =>{
-    const {name} = this.name;
-    const {contact} = this.contact;
-    const {institute} = this.institute;
-    const {email} = this.email;
-    axios({
-      method: 'POST',
-      url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
-      data:{
-        Rname: {name},
-        Rcontact: {contact},
-        Rinstitute: {institute},
-        Uemail: {email},
-        Ufield: ['1', '2', '3'],
-        Uinterest: ['1', '2', '3']
+function Edit() {
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState([]);
+    const [imageUrl, setImageUrl] = useState();
+
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    // let RID = params.get('RID')
+
+    const getData = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo",
+            data: {
+                UID: params.get('UID'),
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                }
+            )
+    }
+
+    const [form] = Form.useForm();
+    const Uavatar = Form.useWatch('Uavatar', form);
+    const Uname = Form.useWatch('Uname', form);
+
+    // const pushData = ()=>{
+    //     axios({
+    //         method: "post",
+    //         url: "https://mock.apifox.cn/m1/1955876-0-default/editPortal2",
+    //         data: {
+    //             RID: params.get('RID'),
+    //             Ravatar: Ravatar,
+    //             Rinstitute: Rinstitute,
+    //             Rcontact: Rcontact,
+    //             Rconcepts: Rconcepts,
+    //             RpersonalPage: RpersonalPage,
+    //             Rgateinfo: Rgateinfo,
+    //         }
+    //     })
+    //         .then(res => {
+    //                 console.log(res.data)
+    //             }
+    //         )
+    // }
+
+   
+
+    const changeInfo = () =>{
+        axios({
+          method: 'POST',
+          url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
+          data:{
+            UID : params.get('UID'),
+            Uavatar : Uavatar,
+            Uname : Uname,
+          }
+        }).then(response =>{
+          console.log(response)
+        });
       }
-    }).then(response =>{
-      console.log(response)
-    });
-  }
-  
-  render() {
-    const saveStyle = {
-      backgroundColor: '#50af78',
-      border: 'none',
-      boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
-    }
 
-    const validateMessages = {
-      required: '${label}为必填项',
-      types: {
-          email: '请输入有效的${label}!',
-          number: '${label} is not a valid number!',
-      },
-      number: {
-          range: '${label} must be between ${min} and ${max}',
-      },
+    useEffect(() => {
+        getData();
+    }, [])
+
+    const handleChange = (info) => {
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            getBase64(info.file.originFileObj, (url) => {
+                setLoading(false);
+                setImageUrl(url);
+            });
+        }
+    };
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div
+                style={{
+                    marginTop: 8,
+                }}
+            >
+                Upload
+            </div>
+        </div>
+    );
+
+    const onFinish = (values) => {
+        console.log(values);
     };
 
-    const {accountinfs} = this.props
-    const {interestwords} = this.props
-    const {scholar} = this.props
-    const {fields} = this.state
-    const {interests} = this.state
-    let field;
-    let interest;
+    // save button hover style
+    const [saveIsHover, setSaveIsHover] = useState(false)
+    const handleMouseEnterSave = () => {
+        setSaveIsHover(true)
+    }
+    const handleMouseLeaveSave = () => {
+        setSaveIsHover(false);
+    }
+    const saveStyle = {
+        backgroundColor: saveIsHover ? '#5bc28b' : '#50af78',
+        border: 'none',
+        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+    }
+
     return (
-        <div>
-        <div className="informationframe">
-          <h2 className="frametitle">账户信息</h2>
-          {
-            accountinfs.map( inf =>{
-              if(inf.id !== "002" || scholar){
-                return<Item key={inf.id} {...inf}/>
-              }
-            })
-          }
-        </div>
-        <Form >
-          <div className="informationframe">
-            <h2 className="frametitle">个人信息</h2>
-            {scholar
-            ?  <div>
-                  <div className="list_container">
-                    <div className="information_name">
-                    </div>
-                    <div className="infinput">
-                      <Form.Item
-                          label= {<span>真实姓名</span>}
-                          rules={[
-                              {
-                                  required: false,
-                              },
-                          ]}
-                      >
-                          <Input ref={c => this.name = c} maxLength="15" className="input1" type="text" placeholder="请输入真实姓名"/>
-                      </Form.Item>
-                    </div>
-                  </div>
-                  <div className="list_container">
-                    <div className="information_name">
-                    </div>
-                    <div className="infinput">
-                      <Form.Item
-                          label= {<span>联系电话</span>}
-                          rules={[
-                              {
-                                  required: false,
-                              },
-                          ]}
-                      >
-                          <Input ref={c => this.contact = c} maxLength="20" className="input1" type="text" placeholder="请输入联系电话"/>
-                      </Form.Item>
-                    </div>
-                  </div>
-                  <div className="list_container">
-                    <div className="information_name">
-                    </div>
-                    <div className="infinput">
-                     <Form.Item
-                          label= { <span>工作单位</span>}
-                          rules={[
-                              {
-                                  required: false,
-                              },
-                          ]}
-                      >
-                          <Input ref={c => this.institute = c} maxLength="20" className="input1" type="text" placeholder="请输入工作单位"/>
-                      </Form.Item>
-                    </div>
-                  </div>
-                </div>
-            :  <div/>
-            }
-            <div className="list_container">
-              <div className="information_name">
-              </div>
-              <div className="infinput">
-              <Form.Item
-                label={
-                  <div>
-                    <b style={{color: 'rgb(215, 38, 31)'}}>* </b>
-                    <span>E-mail</span>
-                  </div>
-                }
-                rules={[
-                    {
-                        type: 'email',
-                        required: false,
-                    },
-                ]}
-              >
-                <Input maxLength="20" ref={c => this.email = c} className="input1" type="text" placeholder="请输入E-mail"/>
-              </Form.Item>
-                
-              </div>
-             
-            </div>
-            <div className="list_container">
-              <div className="information_name">
-              </div>
-              <div className="infinput">
-                <Form.Item
-                    label= {<span>研究领域</span>}
-                    rules={[
-                        {
-                            required: false,
-                        },
-                    ]}
+        <Layout className="layout">
+            <Header>
+                <div/>
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    defaultSelectedKeys={['2']}
+                    items={new Array(15).fill(null).map((_, index) => {
+                        const key = index + 1;
+                        return {
+                            key,
+                            label: `nav ${key}`,
+                        };
+                    })}
+                />
+            </Header>
+            <Content
+                style={{
+                    padding: '50px 200px 20px 200px',
+                    backgroundColor: 'rgb(230,235,247)',
+                }}
+            >
+                <div
                     style={{
-                     float: 'left'
-                  }}
+                        padding: '50px 50px 30px 50px',
+                        Height: '200px',
+                        backgroundColor: 'white',
+                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
+                        borderRadius: '10px',
+                    }}
                 >
-                      <Input maxLength="15" ref={c => this.field = c} className="input1" type="text" placeholder="请输入研究领域，点击按钮可完成添加"/>
-                </Form.Item>
-                <Button className="clickconfirm" onClick={this.addfield}> √ </Button>
-              </div>
-              <div className='select_wrap'>
-                {
-                  fields.map( inf =>{
-                  return<Select deletefieldint={this.deletefieldint} key={inf.id} {...inf}/>
-                })
-                }  
-              </div>
-            </div>
-            <div className="list_container">
-              <div className="information_name">
-              </div>
-              <div className="infinput">
-                <Form.Item
-                  label= {<span>我的兴趣</span>}
-                  rules={[
-                      {
-                          required: false,
-                      },
-                  ]}
-                  style={{
-                    float: 'left'
-                 }}
-                >
-                     <Input maxLength="15" ref={c => this.interest = c} className="input1" type="text" placeholder="请输入兴趣词，点击按钮可完成添加"/>
-                </Form.Item>
-                <Button className="clickconfirm" onClick={this.addinterest}> √ </Button>
-              </div>
-              <div className='select_wrap'>
-                {
-                  interests.map( inf =>{
-                  return<Select deletefieldint={this.deletefieldint} key={inf.id} {...inf}/>
-                })
-                }  
-              </div>
-              <div className="option">
-              <div className="optiontitle">
-                  <p>推荐：</p>
-                  {
-                    interestwords.map( inf =>{
-                      return<Interest addinterest={this.selectinterest} key={inf.id} {...inf}/>
-                      })
-                  }
-              </div>
-            </div>
-            <Link to="/personInfo">
-              <Button className="button1"
-              type={"primary"}
-              icon={<CheckCircleOutlined />}
-              size="middle"
-              shape={"round"}
-              style={saveStyle}
-              onClick={this.changeInfo}
-              >完成</Button>
-              <Button className="button2" 
-              icon = {<RollbackOutlined />}
-              type="primary"
-              size="middle"
-              shape={"round"}
-              style={{
-                  margin: '25px 40px 16px 30px',
-                  border: 'none',
-                  boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-              }}
-              >取消</Button>
-            </Link>
-            </div>
-          </div>
-        </Form>
-      </div>
-    )
-  }
+                    
+                    <Form
+                        {...layout}
+                        form={form}
+                        onFinish={onFinish}
+                        validateMessages={validateMessages}
+                        style={{
+                            padding: '20px 0 0 0',
+                        }}
+                    >
+                        <Form.Item
+                            name="Uavatar"
+                            label="头像"
+                            rules={[
+                                {
+                                    required: false,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Upload
+                                name="avatar"
+                                listType="picture-card"
+                                className="avatar-uploader"
+                                showUploadList={false}
+                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                beforeUpload={beforeUpload}
+                                onChange={handleChange}
+                            >
+                                {imageUrl ? (
+                                    <img
+                                        src={imageUrl}
+                                        alt="avatar"
+                                        style={{
+                                            width: '100%',
+                                        }}
+                                    />
+                                ) : (
+                                    uploadButton
+                                )}
+                            </Upload>
+                        </Form.Item>
+                        <Form.Item
+                            name="Uname"
+                            label="用户名"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder={data.Uname}/>
+                        </Form.Item>
+                    </Form>
+                    <Row
+                        style={{
+                            padding: '8px 0 0 0',
+                        }}
+                    >
+                        <Link
+                            to={{
+                                pathname: '/personInfo',
+                            }}
+                            style={{
+                                margin: "auto",
+                            }}
+                        >
+                            <Button
+                                type={"primary"}
+                                icon={<CheckCircleOutlined />}
+                                size="large"
+                                shape={"round"}
+                                style={saveStyle}
+                                onMouseEnter={handleMouseEnterSave}
+                                onMouseLeave={handleMouseLeaveSave}
+                                onClick={changeInfo}
+                            >
+                                保存
+                            </Button>
+                            <Button className="button2" 
+                                icon = {<RollbackOutlined/>}
+                                type="primary"
+                                size="large"
+                                shape={"round"}
+                                style={{
+                                    margin: '25px 40px 16px 30px',
+                                    border: 'none',
+                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                                }}
+                            >
+                                取消
+                            </Button>
+                        </Link>
+                    </Row>
+                </div>
+            </Content>
+            <Footer
+                style={{
+                    textAlign: 'center',
+                    backgroundColor: 'rgb(230,235,247)'
+                }}
+            >
+                AceGate ©2022 Beihang University
+            </Footer>
+        </Layout>
+    );
 }
+export default Edit;

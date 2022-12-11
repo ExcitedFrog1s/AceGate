@@ -2,151 +2,88 @@
 // Created by zyc on 2022/12/09.
 //
 import PubSub from 'pubsub-js';
-import {Box, Stack, Input, Text, Checkbox, Button} from '@chakra-ui/react';
+import {Box, Stack, Input, Text, Checkbox, Button, RadioGroup,Radio} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
 import * as React from 'react';
 import axios from "axios";
+import {Col, DatePicker} from "antd";
+import locale from "antd/lib/date-picker/locale/zh_CN";
+
+const { RangePicker } = DatePicker;
 
 function AdvancedSearchTimeRangeFilter(props) {
-    const [start_time,setStartTime] = useState('1900')
-    const [end_time,setEndTime] = useState('2022')
+    const [start_time,setStartTime] = useState()
+    const [end_time,setEndTime] = useState()
+    const [timeValue, setTimeValue] = useState();
 
-    const handleStartTimeChange = (e) => {
-        setStartTime(e.target.value)
-        props.setStartTime(e.target.value)
-    }
-
-    const handleEndTimeChange = (e) => {
-        setEndTime(e.target.value)
-        props.setEndTime(e.target.value)
-    }
+    const changeTime = (date, dateString) => {
+        setStartTime(dateString[0]);
+        setEndTime(dateString[1]);
+        props.setStartTime(dateString[0])
+        props.setEndTime(dateString[1])
+    };
 
     return(
         <Box ml={'20px'} mt={'30px'}>
             <Text mb={'10px'}>{'发表年份'}</Text>
-            <Input
-                value={start_time}
-                onChange={handleStartTimeChange}
-                placeholder='开始时间'
-                htmlSize={4}
-                width='auto'
-                variant='filled'
-                size='sm'
-            />
-            <span>{' ~ '}</span>
-            <Input
-                value={end_time}
-                onChange={handleEndTimeChange}
-                placeholder='结束时间'
-                htmlSize={4}
-                width='auto'
-                variant='filled'
-                size='sm'
-            />
+            <Col span={17}>
+                <RangePicker locale={locale} picker="month" className='datePicker'
+                             onChange={changeTime} key={timeValue}/>
+            </Col>
         </Box>
     )
 }
 
 function AdvancedSearchPublicationTypesFilter(props) {
-    let len = props.content.length
-
-    const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
-
-    let allChecked = checkedItems.every(Boolean)
-    let isIndeterminate = checkedItems.some(Boolean) && !allChecked
-
-
     return(
         <Box ml={'20px'} mt={'30px'}>
             <Text>{'出版类型'}</Text>
-            <Checkbox
-                isChecked={allChecked}
-                isIndeterminate={isIndeterminate}
-                onChange={(e) => {
-                    let array = new Array(len).fill(e.target.checked)
-                    setCheckedItems(array)
-                    props.setPublicationTypes(array)
-                }}
-            >
-                {'全部 (' + props.totalNumber + ')'}
-            </Checkbox>
-            <Stack pl={6} mt={1} spacing={1}>
-                {
-                    props.content.map((value, key) => {
-                        return (
-                            <Checkbox
-                                isChecked={checkedItems[key]}
-                                onChange={(e) => {
-                                    let array = checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1))
-                                    setCheckedItems(array)
-                                    allChecked = checkedItems.every((e) => {return e})
-                                    isIndeterminate = checkedItems.some((e) => {return e}) && !allChecked
-                                    props.setPublicationTypes(array)
-                                }}
-                            >
-                                {value.publicationType + ' ('+ value.number + ')'}
-                            </Checkbox>
-                        )
-                    })
-                }
-            </Stack>
+            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return(
+                                <Radio value={value.publicationType} key={key}>
+                                    {value.publicationType + "（" + value.number + "）"}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
         </Box>
     )
 }
 
 function AdvancedSearchAuthorsFilter(props) {
-    let len = props.content.length
-
-    const [checkedItems, setCheckedItems] = useState(new Array(len).fill(true))
-
-    let allChecked = checkedItems.every(Boolean)
-    let isIndeterminate = checkedItems.some(Boolean) && !allChecked
-
-
     return(
         <Box ml={'20px'} mt={'30px'}>
             <Text>{'作者'}</Text>
-            <Checkbox
-                isChecked={allChecked}
-                isIndeterminate={isIndeterminate}
-                onChange={(e) => {
-                    let array = new Array(len).fill(e.target.checked)
-                    setCheckedItems(array)
-                    props.setAuthors(array)
-                }}
-            >
-                {'全部 (' + props.totalNumber + ')'}
-            </Checkbox>
-            <Stack pl={6} mt={1} spacing={1}>
-                {
-                    props.content.map((value, key) => {
-                        return (
-                            <Checkbox
-                                isChecked={checkedItems[key]}
-                                onChange={(e) => {
-                                    let array = checkedItems.slice(0,key).concat([e.target.checked]).concat(checkedItems.slice(key + 1))
-                                    setCheckedItems(array)
-                                    allChecked = checkedItems.every((e) => {return e})
-                                    isIndeterminate = checkedItems.some((e) => {return e}) && !allChecked
-                                    props.setAuthors(array)
-                                }}
-                            >
-                                {value.author + ' ('+ value.number + ')'}
-                            </Checkbox>
-                        )
-                    })
-                }
-            </Stack>
+            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return(
+                                <Radio value={value.UID} key={key}>
+                                    {value.author + "（" + value.number + "）"}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
         </Box>
     )
 }
 
 function AdvancedSearchFilter(props) {
-    const [publicationTypes,setPublicationTypes] = useState(new Array(props.filterInfos.publicationTypes.length).fill(true))
-    const [authors,setAuthors] = useState(new Array(props.filterInfos.authors.length).fill(true))
-    const [startTime,setStartTime] = useState("1900")
-    const [endTime,setEndTime] = useState("2022")
+    const [publicationTypes,setPublicationTypes] = useState('全部')
+    const [authors,setAuthors] = useState('全部')
+    const [startTime,setStartTime] = useState()
+    const [endTime,setEndTime] = useState()
 
     const [advParamList, setAdvParamList] = React.useState();
     const [advEndTime, setAdvEndTime] = React.useState();
@@ -163,31 +100,14 @@ function AdvancedSearchFilter(props) {
     })
 
     const filter = () => {
-        let authorsArray = []
-        let publicationTypesArray = []
-        for(let i = 0;i < authors.length;i++) {
-            if(authors[i]) {
-                authorsArray.push(props.filterInfos.authors[i].UID)
-            }
-        }
-        for(let i = 0;i < publicationTypes.length;i++) {
-            if(publicationTypes[i]) {
-                publicationTypesArray.push(props.filterInfos.publicationTypes[i].publicationType)
-            }
-        }
-        props.setStartTime(startTime)
-        props.setEndTime(endTime)
-        props.setAuthorArray(authorsArray)
-        props.setPublicationTypesArray(publicationTypesArray)
-
         let data = {}
-        data.advancedSearch = advParamList
-        data.advStartTime = advStartTime
-        data.advEndTime = advEndTime
-        data.filterAuthors = authorsArray
-        data.filterPublicationTypes = publicationTypesArray
-        data.startTime = startTime
-        data.endTime = endTime
+        data.advancedSearch = advParamList === undefined ? [] : advParamList
+        data.advStartTime = advStartTime === undefined ? '' : advStartTime
+        data.advEndTime = advEndTime === undefined ? '' : advEndTime
+        data.filterAuthors = authors === '全部' ? '' : authors
+        data.filterPublicationTypes = publicationTypes === '全部' ? '' : publicationTypes
+        data.startTime = startTime === undefined ? '' : startTime
+        data.endTime = endTime === undefined ? '' : endTime
         console.log(data)
         let config = {
             method: 'post',
@@ -236,11 +156,13 @@ function AdvancedSearchFilter(props) {
                 content={props.filterInfos.publicationTypes}
                 totalNumber={props.filterInfos.totalNumber}
                 setPublicationTypes={setPublicationTypes}
+                publicationTypes={publicationTypes}
             />
             <AdvancedSearchAuthorsFilter
                 content={props.filterInfos.authors}
                 totalNumber={props.filterInfos.totalNumber}
                 setAuthors={setAuthors}
+                authors={authors}
             />
         </Box>
     )

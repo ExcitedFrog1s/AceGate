@@ -16,6 +16,7 @@ import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
 
 function PaperDetails() {
+    axios.defaults.headers["Content-Type"] = 'application/json';
     const property = {
         title: "独白与对话:马克思主义中国化的方法论思考",
         author: ["Maple826"],
@@ -50,7 +51,7 @@ function PaperDetails() {
         const formData = new FormData()
         formData.append('PID', PID)
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53123156", formData)
+        axios.post("http://localhost:8083/paper/view", formData)
             .then(function (res){
                 setInfos(res.data)
                 setLoading(false)
@@ -86,11 +87,18 @@ function Authors(prop){
         authors: ["Maple826","AboveParadise","euphoria"],
     }
     console.log(prop)
+    const handleClick = (key) => {
+        console.log(prop.P_RID)
+        window.open('/scholarPortal?RID=' + prop.P_RID[key])
+    }
+
+    console.log(prop)
     return (
         prop.Pauthor.map((value, key) => {
             return (
-                <Link key={key} href={'/'} fontSize={15}
+                <Link key={key} fontSize={15}
                       textDecoration={'none'}
+                      onClick={()=>handleClick(key)}
                       color={'#3311DB'}
                       mr={7}
                 >
@@ -109,7 +117,9 @@ function Info(prop){
         date: moment("20070112").format('YYYY-MM-DD'),
         tags:['jdg', '马克思', 'lggggg'],
     }
-
+    const handleClick = () => {
+        window.open('/journal?VID=' + prop.infos.P_VID)
+    }
     return(
         <Box ml={'3%'} mb={5}>
             <Box>
@@ -121,12 +131,14 @@ function Info(prop){
                 <Text mt={3} mb={3} mr={5} fontSize={17}  fontFamily={"Times New Roman"}>
                     {prop.infos.Pdate}
                 </Text>
+                <Link onClick={handleClick}>
                 <Text fontFamily={'宋体'} fontSize={17}>
                     {prop.infos.P_Vname}
                 </Text>
+                </Link>
             </HStack>
 
-            <Authors Pauthor={prop.infos.Pauthor}/>
+            <Authors Pauthor={prop.infos.Pauthor} P_RID={prop.infos.PauthorID}/>
 
         </Box>
     )

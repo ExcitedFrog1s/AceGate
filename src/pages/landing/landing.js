@@ -1,10 +1,23 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "../../components/header/header";
 import landing_bg from "../../assets/landing_bg.png";
-import {Box, Button, Center, Grid, GridItem, HStack, Input, Text, VStack} from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Center, Flex,
+    Grid,
+    GridItem,
+    HStack,
+    Input, Stat, StatGroup,
+    StatLabel,
+    StatNumber,
+    Text,
+    VStack
+} from "@chakra-ui/react";
 import RecommendConferencesCard from "./recommend-conferences-card";
 import RecommendPapersCard from "./recommend-papers-card";
 import RecommendJournalsCard from "./recommend-journals-card";
+import axios from "axios";
 
 function Landing(){
     return (
@@ -59,16 +72,16 @@ function Landing(){
                 paddingBottom='15vh'
             >
                 <Grid
-                    width='80%'
+                    width='60%'
                     height='100%'
-                    marginLeft='10%'
-                    marginRight='10%'
+                    marginLeft='20%'
+                    marginRight='20%'
 
                     templateRows='repeat(2, 1fr)'
                     templateColumns='repeat(8, 1fr)'
                     gap={6}
                 >
-                    <GridItem colSpan={4} rowSpan={2} bg='tomato' >
+                    <GridItem colSpan={4} rowSpan={2} bg={'tomato'} >
 
                     </GridItem>
                     <GridItem colSpan={4} rowSpan={1} bg='lightgrey'>

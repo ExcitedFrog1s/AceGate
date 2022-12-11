@@ -82,17 +82,18 @@ function Abstract(prop) {
                   color={'#161616'}
                   fontSize={25} fontFamily={'宋体'}
                   m={3}
+                  mt={5}
                   ml={8}
                   fontWeight={'bold'}
             >
                 摘要
             </Text>
-            <Box minH={75} mt={7}>
+            <Box minH={75} mt={3}>
             <Text ml={8} color={'#161616'} fontFamily={'宋体'}
-                  fontSize={15} noOfLines={5}
-            maxW={850} mr={8}>{prop.ab}</Text>
+                  fontSize={15} noOfLines={8}
+            maxW={850} mr={8}>{property.ab}</Text>
             </Box>
-            <Keywords kw={prop.kw}/>
+            {/*<Keywords kw={prop.kw}/>*/}
 
 
         </Box>

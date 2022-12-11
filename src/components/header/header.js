@@ -11,6 +11,8 @@ import React from "react";
 
 const NavLink = ({ children }) => (
     <Link
+        as={RouterLink}
+        to={'/toolbox'}
         px={2}
         py={1}
         rounded={'sm'}
@@ -28,6 +30,7 @@ const NavLink = ({ children }) => (
 function Header({textColor, isLanding=false}){
 
     const sections = ['工具箱']
+
 
     // 只有white和black两种选项
     if (textColor.localeCompare("white") !== 0){
@@ -78,9 +81,15 @@ function Header({textColor, isLanding=false}){
                         fontSize={'16px'}
                         _hover={{
                             textDecoration: 'none',
-                            color: 'black'
                         }}
                     >登录</Link>
+                    <Link
+                        as={RouterLink} to={'/register'}
+                        fontSize={'16px'}
+                        _hover={{
+                            textDecoration: 'none',
+                        }}
+                    >注册</Link>
                 </HStack>
 
             </Flex>

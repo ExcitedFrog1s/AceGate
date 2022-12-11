@@ -52,20 +52,32 @@ function Data(prop) {
     const [Pdata,setPdata] = React.useState()
     const [Fields,setFields] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
+    const handleClick = (value) => {
+        window.open('/advancedSearch?label=' + value)
+    }
+
     React.useEffect( () => {
+        let mark = 0
         const formData = new FormData()
         formData.append('PID', prop.pid)
         // console.log(formData)
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53888779", formData)
             .then(function (res){
                 setPdata(res.data)
-                // setLoading(false)
+                mark += 1
+                if(mark === 2){
+                    setLoading(false)
+                }
+
             })
 
         axios.post("https://mock.apifox.cn/m1/1955876-0-default/papaerDetails", formData)
             .then(function (res){
                 setFields(res.data)
-                setLoading(false)
+                mark += 1
+                if(mark === 2){
+                    setLoading(false)
+                }
             })
     },[])
     if(isLoading){
@@ -119,7 +131,7 @@ function Data(prop) {
                 </Text>
                 <UnorderedList mt={2} color={'#7551FF'}>
                     {Fields.field.map((value, key) => {
-                        return(<ListItem key={key}><Link href={'/'}> {value}
+                        return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
                         </Link></ListItem>)
                     })}
                 </UnorderedList>
