@@ -1,12 +1,12 @@
 import Highlighter from 'react-highlight-words'
 import { SearchIcon } from '@chakra-ui/icons'
+import './scholarlist.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
 import { Avatar } from '@chakra-ui/react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { wait } from '@testing-library/user-event/dist/utils';
-
 
 function List() {
     const [data, setData] = useState([]);
@@ -133,7 +133,7 @@ function List() {
         dataIndex: 'RImage',
         key: 'RImage',
         render: (_, record) => (
-          <Avatar name={record.rname} src={record.RImage} />
+          <Avatar name={record.rname} src={record.RImage} bg="frog.500" />
         ),
         width: 30
       },
@@ -171,7 +171,7 @@ function List() {
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button type='primary' onClick={()=>toPortal(record.rID)}>跳转学者门户</Button>
+            <Button type='primary' onClick={()=>toPortal(record.rID)}>前往学者门户</Button>
           </Space>
         ),
       },

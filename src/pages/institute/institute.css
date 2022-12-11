@@ -16,6 +16,8 @@
     height: 300px;
     padding-right: 25px;
     padding-top: 20px;
+    border: 0px;
+    background: linear-gradient(90deg,#d8e0e5, rgba(158, 171, 196, 0.8));
 }
 .icard .title{
     font-size: 30px;
@@ -43,6 +45,8 @@
     height: 300px;
     padding-left: 10px;
     padding-top: 5px;
+    border: 0;
+    background: linear-gradient(90deg, rgba(158, 171, 196, 0.8), #d8e0e5);
 }
 .scardInfo{
     height: 60px;
@@ -67,6 +71,7 @@
     height: 25px;
     color: rgb(155, 152, 152);
     margin-right: 10px;
+    color: #422afb !important;
 }
 
 .institute .chart{
