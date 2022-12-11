@@ -506,15 +506,15 @@ function InstitutionList(props) {
 
 function PaperList(props) {
     React.useEffect(() => {
-        var data = props.vid;
         var config = {
             method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/venue/paper',
+            url: '/venue/paper',
+            data :{
+                VID: props.vid,
+            },
             headers: { 
-                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
                 'Content-Type': 'application/json'
             },
-            data : data
         };
         axios(config).then( res => {
             console.log(res.data.papers)
@@ -769,16 +769,19 @@ function Journal({}) {
     React.useEffect(() => {
         var config = {
             method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/venue',
-            headers: { 
-                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
-                'Content-Type': 'application/json'
+            url: '/venue/view',
+            data :{
+                VID: vid,
             },
-            data :vid
+            headers: { 
+                'Content-Type': 'application/json'
+            }
         };
         axios(config).then(res => {
-            console.log(res.data)
+            console.log(res)
             setData(res.data)
+        }).catch(err =>{
+            console.log(err)
         })
 
     },[])

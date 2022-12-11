@@ -1,15 +1,15 @@
 /* Serach */
 .site-card-border-less-wrapper{
     margin:auto;
-    height: 460px;
+    height: 490px;
     overflow: auto;
     margin-top: 10px;
     margin-left: 10px;
-    padding: 30px 20px 50px 20px;
+    padding: 30px 20px 40px 20px;
 }
 /*面包屑*/
 .site-card-border-less-wrapper .css-spn4bz:hover{
-    color: #1b3bbb;
+    color: #a3a3d0;
 }
 
 /*publish time*/
@@ -20,14 +20,15 @@
     margin-top:5px;
 }
 .site-card-border-less-wrapper .datePicker{
-    width: 650px;
+    width: 615px;
     height: 40px;
     border-radius: 8px;
+    background: white;
     border: 1.5px #a0aec051 solid;
 }
 .site-card-border-less-wrapper .ant-picker-focused{
-    border-color: #1b3bbb!important;
-    box-shadow: 0 0 0 2px #1b3bbb!important;
+    border-color: #a3a3d0!important;
+    box-shadow: 0 0 0 2px #a3a3d0!important;
 }
 .site-card-border-less-wrapper .ant-picker-focused,.ant-picker:hover{
     border-color: #a0aec0a0 !important;
@@ -37,7 +38,8 @@
 .description{
     margin:auto;
     overflow: auto;
-    height: 460px;
+    height: 350px;
+    width: 420px;
     margin-top: 10px;
     padding: 30px 30px 50px 30px;
 }
@@ -57,14 +59,14 @@
 
 /* search_button */
 .css-730w10{
- background: #1b3bbb !important;
+ background: #3652ba !important;
 }
 .css-730w10:hover{
-    background: #3653bac7 !important;
+    background: #3653bab3 !important;
 }
 .css-yw8y58{
-    background: #1b3bbb !important;
+    background: #3652ba !important;
 }
 .css-yw8y58:hover{
-    background: #3653bac7 !important;
+    background: #3653bab3 !important;
 }
