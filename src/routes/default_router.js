@@ -20,6 +20,7 @@ import ScholarPortal from '../pages/ScholarPortal/Portal.js'
 import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
+import LoginAndRegister from "../pages/user/login2";
 import Register from "../pages/user/register";
 import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
 import RecoverPassword from "../pages/user/recover-password";
@@ -38,6 +39,10 @@ const default_router = createBrowserRouter([
     {
         path: '/login',
         element: <Login />
+    },
+    {
+        path: '/login2',
+        element: <LoginAndRegister />
     },
     {
         path: '/register',

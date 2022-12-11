@@ -74,26 +74,21 @@ function Login(){
                     height={'100%'}
                 >
                     <Box
-                        width={'50vw'}
-                        height={'60vh'}
-
-                        borderRadius={"min(2vw, 18px)"}
-
-                        boxShadow='base'
+                        width={'40vw'}
+                        height={'50vh'}
+                        borderRadius='10px'
+                        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)'
                     >
                         <SimpleGrid columns={2}>
                             <Box
                                 width={'100%'}
-                                height={'60vh'}
-
+                                height={'50vh'}
                                 backgroundImage={loginImg}
                                 backgroundSize={'fill'}
                                 backgroundRepeat={'no-repeat'}
                                 backgroundPosition={'center'}
-
-                                borderRadius={"min(2vw, 18px)"}
+                                borderRadius='10px'
                             >
-
                             </Box>
                             <Box>
                                 <VStack
