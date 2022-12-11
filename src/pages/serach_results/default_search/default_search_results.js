@@ -114,26 +114,32 @@ function DefaultSearchResults(props) {
     }
     React.useEffect(() => {
         let data = {}
+        data.token = null
         data.normalSearch = params.get('q')
-        data.filterAuthors = ''
-        data.filterPublicationTypes = ''
-        data.startTime = ''
-        data.endTime = ''
+        data.filterAuthors = null
+        data.filterPublicationTypes = null
+        data.startTime = null
+        data.endTime = null
         console.log(data)
         let config = {
             method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/DefaultSearchResults',
+            url: 'DefaultSearchResults',
             data : data
         };
         setLoading(true)
         axios(config)
             .then(res => {
-                setInfos(res.data.results)
-                setDefaultSort([...res.data.results])
-                setFilterInfos(res.data.filterItems)
-                setRecommendationInfos(res.data.recommendation)
+                setInfos(res.data.data.list)
+                setDefaultSort([...res.data.data.list])
+                setFilterInfos({
+                    publicationTypes: res.data.data.venue,
+                    authors: res.data.data.author,
+                    totalNumber: res.data.data.num
+                })
+                setRecommendationInfos(null)
                 setCurrentPageIndex(1)
                 setLoading(false)
+                console.log(res.data)
             })
     },[])
 
@@ -190,6 +196,7 @@ function DefaultSearchResults(props) {
         card_index_min = paper_show_num_per_page * (current_page_index - 1)
         card_index_max = paper_show_num_per_page * (current_page_index) - 1
     }
+
     return(
         <Box>
         <Header textColor={'black'} />
@@ -206,7 +213,7 @@ function DefaultSearchResults(props) {
                 setEndTime={setEndTime}
                 filterInfos={filterInfos}
             />
-            <Recommendation recommendation={recommendationInfos}/>
+            {/*<Recommendation recommendation={recommendationInfos}/>*/}
             <Box>
                 {/*排序*/}
                 <Sort

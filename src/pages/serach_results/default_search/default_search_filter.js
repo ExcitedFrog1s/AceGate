@@ -48,7 +48,9 @@ function DefaultSearchPublicationTypesFilter(props) {
                     {
                         props.content.map((value, key) => {
                             return(
-                                <Radio value={value.publicationType}>{value.publicationType + "（" + value.number + "）"}</Radio>
+                                <Radio value={value.type} key={key}>
+                                    {value.type + "（" + value.num + "）"}
+                                </Radio>
                             )
                         })
                     }
@@ -68,7 +70,9 @@ function DefaultSearchAuthorsFilter(props) {
                     {
                         props.content.map((value, key) => {
                             return(
-                                <Radio value={value.UID}>{value.author + "（" + value.number + "）"}</Radio>
+                                <Radio value={value.uid} key={key}>
+                                    {value.name + "（" + value.num + "）"}
+                                </Radio>
                             )
                         })
                     }
@@ -109,7 +113,7 @@ function DefaultSearchFilter(props) {
                 props.setLoading(false)
             })
     }
-
+    console.log(authors)
     return(
         <Box
             minHeight={'1000px'}

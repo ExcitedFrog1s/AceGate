@@ -45,7 +45,9 @@ function AdvancedSearchPublicationTypesFilter(props) {
                     {
                         props.content.map((value, key) => {
                             return(
-                                <Radio value={value.publicationType}>{value.publicationType + "（" + value.number + "）"}</Radio>
+                                <Radio value={value.publicationType} key={key}>
+                                    {value.publicationType + "（" + value.number + "）"}
+                                </Radio>
                             )
                         })
                     }
@@ -65,7 +67,9 @@ function AdvancedSearchAuthorsFilter(props) {
                     {
                         props.content.map((value, key) => {
                             return(
-                                <Radio value={value.UID}>{value.author + "（" + value.number + "）"}</Radio>
+                                <Radio value={value.UID} key={key}>
+                                    {value.author + "（" + value.number + "）"}
+                                </Radio>
                             )
                         })
                     }
