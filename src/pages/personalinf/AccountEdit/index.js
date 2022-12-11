@@ -142,21 +142,7 @@ function AccountEdit() {
                             padding: '20px 0 0 0',
                         }}
                     >
-                        <Form.Item
-                            name="Uemail"
-                            label="电子邮箱"
-                            rules={[
-                                {
-                                    type: 'email',
-                                    required: false,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder='如需修改邮箱，请输入新的邮箱'/>
-                        </Form.Item>
+                    
                         <Form.Item
                             label="密码"
                             name="oldpassword"
@@ -222,7 +208,7 @@ function AccountEdit() {
                     >
                         <Link
                             to={{
-                                pathname: '/personInfo/account',
+                                pathname: '/personInfo',
                             }}
                             style={{
                                 margin: "auto",

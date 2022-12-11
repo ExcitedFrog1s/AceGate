@@ -1,10 +1,8 @@
 import "antd/dist/antd.min.css";
 import {
-    Typography,
     Layout,
     message,
     Upload,
-    Col,
     Row,
     Button,
     Form, Input,
@@ -14,7 +12,8 @@ import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} f
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
-import { cookieStorageManager } from "@chakra-ui/react";
+import {Select } from 'antd';
+
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -60,6 +59,7 @@ function Edit() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
+    const [size] = useState('middle');
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -83,7 +83,8 @@ function Edit() {
     const [form] = Form.useForm();
     const Uavatar = Form.useWatch('Uavatar', form);
     const Uname = Form.useWatch('Uname', form);
-
+    let Uinterest = [];
+    let Ufield = [];
     // const pushData = ()=>{
     //     axios({
     //         method: "post",
@@ -114,6 +115,8 @@ function Edit() {
             UID : params.get('UID'),
             Uavatar : Uavatar,
             Uname : Uname,
+            Uinterest: Uinterest,
+            Ufield : Ufield,
           }
         }).then(response =>{
           console.log(Uavatar);
@@ -152,7 +155,7 @@ function Edit() {
     );
 
     const onFinish = (values) => {
-        console.log(values);
+        
     };
 
     // save button hover style
@@ -169,6 +172,34 @@ function Edit() {
         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
     }
 
+    const optionValue = ['人工智能', '机器学习', '计算机网络',
+    '神经网络', '深度学习', '植物泛基因研究',
+    '生态与环境科学', '地球科学', '马克思主义', 
+    '生物科学领域', '电磁波吸收材料', '化学与材料科学',
+    '物理学', '人文社科', '天文学与天体物理学',
+    '数学'];
+    const optionValue2 = ['中国式现代化', '文献综述', '人工智能',
+    '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
+    '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
+    '盈利能力分析', '工程伦理']
+    const options = [];
+    const options2 = [];
+    for (let i = 10; i < 26; i++) {
+    options.push({
+        value: optionValue[i-10],
+        label: optionValue[i-10]
+    });
+    options2.push({
+        value: optionValue2[i-10],
+        label: optionValue2[i-10]
+    });
+    }
+    const handleChange2 = (value) => {
+        Ufield = [...value];
+    };
+    const handleChange3 = (value) => {
+        Uinterest = [...value];
+    };
     return (
         <Layout className="layout">
             <Header>
@@ -259,7 +290,46 @@ function Edit() {
                         >
                             <Input placeholder={data.Uname}/>
                         </Form.Item>
+                        <Form.Item
+                             name="Ufield"
+                             label="研究领域"
+                             style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Select
+                                mode="tags"
+                                size={size}
+                                placeholder="请选择你的研究领域"
+                                defaultValue={data.Ufield}
+                                onChange={handleChange2}
+                                style={{
+                                width: '100%',
+                                }}
+                                options={options}
+                            />
+                        </Form.Item>
+                        <Form.Item
+                             name="Uinterest"
+                             label="我的兴趣词"
+                             style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Select
+                                mode="tags"
+                                size={size}
+                                placeholder="请选择你的兴趣词"
+                                defaultValue={data.Uinterest}
+                                onChange={handleChange3}
+                                style={{
+                                width: '100%',
+                                }}
+                                options={options2}
+                            />
+                        </Form.Item>
                     </Form>
+                    
                     <Row
                         style={{
                             padding: '8px 0 0 0',
