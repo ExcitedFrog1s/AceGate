@@ -12,6 +12,7 @@ import {
     BreadcrumbLink,
   } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
 import { Select, Text } from '@chakra-ui/react'
 import { IconButton } from '@chakra-ui/react'
@@ -45,9 +46,13 @@ function Search(props) {
             category: 'main',
             content: "",
             type: 1,
+        },{
+            category: 'Pname',
+            content: "",
+            type: 1,
         },
         {
-            category: 'author',
+            category: 'Pauthor',
             content: "",
             type: 1,
         },
@@ -88,7 +93,12 @@ function Search(props) {
             type: 1,
         });
         dataList.push({
-            category: 'author',
+            category: 'Pname',
+            content: "",
+            type: 1,
+        })
+        dataList.push({
+            category: 'Pauthor',
             content: "",
             type: 1,
         });
@@ -134,6 +144,25 @@ function Search(props) {
                 endTime: endTime
             });
         }
+        else if(params.has('source')) {
+            setDataList([
+                {
+                    category: 'source',
+                    content: params.get('source'),
+                    type: 1
+                }
+            ])
+            PubSub.publish('PubParams', {
+                dataList: [
+                    {
+                        category: 'source',
+                        content: params.get('source'),
+                        type: 1
+                    }],
+                startTime: startTime,
+                endTime: endTime
+            });
+        }
     }, [])
 
     return(
@@ -167,9 +196,10 @@ function Search(props) {
                         {
                             index !== 0?(
                                 <Select
+                                    bg='white'
                                     fontWeight='550'
                                     border='1.5px #A0AEC0 solid'
-                                    focusBorderColor='navy.500'
+                                    focusBorderColor='sg.600'
                                     value={item.type}
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
@@ -186,9 +216,10 @@ function Search(props) {
                     </Col>
                     <Col span={3}>
                         <Select
+                            bg='white'
                             fontWeight='550'
                             border='1.5px #A0AEC0 solid'
-                            focusBorderColor='navy.500'
+                            focusBorderColor='sg.600'
                             style={{marginLeft: '5px'}} value={item.category}
                             onChange={(e) => {
                                 dataList[index].category = e.target.value;
@@ -208,8 +239,9 @@ function Search(props) {
                     </Col>
                     <Col span={14} offset={1}>
                         <Input
+                            bg='white'
                             border='1.5px #A0AEC0 solid'
-                            focusBorderColor='navy.500'
+                            focusBorderColor='sg.600'
                             value={item.content}
                             onChange={(e) => {
                                 dataList[index].content = e.target.value;
@@ -335,12 +367,11 @@ function AdvancedSearch({}) {
             <Row>
                 <Heading size='md' style={{margin:'auto'}}>Header</Heading>
             </Row>
-            <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={20}
-                    onChange={onChange}>
-                    <AccordionItem padding={'10px'}>
+            <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
+                    onChange={onChange} >
+                    <AccordionItem padding={'10px'}  bgGradient='linear(to-r, gray.100, gray.300)'>
                         <AccordionButton>
-                            <Box flex='1' textAlign='left'>
-                            
+                            <Box flex='1' textAlign='left'> 
                             <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
                                 <BreadcrumbItem >
                                     <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
@@ -354,18 +385,19 @@ function AdvancedSearch({}) {
                         </AccordionButton>
                         <AccordionPanel pb={4}>
                         <Row>
+                        <Col span={7} >
+                            <Image src={require('../../assets/advsearch.png')} height='140px' ml='130px' />
+                            <Description />
+                        </Col>
                         <Col span={17}>
                             <Search setIsShow={setIsShow} />
-                        </Col>
-                        <Col span={6} style={{marginLeft:'40px'}}>
-                            <Description />
                         </Col>
                         </Row>
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
             
-                <AdvancedSearchResults/>
+                {/* <AdvancedSearchResults/> */}
         </Box>
     )
 }
