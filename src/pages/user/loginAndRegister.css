@@ -31,15 +31,19 @@ body{
     /* 动画过渡 加速后减速 */
     transition: 0.5s ease-in-out;
 }
-.register-box,.login-box{
+.register-box{
     /* 弹性布局 垂直排列 */
-    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.login-box{
+    /* 弹性布局 垂直排列 */
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
 .hidden{
-    display: none;
     transition: 0.5s;
 }
 .loginInput{

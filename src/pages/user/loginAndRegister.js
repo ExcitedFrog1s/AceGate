@@ -154,20 +154,8 @@ function LoginAndRegister () {
         return 0;
     }
 
-    let form_box = document.getElementsByClassName('form-box')[0];
-    let register_box = document.getElementsByClassName('register-box')[0];
-    let login_box = document.getElementsByClassName('login-box')[0];
-
     // 去注册
     const goToRegister = ()=>{
-        // ('.form-box').css('transform', 'translateX(80%)');
-        // form_box.style.transform = "translateX(85%)";
-        // ('login-box').addClass('hidden');
-        // ('register-box').removeClass('hidden');
-        // login_box.classList.add('hidden');
-        // register_box.classList.remove('hidden');
-        // setPassword(null);
-        // setUsername(null);
         setCurrentIsLogin(false);
         console.log(currentIsLogin);
 
@@ -175,16 +163,6 @@ function LoginAndRegister () {
 
     // 去登录
     const goToLogin = ()=>{
-        // form_box.style.transform='translateX(0%)';
-        // register_box.classList.add('hidden');
-        // login_box.classList.remove('hidden');
-        // ('.form-box').css('transform', 'translateX(0%)');
-        // ('register-box').addClass('hidden');
-        // ('login-box').removeClass('hidden');
-        // setPassword("");
-        // setUsername("");
-        // setEmail("");
-        // setVerifycode(0);
         setCurrentIsLogin(true);
         console.log(currentIsLogin);
     }
@@ -234,7 +212,13 @@ function LoginAndRegister () {
                         }}
                     >
                         {/*register*/}
-                        <div className="register-box hidden">
+                        <div
+                            className="register-box"
+                            style={{
+                                display: currentIsLogin ? 'none' : 'flex',
+                                transition: '0.5s',
+                            }}
+                        >
                             <Title
                                 level={2}
                                 style={{
@@ -286,9 +270,38 @@ function LoginAndRegister () {
                                         onChange={e => setEmail(e.target.value)}
                                     />
                                 </Form.Item>
+                                <Form.Item
+                                    name="verifyCode"
+                                >
+                                    <Input
+                                        className={'registerInput'}
+                                        autoComplete={'off'}
+                                        placeholder="验证码"
+                                        type="text"
+                                        onChange={e => setVerifycode(e.target.value)}
+                                        style={{
+                                            width: '55%',
+                                        }}
+                                    />
+                                    <Button
+                                        shape={"round"}
+                                        size="large"
+                                        style={{
+                                            width: '45%',
+                                            margin: 'auto',
+                                            textAlign: 'center',
+                                            marginTop: '10px',
+                                            marginBottom: '10px',
+                                            letterSpacing: '0',
+                                        }}
+                                        isDisabled={(countdown !== 0)}
+                                        onClick={handleSendVerifyEmail}
+                                    >
+                                        发送验证码
+                                    </Button>
+                                </Form.Item>
                             </Form>
                             <Button
-                                // type={"primary"}
                                 shape={"round"}
                                 size="large"
                                 style={{
@@ -296,11 +309,19 @@ function LoginAndRegister () {
                                     margin: 'auto',
                                     marginTop: '10px',
                                     marginBottom: '10px',
-                                }}>注册
+                                }}
+                                onClick={handleRegister}
+                            >注册
                             </Button>
                         </div>
                         {/*login*/}
-                        <div className="login-box">
+                        <div
+                            className="login-box"
+                            style={{
+                                display: currentIsLogin ? 'flex' : 'none',
+                                transition: '0.5s',
+                            }}
+                        >
                             <Title
                                 level={2}
                                 style={{
