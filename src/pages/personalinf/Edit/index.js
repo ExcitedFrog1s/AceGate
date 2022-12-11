@@ -14,6 +14,7 @@ import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} f
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
+import { cookieStorageManager } from "@chakra-ui/react";
 const { Header, Content, Footer, Sider } = Layout;
 
 
@@ -115,7 +116,8 @@ function Edit() {
             Uname : Uname,
           }
         }).then(response =>{
-          console.log(response)
+          console.log(Uavatar);
+          console.log(imageUrl);
         });
       }
 
@@ -226,7 +228,7 @@ function Edit() {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                action="https://mock.apifox.cn/m1/1955876-0-default/personInfo/account"
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
                             >

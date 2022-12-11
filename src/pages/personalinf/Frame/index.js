@@ -79,7 +79,7 @@ function PersonInfo() {
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
-                                src={data?.Uavatar}
+                                src="https://img1.baidu.com/it/u=3345281312,1299187552&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
                             />
                         </Col>
                         <Col span={15}>

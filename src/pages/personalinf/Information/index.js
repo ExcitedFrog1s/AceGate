@@ -5,7 +5,6 @@ import Edit from '../Edit';
 import Account from '../Account';
 import AccountEdit from '../AccountEdit';
 import { Route,Routes } from 'react-router-dom';
-import '../index.css';
 import axios from 'axios'
 
 
