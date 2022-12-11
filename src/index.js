@@ -11,7 +11,7 @@ import default_router from "./routes/default_router";
 import App from "./App";
 
 
-axios.defaults.baseURL = 'https://mock.apifox.cn/m1/1955876-0-default'
+axios.defaults.baseURL = 'http://localhost:8083'
 // axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 

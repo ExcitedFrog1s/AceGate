@@ -9,7 +9,7 @@ import * as React from 'react';
 import PubSub from "pubsub-js";
 import {useNavigate} from "react-router-dom";
 
-function Title({title}) {
+function Title(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -20,23 +20,26 @@ function Title({title}) {
         setIsHover(false);
     }
 
+    const handleClick = () => {
+        window.open('/paperDetails?PID=' + props.PID)
+    }
+
     const linkStyle = {
         color: '#161616',
         fontSize: '30px',
         textDecoration: isHover ? 'underline' : 'none'
     }
 
+
     return (
         <Box ml={'4'} mt={'20px'}>
-            <Link href={'/'}
-                  style={linkStyle}
+            <Link style={linkStyle}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
+                  onClick={handleClick}
             >
-
-
                 <Text noOfLines={1} pt={'30px'} pl={'30px'}>
-                    {title}
+                    {props.title}
                 </Text>
             </Link>
         </Box>
@@ -44,7 +47,7 @@ function Title({title}) {
 
 }
 
-function Author({author,key}) {
+function Author(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -62,26 +65,29 @@ function Author({author,key}) {
         marginRight: '10px'
     }
 
+    const handleClick = () => {
+        window.open('/scholarPortal?RID=' + props.info.RID)
+    }
+
     return(
-        <Link key={key} href={'/'}
+        <Link key={props.key}
               style={linkStyle}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
+              onClick={handleClick}
         >
-            {author}
+            {props.info.name}
         </Link>
     )
 }
 
 function Authors({authors}) {
     return(
-
-
     <Box ml={'10'} mt={'15px'}>
         {
             authors.map((value, key) => {
                 return (
-                    <Author author={value.name} key={key}/>
+                    <Author info={value} key={key}/>
                 );
             })
         }
@@ -114,7 +120,8 @@ function TimeOrgan({props}) {
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
                 {/*time stamp to year*/}
-                {new Date(props.time * 1000).getFullYear() + ' '}
+                {new Date(props.time * 1000).getFullYear() + ' 年 ' +
+                    new Date(props.time * 1000).getMonth() + ' 月'}
             </i>
             <Link href={'/'}
                   style={linkStyle}
@@ -127,7 +134,7 @@ function TimeOrgan({props}) {
     )
 }
 
-function Content({content}) {
+function Content(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -138,6 +145,10 @@ function Content({content}) {
         setIsHover(false);
     }
 
+    const handleClick = () => {
+        window.open('/paperDetails?PID=' + props.PID)
+    }
+
     const linkStyle = {
         color: '#a0a0a0',
         fontSize: '16px',
@@ -146,11 +157,14 @@ function Content({content}) {
     }
     return(
         <Box ml={'10'} mt={'30px'}>
-            <Link href={'/'} style={linkStyle} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-
-
+            <Link
+                style={linkStyle}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleClick}
+            >
                 <Text noOfLines={3} wordBreak={'break-all'} marginRight={'50px'}>
-                    {content}
+                    {props.content}
                 </Text>
             </Link>
         </Box>
@@ -267,12 +281,12 @@ function ResultCard(props) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.infos.Pname}/>
+            <Title title={props.infos.Pname} PID={props.infos.PID}/>
             <Authors authors={props.infos.PAuthor}/>
             <TimeOrgan props={{'time':props.infos.Pdate,'organ':props.IName}}/>
-            <Content content={props.infos.Pabstract}/>
+            <Content content={props.infos.Pabstract} PID={props.infos.PID}/>
             <Labels labels={props.infos.PsystemTags}/>
-            <Operations props={props.infos.isStar}/>
+            {/*<Operations props={props.infos.isStar}/>*/}
         </Box>
     )
 }
