@@ -1,11 +1,12 @@
 import Highlighter from 'react-highlight-words'
 import { SearchIcon } from '@chakra-ui/icons'
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
 import { Avatar } from '@chakra-ui/react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { wait } from '@testing-library/user-event/dist/utils';
+
 
 function List() {
     const [data, setData] = useState([]);
@@ -14,6 +15,12 @@ function List() {
     const searchInput = useRef(null);
     const navigate = useNavigate();
     let location = useLocation();
+    let params = new URLSearchParams(location.search)
+    var IID;
+    if(params.has('IID')){
+        IID = params.get('IID')
+    }
+    console.log('IID:' + IID)
     const toPortal = (rid)=>{
       let params = new URLSearchParams(location.search);
       params.set('RID', rid);
@@ -23,11 +30,17 @@ function List() {
     const getData = ()=>{
       axios({
         method: "post",
-        url:"https://mock.apifox.cn/m1/1955876-0-default/institute/scholarlist"
+        url:"/institute/scholarlist",
+        data: {
+          IID: IID
+        },
+        headers: {
+          "Content-Type": "application/json",
+        }
       })
       .then(res => {
           console.log(res.data)
-          setData(res.data)
+          setData(res.data.data)
         }
       )
     }
@@ -120,45 +133,37 @@ function List() {
         dataIndex: 'RImage',
         key: 'RImage',
         render: (_, record) => (
-          <Avatar name={record.Rname} src={record.RImage} />
+          <Avatar name={record.rname} src={record.RImage} />
         ),
         width: 30
       },
       {
         title: '姓名',
-        dataIndex: 'Rname',
-        key: 'Rname',
-        ...getColumnSearchProps('Rname'),
-        sorter: (a, b) => a.Rname.localeCompare(b.Rname),
+        dataIndex: 'rname',
+        key: 'rname',
+        ...getColumnSearchProps('rname'),
+        sorter: (a, b) => a.rname.localeCompare(b.rname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '联系方式',
-        dataIndex: 'Rcontact',
-        key: 'Rcontact',
-        ...getColumnSearchProps('Rcontact'),
+        dataIndex: 'rcontact',
+        key: 'rcontact',
+        ...getColumnSearchProps('rcontact'),
       },
       {
         title: '被引次数',
-        dataIndex: 'Rcitescount',
-        key: 'Rcitescount',
-        ...getColumnSearchProps('Rcitescount'),
-        sorter: (a, b) => a.Rcitescount - b.Rcitescount,
+        dataIndex: 'rcitescount',
+        key: 'rcitescount',
+        ...getColumnSearchProps('rcitescount'),
+        sorter: (a, b) => a.rcitescount - b.rcitescount,
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '发表论文数',
-        dataIndex: 'Rworkscount',
-        key: 'Rworkscount',
-        sorter: (a, b) => a.Rworkscount - b.Rworkscount,
-        sortDirections: ['descend', 'ascend'],
-      },
-      {
-          title: '研究领域',
-          dataIndex: 'Rconcepts',
-          key: 'Rconcepts',
-          ...getColumnSearchProps('Rconcepts'),
-          sorter: (a, b) => a.Rconcepts.localeCompare(b.Rconcepts),
+        dataIndex: 'rworkscount',
+        key: 'rworkscount',
+        sorter: (a, b) => a.rworkscount - b.rworkscount,
         sortDirections: ['descend', 'ascend'],
       },
       {
@@ -166,18 +171,24 @@ function List() {
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button type='primary' onClick={()=>toPortal(record.RID)}>跳转学者门户</Button>
+            <Button type='primary' onClick={()=>toPortal(record.rID)}>跳转学者门户</Button>
           </Space>
         ),
       },
     ];
       return (
           <div className="list" style={{marginTop:30}}>
-              <Table dataSource={data} columns={columns} rowKey="RID"
-            pagination={{
-              pageSize: 8,
-            }}
-          ></Table>
+            <Row>
+              <Col span={19}>
+                <Table dataSource={data} columns={columns} rowKey="rID"
+              pagination={{
+                pageSize: 8,
+              }}
+              ></Table>
+              </Col>
+              <Col span={5}></Col>
+            </Row>
+              
           </div> 
       )
   }

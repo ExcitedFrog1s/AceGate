@@ -1,16 +1,17 @@
+import Chart from 'react-apexcharts'
 import "./institute.css"
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { Box, Link } from '@chakra-ui/react'
 import { FaQuoteLeft } from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import List from './ScholarList'
-import { BankOutlined } from '@ant-design/icons';
+import { BankOutlined, BankFilled } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import * as echarts from 'echarts'
+import { Heading } from '@chakra-ui/react'
 import { Card, Layout, Row, Col, Avatar, Button, Space, Table, Input } from 'antd';
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 const { Header, Content } = Layout;
-
-
 function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -19,11 +20,221 @@ function separator(numb) {
 
 
 
-function Icard(){
+function Icard(props){
     const [insdata, setInsdata] = useState({});
+    
+    const handleHomepage = (url)=>{
+        window.open(url)
+    }
+
+    useEffect(() =>{
+        setInsdata(props.insdata)
+        // getData()
+      }, [props])
+    function info(){
+        var flag = 0;
+        var strs = [];
+        var str = insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")
+        if(insdata.ichinesename){
+            strs.push("中文名为" + insdata.ichinesename)
+            flag += 1;
+        }
+            
+        if(insdata.ialtername){
+            let j = insdata.ialtername.length;
+            if(j > 0){
+                let altername = "别名" + insdata.ialtername[0]
+                let t = j > 5 ? 5 : j
+                for(let k = 1; k < t; k++){
+                    altername += ", " +  insdata.ialtername[k];
+                }
+                strs.push(altername);
+                flag += 1;
+            }
+        }
+        if(insdata.itype)
+            strs.push("机构类型为" + insdata.itype)
+        if(insdata.icountry)
+            strs.push("机构所属国家为" + insdata.icountry)
+        if(insdata.Ischolars)
+            strs.push("机构共有学者 " + insdata.IschNum + " 位")
+        if(insdata.iworksum)
+            strs.push("机构下学者已发表论文 " + insdata.iworksum + " 篇")
+        if(insdata.icitednum)
+            strs.push("目前机构下论文已被引 " + insdata.icitednum + " 次")
+        if(insdata.iconcept){
+            let j = insdata.iconcept.length;
+            if(j > 0){
+                let concept = "机构论文高频关键词有" + insdata.iconcept[0];
+                for(let k = 1; k < j; k++){
+                    concept += ", " + insdata.iconcept[k];
+                }
+                concept += "等"
+                strs.push(concept)
+            }
+        }
+        for(var i in strs){
+            if(i == flag){
+                str += ".  "
+            }
+            else str += ', ';
+            str += strs[i];
+        }
+        str += '. '
+        return str
+    }
+    return (
+        <Row gutter={20}>
+        <Col span={17}>
+        <div className="icard">
+        <Card >
+            <Row gutter={16}>
+                <Col span={4}>
+                    {insdata.iimage && <Avatar size={115} src={insdata.iimage} style={{marginTop:20}}></Avatar>}
+                    {!insdata.iimage && <Avatar size={115} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',marginTop:20}}></Avatar>}
+                </Col>
+                <Col span={20}>
+                    <div className="title">{insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}</div>
+                    {insdata.ichinesename && <div className="title">{insdata.ichinesename}</div>}
+                    <div className="insinfo">
+                        {info()}
+                    </div>
+                    
+                </Col>
+            </Row>
+        </Card>
+        </div>
+        </Col>
+        <Col span={7}>
+        <div className="scard">
+            <Card>
+                <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="学者总数" num={insdata.IschNum}></ItemScard>
+                <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.iworksum}></ItemScard>
+                <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.icitednum}></ItemScard>
+                <Button type="primary" style={{marginTop:15,marginLeft:100}}
+                    onClick={()=>handleHomepage(insdata.ihomepage)}>机构主页</Button>
+            </Card>
+        </div>
+        </Col>
+    </Row>
+        
+    )
+}
+
+function ItemScard(props){
+    return (
+        <div className="scardInfo">
+            {props.icon}
+            <div className="title1">{props.title}</div>
+            <div className="num1">{props.num && separator(props.num)}</div>
+        </div>
+    )
+}
+
+function CoInstitute(props){
+    const [coins, setCoins] = useState([]);
+
+    const columns = [
+        {
+            title: '机构名称',
+            key: 'action',
+            render: (_, record)=>(
+                <Link href={"/institute?IID=" + record.IID} isExternal>
+                    {record.IID} <ExternalLinkIcon mx='2px' />
+                </Link>
+            )
+        },
+        {
+            title: '关系',
+            dataIndex: 'relation',
+            key: 'relation',
+        }
+    ]
+    useEffect(()=>{
+        let arr = []
+        let j = props.coins ? props.coins.length : 0;
+        for(let k = 0; k < j; k++){
+            let a = {}
+            a.IID = props.coins[k]
+            a.relation = props.core[k]
+            arr.push(a)
+        }
+        setCoins(arr)
+    },[props])
+    return (
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                <BankFilled className='chart-icon'  />
+                <Heading className='chart-head'>关联机构</Heading>
+            </Row>
+            <Table columns={columns} dataSource={coins} rowKey="IID" pagination={{
+              pageSize: 4,
+            }}
+            size="middle" showHeader={false} bordered={true} style={{marginTop:40}}>
+
+            </Table>
+        </Box>
+    )
+}
+
+function AmoutChart(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2018,2019,2020,2021,2022]
+            },
+            plotOptions: {
+                bar: {
+                  columnWidth: '40%',
+                  borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical', 
+                    gradientToColors: ['#1b3bbb'], 
+                    opacityFrom: 0.96, 
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },        
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='chart'>
+            <Row>
+                {props.icon}
+                
+                <Heading className='chart-head'>{props.title}</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+        </Box>
+    )
+}    
+
+
+function Institute(){
+    const [insdata, setInsdata] = useState({})
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    console.log(params)
     var IID;
     if(params.has('IID')){
         IID = params.get('IID')
@@ -46,173 +257,29 @@ function Icard(){
             }
           )
     }
-    const handleHomepage = (url)=>{
-        window.open(url)
-    }
-
     useEffect(() =>{
         getData()
-      }, [])
-    function info(){
-        var flag = 0;
-        var strs = [];
-        var str = insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")
-        if(insdata.ichinesename){
-            strs.push("中文名为" + insdata.ichinesename)
-            flag += 1;
-        }
-            
-        if(insdata.ialternames){
-            let j = insdata.ialternames.length;
-            if(j > 0){
-                let altername = "别名" + insdata.ialternames[0]
-                for(let k = 1; k < j; k++){
-                    altername += ", " +  insdata.ialternames[k];
-                }
-                strs.push(altername);
-                flag += 1;
-            }
-        }
-        if(insdata.itype)
-            strs.push("机构类型为" + insdata.itype)
-        if(insdata.icountry)
-            strs.push("机构所属国家为" + insdata.icountry)
-        if(insdata.Ischolars)
-            strs.push("机构共有学者 " + insdata.Ischolars + " 位")
-        if(insdata.iworksum)
-            strs.push("机构下学者已发表论文 " + insdata.iworksum + " 篇")
-        if(insdata.icitednum)
-            strs.push("目前机构下论文已被引 " + insdata.icitednum + " 次")
-        for(var i in strs){
-            if(i == flag){
-                str += ".  "
-            }
-            else str += ', ';
-            str += strs[i];
-        }
-        str += '. '
-        return str
-    }
-    return (
-        <Row gutter={20}>
-        <Col span={17}>
-        <div className="icard">
-        <Card >
-            <Row gutter={16}>
-                <Col span={4}>
-                    {insdata.iimage && <Avatar size={115} src={insdata.iimage} style={{marginTop:30}}></Avatar>}
-                    {!insdata.iimage && <Avatar size={115} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',marginTop:30}}></Avatar>}
-                </Col>
-                <Col span={20} style={{paddingTop: 20}}>
-                    <div className="title">{insdata.iname + (insdata.Iacronyms ? (" (" + insdata.Iacronyms + ")") : "")}</div>
-                    {insdata.ichinesename && <div className="title">{insdata.ichinesename}</div>}
-                    <div className="insinfo">
-                        {info()}
-                    </div>
-                    <Button type="primary" style={{marginTop:20}}
-                    onClick={()=>handleHomepage(insdata.ihomepage)}>机构主页</Button>
-                </Col>
-            </Row>
-        </Card>
-        </div>
-        </Col>
-        <Col span={7}>
-        <div className="scard">
-            <Card>
-                <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="学者总数" num={insdata.IschNum}></ItemScard>
-                <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.iworksum}></ItemScard>
-                <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.icitednum}></ItemScard>
-            </Card>
-        </div>
-        </Col>
-    </Row>
-        
-    )
-}
-
-function ItemScard(props){
-    return (
-        <div className="scardInfo">
-            {props.icon}
-            <div className="title1">{props.title}</div>
-            <div className="num1">{props.num && separator(props.num)}</div>
-        </div>
-    )
-}
-
-var option = {
-    title: {
-        text: '平台访问热度'
-    },
-    tooltip: {},
-    xAxis: {
-      data: []
-    },
-    yAxis: {},
-    series: [
-      {
-        data: [],
-        type: 'line',
-        smooth: true
-      }
-    ]
-  };
-
-var myChart1, myChart2, myChart3;
-function Institute(){
+      },[])
     
-    useEffect(() => {
-        var chartDom1 = document.getElementById('chart1');
-        myChart1 = echarts.getInstanceByDom(chartDom1);
-        if(myChart1){
-            myChart1.dispose();
-        }
-        myChart1 = echarts.init(document.getElementById('chart1'));
-    // 绘制图表
-        myChart1.setOption(option);
-
-        var chartDom2 = document.getElementById('chart2');
-        myChart2 = echarts.getInstanceByDom(chartDom2);
-        if(myChart2){
-            myChart2.dispose();
-        }
-        myChart2 = echarts.init(document.getElementById('chart2'));
-    // 绘制图表
-        myChart2.setOption(option);
-
-        var chartDom3 = document.getElementById('chart3');
-        myChart3 = echarts.getInstanceByDom(chartDom3);
-        if(myChart3){
-            myChart3.dispose();
-        }
-        myChart3 = echarts.init(document.getElementById('chart3'));
-    // 绘制图表
-        myChart3.setOption(option);
-   });
 
     return (
         <Layout>
             <Header style={{height:60}}></Header>
             <Content>
                 <div className="institute">
-                    <Icard></Icard>
+                    <Icard insdata={insdata}></Icard>
                     <Row gutter={24} style={{marginTop:30}}>
                         <Col span={8}>
-                            <Card> 
-                                <div id="chart1" style={{height:300, width:350}}></div>
-                            </Card>
+                            <AmoutChart count={insdata.icount} title="论文数量" icon={<IoNewspaperSharp className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
-                            <Card> 
-                                <div id="chart2" style={{height:300, width:350}}></div>
-                            </Card>
+                            <AmoutChart count={insdata.icited} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
-                            <Card> 
-                                <div id="chart3" style={{height:300, width:350}}></div>
-                            </Card>
+                            <CoInstitute coins={insdata.iassociations} core={insdata.irelation}></CoInstitute>
                         </Col>
                     </Row>
+                    <div className='title2'>机构下学者列表</div>
                     <List></List>
                 </div>
             </Content>

@@ -15,28 +15,37 @@
     width: 900px;
     height: 300px;
     padding-right: 25px;
-    padding-left: 20px;
+    padding-top: 20px;
 }
 .icard .title{
     font-size: 30px;
     font-weight: 600;
-    
 }
 
 .icard .ant-btn{
     border-radius: 8px;
 }
 
+.icard .ant-card-meta-title{
+    font-size: 14px;
+    margin-bottom: 0 !important;
+    color: #878989 !important;
+
+}
+.icard .ant-card-meta-description{
+    font-weight: 600 !important;
+    font-size: 25px !important;
+}
 
 .scard .ant-card{
     border-radius: 0 15px 15px  0;
     width: 360px;
     height: 300px;
     padding-left: 10px;
-    padding-top: 15px;
+    padding-top: 5px;
 }
 .scardInfo{
-    height: 84px;
+    height: 60px;
 }
 .scardInfo .title1{
     display: inline;
@@ -47,15 +56,49 @@
 
 .scardInfo .num1{
     display: inline;
-    font-size: 30px;
+    font-size: 26px;
     color: #3A3AF1;
 }
 
 .scardInfo .icon1{
     display: inline;
     margin-bottom: -5px;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     color: rgb(155, 152, 152);
     margin-right: 10px;
+}
+
+.institute .chart{
+    margin:auto;
+    height: 360px;
+    padding: 30px 30px 30px 30px;
+}
+
+.institute .chart-icon{
+    font-size: 28px;
+    color: #422afb !important;
+    margin-top: 3px;
+    margin-left: 15px;
+}
+
+.institute .chart-head{
+    font-size: 23px !important;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    letter-spacing:0.7mm;
+}
+
+.institute .apexcharts-menu-item {
+    width: 105px;
+}
+
+.institute .title2{
+    font-weight: 600;
+    margin-top: 30px;
+    font-size: 22px;
+}
+
+.institute .chart .ant-table{
+    background-color: #11111100 !important;
 }
