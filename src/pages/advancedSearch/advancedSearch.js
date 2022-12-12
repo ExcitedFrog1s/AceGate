@@ -182,14 +182,6 @@ function Search(props) {
                 },
               }}>
 
-            {/* <Breadcrumb fontSize='15px' color='#4A5568'>
-                <BreadcrumbItem >
-                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>
-                </BreadcrumbItem>
-            </Breadcrumb> */}
             {dataList.map((item, index) => (
                 <Row style={{marginTop:'20px'}} key={index}>
                     <Col span={3}>
@@ -397,7 +389,7 @@ function AdvancedSearch({}) {
                     </AccordionItem>
                 </Accordion>
             
-                {/* <AdvancedSearchResults/> */}
+                <AdvancedSearchResults/>
         </Box>
     )
 }

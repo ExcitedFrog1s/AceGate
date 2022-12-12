@@ -30,6 +30,25 @@ moment.locale('zh-cn')
 
 
 function Title(props) {
+    const dealNumber = (num) => {
+        if (num != 0 && num) {
+            num = num + "";
+            let decimalsStr = "";
+            let splitList = num.split(".");
+            //先处理小数部分
+            if (splitList[1]) {
+                //如果有2位小数则保留2位，只有1位则添0
+                decimalsStr = decimalsStr.substring(0, 2).length == 2 ? decimalsStr.substring(0, 2) : decimalsStr.substring(0, 2) + "0";
+            }
+            //整数部分
+            //将整数部分拆解为单个数字的数组倒序，然后拼装为新的数组，每3位数字进行一次匹配
+            let intStrList = splitList[0].split("").reverse().join('').match(/(\d{1,3})/g);
+            //将匹配后的数组用，拼接，再拆解为单个数字的数组，反转为原先数组形式，拼接为完整数字
+            let intStr = intStrList.join(',').split('').reverse().join('');
+            return intStr + decimalsStr;
+        }
+        return num;
+    }
     return(
         <Box boxShadow='xs' rounded='md'
             borderRadius='25px' border='2px' borderColor='gray.200'
@@ -46,12 +65,12 @@ function Title(props) {
                 </Link>
             </Row>
             <Row className='index'>
-                <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>{props.work} </Heading>
+                <Col span={6}>
+                    <Heading as='h3' size='lg' className='index-data'>{dealNumber(props.work)} </Heading>
                     <Text fontSize='xl' className='index-name'>论文</Text>
                 </Col>
                 <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>{props.cite} </Heading>
+                    <Heading as='h3' size='lg' className='index-data'>{dealNumber(props.cite)} </Heading>
                     <Text fontSize='xl' className='index-name'>引用</Text>
                 </Col>
             </Row>
@@ -71,13 +90,25 @@ function Keywords(props) {
     return(
         <Box boxShadow='xs' rounded='md'
         borderRadius='25px' border='2px' borderColor='gray.200'
-        className='keywords'>
+        className='keywords' >
             <Row>
                 <KeyOutlined style={{ fontSize: '30px', color: '#422afb'}}></KeyOutlined>
-                <Heading  style={{marginLeft:'15px', marginBottom:'15px', fontSize:'24px'}}>领 域</Heading>
+                <Heading  style={{marginLeft:'15px', marginBottom:'10px', fontSize:'24px'}}>领 域</Heading>
             </Row>
-            <Row style={{marginTop:'10px'}}>
-                <Col span={17}>
+            <Box className='concepts' css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#cccccc',
+              borderRadius: '24px',
+            },
+          }}>
+            <Row>
+                <Col span={16}>
                     <Text color='#A0AEC0' mb='10px' fontWeight={'600'} fontSize={'17px'}>名 称</Text>
                     <Divider style={{margin:3}}/>
                     {props.Cname.map((item, index) => (
@@ -105,6 +136,7 @@ function Keywords(props) {
                     ))}
                 </Col>
             </Row>
+            </Box>
         </Box>
     )
 }
@@ -517,19 +549,19 @@ function PaperList(props) {
             },
         };
         axios(config).then( res => {
-            console.log(res.data.papers)
-            setData(res.data.papers)
-            var max = 0
-            res.data.papers.forEach((item)=>{
-                item.author = item.Pauthor[0]
-                item.field = item.PsystemTags[0]
-                if(item.Pcite > max){
-                    max = item.Pcite
-                }
-            });
-            res.data.papers.forEach((item)=>{
-                item.max_cite = max
-            });
+            console.log(res.data)
+            // setData(res.data.list)
+            // var max = 0
+            // res.data.papers.forEach((item)=>{
+            //     item.author = item.Pauthor[0]
+            //     item.field = item.PsystemTags[0]
+            //     if(item.Pcite > max){
+            //         max = item.Pcite
+            //     }
+            // });
+            // res.data.papers.forEach((item)=>{
+            //     item.max_cite = max
+            // });
             
         });
     },[])
@@ -759,7 +791,8 @@ function Journal({}) {
         Vworkscount:'',
         Vcitecount:'',
         Vhomepage:'',
-        Cname:[],
+        cnames:[],
+        scores:[],
         Vconceptscores:[],
         VworksCount:[]
     });
@@ -778,8 +811,16 @@ function Journal({}) {
             }
         };
         axios(config).then(res => {
-            console.log(res)
-            setData(res.data)
+            var data = res.data.data
+            data.cnames=[]
+            data.scores=[]
+            data.VConcepts.forEach((item,index)=>{
+                if(item.cname != ""){
+                    data.cnames.push(item.cname);
+                    data.scores.push(res.data.data.vconceptscores[index])
+                }
+            });
+            setData(data)
         }).catch(err =>{
             console.log(err)
         })
@@ -789,25 +830,25 @@ function Journal({}) {
         <html className='journal'>
             <Row>
                 <Col span={14}>
-                    <Title name={data.Vfullname} cite={data.Vcitecount}
-                        work={data.Vworkscount} homepage={data.Vhomepage}></Title>
+                    <Title name={data.vfullname} cite={data.vcitecount}
+                        work={data.vworksCount} homepage={data.vhomepage}></Title>
                 </Col>
                 <Col span={10}>
-                    <Keywords Cname={data.Cname} Vconceptscores={data.Vconceptscores}></Keywords>
+                    <Keywords Cname={data.cnames} Vconceptscores={data.scores}></Keywords>
                 </Col>
             </Row>
             <Row>
                 <Col span={5} style={{marginLeft:'80px'}} >
-                    <PaperAmount count={data.Vworksyear}></PaperAmount>
+                    <PaperAmount count={data.vworksyear}></PaperAmount>
                 </Col>
                 <Col span={5} style={{marginLeft:'50px'}}>
-                    <CitationAmount count={data.Vcitesyear}></CitationAmount>
+                    <CitationAmount count={data.vcitesyear}></CitationAmount>
                 </Col>
                 <Col span={5} style={{marginLeft:'50px'}}>
-                    <PaperAmountAcc count={data.VworksAccumulate}></PaperAmountAcc>
+                    <PaperAmountAcc count={data.vworksAccumulate}></PaperAmountAcc>
                 </Col>
                 <Col span={5} style={{marginLeft:'50px'}}>
-                    <CitationAmountAcc count={data.VcitesAccumulate}></CitationAmountAcc>
+                    <CitationAmountAcc count={data.vcitesAccumulate}></CitationAmountAcc>
                 </Col>
             </Row>
             {/* <InstitutionList ></InstitutionList> */}
