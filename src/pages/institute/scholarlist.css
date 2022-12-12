@@ -1,3 +1,21 @@
 .list .ant-table{
     background-color: #2d2d2d05 !important;
 }
+.list .ant-table-thead .ant-table-cell{
+    background: #EDF2F7 !important;
+    font-weight: 600;
+}
+.list .css-uo84k3{
+    color: gray !important;
+}
+.list .box{
+    height: 600px;
+    margin: auto;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.list .table{
+    width: 100%;
+    margin-top: 30px;
+}

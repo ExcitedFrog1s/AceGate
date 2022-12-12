@@ -3,6 +3,7 @@ import {
 } from "react-router-dom";
 
 import Landing from '../pages/landing/landing.js'
+import Homepage from "../pages/landing/homepage.js";
 import Information from "../pages/personalinf/Information";
 import Manage from "../pages/manage/left.js";
 import Info from "../pages/manage/info.js";
@@ -21,6 +22,7 @@ import EditPortal from '../pages/ScholarPortal/EditPortal.js'
 import ApplyPortal from '../pages/ScholarPortal/ApplyPortal.js'
 import Login from "../pages/user/login";
 import LoginAndRegister from "../pages/user/loginAndRegister";
+import FindPassword from "../pages/user/findPassword";
 import Register from "../pages/user/register";
 import DefaultSearchResults from "../pages/serach_results/default_search/default_search_results";
 import RecoverPassword from "../pages/user/recover-password";
@@ -38,6 +40,10 @@ const default_router = createBrowserRouter([
         element: <Landing />
     },
     {
+        path: '/homepage',
+        element: <Homepage />
+    },
+    {
         path: '/login',
         element: <Login />
     },
@@ -46,8 +52,12 @@ const default_router = createBrowserRouter([
         element: <Toolbox />
     },
     {
-        path: '/login2',
+        path: '/loginAndRegister',
         element: <LoginAndRegister />
+    },
+    {
+        path: '/findPassword',
+        element: <FindPassword />
     },
     {
         path: '/register',

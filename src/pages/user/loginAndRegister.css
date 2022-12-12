@@ -1,10 +1,6 @@
 body{
     /*background: linear-gradient(200deg,#f3e7e9,#e3eeff);*/
 }
-.content{
-    background: linear-gradient(90deg,#f7fafc, rgba(158, 171, 196, 0.8));
-    /*background: linear-gradient(200deg,#f3e7e9,#e3eeff);*/
-}
 .container{
     /*background-color: #fff;*/
     width: 650px;

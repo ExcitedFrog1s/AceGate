@@ -105,5 +105,10 @@
 }
 
 .institute .chart .ant-table{
-    background-color: #11111100 !important;
+    background: #11111100 !important;
+}
+
+.institute .chart .ant-table-thead .ant-table-cell{
+    background: #EDF2F7 !important;
+    font-weight: 600;
 }

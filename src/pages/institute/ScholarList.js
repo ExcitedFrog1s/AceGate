@@ -1,5 +1,6 @@
 import Highlighter from 'react-highlight-words'
 import { SearchIcon } from '@chakra-ui/icons'
+import { Box} from '@chakra-ui/react'
 import './scholarlist.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
@@ -133,9 +134,9 @@ function List() {
         dataIndex: 'RImage',
         key: 'RImage',
         render: (_, record) => (
-          <Avatar name={record.rname} src={record.RImage} bg="frog.500" />
+          <Avatar name={record.rname} src={record.RImage} bg="#ffffff" />
         ),
-        width: 30
+        width: 80
       },
       {
         title: '姓名',
@@ -150,6 +151,15 @@ function List() {
         dataIndex: 'rcontact',
         key: 'rcontact',
         ...getColumnSearchProps('rcontact'),
+        width: 200
+      },
+      {
+        title: '发表论文数',
+        dataIndex: 'rworkscount',
+        key: 'rworkscount',
+        sorter: (a, b) => a.rworkscount - b.rworkscount,
+        sortDirections: ['descend', 'ascend'],
+        width: 120
       },
       {
         title: '被引次数',
@@ -158,37 +168,31 @@ function List() {
         ...getColumnSearchProps('rcitescount'),
         sorter: (a, b) => a.rcitescount - b.rcitescount,
         sortDirections: ['descend', 'ascend'],
-      },
-      {
-        title: '发表论文数',
-        dataIndex: 'rworkscount',
-        key: 'rworkscount',
-        sorter: (a, b) => a.rworkscount - b.rworkscount,
-        sortDirections: ['descend', 'ascend'],
+        width: 120
       },
       {
         title: '操作',
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button type='primary' onClick={()=>toPortal(record.rID)}>前往学者门户</Button>
+            <Button type='primary' onClick={()=>toPortal(record.rID)}>前往门户</Button>
           </Space>
         ),
+        width: 120
       },
     ];
       return (
           <div className="list" style={{marginTop:30}}>
-            <Row>
-              <Col span={19}>
+            <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='box'>
+            <div className='title2'>机构下学者列表</div>
                 <Table dataSource={data} columns={columns} rowKey="rID"
-              pagination={{
-                pageSize: 8,
-              }}
+              pagination={false} scroll={{
+                y: 400,
+              }} className="table"
               ></Table>
-              </Col>
-              <Col span={5}></Col>
-            </Row>
-              
+            </Box>
           </div> 
       )
   }
