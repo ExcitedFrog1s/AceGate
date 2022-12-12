@@ -4,7 +4,7 @@
 import { BarsOutlined, TeamOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Menu } from "antd";
 import { Outlet, useNavigate } from 'react-router-dom'
-import React from "react";
+import React, { useState } from "react";
 import { Layout } from "antd";
 
 const { Header, Sider, Content } = Layout;
@@ -44,20 +44,35 @@ function LeftMenu(){
 }
 
 function Manage(){
+    const [admin, setAdmin] = useState(false)
+    const navigate = useNavigate();
+    let token = localStorage.getItem("userToken");
+    let type = localStorage.getItem("userType")
+    if(!token || !type || type != "admin"){
+        window.alert("您没有管理员权限！")
+        setTimeout(function () {
+            navigate("/");
+        }, 0);
+    }
+    else{
+        setAdmin(true)
+    }
     return (
-        <Layout>
-            <Header></Header>
-            <Layout>
-                <Sider style={{width:200, height:700}}
-                theme="light">
-                    <div className='left'><LeftMenu/></div>
-                    <img src={require('../../assets/manageleft.png')} style={{marginTop:350}} />
-                </Sider>
-                <Content>
-                    <Outlet />
-                </Content>
-            </Layout>
-        </Layout>
+        <div>
+            {<Layout>
+                <Header></Header>
+                <Layout>
+                    <Sider style={{width:200, height:700}}
+                    theme="light">
+                        <div className='left'><LeftMenu/></div>
+                        <img src={require('../../assets/manageleft.png')} style={{marginTop:350}} />
+                    </Sider>
+                    <Content>
+                        <Outlet />
+                    </Content>
+                </Layout>
+            </Layout>}
+        </div>
     )
 }
 export default Manage;
