@@ -5,7 +5,7 @@ import registerImg from '../../assets/images/undraw_data_input_fxv2.png'
 import {
     Typography,
     Layout,
-    message,
+message,
     Upload,
     Col,
     Row,
@@ -14,6 +14,8 @@ import {
     Menu, Steps, Divider,
     Image,
 } from 'antd';
+
+import { useToast } from '@chakra-ui/react'
 import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
@@ -21,6 +23,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from "axios";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text} = Typography;
+
 
 async function loginUser(username, password) {
     let ret = ""
@@ -31,7 +34,11 @@ async function loginUser(username, password) {
 
     await axios.post('/login', formData)
         .then(res => {
-            console.log(res.data)
+            console.log(res.data);
+            if(res.data.code == 200)
+                message.success('登录成功')
+            else
+            message.error( res.data.message)
             status = res.data.message
             ret = res.data.data
         })
@@ -41,7 +48,7 @@ async function loginUser(username, password) {
     };
 }
 
-async function registerUser(username, password, email, verificationCode) {
+const registerUser  = (username, password, email, verificationCode) =>{
     let status = "ERR";
 
     const formData = new FormData();
@@ -50,29 +57,17 @@ async function registerUser(username, password, email, verificationCode) {
     formData.append("email", email);
     formData.append("vercode", verificationCode);
 
-    await axios.post('/register', formData)
+    axios.post('/register', formData)
         .then(res => {
-            status = res.data.message;
-
+            if(res.data.code == 200)
+            message.success("注册成功，请前往登录")
+            else
+            message.error(res.data.message)
+            console.log(res.data)
         })
     return status;
 }
 
-async function sendVerificationEmail(email) {
-
-    let ret = 0;
-
-    const formData = new FormData()
-    formData.append("to", email)
-
-    await axios.post('/sendEmail',formData)
-        .catch(error => {
-            console.log(error)
-            ret = -1;
-        });
-    console.log("---" + ret);
-    return ret;
-}
 
 const validateEmail = (email) => {
     return String(email)
@@ -83,11 +78,13 @@ const validateEmail = (email) => {
 };
 
 function LoginAndRegister () {
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [password2, setPassword2] = useState();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [password2, setPassword2] = useState('');
+    const [data ,setData] = React.useState();
     const navigate = useNavigate();
-
+    const toast = useToast();
+    const [messageApi, contextHolder] = message.useMessage()
 
     const [email, setEmail] = useState("");
     const [hasSendCode, setHasSendCode] = useState(0);
@@ -108,85 +105,133 @@ function LoginAndRegister () {
         if (data.token !== "" && data.status === "登录成功") {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("username", username);
-            alert("登录成功！");
-            navigate("/landing");
+            
+            setTimeout(function () {
+                navigate("/landing");
+            }, 1000);
         }else if(data.status === "登录成功") {
-            alert("token出现错误。")
         } else if (data.status === "密码错误") {
-            alert("密码错误。")
         } else {
-            alert("未知错误。")
         }
     }
 
-    const handleSendVerifyEmail = async e => {
+
+
+    const sendVerificationEmail = (email) =>{
+
+        const formData = new FormData()
+        formData.append("to", email)
+        axios.post('/sendEmail',formData)
+        .then(res => {
+            console.log(res.data)
+            if(res.data.code == 200){
+                message.success('发送成功')
+                setCountdown(1);
+                setHasSendCode(1);
+                // 必须发送一次验证码
+                setInterval(() => setCountdown(0), 60000);
+            }
+                
+            else
+                message.error(res.data.message)
+            return res.data.code;
+        })
+    }
+
+    const handleSendVerifyEmail = () => {
+        if (!validateEmail(email)) {
+            toast({
+                title: '请填写合法的邮箱',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
+        }
         if (countdown === 0) {
-            if(!validateEmail(email)){
-                alert("邮箱格式不正确！");
-            }
-
-            let result = await sendVerificationEmail(email);
-
-            if (result !== 0) {
-                alert("发送验证码失败。");
-                return;
-            }
-            alert("成功发送验证码，请前往邮箱查收。一分钟后可再次发送验证码。")
-            setCountdown(1);
-            // 必须发送一次验证码
-            setHasSendCode(1);
-            setInterval(() => setCountdown(0), 60000);
+            let result =  sendVerificationEmail(email);
         }
     }
 
-    const handleRegister = async e => {
-        if (username === "") {
-            alert("用户名为空！");
-            return -1;
+    const handleRegister = () => {
+        if(username == ''){
+            toast({
+                title: '请输入用户名',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1;
         }
-        if (username.length < 6) {
-            alert("用户名长度至少为6！");
-            return -1;
+        if (password.length < 8 || password.length > 16) {
+            toast({
+                title: '请输入8-16位密码，密码中必须包含大小写字母、数字',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
         }
-        if (username.length > 20) {
-            alert("用户名长度至多为20！");
-            return -1;
-        }
-        if (password.length < 8) {
-            alert("密码长度过短，至少需要8位字符");
-            return -1;
-        }
-        if (password.length > 16) {
-            alert("密码长度过长，至多16位字符");
-            return -1;
+        
+        var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        if (!reg.test(password)) {
+            toast({
+                title: '密码强度不够，需包含大小写字母、数字',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
         }
         if (password !== password2) {
-            alert("两次输入的密码不一致！");
-            return -1;
+            toast({
+                title: '两次输入的密码不一致',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
         }
         if (email === "") {
-            alert("请填写邮箱！");
-            return -1;
+            toast({
+                title: '请填写邮箱',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
         }
+
         if (!validateEmail(email)) {
-            alert("请填写合法的邮箱！");
-            return -1;
+            toast({
+                title: '请填写合法的邮箱',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
         }
 
         if (hasSendCode === 0) {
-            alert("还没有发送过邮箱验证码！");
+            toast({
+                title: '请获取邮箱验证码',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
             return -1;
         }
-        let status = await registerUser(username, password, email, verifyCode);
-        console.log(status)
-        if (status === "注册成功") {
-            alert("注册成功！");
-            goToLogin();
-        }else{
-            alert("注册失败。请检查邮箱验证码是否正确。");
-            return -1;
-        }
-        return 0;
+        let status = registerUser(username, password, email, verifyCode);
+  
+    
     }
 
     // 去注册

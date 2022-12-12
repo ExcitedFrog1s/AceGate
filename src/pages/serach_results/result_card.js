@@ -47,7 +47,7 @@ function Title(props) {
 
 }
 
-function Author(props) {
+function Author1(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -66,7 +66,7 @@ function Author(props) {
     }
 
     const handleClick = () => {
-        window.open('/scholarPortal?RID=' + props.info.RID)
+        window.open('/scholarPortal?RID=' + props.info.rid)
     }
 
     return(
@@ -76,29 +76,65 @@ function Author(props) {
               onMouseLeave={handleMouseLeave}
               onClick={handleClick}
         >
-            {props.info.name}
+            {props.info.rname}
         </Link>
     )
 }
 
-function Authors({authors}) {
+function Author2(props) {
+    const linkStyle = {
+        color: '#777',
+        fontSize: '14px',
+        marginRight: '10px',
+        textDecoration: 'none',
+        cursor: 'default'
+    }
+
     return(
-    <Box ml={'10'} mt={'15px'}>
+        <Link style={linkStyle}>
+            {props.info}
+        </Link>
+    )
+}
+
+function Authors(props) {
+    let cur_num = props.authors1.length
+    const find_author = (value) => {
+        if(cur_num >= 10) {
+            return true
+        }
+        for(let i = 0;i < props.authors1.length;i++) {
+            if(value === props.authors1[i].rname){
+                return true
+            }
+        }
+        cur_num++
+        return false
+    }
+    return(
+        <Box ml={'10'} mt={'15px'}>
         {
-            authors.map((value, key) => {
+            props.authors1.map((value, key) => {
                 return (
-                    <Author info={value} key={key}/>
+                    <Author1 info={value} key={key}/>
                 );
             })
         }
-
-
+        {
+            props.authors2.map((value,key) => {
+                if(!find_author(value)) {
+                    return (
+                        <Author2 info={value} key={key}/>
+                    )
+                }
+            })
+        }
         </Box>
     )
 
 }
 
-function TimeOrgan({props}) {
+function TimeOrgan(props) {
     const [isHover, setIsHover] = useState(false)
 
     const handleMouseEnter = () => {
@@ -114,22 +150,21 @@ function TimeOrgan({props}) {
         fontSize: '12px',
         textDecoration: isHover ? 'underline' : 'none',
     }
-
     return(
         <Box ml={'10'} mt={'10px'} float={'left'}>
             <p style={{marginTop:'-10px'}}/>
             <i style={{fontSize:'12px',color:'#a0a0a0'}} >
                 {/*time stamp to year*/}
-                {new Date(props.time * 1000).getFullYear() + ' 年 ' +
-                    new Date(props.time * 1000).getMonth() + ' 月'}
+                {new Date(props.time).getFullYear() + ' 年 ' +
+                    new Date(props.time).getMonth() + ' 月'}
             </i>
-            <Link href={'/'}
-                  style={linkStyle}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-            >
-                {props.organ}
-            </Link>
+                <Link href={'/'}
+                      style={linkStyle}
+                      onMouseEnter={handleMouseEnter}
+                      onMouseLeave={handleMouseLeave}
+                >
+                    {/*{props.organ[0].rinstitute}*/}
+                </Link>
         </Box>
     )
 }
@@ -212,7 +247,7 @@ function Label(props) {
 function Labels(props) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'领域'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'标签'}</Text>
             {
                 props.labels.map((value, key) => {
                     return (
@@ -281,11 +316,11 @@ function ResultCard(props) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
-            <Title title={props.infos.Pname} PID={props.infos.PID}/>
-            <Authors authors={props.infos.PAuthor}/>
-            <TimeOrgan props={{'time':props.infos.Pdate,'organ':props.IName}}/>
-            <Content content={props.infos.Pabstract} PID={props.infos.PID}/>
-            <Labels labels={props.infos.PsystemTags}/>
+            <Title title={props.infos.pname} PID={props.infos.pID}/>
+            <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
+            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}/>
+            <Content content={props.infos.pabstract} PID={props.infos.pID}/>
+            <Labels labels={props.infos.psystemTags}/>
             {/*<Operations props={props.infos.isStar}/>*/}
         </Box>
     )
