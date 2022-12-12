@@ -140,7 +140,7 @@ function CoInstitute(props){
             key: 'action',
             render: (_, record)=>(
                 <Link href={"/institute?IID=" + record.IID} isExternal>
-                    {record.IID} <ExternalLinkIcon mx='2px' />
+                    {record.name}
                 </Link>
             )
         },
@@ -148,6 +148,7 @@ function CoInstitute(props){
             title: '关系',
             dataIndex: 'relation',
             key: 'relation',
+            width: 80
         }
     ]
     useEffect(()=>{
@@ -157,6 +158,7 @@ function CoInstitute(props){
             let a = {}
             a.IID = props.coins[k]
             a.relation = props.core[k]
+            a.name = props.name[k]
             arr.push(a)
         }
         setCoins(arr)
@@ -169,11 +171,11 @@ function CoInstitute(props){
                 <BankFilled className='chart-icon'  />
                 <Heading className='chart-head'>关联机构</Heading>
             </Row>
-            <Table columns={columns} dataSource={coins} rowKey="IID" pagination={{
-              pageSize: 4,
-            }}
-            size="middle" showHeader={false} bordered={true} style={{marginTop:40}}>
-
+            <Table columns={columns} dataSource={coins} rowKey="IID" pagination={false}
+            size="middle" showHeader={true} bordered={true} style={{marginTop:20}}
+            scroll={{
+                y: 200,
+              }}>
             </Table>
         </Box>
     )
@@ -276,11 +278,16 @@ function Institute(){
                             <AmoutChart count={insdata.icited} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
-                            <CoInstitute coins={insdata.iassociations} core={insdata.irelation}></CoInstitute>
+                            <CoInstitute coins={insdata.iassociations} core={insdata.irelation} name={insdata.IassoNames}></CoInstitute>
                         </Col>
                     </Row>
-                    <div className='title2'>机构下学者列表</div>
-                    <List></List>
+                    <Row>
+                        <Col span={17}>
+                            <List></List>
+                        </Col>
+                        <Col span={7}>
+                        </Col>
+                    </Row>
                 </div>
             </Content>
         </Layout>

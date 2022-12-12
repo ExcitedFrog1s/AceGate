@@ -3,6 +3,7 @@ import {
 } from "react-router-dom";
 
 import Landing from '../pages/landing/landing.js'
+import Homepage from "../pages/landing/homepage.js";
 import Information from "../pages/personalinf/Information";
 import Manage from "../pages/manage/left.js";
 import Info from "../pages/manage/info.js";
@@ -36,6 +37,10 @@ const default_router = createBrowserRouter([
     {
         path: '/landing',
         element: <Landing />
+    },
+    {
+        path: '/homepage',
+        element: <Homepage />
     },
     {
         path: '/login',
