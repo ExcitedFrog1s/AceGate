@@ -55,7 +55,7 @@ function Title(props) {
             className='title'>
             <Row>
             <ProjectOutlined style={{ fontSize: '42px', color: '#422afb'}}></ProjectOutlined>
-            <Heading as='h2' size='xl' style={{marginLeft:'25px', width:'650px'}}>
+            <Heading as='h3' size='xl' style={{marginLeft:'25px', width:'650px'}}>
                 {props.name} 
             </Heading>
             </Row>
@@ -93,7 +93,7 @@ function Keywords(props) {
         className='keywords' >
             <Row>
                 <KeyOutlined style={{ fontSize: '30px', color: '#422afb'}}></KeyOutlined>
-                <Heading  style={{marginLeft:'15px', marginBottom:'10px', fontSize:'24px'}}>领 域</Heading>
+                <Heading  style={{marginLeft:'15px', marginBottom:'10px', fontSize:'22px'}}>领 域</Heading>
             </Row>
             <Box className='concepts' css={{
             '&::-webkit-scrollbar': {
@@ -452,13 +452,13 @@ function InstitutionList(props) {
             dataIndex: 'Iimage',
             key: 'Iimage',
             render: (_, record) => (
-                <Avatar name={record.Pname} src={record.Iimage} />
+                <Avatar name={record.pname} src={record.Iimage} />
             ),
             width: 100,
         },{
             title: '',
-            dataIndex: 'Pname',
-            key: 'Pname',
+            dataIndex: 'pname',
+            key: 'name',
             ...getColumnSearchProps('Pname'),
             sorter: (a, b) => a.Pname.localeCompare(b.Pname),
             sortDirections: ['descend', 'ascend'],
@@ -550,18 +550,20 @@ function PaperList(props) {
         };
         axios(config).then( res => {
             console.log(res.data)
-            // setData(res.data.list)
-            // var max = 0
-            // res.data.papers.forEach((item)=>{
-            //     item.author = item.Pauthor[0]
-            //     item.field = item.PsystemTags[0]
-            //     if(item.Pcite > max){
-            //         max = item.Pcite
-            //     }
-            // });
-            // res.data.papers.forEach((item)=>{
-            //     item.max_cite = max
-            // });
+            setData(res.data.data.list)
+            var max = 0
+            res.data.data.list.forEach((item)=>{
+                item.author = item.pauthorname[0]
+                item.field = item.pconcepts[0]
+                item.pdate = new Date(item.pdate).getFullYear()+'-'+ new Date(item.pdate).getMonth()+'-'+new Date(item.pdate).getDay()
+                console.log(item.pdate)
+                if(item.pcite > max){
+                    max = item.pcite
+                }
+            });
+            res.data.data.list.forEach((item)=>{
+                item.max_cite = max
+            });
             
         });
     },[])
@@ -650,14 +652,14 @@ function PaperList(props) {
             width: 80
         },{
             title: '名称',
-            dataIndex: 'Pname',
-            key: 'Pname',
-            ...getColumnSearchProps('Pname'),
-            sorter: (a, b) => a.Pname.localeCompare(b.Pname),
+            dataIndex: 'pname',
+            key: 'pname',
+            ...getColumnSearchProps('pname'),
+            sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
                 <Link href={"/paperDetails?PID=" + record.PID} isExternal>
-                    {record.Pname} <ExternalLinkIcon mx='2px' />
+                    {record.pname} <ExternalLinkIcon mx='2px' />
                 </Link>
             ),
             ellipsis: true,
@@ -672,9 +674,9 @@ function PaperList(props) {
             width: 200
         },{
             title: '发表时间',
-            dataIndex: 'Pdate',
-            key: 'Pdate',
-            sorter: (a, b) => a.Pdate.localeCompare(b.Pdate),
+            dataIndex: 'pdate',
+            key: 'pdate',
+            sorter: (a, b) => a.pdate.localeCompare(b.pdate),
             sortDirections: ['descend', 'ascend'],
             width: 150
         },{
@@ -691,21 +693,21 @@ function PaperList(props) {
             width: 160
         },{
             title: '引用量',
-            dataIndex: 'Pcite',
-            key: 'Pcite',
-            sorter: (a, b) => a.Pcite - b.Pcite,
+            dataIndex: 'pcite',
+            key: 'pcite',
+            sorter: (a, b) => a.pcite - b.pcite,
             sortDirections: ['descend', 'ascend'],
             width: 200,
             render:(_,record) =>(
                 <Row>
-                        <Text>{record.Pcite}</Text>
+                        <Text>{record.pcite}</Text>
                         <Progress
                             style={{margin:'auto'}}
                             colorScheme='frog'
                             h='7px'
                             borderRadius='10px'
                             w='120px'
-                            value={100 * record.Pcite / record.max_cite}/>
+                            value={100 * record.pcite / record.max_cite}/>
                 </Row>
             )
         }
@@ -746,24 +748,24 @@ function PaperList(props) {
                         onChange: page => setCurrent(page)
                     }}
                     className='institutionList'
-                    rowKey={(record) => record.PID}
+                    rowKey={(record) => record.pID}
                     expandable={{
                         expandedRowRender: (record) => (
                             <Row >
                                 <Col span={17} offset={1}>
-                                    <Heading as='h4' size='md'>{record.Pname}</Heading>
+                                    <Heading as='h4' size='md'>{record.pname}</Heading>
                                     <Row className='expand'>
                                     {
-                                        record.Pauthor.map((value, key) => {
+                                        record.pauthorname.map((value, key) => {
                                             return (
                                                 <Text fontSize='sm' mr='25px' mt='5px' color='blue.200'>{value}</Text>
                                             );})
                                     }
                                     </Row>
-                                    <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.Pabstract}</Text>
+                                    <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.pabstract}</Text>
                                     <Row>
                                     {
-                                        record.PsystemTags.map((value, key) => {
+                                        record.pconcepts.map((value, key) => {
                                             return (
                                                 <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
                                                     <TagLabel>{value}</TagLabel>
@@ -774,7 +776,7 @@ function PaperList(props) {
                                 </Col>
                                 <Col span={5} style={{marginLeft:'20px'}}>
                                 <Chart options={options} 
-                                    series={[{data:record.Pcitednum}]} 
+                                    series={[{data:record.pcitednum}]} 
                                     type="area" height={250} />
                                 </Col>
                             </Row>
@@ -829,25 +831,25 @@ function Journal({}) {
     return(
         <html className='journal'>
             <Row>
-                <Col span={14}>
+                <Col span={15}>
                     <Title name={data.vfullname} cite={data.vcitecount}
                         work={data.vworksCount} homepage={data.vhomepage}></Title>
                 </Col>
-                <Col span={10}>
+                <Col span={7}>
                     <Keywords Cname={data.cnames} Vconceptscores={data.scores}></Keywords>
                 </Col>
             </Row>
             <Row>
-                <Col span={5} style={{marginLeft:'80px'}} >
+                <Col span={5} style={{marginLeft:'60px'}} >
                     <PaperAmount count={data.vworksyear}></PaperAmount>
                 </Col>
-                <Col span={5} style={{marginLeft:'50px'}}>
+                <Col span={5} style={{marginLeft:'40px'}}>
                     <CitationAmount count={data.vcitesyear}></CitationAmount>
                 </Col>
-                <Col span={5} style={{marginLeft:'50px'}}>
+                <Col span={5} style={{marginLeft:'40px'}}>
                     <PaperAmountAcc count={data.vworksAccumulate}></PaperAmountAcc>
                 </Col>
-                <Col span={5} style={{marginLeft:'50px'}}>
+                <Col span={5} style={{marginLeft:'40px'}}>
                     <CitationAmountAcc count={data.vcitesAccumulate}></CitationAmountAcc>
                 </Col>
             </Row>
