@@ -1,6 +1,22 @@
 import 'antd/dist/antd.variable.min.css';
 import Info from './info';
-import { ConfigProvider, Typography, Layout, Menu, Button, Divider, Steps, message, Input, Col, Row, Radio, Space, Card} from 'antd';
+import {
+    ConfigProvider,
+    Typography,
+    Layout,
+    Menu,
+    Button,
+    Divider,
+    Steps,
+    message,
+    Input,
+    Col,
+    Row,
+    Radio,
+    Space,
+    Card,
+    Form
+} from 'antd';
 import {
     FormOutlined,
     CheckCircleOutlined,
@@ -40,62 +56,86 @@ function ApplyPortal() {
     let params = new URLSearchParams(location.search)
     // let RID = params.get('RID')
     const [data, setData] = useState([]);
+    const [Rlist, setRlist] = useState([]);
 
-    const getData = ()=>{
+    const [form] = Form.useForm();
+    const Rname = Form.useWatch('Rname', form);
+    const Rinstitute = Form.useWatch('Rinstitute', form);
+    const Rcontact = Form.useWatch('Rcontact', form);
+    const Rconcepts = Form.useWatch('Rconcepts', form);
+    const RpersonalPage = Form.useWatch('RpersonalPage', form);
+    const Rgateinfo = Form.useWatch('Rgateinfo', form);
+
+    const getPortal = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal?apifoxApiId=53122434",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal",
             data: {
                 UID: params.get('UID'),
+                Rname: Rname,
+                Rinstitute: Rinstitute,
+                Rcontact: Rcontact,
+                Rconcepts: Rconcepts,
+                RpersonalPage: RpersonalPage,
+                Rgateinfo: Rgateinfo,
             }
         })
             .then(res => {
                     console.log(res.data)
                     setData(res.data)
+                    setRlist(res.data.Rlist)
+                }
+            )
+        next()
+    }
+
+    const findMore = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/findMore",
+            data: {
+                Rname: Rname,
+                Rinstitute: Rinstitute,
+                Rcontact: Rcontact,
+                Rconcepts: Rconcepts,
+                RpersonalPage: RpersonalPage,
+                Rgateinfo: Rgateinfo,
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                    setData(res.data)
+                    setRlist(res.data.Rlist)
                 }
             )
     }
-    useEffect(() => {
-        getData();
-    }, [])
 
-    const portalList = [
-        {
-            key: '1',
-            name: 'name',
-            id: 'id1',
-            email: 'email1',
-            institution: 'institution1',
-            area: 'area1',
-            papers: 10,
-            cites: 10,
-        },
-        {
-            key: '2',
-            name: 'name',
-            id: 'id2',
-            email: 'email2',
-            institution: 'institution2',
-            area: 'area2',
-            papers: 10,
-            cites: 10,
-        },
-        {
-            key: '3',
-            name: 'name',
-            id: 'id3',
-            email: 'email3',
-            institution: 'institution3',
-            area: 'area3',
-            papers: 10,
-            cites: 10,
-        }
-    ];
     const [value, setValue] = useState(1);
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
     };
+
+    const choosePortal = ()=>{
+        axios({
+            method: "post",
+            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal2",
+            data: {
+                RID: value,
+                Rname: Rname,
+                Rinstitute: Rinstitute,
+                Rcontact: Rcontact,
+                Rconcepts: Rconcepts,
+                RpersonalPage: RpersonalPage,
+                Rgateinfo: Rgateinfo,
+            }
+        })
+            .then(res => {
+                    console.log(res.data)
+                }
+            )
+        next()
+    }
 
     // page2 hover create portal
     const [createIsHover, setCreateIsHover] = useState(false)
@@ -108,7 +148,7 @@ function ApplyPortal() {
     const createStyle = {
         color: createIsHover ? '#8484f1' : '#3a3af1',
         textDecoration: createIsHover ? 'underline' : 'none',
-        margin: '0 0 0 20px',
+        margin: '0 0 0 60px',
         fontSize: '16px',
     }
 
@@ -120,28 +160,117 @@ function ApplyPortal() {
     const prev = () => {
         setCurrent(current - 1);
     };
+    const layout = {
+        labelCol: {
+            span: 6,
+        },
+        wrapperCol: {
+            span: 16,
+        },
+    };
+
+    const validateMessages = {
+        required: '${label}为必填项',
+        types: {
+            email: '请输入有效的${label}!',
+            number: '${label} is not a valid number!',
+        },
+        number: {
+            range: '${label} must be between ${min} and ${max}',
+        },
+    };
+
     const steps = [
         {
             title: '个人信息',
             status: 'finish',
             icon:
-                <FormOutlined
-                    // style={{
-                    //     color: current>=0 ? '#3a3af1' : undefined }}
-                />,
+                <FormOutlined />,
             content: (
                 <div>
-                    <Info/>
+                    <Form {...layout} form={form} onFinish={onFinish} validateMessages={validateMessages}>
+                        <Form.Item
+                            name="Rname"
+                            label="姓名"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="请输入您的姓名" />
+                        </Form.Item>
+                        <Form.Item
+                            name="Rinstitute"
+                            label="工作单位"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="请输入您的工作单位"/>
+                        </Form.Item>
+                        <Form.Item
+                            name="Rcontact"
+                            label="电子邮箱"
+                            rules={[
+                                {
+                                    type: 'email',
+                                    required: true,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="请输入您的电子邮箱"/>
+                        </Form.Item>
+                        <Form.Item
+                            name="Rconcepts"
+                            label="研究领域"
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="多个研究领域用英文半角逗号(,)分隔" />
+                        </Form.Item>
+                        <Form.Item
+                            name="RpersonalPage" label="个人主页"
+                            style={{
+                                padding: '10px',
+                            }}
+                        >
+                            <Input placeholder="请输入您的个人主页"/>
+                        </Form.Item>
+                        <Form.Item
+                            name="Rgateinfo" label="个人简介"
+                            style={{
+                                padding: '10px',
+                                color: '#0087FF',
+                            }}
+                        >
+                            <Input.TextArea placeholder="请输入您的个人简介"/>
+                        </Form.Item>
+                    </Form>
                 </div>
             ),
         },
         {
             title: '选择门户',
             status: 'finish',
-            icon: <IdcardOutlined
-                // style={{
-                //     color: current>0 ? '#3a3af1' : undefined }}
-            />,
+            icon: <IdcardOutlined />,
             content: (
                 <div>
                     <Row>
@@ -171,10 +300,10 @@ function ApplyPortal() {
                         >
                             <Space direction="vertical">
                                 {
-                                    portalList.map((value,key) => {
+                                    Rlist.map((value,key) => {
                                         return (
                                             <Radio
-                                                value={value.key}
+                                                value={value.RID}
                                                 style={{
                                                     padding: '5px 20px 15px 20px',
                                                     width: '100%',
@@ -184,7 +313,7 @@ function ApplyPortal() {
                                                 <Card
                                                     hoverable={true}
                                                     style={{
-                                                        width: '80vh',
+                                                        width: '100vh',
                                                         height: '22vh',
                                                         overflow: 'auto',
                                                         margin: '0 0 0 20px',
@@ -193,12 +322,12 @@ function ApplyPortal() {
                                                     <Row>
                                                         <Typography>
                                                                 <Title level={2}>
-                                                                    {value.name}
+                                                                    {value.Rname}
                                                                 </Title>
                                                                 <HomeOutlined/>
                                                                 <Text> </Text>
                                                                 <Text>
-                                                                    {value.institution}
+                                                                    {value.Rinstitute}
                                                                 </Text>
                                                         </Typography>
                                                         <Divider
@@ -219,7 +348,7 @@ function ApplyPortal() {
                                                                     style={{
                                                                         fontSize: '16px',
                                                                     }}
-                                                                >{value.area}</Text>
+                                                                >{value.Rconcepts}</Text>
                                                             </Row>
                                                             <Row>
                                                                 <Space>
@@ -230,7 +359,7 @@ function ApplyPortal() {
                                                                     style={{
                                                                         fontSize: '16px',
                                                                     }}
-                                                                >{value.email}</Text>
+                                                                >{value.Rcontact}</Text>
                                                             </Row>
                                                             <Row>
                                                                 <Space>
@@ -241,7 +370,7 @@ function ApplyPortal() {
                                                                     style={{
                                                                         fontSize: '16px',
                                                                     }}
-                                                                >共发表论文{value.papers}篇</Text>
+                                                                >共发表论文{value.Rworkscount}篇</Text>
                                                             </Row>
                                                             <Row>
                                                                 <Space>
@@ -252,7 +381,7 @@ function ApplyPortal() {
                                                                     style={{
                                                                         fontSize: '16px',
                                                                     }}
-                                                                >共计被引用{value.cites}次</Text>
+                                                                >共计被引用{value.Rcitescount}次</Text>
                                                             </Row>
                                                         </Typography>
                                                     </Row>
@@ -261,24 +390,16 @@ function ApplyPortal() {
                                         )
                                     })
                                 }
-                                <Radio
-                                    value={0}
-                                    style={{
-                                        padding: '10px 20px 10px 20px',
-                                        width: '100%',
-                                        overflow: 'auto',
-                                    }}
-                                >
-                                    <Text
-                                        style={createStyle}
-                                        onMouseEnter={handleMouseEnterCreate}
-                                        onMouseLeave={handleMouseLeaveCreate}
-                                    >
-                                        没有我的门户？创建一个
-                                    </Text>
-                                </Radio>
                             </Space>
                         </Radio.Group>
+                        <Text
+                            style={createStyle}
+                            onMouseEnter={handleMouseEnterCreate}
+                            onMouseLeave={handleMouseLeaveCreate}
+                            onClick={findMore}
+                        >
+                            没有我的门户？
+                        </Text>
                     </div>
                 </div>
             ),
@@ -384,7 +505,7 @@ function ApplyPortal() {
                             <Row>
                                 <Button
                                     type="primary"
-                                    onClick={() => next()}
+                                    onClick={getPortal}
                                     shape={"round"}
                                     size="large"
                                     style={{
@@ -417,7 +538,7 @@ function ApplyPortal() {
                                     </Button>
                                     <Button
                                         type="primary"
-                                        onClick={() => next()}
+                                        onClick={choosePortal}
                                         shape={"round"}
                                         size="large"
                                         style={{

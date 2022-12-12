@@ -7,6 +7,7 @@ import default_router from "./routes/default_router";
 import {tokenContext} from "./contexts/tokenContext";
 import React, {useState} from "react";
 import axios from "axios";
+import {ConfigProvider} from "antd";
 
 const theme = extendTheme({
   colors: {
@@ -23,11 +24,23 @@ const theme = extendTheme({
       400: '#3652ba',
       500: '#1b3bbb',
       600: '#24388a'
+    },
+    sg:{
+      100:'#E0E5F2',
+      200:'#E1E9F8',
+      400:'#E9EDF7',
+      500:'#8F9BBA',
+      600:'#A3AED0'
     }
   },
 })
 
-
+ConfigProvider.config({
+  theme: {
+    primaryColor: '#3a3af1',
+    successColor: '#50af78',
+  },
+});
 
 function App() {
 

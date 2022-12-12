@@ -1,5 +1,19 @@
 import {Box, Flex, Link, Spacer, Text, VStack} from "@chakra-ui/react";
 
+
+function getAbbrName(fullName) {
+    let strs = fullName.split(' ');
+    let ret = "";
+    for(let i = 0; i < strs.length; i++) {
+        let part = strs[i];
+        if (part.charAt(0) >= 'A' && part.charAt(0) <= 'Z') {
+            ret = ret + part.charAt(0);
+        }
+    }
+    return ret;
+}
+
+
 function queryRecommendConferences(subject){
     let ret = []
     if (subject === "ComputerVision"){
@@ -75,7 +89,7 @@ function RecommendConferencesCard({subject}){
                     <Flex>
                         <Text fontSize='15px'>{entry.abbrName}</Text>
                         <Spacer />
-                        <Text fontSize='15px'>{entry.hIndex} H-Index</Text>
+                        <Text fontSize='15px'>{entry.hIndex} 引用</Text>
                     </Flex>
 
                     <Text fontSize='11px' color='grey'>{fullName}</Text>
@@ -104,7 +118,7 @@ function RecommendConferencesCard({subject}){
                 height={'85%'}
             >
                 {layout_result}
-                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 会议...</Link>
+
             </Box>
 
         </Box>

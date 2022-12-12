@@ -14,8 +14,61 @@ import {
 import Header from "../../components/header/header";
 
 import loginImg from '../../assets/login_img.jpg'
+import {useState} from "react";
+import axios from "axios";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
+
+async function resetPassword(email, newPassword, key){
+    let ret = 0;
+    await axios.get('/user/resetPassword', {
+        params: {
+            email: email,
+            newPassword: newPassword,
+            key: key
+        }
+    })
+        .catch((error) => {
+            ret = -1;
+            console.error({ error });
+        });
+    return ret;
+}
+
 
 function ResetPassword(){
+
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
+    const navigate = useNavigate();
+
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
+    const email = params.email
+    const key = params.key
+
+
+    const handleResetPassword = async e => {
+        if (newPassword.length < 8) {
+            alert("新密码长度不得小于6！");
+            return -1;
+        }
+        if(newPassword.length > 16) {
+            alert("新密码长度不得高于16！");
+            return -1;
+        }
+        if (newPassword !== confirmNewPassword) {
+            alert("两次输入的密码不一致！")
+            return -1;
+        }
+        let result = await resetPassword(email, newPassword, key);
+        if (result !== 0) {
+            alert("重置密码过程中出现错误。请联系网站管理员。")
+            return -1;
+        }
+        alert("重置密码成功！即将跳转至登录页面。");
+        navigate('/login');
+    }
+
     return (
         <div>
             <Header textColor={'black'} />
@@ -68,11 +121,11 @@ function ResetPassword(){
                                     >
                                         <FormControl id="newPassword">
                                             <FormLabel fontSize={'15px'}>新密码</FormLabel>
-                                            <Input type="password" />
+                                            <Input type="password" onChange={e => setNewPassword(e.target.value)} />
                                         </FormControl>
                                         <FormControl id="confirmPassword">
                                             <FormLabel fontSize={'15px'}>确认新密码</FormLabel>
-                                            <Input type="password" />
+                                            <Input type="password" onChange={e => setConfirmNewPassword(e.target.value)} />
                                         </FormControl>
                                     </VStack>
                                     <Button
@@ -82,6 +135,7 @@ function ResetPassword(){
                                             bg: 'rgb(0, 160, 255)',
                                         }}
                                         width={'100%'}
+                                        onClick={handleResetPassword}
                                     >
                                         设置新密码
                                     </Button>

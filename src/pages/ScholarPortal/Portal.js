@@ -1,10 +1,23 @@
 import "antd/dist/antd.min.css";
+import './portal.css';
+import Chart from 'react-apexcharts'
 import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
-import { UserOutlined, HomeOutlined, BulbOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
+import {
+    UserOutlined,
+    HomeOutlined,
+    BulbOutlined,
+    FormOutlined,
+    MailOutlined,
+    SolutionOutlined,
+    BarChartOutlined
+} from '@ant-design/icons';
+
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
-import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from "axios";
+import {Box, Heading} from "@chakra-ui/react";
+
+
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -93,11 +106,158 @@ function ScholarPaperList({props}) {
     );
 }
 
+function PaperAmount(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2018,2019,2020,2021,2022]
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '40%',
+                    borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+             borderRadius='25px' border='2px' borderColor='gray.200'
+             className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>论文数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar"
+                   style={{
+                       marginTop:'0px',
+                   }}
+            />
+        </Box>
+    )
+}
+
+function CitationAmount(props) {
+    React.useEffect(() => {
+        setSeries([{data:props.count}])
+    },[props])
+    const [options, setOptions] = React.useState(
+        {
+            chart: {
+                type: 'bar',
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '40%',
+                    borderRadius: 6
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
+                    opacityTo: 0.2,
+                    stops:[0,100]
+                }
+            },
+        }
+    )
+    const [series, setSeries] = React.useState(
+        [{
+            data: props.count
+        }]
+    );
+    return(
+        <Box boxShadow='xs' rounded='md'
+             borderRadius='25px' border='2px' borderColor='gray.200'
+             className='chart'>
+            <Row>
+                <BarChartOutlined className='chart-icon'  />
+                <Heading className='chart-head'>被引数量</Heading>
+            </Row>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'0px'}}/>
+        </Box>
+    )
+}
+
+function ScholarDataList({props}) {
+    return (
+        <div
+            style={{
+                height: 500,
+                overflow: 'auto',
+                padding: '0',
+                border: 'none',
+            }}
+        >
+            <div
+                id="scrollableDataList"
+                style={{
+                    height: 450,
+                    overflow: 'auto',
+                    padding: '0 16px 0 0',
+                    border: 'none',
+                }}
+            >
+                <div
+                    style={{
+                        width: '60%',
+                        margin: 'auto',
+                    }}
+                >
+                    <PaperAmount count={props.Vworksyear}></PaperAmount>
+                </div>
+                <div
+                    style={{
+                        width: '60%',
+                        margin: 'auto',
+                    }}
+                >
+                    <CitationAmount count={props.Vcitesyear}></CitationAmount>
+                </div>
+            </div>
+        </div>
+    )
+}
 
 function Portal() {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    // let RID = params.get('RID')
+    var RID;
+    if(params.has('RID')){
+        RID = params.get('RID')
+    }
     const [data, setData] = useState([]);
 
     const getData = ()=>{
@@ -145,7 +305,7 @@ function Portal() {
     }
 
     return (
-        <Layout className="layout">
+        <Layout className="portal">
             <Header>
                 <div/>
                 <Menu
@@ -299,7 +459,7 @@ function Portal() {
                                 {
                                     label: `数据分析`,
                                     key: '2',
-                                    children: `Content of Tab Pane 2`,
+                                    children: <ScholarDataList props={data}/>,
                                 },
                             ]}
                         />

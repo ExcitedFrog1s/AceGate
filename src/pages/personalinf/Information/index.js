@@ -1,9 +1,9 @@
 // by wgx
 import React, { Component } from 'react'
 import Frame from '../Frame'
-import Edit from '../Edit'
+import Edit from '../Edit';
+import AccountEdit from '../AccountEdit';
 import { Route,Routes } from 'react-router-dom';
-import '../index.css';
 import axios from 'axios'
 
 
@@ -31,49 +31,6 @@ export default class Information extends Component {
       scholar: true
     }
 
-  componentDidMount(){
-    axios.get('https://mock.apifox.cn/m1/1955876-0-default/personInfo').then(
-      response => {
-        const newPersonalinfs = this.state.personalinfs;
-        newPersonalinfs.map((item, index)=>{
-        if (item.id === '003'){
-          item.value = response.data.Rname;
-        }else if (item.id === '004'){
-          item.value = response.data.Rcontact;
-        }if (item.id === '005'){
-          item.value = response.data.Rinstitute;
-        }if (item.id === '006'){
-          item.value = response.data.Uemail;
-        }if (item.id === '007'){
-          const {Ufield} = response.data;
-          let out = '';
-          Ufield.map((item, index) => {
-            if (index < Ufield.length - 1){
-              out = `${out}${item}、`;
-            }else{
-              out = `${out}${item}`;
-            }
-          })
-          item.value = out;
-        }if (item.id === '008'){
-          const {Uinterest} = response.data;
-          let out = '';
-          Uinterest.map((item, index) => {
-            if (index < Uinterest.length - 1){
-              out = `${out}${item}、`;
-            }else{
-              out = `${out}${item}`;
-            }
-          })
-          item.value = out;
-        }
-      })
-      this.setState({personalinfs: newPersonalinfs});
-      console.log(response.data);
-      console.log(this.state)},
-      error => {console.log('失败了',error);}
-    )
-  }
 
   render() {
     const {accountinfs} = this.state
@@ -86,6 +43,7 @@ export default class Information extends Component {
         <Routes>
           <Route path="/" element={<Frame  accountinfs={accountinfs} personalinfs={personalinfs} scholar={scholar}/> }  />
           <Route path="edit" element={<Edit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
+          <Route path="accountedit" element={<AccountEdit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
         </Routes>
         <div>&nbsp;</div>
       </div>

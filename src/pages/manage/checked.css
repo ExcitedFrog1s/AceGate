@@ -2,6 +2,7 @@
 .checked{
     margin-left: 5%;
     margin-right: 5%;
+    margin-top: 3%;
 }
 .checked .chakra-input__group{
     margin-bottom: 20px;

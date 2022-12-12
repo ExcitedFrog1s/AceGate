@@ -27,13 +27,21 @@ const validateMessages = {
 };
 
 function Info() {
+    const [form] = Form.useForm();
+    const Rinstitute = Form.useWatch('Rinstitute', form);
+    const Rcontact = Form.useWatch('Rcontact', form);
+    const Rconcepts = Form.useWatch('Rconcepts', form);
+    const RpersonalPage = Form.useWatch('RpersonalPage', form);
+    const Rgateinfo = Form.useWatch('Rgateinfo', form);
+
+
     const onFinish = (values) => {
         console.log(values);
     };
     return (
-        <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+        <Form {...layout} form={form} onFinish={onFinish} validateMessages={validateMessages}>
             <Form.Item
-                name={['user', 'name']}
+                name="Rname"
                 label="姓名"
                 rules={[
                     {
@@ -47,7 +55,7 @@ function Info() {
                 <Input placeholder="请输入您的姓名" />
             </Form.Item>
             <Form.Item
-                name={['user', 'workplace']}
+                name="Rinstitute"
                 label="工作单位"
                 rules={[
                     {
@@ -61,7 +69,7 @@ function Info() {
                 <Input placeholder="请输入您的工作单位"/>
             </Form.Item>
             <Form.Item
-                name={['user', 'email']}
+                name="Rcontact"
                 label="电子邮箱"
                 rules={[
                     {
@@ -76,7 +84,7 @@ function Info() {
                 <Input placeholder="请输入您的电子邮箱"/>
             </Form.Item>
             <Form.Item
-                name={['user', 'search-area']}
+                name="Rconcepts"
                 label="研究领域"
                 rules={[
                     {
@@ -90,7 +98,7 @@ function Info() {
                 <Input placeholder="多个研究领域用英文半角逗号(,)分隔" />
             </Form.Item>
             <Form.Item
-                name={['user', 'website']} label="个人主页"
+                name="RpersonalPage" label="个人主页"
                 style={{
                     padding: '10px',
                 }}
@@ -98,7 +106,7 @@ function Info() {
                 <Input placeholder="请输入您的个人主页"/>
             </Form.Item>
             <Form.Item
-                name={['user', 'introduction']} label="个人简介"
+                name="Rgateinfo" label="个人简介"
                 style={{
                     padding: '10px',
                     color: '#0087FF',

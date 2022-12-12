@@ -136,6 +136,9 @@ function List() {
                   <Form.Item label='申请者个人简介'>
                     <div>{props.A.AAintroduction}</div>
                   </Form.Item>
+                  {props.A.AAtype == 1 && <Form.Item label='学者门户'>
+                    <a href={"/scholarPortal?RID="+props.A.AA_RID}>跳转学者门户</a>
+                  </Form.Item>}
                 </Form>
               </Card>
             </Col>
@@ -235,7 +238,7 @@ function List() {
 
     return (
         <div>
-          <div className='count'>未审核申请共{data.length}条</div>
+          <div className='count'>已审核申请共{data.length}条</div>
           <Table dataSource={data} columns={columns} rowKey="AAID"
             pagination={{
                 pageSize: 8,

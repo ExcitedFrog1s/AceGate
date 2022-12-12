@@ -21,11 +21,11 @@ import {tokenContext} from "../../contexts/tokenContext";
 import {Link as RouterLink, useNavigate} from "react-router-dom";
 
 
-async function loginUser(usernameOrEmail, password) {
+async function loginUser(username, password) {
     let ret = ""
     let status = ""
     await axios.post('/user/login', {
-        usernameOrEmail: usernameOrEmail,
+        username: username,
         password: password
     })
         .then(res => {
@@ -42,17 +42,22 @@ async function loginUser(usernameOrEmail, password) {
 
 function Login(){
 
-    const [usernameOrEmail, setUsernameOrEmail] = useState();
+    const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const navigate = useNavigate();
 
+    if(localStorage.getItem("userToken")) {
+        navigate('/landing');
+    }
+
     const handleLogin = async e => {
         e.preventDefault();
-        let data = await loginUser(usernameOrEmail, password);
+        let data = await loginUser(username, password);
         console.log(data.token);
         console.log(data.status);
         if (data.token !== "" && data.status === 1) {
-            // localStorage.setItem("userToken", data.token);
+            localStorage.setItem("userToken", data.token);
+            localStorage.setItem("username", username);
             alert("登录成功！");
             navigate("/landing");
         }
@@ -69,26 +74,21 @@ function Login(){
                     height={'100%'}
                 >
                     <Box
-                        width={'50vw'}
-                        height={'60vh'}
-
-                        borderRadius={"min(2vw, 18px)"}
-
-                        boxShadow='base'
+                        width={'40vw'}
+                        height={'50vh'}
+                        borderRadius='10px'
+                        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)'
                     >
                         <SimpleGrid columns={2}>
                             <Box
                                 width={'100%'}
-                                height={'60vh'}
-
+                                height={'50vh'}
                                 backgroundImage={loginImg}
                                 backgroundSize={'fill'}
                                 backgroundRepeat={'no-repeat'}
                                 backgroundPosition={'center'}
-
-                                borderRadius={"min(2vw, 18px)"}
+                                borderRadius='10px'
                             >
-
                             </Box>
                             <Box>
                                 <VStack
@@ -110,8 +110,8 @@ function Login(){
                                         spacing={'min(15px, 2vh)'}
                                     >
                                         <FormControl id="username">
-                                            <FormLabel fontSize={'15px'}>用户名/邮箱</FormLabel>
-                                            <Input type="text" onChange={e => setUsernameOrEmail(e.target.value)} />
+                                            <FormLabel fontSize={'15px'}>用户名</FormLabel>
+                                            <Input type="text" onChange={e => setUsername(e.target.value)} />
                                         </FormControl>
                                         <FormControl id="password">
                                             <FormLabel fontSize={'15px'}>密码</FormLabel>

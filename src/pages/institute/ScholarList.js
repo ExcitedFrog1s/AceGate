@@ -1,88 +1,56 @@
 import Highlighter from 'react-highlight-words'
 import { SearchIcon } from '@chakra-ui/icons'
-import { useRef, useState } from 'react';
+import { Box} from '@chakra-ui/react'
+import './scholarlist.css'
+import { IoSchoolSharp} from "react-icons/io5"
+import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
 import { Avatar } from '@chakra-ui/react';
-const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      email: 'sc45j@163.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 12,
-      time: "2022/10/16", 
-      picUrl: 'https://bit.ly/dan-abramov'
-    },
-    {
-      key: '2',
-      name: 'AAA Brown',
-      email: '13256@qq.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 8,
-      time: "2022/11/16"
-    },
-    {
-      key: '3',
-      name: 'John joks',
-      email: 'hgihho@buaa.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 1,
-      time: "2022/12/16"
-    },{
-      key: '4',
-      name: 'John Brown',
-      email: 'sc45j@163.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 12,
-      time: "2022/10/16", 
-      picUrl: 'https://bit.ly/dan-abramov'
-    },
-    {
-      key: '5',
-      name: 'AAA Brown',
-      email: '13256@qq.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 8,
-      time: "2022/11/16"
-    },
-    {
-      key: '6',
-      name: 'hah mic',
-      email: 'hgihho@buaa.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 1,
-      time: "2022/12/16"
-    },
-    {
-      key: '7',
-      name: 'nkkj hk joks',
-      email: 'hgihho@buaa.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 1,
-      time: "2022/12/16"
-    },
-    {
-      key: '8',
-      name: 'AA joks',
-      email: 'hgihho@buaa.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 1,
-      time: "2022/12/16"
-    },
-    {
-      key: '9',
-      name: 'cos',
-      email: 'hgihho@buaa.com',
-      agency: 'New York No. 1 Lake Park',
-      papers: 1,
-      time: "2022/12/16"
-    }
+import axios from 'axios';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { wait } from '@testing-library/user-event/dist/utils';
+import { Heading } from '@chakra-ui/react'
 
-];
 function List() {
+    const [data, setData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    const navigate = useNavigate();
+    let location = useLocation();
+    let params = new URLSearchParams(location.search)
+    var IID;
+    if(params.has('IID')){
+        IID = params.get('IID')
+    }
+    console.log('IID:' + IID)
+    const toPortal = (rid)=>{
+      let params = new URLSearchParams(location.search);
+      params.set('RID', rid);
+      wait(2)
+      navigate('/scholarPortal?' + params.toString())
+    }
+    const getData = ()=>{
+      axios({
+        method: "post",
+        url:"/institute/scholarlist",
+        data: {
+          IID: IID
+        },
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+      .then(res => {
+          console.log(res.data)
+          setData(res.data.data)
+        }
+      )
+    }
+    useEffect(() =>{
+      getData()
+    }, [])
+    
     
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
@@ -112,19 +80,19 @@ function List() {
           />
           </Col>
           <Col span={3}>
-            <Button
+          <Button type='primary'
               onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-              size="xs" colorScheme='blue'
-              style={{marginTop:3}}
+              size="small"
+              style={{height:30}} 
             >
               <SearchIcon />
             </Button>
           </Col>
           <Col span={3}>
-            <Button
+          <Button type='primary'
               onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
-              size="xs" colorScheme='blue'
-              style={{marginTop:3}} 
+              size="small"
+              style={{height:30}} 
             >
               重置
             </Button>
@@ -165,67 +133,72 @@ function List() {
     const columns = [
       {
         title: '',
-        dataIndex: 'picUrl',
-        key: 'picUrl',
+        dataIndex: 'RImage',
+        key: 'RImage',
         render: (_, record) => (
-          <Avatar name={record.name} src={record.picUrl} />
+          <Avatar name={record.rname} src={record.RImage} bg="#ffffff" />
         ),
-        width: 30
+        width: 80
       },
       {
         title: '姓名',
-        dataIndex: 'name',
-        key: 'name',
-        ...getColumnSearchProps('name'),
-        sorter: (a, b) => a.name.localeCompare(b.name),
+        dataIndex: 'rname',
+        key: 'rname',
+        ...getColumnSearchProps('rname'),
+        sorter: (a, b) => a.rname.localeCompare(b.rname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '联系方式',
-        dataIndex: 'email',
-        key: 'email',
-        ...getColumnSearchProps('email'),
+        dataIndex: 'rcontact',
+        key: 'rcontact',
+        ...getColumnSearchProps('rcontact'),
+        width: 200
       },
       {
-        title: '所属机构',
-        dataIndex: 'agency',
-        key: 'agency',
-        ...getColumnSearchProps('agency'),
-        sorter: (a, b) => a.agency.localeCompare(b.agency),
+        title: '发表论文数',
+        dataIndex: 'rworkscount',
+        key: 'rworkscount',
+        sorter: (a, b) => a.rworkscount - b.rworkscount,
         sortDirections: ['descend', 'ascend'],
+        width: 120
       },
       {
-        title: '已发表论文数',
-        dataIndex: 'papers',
-        key: 'papers',
-        sorter: (a, b) => a.papers - b.papers,
+        title: '被引次数',
+        dataIndex: 'rcitescount',
+        key: 'rcitescount',
+        ...getColumnSearchProps('rcitescount'),
+        sorter: (a, b) => a.rcitescount - b.rcitescount,
         sortDirections: ['descend', 'ascend'],
-      },
-      {
-          title: '入驻时间',
-          dataIndex: 'time',
-          key: 'time',
-          ...getColumnSearchProps('time'),
-          sorter: (a, b) => a.time.localeCompare(b.time),
-        sortDirections: ['descend', 'ascend'],
+        width: 120
       },
       {
         title: '操作',
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button size="xs" colorScheme='blue'>详情</Button>
+            <Button type='primary' onClick={()=>toPortal(record.rID)}>前往门户</Button>
           </Space>
         ),
+        width: 120
       },
     ];
       return (
-          <div className="list" style={{marginTop:30}}>
-              <Table dataSource={data} columns={columns}
-            pagination={{
-              pageSize: 8,
-            }}
-          ></Table>
+          <div className="ischolarlist" >
+            <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='box'
+        >
+          <Row style={{marginTop:30}}>
+            <IoSchoolSharp className="chart-icon"/>
+            <Heading className='chart-head'>机构下学者列表</Heading>
+            </Row>
+                <Table dataSource={data} columns={columns} rowKey="rID"
+              pagination={false} scroll={{
+                y: 400,
+              }} className="table"
+              ></Table>
+            </Box>
           </div> 
       )
   }

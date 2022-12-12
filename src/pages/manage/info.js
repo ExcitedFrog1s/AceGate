@@ -105,7 +105,12 @@ function Info(){
                     num={num.insSum} icon={<HomeOutlined/>} class="search"/>
                 </Col>
             </Row>
-            <Card id="chart1" style={{paddingTop:35}}> </Card>
+            <Row gutter={0} style={{marginTop: 35}}>
+                <Col span={14}><Card id="chart1" style={{paddingTop:35}}> </Card></Col>
+                <Col span={10}><img src={require('../../assets/manageinfo.png')}
+                style={{width:400, height:330}}></img></Col>
+            </Row>
+            
         </div>
     )
 }

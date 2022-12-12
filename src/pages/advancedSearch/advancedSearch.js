@@ -12,12 +12,20 @@ import {
     BreadcrumbLink,
   } from '@chakra-ui/react'
 import { Box } from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react'
 import {Input} from '@chakra-ui/react'
 import { Select, Text } from '@chakra-ui/react'
 import { IconButton } from '@chakra-ui/react'
 import {Button, ButtonGroup} from '@chakra-ui/react'
 import {Heading, Stack, StackDivider} from '@chakra-ui/react'
 import { Search2Icon, RepeatIcon, AddIcon, MinusIcon} from '@chakra-ui/icons'
+import {
+    Accordion,
+    AccordionItem,
+    AccordionButton,
+    AccordionPanel,
+    AccordionIcon,
+  } from '@chakra-ui/react'
 
 import './advancedSearch.css';
 
@@ -30,7 +38,7 @@ moment.locale('zh-cn')
 
 const { RangePicker } = DatePicker;
 
-function Search() {
+function Search(props) {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     let initState = [
@@ -38,9 +46,13 @@ function Search() {
             category: 'main',
             content: "",
             type: 1,
+        },{
+            category: 'Pname',
+            content: "",
+            type: 1,
         },
         {
-            category: 'author',
+            category: 'Pauthor',
             content: "",
             type: 1,
         },
@@ -81,7 +93,12 @@ function Search() {
             type: 1,
         });
         dataList.push({
-            category: 'author',
+            category: 'Pname',
+            content: "",
+            type: 1,
+        })
+        dataList.push({
+            category: 'Pauthor',
             content: "",
             type: 1,
         });
@@ -97,6 +114,7 @@ function Search() {
     };
 
     const search = () => {
+        props.setIsShow([])
         const params = {
             dataList: dataList,
             startTime: startTime,
@@ -126,10 +144,29 @@ function Search() {
                 endTime: endTime
             });
         }
+        else if(params.has('source')) {
+            setDataList([
+                {
+                    category: 'source',
+                    content: params.get('source'),
+                    type: 1
+                }
+            ])
+            PubSub.publish('PubParams', {
+                dataList: [
+                    {
+                        category: 'source',
+                        content: params.get('source'),
+                        type: 1
+                    }],
+                startTime: startTime,
+                endTime: endTime
+            });
+        }
     }, [])
 
     return(
-        <Box boxShadow='2xl' rounded='md'
+        <Box boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'} rounded='md'
             borderRadius='20px' border='1px' borderColor='gray.200'
             className='site-card-border-less-wrapper'
             css={{
@@ -145,23 +182,16 @@ function Search() {
                 },
               }}>
 
-            <Breadcrumb fontSize='15px' color='#4A5568'>
-                <BreadcrumbItem >
-                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>
-                </BreadcrumbItem>
-            </Breadcrumb>
             {dataList.map((item, index) => (
                 <Row style={{marginTop:'20px'}} key={index}>
                     <Col span={3}>
                         {
                             index !== 0?(
                                 <Select
+                                    bg='white'
                                     fontWeight='550'
                                     border='1.5px #A0AEC0 solid'
-                                    focusBorderColor='navy.500'
+                                    focusBorderColor='sg.600'
                                     value={item.type}
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
@@ -178,9 +208,10 @@ function Search() {
                     </Col>
                     <Col span={3}>
                         <Select
+                            bg='white'
                             fontWeight='550'
                             border='1.5px #A0AEC0 solid'
-                            focusBorderColor='navy.500'
+                            focusBorderColor='sg.600'
                             style={{marginLeft: '5px'}} value={item.category}
                             onChange={(e) => {
                                 dataList[index].category = e.target.value;
@@ -200,8 +231,9 @@ function Search() {
                     </Col>
                     <Col span={14} offset={1}>
                         <Input
+                            bg='white'
                             border='1.5px #A0AEC0 solid'
-                            focusBorderColor='navy.500'
+                            focusBorderColor='sg.600'
                             value={item.content}
                             onChange={(e) => {
                                 dataList[index].content = e.target.value;
@@ -264,7 +296,7 @@ function Search() {
 
 function Description({}) {
     return(
-        <Box boxShadow='2xl' rounded='md'
+        <Box boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'} rounded='md'
         borderRadius='20px' border='1px' borderColor='gray.200'
         className='description'
         css={{
@@ -314,19 +346,49 @@ function Description({}) {
 }
 
 function AdvancedSearch({}) {
+    const [isShow, setIsShow] = React.useState();
+    const onChange = (key) => {
+        console.log(key)
+        if(key[0] == 0)
+            setIsShow([0])
+        else
+            setIsShow([])
+    };
     return(
         <Box>
             <Row>
                 <Heading size='md' style={{margin:'auto'}}>Header</Heading>
             </Row>
-            <Row>
-                <Col span={17}>
-                    <Search/>
-                </Col>
-                <Col span={6} style={{marginLeft:'40px'}}>
-                    <Description />
-                </Col>
-            </Row>
+            <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
+                    onChange={onChange} >
+                    <AccordionItem padding={'10px'}  bgGradient='linear(to-r, gray.100, gray.300)'>
+                        <AccordionButton>
+                            <Box flex='1' textAlign='left'> 
+                            <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
+                                <BreadcrumbItem >
+                                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbItem isCurrentPage>
+                                    <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>
+                                </BreadcrumbItem>
+                            </Breadcrumb>
+                            </Box>
+                            <AccordionIcon />
+                        </AccordionButton>
+                        <AccordionPanel pb={4}>
+                        <Row>
+                        <Col span={7} >
+                            <Image src={require('../../assets/advsearch.png')} height='140px' ml='130px' />
+                            <Description />
+                        </Col>
+                        <Col span={17}>
+                            <Search setIsShow={setIsShow} />
+                        </Col>
+                        </Row>
+                        </AccordionPanel>
+                    </AccordionItem>
+                </Accordion>
+            
                 <AdvancedSearchResults/>
         </Box>
     )

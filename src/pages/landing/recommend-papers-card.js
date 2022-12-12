@@ -96,7 +96,6 @@ function RecommendPapersCard({subject}){
                 height={'85%'}
             >
                 {layout_result}
-                <Link color='#0087FF' href='#'>探索更多 {displaySubjectName} 论文...</Link>
             </Box>
         </Box>
     )
