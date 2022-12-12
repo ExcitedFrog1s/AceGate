@@ -28,10 +28,6 @@ const onChange = (key) => {
     console.log(key);
 };
 
-const handleLink = (url)=>{
-    window.open(url)
-}
-
 function ScholarPaperList(props) {
     const [RpaperList, setRpaperList] = useState({});
 
@@ -65,7 +61,7 @@ function ScholarPaperList(props) {
                     <Typography>
                         <Row>
                             <Link
-                                onClick={() => handleLink(record.dOI)}
+                                onClick={() => window.open(record.dOI)}
                                 style={{
                                     fontSize: '16px',
                                 }}
@@ -443,7 +439,7 @@ function Portal() {
                                             style={homepageStyle}
                                             onMouseEnter={handleMouseEnterHomepage}
                                             onMouseLeave={handleMouseLeaveHomepage}
-                                            onClick={handleLink(data.rpersonalPage)}
+                                            onClick={() => window.open(data.rpersonalPage)}
                                             >
                                                 个人主页
                                             </Link>
