@@ -25,14 +25,15 @@ const { Title, Paragraph, Text} = Typography;
 async function loginUser(username, password) {
     let ret = ""
     let status = ""
-    await axios.post('/user/login', {
-        username: username,
-        password: password
-    })
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    await axios.post('/login', formData)
         .then(res => {
             console.log(res.data)
-            status = res.data.status
-            ret = res.data.token
+            status = res.data.message
+            ret = res.data.data
         })
     return {
         token: ret,
@@ -42,27 +43,35 @@ async function loginUser(username, password) {
 
 async function registerUser(username, password, email, verificationCode) {
     let status = "ERR";
-    await axios.get('/user/register', {
-        params: {
-            username: username,
-            password: password,
-            email: email,
-            verificationCode: verificationCode
-        }
 
-    })
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("email", email);
+    formData.append("vercode", verificationCode);
+
+    await axios.post('/register', formData)
         .then(res => {
-            status = res.data.status
+            status = res.data.message;
+
         })
     return status;
 }
 
 async function sendVerificationEmail(email) {
-    await axios.get('/user/sendVerifyEmail',{
-        params: {
-            email: email
-        }
-    })
+
+    let ret = 0;
+
+    const formData = new FormData()
+    formData.append("to", email)
+
+    await axios.post('/sendEmail',formData)
+        .catch(error => {
+            console.log(error)
+            ret = -1;
+        });
+    console.log("---" + ret);
+    return ret;
 }
 
 const validateEmail = (email) => {
@@ -79,7 +88,9 @@ function LoginAndRegister () {
     const [password2, setPassword2] = useState();
     const navigate = useNavigate();
 
+
     const [email, setEmail] = useState("");
+    const [hasSendCode, setHasSendCode] = useState(0);
     const [verifyCode, setVerifycode] = useState(0);
     const [countdown, setCountdown] = useState(0);
 
@@ -94,18 +105,36 @@ function LoginAndRegister () {
         let data = await loginUser(username, password);
         console.log(data.token);
         console.log(data.status);
-        if (data.token !== "" && data.status === 1) {
-            // localStorage.setItem("userToken", data.token);
-            // localStorage.setItem("username", username);
+        if (data.token !== "" && data.status === "登录成功") {
+            localStorage.setItem("userToken", data.token);
+            localStorage.setItem("username", username);
             alert("登录成功！");
             navigate("/landing");
+        }else if(data.status === "登录成功") {
+            alert("token出现错误。")
+        } else if (data.status === "密码错误") {
+            alert("密码错误。")
+        } else {
+            alert("未知错误。")
         }
     }
 
-    const handleSendVerifyEmail = e => {
+    const handleSendVerifyEmail = async e => {
         if (countdown === 0) {
-            let result = sendVerificationEmail(email);
+            if(!validateEmail(email)){
+                alert("邮箱格式不正确！");
+            }
+
+            let result = await sendVerificationEmail(email);
+
+            if (result !== 0) {
+                alert("发送验证码失败。");
+                return;
+            }
+            alert("成功发送验证码，请前往邮箱查收。一分钟后可再次发送验证码。")
             setCountdown(1);
+            // 必须发送一次验证码
+            setHasSendCode(1);
             setInterval(() => setCountdown(0), 60000);
         }
     }
@@ -143,8 +172,14 @@ function LoginAndRegister () {
             alert("请填写合法的邮箱！");
             return -1;
         }
+
+        if (hasSendCode === 0) {
+            alert("还没有发送过邮箱验证码！");
+            return -1;
+        }
         let status = await registerUser(username, password, email, verifyCode);
-        if (status === "OK") {
+        console.log(status)
+        if (status === "注册成功") {
             alert("注册成功！");
             goToLogin();
         }else{

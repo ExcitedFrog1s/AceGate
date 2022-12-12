@@ -58,7 +58,7 @@ const default_router = createBrowserRouter([
         element: <RecoverPassword />
     },
     {
-        path: '/resetPassword/:key/:email',
+        path: '/resetPassword',
         element: <ResetPassword />
     },
     {
@@ -119,7 +119,7 @@ const default_router = createBrowserRouter([
                 path: 'accountedit',
                 element: <Information/>
             },
-            
+
 
         ]
     },
