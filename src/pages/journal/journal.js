@@ -3,6 +3,8 @@ import { useRef, useState } from 'react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
 
+import Header from '../../components/header/header';
+
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {ProjectOutlined, BarsOutlined, BarChartOutlined, KeyOutlined, RedoOutlined} from '@ant-design/icons';
@@ -837,7 +839,10 @@ function Journal({}) {
 
     },[])
     return(
-        <html className='journal'>
+        <Box className='journal'>
+            <Row>
+                <Header></Header>
+            </Row>
             <Row>
                 <Col span={15}>
                     <Title name={data.vfullname} cite={data.vcitecount}
@@ -863,7 +868,7 @@ function Journal({}) {
             </Row>
             {/* <InstitutionList ></InstitutionList> */}
             <PaperList vid = {vid}></PaperList>
-        </html>
+        </Box>
     )
 }
 
