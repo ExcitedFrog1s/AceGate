@@ -2,7 +2,6 @@
 .checked{
     margin-left: 5%;
     margin-right: 5%;
-    margin-top: 3%;
 }
 .checked .chakra-input__group{
     margin-bottom: 20px;
@@ -47,6 +46,18 @@
 .checked .count{
     font-size: 16px;
     font-weight: 600;
-    margin-top: 10px;
+    margin-top: 60px;
     margin-bottom: 20px;
+}
+
+.checked .ant-table{
+    background-color: #2d2d2d05 !important;
+}
+.checked .ant-table-thead .ant-table-cell{
+    background: #fefefe !important;
+    font-weight: 600;
+}
+
+.checked .img1 img{
+    height: 120px;
 }
