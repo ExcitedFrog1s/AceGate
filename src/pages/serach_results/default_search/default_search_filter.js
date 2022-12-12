@@ -90,7 +90,7 @@ function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01")
-    const [endTime,setEndTime] = useState("2030-12")
+    const [endTime,setEndTime] = useState("2030-01-01")
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -127,7 +127,6 @@ function DefaultSearchFilter(props) {
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
                 props.setTotalNum(res.data.data.num)
-                props.setTotalPage(res.data.data.totalPage)
                 props.setCurrentPageIndex(1)
                 props.setLoading(false)
             })
