@@ -15,51 +15,61 @@ import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
 function Sort(props) {
-    const cmpMostRecent = (a,b) => {
-        if(a.Pdate > b.Pdata) {
-            return -1
-        }
-        else if(a.Pdate < b.Pdata) {
-            return 1
-        }
-        else {
-            return 0
-        }
-    }
+    // const cmpMostRecent = (a,b) => {
+    //     if(a.Pdate > b.Pdata) {
+    //         return -1
+    //     }
+    //     else if(a.Pdate < b.Pdata) {
+    //         return 1
+    //     }
+    //     else {
+    //         return 0
+    //     }
+    // }
+    //
+    // const cmpMostCited = (a,b) => {
+    //     if(Number(a.Pcite) > Number(b.Pcite)) {
+    //         return -1
+    //     }
+    //     else if(Number(a.Pcite) < Number(b.Pcite)) {
+    //         return 1
+    //     }
+    //     else {
+    //         return 0
+    //     }
+    // }
+    let location = useLocation()
+    let params = new URLSearchParams(location.search)
 
-    const cmpMostCited = (a,b) => {
-        if(Number(a.Pcite) > Number(b.Pcite)) {
-            return -1
-        }
-        else if(Number(a.Pcite) < Number(b.Pcite)) {
-            return 1
-        }
-        else {
-            return 0
-        }
-    }
-
-    const [sort_order, setSortOrder] = React.useState('默认')
     const handleChange = (value) => {
-        setSortOrder(value)
-        if(value === '默认') {
-            const temp = [...props.defaultSort]
-            props.setInfos(temp)
+        props.setSortOrder(value)
+        let data = {}
+        data.normalSearch = params.get('q')
+        data.filterAuthors = props.filterAuthor
+        data.filterPublicationTypes = props.filterPublicationType
+        data.startTime = props.startTime
+        data.endTime = props.endTime
+        data.sort = value
+        data.page = 1
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'DefaultSearchResults',
+            data : data
         }
-        else if(value === '最新') {
-            const temp = [...props.infos.sort(cmpMostRecent)]
-            props.setInfos(temp)
-            // for (let i = 0;i < temp.length;i++) {
-            //     console.log(i + ":" + temp[i].Pdate)
-            // }
-        }
-        else if(value === '最多被引') {
-            const temp = [...props.infos.sort(cmpMostCited)]
-            props.setInfos(temp)
-            // for (let i = 0;i < temp.length;i++) {
-            //     console.log(i + ":" + props.infos[i].Pcite)
-            // }
-        }
+        props.setLoading(true)
+        axios(config)
+            .then(res => {
+                props.setInfos(res.data.data.list)
+                props.setFilterInfos({
+                    publicationTypes: res.data.data.venue,
+                    authors: res.data.data.author,
+                    totalNumber: res.data.data.num
+                })
+                // props.setRecommendationInfos(res.data.data.recommendation)
+                props.setLoading(false)
+                console.log(res.data)
+            })
     };
 
     return(
@@ -67,18 +77,18 @@ function Sort(props) {
             <Select
                 onChange={handleChange}
                 style={{width:120}}
-                defaultValue={sort_order}
+                defaultValue={props.sort_order}
                 options={[
                     {
-                        value: '默认',
+                        value: 'default',
                         label: '默认'
                     },
                     {
-                        value: '最新',
+                        value: 'mostRecent',
                         label: '最新'
                     },
                     {
-                        value: '最多被引',
+                        value: 'mostCited',
                         label: '最多被引'
                     },
                 ]}
@@ -94,11 +104,13 @@ function DefaultSearchResults(props) {
     const [recommendationInfos,setRecommendationInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
-    const [defaultSort,setDefaultSort] = React.useState()
-    const [authorsArray,setAuthorArray] = React.useState()
-    const [publicationTypesArray,setPublicationTypesArray] = React.useState()
-    const [startTime,setStartTime] = React.useState()
-    const [endTime,setEndTime] = React.useState()
+    const [sort_order, setSortOrder] = React.useState('default')
+    const [totalPage,setTotalPage] = React.useState()
+    const [totalNum,setTotalNum] = React.useState()
+    const [startTime,setStartTime] = React.useState('1900-01-01')
+    const [endTime,setEndTime] = React.useState('2030-01-01')
+    const [filterAuthor,setFilterAuthor] = React.useState(null)
+    const [filterPublicationType,setFilterPublocationType] = React.useState(null)
     // showed cards per page
     let paper_show_num_per_page = 10
     let page_num
@@ -109,17 +121,17 @@ function DefaultSearchResults(props) {
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
+
     const handleChange = (page,pageSize) => {
         setCurrentPageIndex(page)
-    }
-    React.useEffect(() => {
         let data = {}
-        data.token = null
         data.normalSearch = params.get('q')
-        data.filterAuthors = null
-        data.filterPublicationTypes = null
-        data.startTime = null
-        data.endTime = null
+        data.filterAuthors = filterPublicationType
+        data.filterPublicationTypes = filterAuthor
+        data.startTime = startTime
+        data.endTime = endTime
+        data.sort = sort_order
+        data.page = page
         console.log(data)
         let config = {
             method: 'post',
@@ -129,15 +141,50 @@ function DefaultSearchResults(props) {
         setLoading(true)
         axios(config)
             .then(res => {
+                console.log(res)
                 setInfos(res.data.data.list)
-                setDefaultSort([...res.data.data.list])
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
                     totalNumber: res.data.data.num
                 })
-                setRecommendationInfos(null)
+                setRecommendationInfos(res.data.data.recommendation)
+                setLoading(false)
+                setTotalNum(res.data.data.num)
+                setTotalPage(Math.ceil(res.data.data.num))
+                console.log(res.data)
+            })
+    }
+
+    React.useEffect(() => {
+        let data = {}
+        data.normalSearch = params.get('q')
+        data.filterAuthors = null
+        data.filterPublicationTypes = null
+        data.startTime = "1900-01-01"
+        data.endTime = "2030-01-01"
+        data.sort = sort_order
+        data.page = current_page_index
+        console.log(data)
+        let config = {
+            method: 'post',
+            url: 'DefaultSearchResults',
+            data : data
+        };
+        setLoading(true)
+        axios(config)
+            .then(res => {
+                console.log(res)
+                setInfos(res.data.data.list)
+                setFilterInfos({
+                    publicationTypes: res.data.data.venue,
+                    authors: res.data.data.author,
+                    totalNumber: res.data.data.num
+                })
+                setRecommendationInfos(res.data.data.recommendation)
                 setCurrentPageIndex(1)
+                setTotalPage(Math.ceil(res.data.data.num / 10))
+                setTotalNum(res.data.data.num)
                 setLoading(false)
                 console.log(res.data)
             })
@@ -185,17 +232,6 @@ function DefaultSearchResults(props) {
             </Stack>
         )
     }
-    else {
-        page_num = Math.ceil(infos.length / paper_show_num_per_page)
-        page_num_array = Array.apply(null, {length: page_num}).map((item, index) => {
-            return index
-        })
-        delete page_num_array[0]
-        // set show_card index range
-        // attention: the card index count from 0
-        card_index_min = paper_show_num_per_page * (current_page_index - 1)
-        card_index_max = paper_show_num_per_page * (current_page_index) - 1
-    }
 
     return(
         <Box>
@@ -207,36 +243,42 @@ function DefaultSearchResults(props) {
                 setFilterInfos={setFilterInfos}
                 setLoading={setLoading}
                 setCurrentPageIndex={setCurrentPageIndex}
-                setAuthorArray={setAuthorArray}
-                setPublicationTypesArray={setPublicationTypesArray}
                 setStartTime={setStartTime}
                 setEndTime={setEndTime}
+                setFilterAuthor={setFilterAuthor}
+                setFilterPublictionType={setFilterPublocationType}
+                setTotalPage={setTotalNum}
+                setTotalNum={setTotalNum}
+                setSortOrder={setSortOrder}
                 filterInfos={filterInfos}
             />
-            {/*<Recommendation recommendation={recommendationInfos}/>*/}
+            <Recommendation recommendation={recommendationInfos}/>
             <Box>
                 {/*排序*/}
                 <Sort
-                    defaultSort={defaultSort}
+                    sort_order={sort_order}
                     infos={infos}
                     setInfos={setInfos}
+                    setFilterInfos={setFilterInfos}
                     setLoading={setLoading}
+                    setSortOrder={setSortOrder}
+                    startTime={startTime}
+                    endTime={endTime}
+                    filterAuthor={filterAuthor}
+                    filterPublicationType={filterPublicationType}
                 />
                 <HStack float={'left'} ml={'30%'} mt={'-50'}>
                     <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
-                    <Text color={'#161616'} fontSize={'24px'}>{filterInfos.totalNumber}</Text>
+                    <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
                     <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
                 </HStack>
                 {/*论文卡片*/}
                 <Box mt={'200'} ml={'-60px'}>
                     {
                         infos.map((value,key) => {
-                            if(key >= card_index_min && key <= card_index_max) {
-                                return (
-                                    <ResultCard infos={value} />
-                                )
-                            }
-                            return <></>
+                            return (
+                                <ResultCard infos={value} />
+                            )
                         })
                     }
                 </Box>
@@ -244,7 +286,7 @@ function DefaultSearchResults(props) {
                 <Box width={'50%'} ml={'40%'} mt={'50px'}>
                     <Pagination
                         onChange={handleChange}
-                        total={infos.length}
+                        total={totalPage}
                         showSizeChanger={false}
                         defaultCurrent={current_page_index}/>
                 </Box>
