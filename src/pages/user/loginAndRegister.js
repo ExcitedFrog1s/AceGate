@@ -405,7 +405,7 @@ function LoginAndRegister () {
                                 </Form.Item>
                             </Form>
                             <Link
-                                to="/recoverPassword"
+                                to="/findPassword"
                                 component={Typography.Link}
                                 style={linkStyle}
                                 onMouseEnter={handleMouseEnterLink}
