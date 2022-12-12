@@ -1,5 +1,19 @@
 import {Box, Flex, Link, Spacer, Text, VStack} from "@chakra-ui/react";
 
+
+function getAbbrName(fullName) {
+    let strs = fullName.split(' ');
+    let ret = "";
+    for(let i = 0; i < strs.length; i++) {
+        let part = strs[i];
+        if (part.charAt(0) >= 'A' && part.charAt(0) <= 'Z') {
+            ret = ret + part.charAt(0);
+        }
+    }
+    return ret;
+}
+
+
 function queryRecommendConferences(subject){
     let ret = []
     if (subject === "ComputerVision"){
