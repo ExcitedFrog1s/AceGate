@@ -27,7 +27,7 @@ const { Title, Paragraph, Text} = Typography;
 
 
 async function loginUser(username, password) {
-    let ret = ""
+    let ret;
     let status = ""
     const formData = new FormData();
     formData.append("username", username);
@@ -44,7 +44,8 @@ async function loginUser(username, password) {
             ret = res.data.data
         })
     return {
-        token: ret,
+        type: ret.type,
+        token: ret.token,
         status: status
     };
 }
@@ -103,9 +104,11 @@ function LoginAndRegister () {
         e.preventDefault();
         let data = await loginUser(username, password);
         console.log(data.token);
+        console.log(data.type);
         console.log(data.status);
         if (data.token !== "" && data.status === "登录成功") {
             localStorage.setItem("userToken", data.token);
+            localStorage.setItem("userType", data.type);
             localStorage.setItem("username", username);
             
             setTimeout(function () {

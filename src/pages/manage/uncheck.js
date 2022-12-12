@@ -15,14 +15,18 @@ function CheckList() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const toast = useToast();
+    var token = localStorage.getItem("userToken")
     const getData = ()=>{
       axios({
         method: "post",
-        url:"https://mock.apifox.cn/m1/1955876-0-default/manage/unchecklist"
+        url:"manage/unchecklist",
+        headers: {
+          'token': token
+        }
       })
       .then(res => {
           console.log(res.data)
-          setData(res.data)
+          setData(res.data.data)
         }
       )
     }
@@ -173,17 +177,18 @@ function CheckList() {
       const showModal = () => {
         setIsModalOpen(true);
       };
+      var token = localStorage.getItem("userToken")
       const handleOk = () => {
-        // let formData = new FormData;
-        // formData.append("accept", props.type);
-        // formData.append("opinion", content);
         axios({
           method: 'post',
-          url: "https://mock.apifox.cn/m1/1955876-0-default/manage/check", 
+          url: "/manage/check", 
           data: {
             accept: props.type,
             opinion: content,
             AAID: props.AAID
+          },
+          headers: {
+            'Authorization': token
           }
         })
           .then(res => {
