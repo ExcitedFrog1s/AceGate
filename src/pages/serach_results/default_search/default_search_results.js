@@ -76,6 +76,7 @@ function Sort(props) {
 
 
 function DefaultSearchResults(props) {
+    const [resIsEmpty,setResIsEmpty] = React.useState(false)
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
     const [recommendationInfos,setRecommendationInfos] = React.useState()
@@ -127,6 +128,12 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(res.data.data.recommendation)
                 setLoading(false)
                 setTotalNum(res.data.data.num)
+                if(res.data.data.list.length === 0) {
+                    setResIsEmpty(true)
+                }
+                else {
+                    setResIsEmpty(false)
+                }
                 console.log(res.data)
             })
     }
@@ -158,6 +165,12 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(res.data.data.recommendation)
                 setCurrentPageIndex(1)
                 setTotalNum(res.data.data.num)
+                if(res.data.data.list.length === 0) {
+                    setResIsEmpty(true)
+                }
+                else {
+                    setResIsEmpty(false)
+                }
                 setLoading(false)
                 console.log(res.data)
             })
@@ -205,6 +218,7 @@ function DefaultSearchResults(props) {
             </Stack>
         )
     }
+
     return(
         <Box>
         <Header textColor={'black'} />
@@ -221,23 +235,27 @@ function DefaultSearchResults(props) {
                 setFilterPublictionType={setFilterPublocationType}
                 setTotalNum={setTotalNum}
                 setSortOrder={setSortOrder}
+                setResIsEmpty={setResIsEmpty()}
                 filterInfos={filterInfos}
             />
             <Recommendation recommendation={recommendationInfos}/>
             <Box>
                 {/*排序*/}
-                <Sort
-                    sort_order={sort_order}
-                    infos={infos}
-                    setInfos={setInfos}
-                    setFilterInfos={setFilterInfos}
-                    setLoading={setLoading}
-                    setSortOrder={setSortOrder}
-                    startTime={startTime}
-                    endTime={endTime}
-                    filterAuthor={filterAuthor}
-                    filterPublicationType={filterPublicationType}
-                />
+                {
+                    !resIsEmpty &&
+                    <Sort
+                        sort_order={sort_order}
+                        infos={infos}
+                        setInfos={setInfos}
+                        setFilterInfos={setFilterInfos}
+                        setLoading={setLoading}
+                        setSortOrder={setSortOrder}
+                        startTime={startTime}
+                        endTime={endTime}
+                        filterAuthor={filterAuthor}
+                        filterPublicationType={filterPublicationType}
+                    />
+                }
                 <HStack float={'left'} ml={'30%'} mt={'-50'}>
                     <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
                     <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
@@ -254,13 +272,16 @@ function DefaultSearchResults(props) {
                     }
                 </Box>
                 {/*分页*/}
-                <Box width={'50%'} ml={'40%'} mt={'50px'}>
-                    <Pagination
-                        onChange={handleChange}
-                        total={totalNum}
-                        showSizeChanger={false}
-                        defaultCurrent={current_page_index}/>
-                </Box>
+                {
+                    !resIsEmpty &&
+                    <Box width={'50%'} ml={'40%'} mt={'50px'}>
+                        <Pagination
+                            onChange={handleChange}
+                            total={totalNum}
+                            showSizeChanger={false}
+                            defaultCurrent={current_page_index}/>
+                    </Box>
+                }
             </Box>
         </Box>
             </Box>
