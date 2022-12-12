@@ -109,7 +109,7 @@ function LoginAndRegister () {
             localStorage.setItem("username", username);
             
             setTimeout(function () {
-                navigate("/landing");
+                navigate("/");
             }, 1000);
         }else if(data.status === "登录成功") {
         } else if (data.status === "密码错误") {
