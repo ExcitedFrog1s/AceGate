@@ -12,7 +12,6 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: center;
   }
   .homepage  section:before {
     content: '';
@@ -31,7 +30,7 @@
     width: 100%;
     height: 100%;
     background: #0a2a43;
-    z-index: 10000;
+    z-index: 3;
     mix-blend-mode: color;
   }
   .homepage  section img {
@@ -43,13 +42,46 @@
     object-fit: cover;
     pointer-events: none;
   }
-  .homepage #text {
+  .homepage #middle{
     position: relative;
-    color: #ffffff;
-    font-size: 10em;
     z-index: 1;
+    margin-top: 190px;
+    text-align: center;
+  }
+  .homepage .text1 {
+    color: #ffffff;
+    font-size: 8em;
+  }
+  .homepage .text2 {
+    color: #ffffff;
+    font-size: 2.5em;
+    margin-top: -25px;
   }
   .homepage #road {
     z-index: 2;
   }
   
+  .homepage .box{
+    height: 500px;
+    padding: 20px 30px 20px 30px;
+  }
+
+  .homepage .recomand{
+    padding: 2% 5% 2% 5%;
+  }
+
+  .homepage .title{
+    color: #ffffff;
+    font-size: 26px;
+  }
+
+  .homepage .listitem{
+    color: #ffffff;
+    
+  }
+
+  .homepage .ant-list-split .ant-list-item{
+    border: solid 2px #a1a0a0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
