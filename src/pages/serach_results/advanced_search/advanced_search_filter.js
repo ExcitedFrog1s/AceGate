@@ -20,8 +20,8 @@ function AdvancedSearchTimeRangeFilter(props) {
     const changeTime = (date, dateString) => {
         setStartTime(dateString[0]);
         setEndTime(dateString[1]);
-        props.setStartTime(dateString[0])
-        props.setEndTime(dateString[1])
+        props.setStartTime(dateString[0] + "-01")
+        props.setEndTime(dateString[1] + "-01")
     };
 
     return(
@@ -119,6 +119,12 @@ function AdvancedSearchFilter(props) {
                 // props.setRecommendationInfos(res.data.data.recommendation)
                 props.setTotalNum(res.data.data.num)
                 props.setCurrentPageIndex(1)
+                if(res.data.data.list.length === 0) {
+                    props.setResIsEmpty(true)
+                }
+                else {
+                    props.setResIsEmpty(false)
+                }
                 props.setLoading(false)
             })
     }
