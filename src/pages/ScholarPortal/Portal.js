@@ -28,43 +28,55 @@ const onChange = (key) => {
     console.log(key);
 };
 
-function ScholarPaperList(props) {
-    const [paperList, setPaperList] = useState({});
+const handleLink = (url)=>{
+    window.open(url)
+}
 
-    const handleHomepage = (url)=>{
-        window.open(url)
-    }
+function ScholarPaperList(props) {
+    const [RpaperList, setRpaperList] = useState({});
 
     useEffect(() =>{
-        setInsdata(props.insdata)
+        setRpaperList(props.RpaperList)
         // getData()
     }, [props])
-    function authors() {
+    // console.log(props)
+    // console.log(RpaperList)
+    // console.log(RpaperList[1].pname)
+    function authors(list) {
         var str = "";
-        for (let i = 0; i < (props.list.pauthorname.length-1); i++) {
-            str += props.list.pauthorname[i] + ', '
+        for (let i = 0; i < (list.length-1); i++) {
+            str += list[i] + ', '
         }
-        str += props.list.pauthorname[props.list.pauthorname.length-1]
+        str += list[list.length-1]
+        // console.log(str)
         return str;
     }
+
     const columns = [
         {
             title: '',
             dataIndex: 'pname',
             key: 'pname',
-            width: '65%',
+            width: '74%',
+            sorter: (a, b) => a.pname.localeCompare(b.pname),
+            sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
                 <div>
                     <Typography>
                         <Row>
                             <Link
+                                onClick={() => handleLink(record.dOI)}
                                 style={{
-                                    fontSize: '20px',
+                                    fontSize: '16px',
                                 }}
                             >{record.pname}</Link>
                         </Row>
                         <Row>
-                            <Text>{authors()}</Text>
+                            <Text
+                                style={{
+                                    fontSize: '12px',
+                                }}
+                            >{authors(record.pauthorname)}</Text>
                         </Row>
                     </Typography>
                 </div>
@@ -74,17 +86,22 @@ function ScholarPaperList(props) {
             title: '发表时间',
             dataIndex: 'pdate',
             key: 'pdate',
+            width: '13%',
             sorter: (a, b) => {
                 let aDate = new Date(a.pdate).getTime();
                 let bDate = new Date(b.pdate).getTime();
                 console.log("a",a);
                 return aDate - bDate;
             },
+            render: (_, record) => (
+                <Text>{new Date(record.pdate).getFullYear()+'-'+ new Date(record.pdate).getMonth()+'-'+new Date(record.pdate).getDay()}</Text>
+            ),
         },
         {
             title: '引用次数',
-            dataIndex: 'Pcite',
-            key: 'Pcite',
+            dataIndex: 'pcite',
+            key: 'pcite',
+            width: '13%',
             sorter: {
                 compare: (a, b) => a.pcite - b.pcite,
                 multiple: 1,
@@ -110,17 +127,12 @@ function ScholarPaperList(props) {
                     border: 'none',
                 }}
             >
-                {/*<InfiniteScroll*/}
-                {/*    // dataLength={props.length}*/}
-                {/*    endMessage={<Divider plain></Divider>}*/}
-                {/*    scrollableTarget="scrollablePaperList"*/}
-                {/*>*/}
-                    <Table
-                        columns={columns}
-                        dataSource={props.list}
-                        pagination={false}
-                    />
-                {/*</InfiniteScroll>*/}
+                <Table
+                    columns={columns}
+                    dataSource={props.RpaperList}
+                    pagination={false}
+                    rowKey="pid"
+                />
             </div>
         </div>
     );
@@ -172,116 +184,27 @@ function DataChart(props) {
 
                 <Heading className='chart-head'>{props.title}</Heading>
             </Row>
-            <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
+            <Chart options={options} series={series} type="bar" style={{marginTop:'0px'}}/>
         </Box>
     )
 }
-// function PaperAmount(props) {
-//     React.useEffect(() => {
-//         setSeries([{data:props.count}])
-//     },[props])
-//     const [options, setOptions] = React.useState(
-//         {
-//             chart: {
-//                 type: 'bar',
-//             },
-//             xaxis: {
-//                 categories: [2018,2019,2020,2021,2022]
-//             },
-//             plotOptions: {
-//                 bar: {
-//                     columnWidth: '40%',
-//                     borderRadius: 6
-//                 },
-//             },
-//             dataLabels: {
-//                 enabled: false
-//             },
-//             fill: {
-//                 type: 'gradient',
-//                 gradient: {
-//                     type: 'vertical',
-//                     gradientToColors: ['#1b3bbb'],
-//                     opacityFrom: 0.96,
-//                     opacityTo: 0.2,
-//                     stops:[0,100]
-//                 }
-//             },
-//         }
-//     )
-//     const [series, setSeries] = React.useState(
-//         [{
-//         }]
-//     );
-//     return(
-//         <Box boxShadow='xs' rounded='md'
-//              borderRadius='25px' border='2px' borderColor='gray.200'
-//              className='chart'>
-//             <Row>
-//                 <BarChartOutlined className='chart-icon'  />
-//                 <Heading className='chart-head'>论文数量</Heading>
-//             </Row>
-//             <Chart options={options} series={series} type="bar"
-//                    style={{
-//                        marginTop:'0px',
-//                    }}
-//             />
-//         </Box>
-//     )
-// }
-//
-// function CitationAmount(props) {
-//     React.useEffect(() => {
-//         setSeries([{data:props.count}])
-//     },[props])
-//     const [options, setOptions] = React.useState(
-//         {
-//             chart: {
-//                 type: 'bar',
-//             },
-//             xaxis: {
-//                 categories: [2017,2018,2019,2020,2021]
-//             },
-//             plotOptions: {
-//                 bar: {
-//                     columnWidth: '40%',
-//                     borderRadius: 6
-//                 },
-//             },
-//             dataLabels: {
-//                 enabled: false
-//             },
-//             fill: {
-//                 type: 'gradient',
-//                 gradient: {
-//                     type: 'vertical',
-//                     gradientToColors: ['#1b3bbb'],
-//                     opacityFrom: 0.96,
-//                     opacityTo: 0.2,
-//                     stops:[0,100]
-//                 }
-//             },
-//         }
-//     )
-//     const [series, setSeries] = React.useState(
-//         [{
-//             data: props.count
-//         }]
-//     );
-//     return(
-//         <Box boxShadow='xs' rounded='md'
-//              borderRadius='25px' border='2px' borderColor='gray.200'
-//              className='chart'>
-//             <Row>
-//                 <BarChartOutlined className='chart-icon'  />
-//                 <Heading className='chart-head'>被引数量</Heading>
-//             </Row>
-//             <Chart options={options} series={series} type="bar" style={{marginTop:'0px'}}/>
-//         </Box>
-//     )
-// }
 
-function ScholarDataList({props}) {
+function ScholarDataList(props) {
+    const [workscount, setWorkscount] = useState();
+    const [citescount, setCitescount] = useState();
+    const [worksyear, setWorksyear] = useState([]);
+    const [citesyear, setCitesyear] = useState([]);
+
+    useEffect(() =>{
+        setWorkscount(props.workscount);
+        setCitescount(props.citescount);
+        setWorksyear(props.worksyear);
+        setCitesyear(props.citesyear);
+    }, [props])
+    console.log(workscount)
+    console.log(citescount)
+    console.log(worksyear)
+    console.log(citesyear)
     return (
         <div
             style={{
@@ -300,22 +223,89 @@ function ScholarDataList({props}) {
                     border: 'none',
                 }}
             >
-                <div
+                <Row>
+                    <Col span={12}>
+                        <DataChart
+                            count={worksyear}
+                            title="近五年论文数量"
+                            icon={<IoNewspaperSharp className='chart-icon' />}
+                        ></DataChart>
+                    </Col>
+                    <Col span={12}>
+                        <Typography
+                            style={{
+                                padding: '300px 0 0 16px',
+                            }}
+                        >
+                            <Text
+                                className={'dark-text'}
+                                style={{
+                                    margin: '200px 0 0 30px',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                发表总论文数为
+                            </Text>
+                            <Text
+                                style={{
+                                    margin: '200px 0 0 20px',
+                                    color: '#728fea',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                {workscount}
+                            </Text>
+                        </Typography>
+                    </Col>
+                </Row>
+                <Row
                     style={{
-                        width: '60%',
-                        margin: 'auto',
+                        marginBottom: '30px',
                     }}
                 >
-                    <DataChart count={props.pcount} title="近五年论文数量" icon={<IoNewspaperSharp className='chart-icon' />}></DataChart>
-                </div>
-                <div
-                    style={{
-                        width: '60%',
-                        margin: 'auto',
-                    }}
-                >
-                    <DataChart count={props.pcite} title="近五年被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></DataChart>
-                </div>
+                    <Col span={12}>
+                        <Typography
+                            style={{
+                                padding: '300px 0 0 0px',
+                            }}
+                        >
+                            <Text
+                                className={'dark-text'}
+                                style={{
+                                    margin: '200px 0 0 10px',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                总被引用量为
+                            </Text>
+                            <Text
+                                style={{
+                                    margin: '200px 0 0 20px',
+                                    color: '#728fea',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                {citescount}
+                            </Text>
+                        </Typography>
+                    </Col>
+                    <Col span={12}>
+                        <DataChart
+                            count={citesyear}
+                            title="近五年被引数量"
+                            icon={<FaQuoteLeft className='chart-icon' />}
+                        ></DataChart>
+                    </Col>
+                </Row>
+
             </div>
         </div>
     )
@@ -346,12 +336,23 @@ function Portal() {
         .then(res => {
             setData(res.data.data)
             console.log(res.data.data)
-            // console.log(res.data.data.RpaperList.list)
         })
     }
     useEffect(() => {
         getData();
     }, [])
+
+    const institute_name = (institute) => {
+        var name = institute.split('|')[0]
+        return name
+    }
+
+    const reformCoauthor = (coauthors) => {
+        for (var i = 0; i < coauthors.length; i++) {
+            coauthors[i].institute = institute_name(coauthors[i].institute);
+        }
+        return coauthors
+    }
 
     // hover style
     // homepage
@@ -365,18 +366,6 @@ function Portal() {
     const homepageStyle = {
         color: '#1890ff',
         textDecoration: homepageIsHover ? 'underline' : 'none'
-    }
-    // area
-    const [areaIsHover, setAreaIsHover] = useState(false)
-    const handleMouseEnterArea = () => {
-        setAreaIsHover(true)
-    }
-    const handleMouseLeaveArea = () => {
-        setAreaIsHover(false);
-    }
-    const areaStyle = {
-        color: '#1890ff',
-        textDecoration: areaIsHover ? 'underline' : 'none'
     }
 
     return (
@@ -439,18 +428,24 @@ function Portal() {
                                     <Space>
                                         <HomeOutlined />
                                     </Space>
-                                    <Text> {data.rinstitute} </Text>
+                                    <Link
+                                        component={Typography.Link}
+                                        style={homepageStyle}
+                                        onMouseEnter={handleMouseEnterHomepage}
+                                        onMouseLeave={handleMouseLeaveHomepage}
+                                        to={"/institute?IID="+data.r_IID}
+                                    > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
                                         <Space>
                                             <Text>-</Text>
                                             <Link
-                                            to="/scholarPortal"
                                             component={Typography.Link}
                                             style={homepageStyle}
                                             onMouseEnter={handleMouseEnterHomepage}
                                             onMouseLeave={handleMouseLeaveHomepage}
+                                            onClick={handleLink(data.rpersonalPage)}
                                             >
-                                                {data.rpersonalPage}
+                                                个人主页
                                             </Link>
                                         </Space>
                                     }
@@ -483,7 +478,8 @@ function Portal() {
                             {data.flag === true &&
                                 <Link
                                     to={{
-                                        pathname: '/editPortal',
+                                        pathname: '/editPortal/',
+                                        search: '?RID=' + RID,
                                     }}
                                 >
                                     <Button
@@ -531,12 +527,17 @@ function Portal() {
                                 {
                                     label: `发表文献`,
                                     key: '1',
-                                    children: <ScholarPaperList props={data.RpaperList}/>,
+                                    children: <ScholarPaperList RpaperList={data.RpaperList}/>,
                                 },
                                 {
                                     label: `数据分析`,
                                     key: '2',
-                                    // children: <ScholarDataList props={scholarData}/>,
+                                    children: <ScholarDataList
+                                                workscount={data.rworkscount}
+                                                worksyear={data.rworksyear}
+                                                citescount={data.rcitescount}
+                                                citesyear={data.rcitesyear}
+                                            />,
                                 },
                             ]}
                         />
@@ -559,6 +560,7 @@ function Portal() {
                     >
                         <Typography>
                             <Title level={4}
+                                   className={'dark-text'}
                                 style={{
                                     padding: '24px 24px 16px 24px',
                                 }}
@@ -574,51 +576,30 @@ function Portal() {
                                     border: 'none',
                                 }}
                             >
-                                {/*<InfiniteScroll*/}
-                                {/*    dataLength={data.RcoauthorList.length}*/}
-                                {/*    loader={*/}
-                                {/*        <Skeleton*/}
-                                {/*            avatar*/}
-                                {/*            paragraph={{*/}
-                                {/*                rows: 1,*/}
-                                {/*            }}*/}
-                                {/*            active*/}
-                                {/*        />*/}
-                                {/*    }*/}
-                                {/*    endMessage={<Divider plain></Divider>}*/}
-                                {/*    scrollableTarget="scrollableDiv"*/}
-                                {/*>*/}
+                                {data.RcoauthorList &&
                                     <List
-                                        // dataSource={scholarData.RcoauthorList}
+                                        dataSource={reformCoauthor(data.RcoauthorList)}
                                         renderItem={(item) => (
                                             <List.Item
-                                                key={item.Rinstitute}
+                                                key={item.name}
                                                 style={{
                                                     padding: '10px 0 10px 0',
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src={item.Ravatar.large} />}
-                                                    title={<a href="http://localhost:3000/scholarPortal">{item.Rname}</a>}
-                                                    description={item.Rinstitute}
+                                                    title={item.name}
+                                                    description={item.institute}
                                                 />
                                             </List.Item>
                                         )}
                                     />
-                                {/*</InfiniteScroll>*/}
+                                }
+
                             </div>
                         </Typography>
                     </div>
                 </Sider>
             </Layout>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                    backgroundColor: 'rgb(230,235,247)',
-                }}
-            >
-                AceGate ©2022 Beihang University
-            </Footer>
         </Layout>
     );
 }
