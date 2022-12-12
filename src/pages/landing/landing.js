@@ -20,6 +20,8 @@ import RecommendJournalsCard from "./recommend-journals-card";
 import axios from "axios";
 
 function Landing(){
+    const [input,setInput] = React.useState()
+
     return (
         <div>
             <Box
@@ -48,6 +50,14 @@ function Landing(){
                             backgroundColor='white'
                             width='100%'
                             placeholder="输入您想搜索的论文，学者等，敲下回车"
+                            onChange={(e) => {
+                                setInput(e.target.value)
+                            }}
+                            onKeyPress={(value) => {
+                                if(value.key === "Enter") {
+                                    window.open("/defaultSearch?q=" + input)
+                                }
+                            }}
                             />
                     </Box>
                 </VStack>

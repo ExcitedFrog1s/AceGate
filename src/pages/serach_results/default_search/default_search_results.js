@@ -15,29 +15,6 @@ import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
 function Sort(props) {
-    // const cmpMostRecent = (a,b) => {
-    //     if(a.Pdate > b.Pdata) {
-    //         return -1
-    //     }
-    //     else if(a.Pdate < b.Pdata) {
-    //         return 1
-    //     }
-    //     else {
-    //         return 0
-    //     }
-    // }
-    //
-    // const cmpMostCited = (a,b) => {
-    //     if(Number(a.Pcite) > Number(b.Pcite)) {
-    //         return -1
-    //     }
-    //     else if(Number(a.Pcite) < Number(b.Pcite)) {
-    //         return 1
-    //     }
-    //     else {
-    //         return 0
-    //     }
-    // }
     let location = useLocation()
     let params = new URLSearchParams(location.search)
 
@@ -54,7 +31,7 @@ function Sort(props) {
         console.log(data)
         let config = {
             method: 'post',
-            url: 'DefaultSearchResults',
+            url: '/DefaultSearchResults',
             data : data
         }
         props.setLoading(true)
@@ -105,7 +82,6 @@ function DefaultSearchResults(props) {
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
     const [sort_order, setSortOrder] = React.useState('default')
-    const [totalPage,setTotalPage] = React.useState()
     const [totalNum,setTotalNum] = React.useState()
     const [startTime,setStartTime] = React.useState('1900-01-01')
     const [endTime,setEndTime] = React.useState('2030-01-01')
@@ -151,7 +127,6 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(res.data.data.recommendation)
                 setLoading(false)
                 setTotalNum(res.data.data.num)
-                setTotalPage(res.data.data.totalPage)
                 console.log(res.data)
             })
     }
@@ -174,7 +149,6 @@ function DefaultSearchResults(props) {
         setLoading(true)
         axios(config)
             .then(res => {
-                console.log(res)
                 setInfos(res.data.data.list)
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
@@ -183,7 +157,6 @@ function DefaultSearchResults(props) {
                 })
                 setRecommendationInfos(res.data.data.recommendation)
                 setCurrentPageIndex(1)
-                setTotalPage(res.data.data.totalPage)
                 setTotalNum(res.data.data.num)
                 setLoading(false)
                 console.log(res.data)
@@ -246,7 +219,6 @@ function DefaultSearchResults(props) {
                 setEndTime={setEndTime}
                 setFilterAuthor={setFilterAuthor}
                 setFilterPublictionType={setFilterPublocationType}
-                setTotalPage={setTotalNum}
                 setTotalNum={setTotalNum}
                 setSortOrder={setSortOrder}
                 filterInfos={filterInfos}

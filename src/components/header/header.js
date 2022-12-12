@@ -5,7 +5,7 @@ import {Link as RouterLink} from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import React from "react";
+import * as React from "react";
 
 
 
@@ -29,6 +29,8 @@ const NavLink = ({ children }) => (
 
 function Header({textColor, isLanding=false}){
 
+    const [input,setInput] = React.useState()
+
     const sections = ['工具箱']
 
     let isLoggedIn = 0;
@@ -38,8 +40,8 @@ function Header({textColor, isLanding=false}){
         // 已经登录
         isLoggedIn = 1;
         loggedInUsername = localStorage.getItem("username");
-        console.log(localStorage.getItem("userToken"));
-        console.log(localStorage.getItem("username"));
+        // console.log(localStorage.getItem("userToken"));
+        // console.log(localStorage.getItem("username"));
     }
 
 
@@ -78,6 +80,14 @@ function Header({textColor, isLanding=false}){
                                 backgroundColor='white'
                                 width='25vw'
                                 placeholder="快捷搜索……"
+                                onChange={(e) => {
+                                    setInput(e.target.value)
+                                }}
+                                onKeyPress={(value) => {
+                                        if(value.key === "Enter") {
+                                            window.open("/defaultSearch?q=" + input)
+                                        }
+                                }}
                             />
                         }
 
