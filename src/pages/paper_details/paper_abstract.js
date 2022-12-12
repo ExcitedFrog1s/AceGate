@@ -89,7 +89,7 @@ function Abstract(prop) {
                 摘要
             </Text>
             <Box minH={75} mt={3}>
-            <Text ml={8} color={'#161616'}
+            <Text ml={8} color={'#161616'} mb={6}
                   fontSize={17} noOfLines={8} className="ft"
             maxW={850} mr={8}>{prop.ab}</Text>
             </Box>

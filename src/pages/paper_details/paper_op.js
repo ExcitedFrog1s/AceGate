@@ -48,9 +48,10 @@ function Cite(prop) {
     React.useEffect(() => {
         const formData = new FormData()
         formData.append('PID', prop.pid)
-        axios.post("http://localhost:8083/paper/cite",formData)
+        axios.post("http://localhost:8081/paper/cite",formData)
             .then(function (res){
                 setCite(res.data.data)
+                console.log(cite)
             })
     },[])
 
@@ -68,7 +69,7 @@ function Cite(prop) {
                     <ModalBody>
                         <HStack>
                             <Text>
-                                GB/T 7714-2015 格式引文
+                                {cite}
                             </Text>
                         </HStack>
                     </ModalBody>
@@ -99,7 +100,7 @@ function Newfav() {
             const formData = new FormData()
             formData.append('CTname', value)
 
-            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=54115224",formData)
+            axios.post("http://localhost:8081/user/AddCollect",formData)
                 .then(function (res){
                     if(res.status !== 200){
                         return (
@@ -109,7 +110,7 @@ function Newfav() {
                             </Alert>)
                     }
                 })
-            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53124605",formData)
+            axios.post("http://localhost:8081/user/viewCollect",formData)
                 .then(function (res){
 
                 })
@@ -292,6 +293,10 @@ function Op(prop) {
     const download = () => {
         // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
     }
+    const handleClick = () => {
+        console.log(prop.url)
+        window.open(prop.url)
+    }
     let isstarred = false
     React.useEffect( () => {
 
@@ -331,20 +336,20 @@ function Op(prop) {
 
         <Box borderWidth={'5'} marginLeft={'4.5%'} mt={320} fontSize={25} position={'relative'}>
 
-            <Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
-                <span>
-                    <Icon as={MdFileDownload} mr={15} style={Style}/>
-                </span>
-            </Tooltip>
+            {/*<Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>*/}
+            {/*    <span>*/}
+            {/*        <Icon as={MdFileDownload} mr={15} style={Style}/>*/}
+            {/*    </span>*/}
+            {/*</Tooltip>*/}
 
-            <Cite pid={prop.pid}/>
+            {<Cite pid={prop.pid}/>}
             <Starred pc={Pc}/>
 
-            <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
-                <span>
-                    <Icon as={BsLink45Deg} style={Style}/>
+            {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
+                <span onClick={handleClick} >
+                    <Icon as={BsLink45Deg} style={Style} onClick={handleClick}/>
                 </span>
-            </Tooltip>
+            </Tooltip>}
         </Box>
 
     )

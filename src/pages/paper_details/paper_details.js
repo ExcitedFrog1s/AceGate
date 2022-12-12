@@ -48,7 +48,7 @@ function PaperDetails() {
         const formData = new FormData()
         formData.append('PID', PID)
         // console.log(formData)
-        axios.post("http://localhost:8083/paper/view", formData)
+        axios.post("http://localhost:8081/paper/view", formData)
             .then(function (res){
                 setInfos(res.data.data)
                 setLoading(false)
@@ -75,9 +75,9 @@ function PaperDetails() {
             <Info infos={infos}/>
             <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
             <Data pid={PID} fields={infos.pconcepts}/>
-            <Op  pid={PID}/>
+            <Op  pid={PID} url={infos.p_Vurl}/>
             <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
-                       reflink={infos.preferences} rellink={infos.related}/>
+                       reflink={infos.preferences} rellink={infos.prelated}/>
         </Box>
     )
 }

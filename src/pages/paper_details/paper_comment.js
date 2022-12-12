@@ -28,8 +28,13 @@ function Heart(prop){
         const formData = new FormData()
         formData.append('CID', prop.CID)
         // console.log(formData)
+        let UID = window.localStorage.getItem('userToken')
         if(prop.state === false){
-            axios.post("http://localhost:8083/comment/like",formData)
+            axios.post("http://localhost:8081/comment/like",formData,{
+                headers:{
+                    'token':UID
+                }
+            })
                 .then(function (res){
                     if(res.status !== 200){
                         return (
@@ -49,7 +54,11 @@ function Heart(prop){
                 })
         }
         else{
-            axios.post("http://localhost:8083/comment/unlike",formData)
+            axios.post("http://localhost:8081/comment/unlike",formData,{
+                headers:{
+                    'token':UID
+                }
+            })
                 .then(function (res){
                     if(res.status !== 200){
                         return (
@@ -108,6 +117,7 @@ function Comment(prop) {
     let initialState = {};
     const [comments,setComs] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
+    const [vis, setVis] = useState(false)
     property.comments.map((value, key1) => {
         initialState[key1] = value.liked;
 
@@ -117,7 +127,7 @@ function Comment(prop) {
         const formData = new FormData()
         formData.append('PID', prop.pid)
         // console.log(formData)
-        axios.post("http://localhost:8083/paper/viewComment",formData)
+        axios.post("http://localhost:8081/paper/viewComment",formData)
             .then(function (res){
                 console.log(res.data)
                 setComs(res.data.data)
@@ -137,29 +147,50 @@ function Comment(prop) {
     // 新增评论
     const NewComment = () => {
 
-        const formData = new FormData()
-        formData.append('PID', prop.pid)
+        console.log(value)
+        if(value.length === 0){
+            setVis(true)
+            // 设置延时消失
+            const test = window.setTimeout(() => {
+                setVis(false);
+            }, 1500);
+            return () => {
+                clearInterval(test);
+            };
+        }
+        else{
+            const formData = new FormData()
+            formData.append('PID', prop.pid)
+            formData.append('Ccontent', value)
 
-        axios.post("http://localhost:8083/comment/add",formData)
-            .then(function (res){
-                if(res.status !== 200){
-                    return (
-                        <Alert status='error'>
-                            <AlertIcon />
-                            评论失败！
-                        </Alert>)
-                }
-                else{
-                    formData.append('UID', window.localStorage.getItem('userToken'))
-                    // console.log(formData)
-                    axios.post("http://localhost:8083/paper/viewComment",formData)
-                        .then(function (res){
-                            console.log(res.data)
-                            setComs(res.data.data)
-                            setLoading(false)
-                        })
+            let UID = window.localStorage.getItem('userToken')
+            axios.post("http://localhost:8081/comment/add",formData,{
+                headers:{
+                    'token':UID
                 }
             })
+                .then(function (res){
+                    if(res.status !== 200){
+                        return (
+                            <Alert status='error'>
+                                <AlertIcon />
+                                评论失败！
+                            </Alert>)
+                    }
+                    else{
+                        formData.append('UID', window.localStorage.getItem('userToken'))
+                        // console.log(formData)
+                        axios.post("http://localhost:8081/paper/viewComment",formData)
+                            .then(function (res){
+                                console.log(res.data)
+                                setComs(res.data.data)
+                                setLoading(false)
+                            })
+                        setValue('')
+                    }
+                })
+        }
+
     }
     const handleClick = (UID) => {
         window.open('/scholarPortal?UID=' + UID)
@@ -184,21 +215,21 @@ function Comment(prop) {
                             <Box>
                                 <HStack>
                                 <Link  ml={4} onClick={()=>handleClick(value.UID)} color={'#3311DB'} fontSize={20}>
-                                    {value.Uname}</Link>
+                                    {value.name}</Link>
 
                                 <Text color={'#7551FF'}>
-                                    {value.Clikes}点赞
+                                    {value.clikes}点赞
                                 </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
                                     {/*</Text>*/}
                                 <Text color={'#0b1075'}  align={'right'}>
-                                        {value.Ctime}
+                                        {value.time}
                                 </Text>
                                 </HStack>
                             </Box>
                             <Box style={s} float={'right'}>
-                                <Heart state={value.like} CID={value.CID}/>
+                                <Heart state={value.like} CID={value.cid}/>
                             </Box>
 
                         </HStack>
@@ -213,11 +244,14 @@ function Comment(prop) {
 
 
         </VStack>
-        <Box ml={9} mt={30} width={'90%'} size='lg'>
+            <Alert status='error' visibility={vis?"visible":"hidden"} mt={5} width={'90%'} ml={9}>
+                <AlertIcon />
+                请填写评论内容</Alert>
+        <Box ml={9} mt={5} width={'90%'} size='lg'>
             <Textarea placeholder='请发表你的见解' value={value} fontFamily={'宋体'}
                       onChange={handleInputChange}/>
-            <Button mt={5} onClick={NewComment} ml={'90.5%'} color={"white"} fontFamily={'宋体'}
-                    colorScheme='purple' bgColor={'#7551FF'}>
+            <Button  onClick={NewComment} ml={'90.5%'} color={"white"} fontFamily={'宋体'}
+                    colorScheme='purple' bgColor={'#7551FF'} mt={5}>
                 发布
             </Button>
         </Box>
