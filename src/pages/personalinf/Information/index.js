@@ -39,13 +39,11 @@ export default class Information extends Component {
     const {scholar} = this.state
     return (
       <div className='infoBackground'>
-        <div>&nbsp;</div>
         <Routes>
           <Route path="/" element={<Frame  accountinfs={accountinfs} personalinfs={personalinfs} scholar={scholar}/> }  />
           <Route path="edit" element={<Edit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
           <Route path="accountedit" element={<AccountEdit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
         </Routes>
-        <div>&nbsp;</div>
       </div>
     )
   }

@@ -49,14 +49,14 @@ function AccountEdit() {
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo/accountedit",
-            data: {
-                UID: params.get(token),
-            }
+            url: "/personInfo/accountedit",
+            headers: {
+                token: token
+            },
         })
             .then(res => {
-                    console.log(res.data)
-                    setData(res.data)
+                    console.log(res.data.data)
+                    setData(res.data.data)
                 }
             )
     }
@@ -66,9 +66,11 @@ function AccountEdit() {
     const changeInfo = () =>{
         axios({
           method: 'POST',
-          url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
+          url: 'personInfo/accountedit2',
+          headers: {
+            token: token
+        },
           data:{
-            UID: params.get(token),
             Upassword : password,
           }
         }).then(response =>{
@@ -149,11 +151,9 @@ function AccountEdit() {
                             rules={[
                                 ({ getFieldValue }) => ({
                                     validator(rule, value) {
-                                        if (!value || data.Upassword === value) {
-                                            console.log(data.Upassword);
+                                        if (!value || data === value) {
                                             return Promise.resolve();
                                         }
-                                        console.log(data.Upassword);
                                         return Promise.reject('密码错误！');
                                     },
                                 }),
@@ -169,8 +169,8 @@ function AccountEdit() {
                             name="password"
                             rules={[{
                                 pattern:
-                                    /.{8,16}$/,
-                                message: "密码必须为8-16位字符",
+                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
+                                message: "密码必须为8-16位字符，需包含大小写字母、数字",
                             }]}
                             style={{
                                 padding: '10px',

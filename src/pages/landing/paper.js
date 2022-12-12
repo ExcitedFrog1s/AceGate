@@ -39,7 +39,7 @@ function Papers(props){
                 <Row>
                     <ImFire className="chart-icon"></ImFire>
                     <Heading className="title">
-                        {props.title + ": " + cname}
+                        {props.title + (cname != null ? (": " + cname): "")}
                     </Heading>
                 </Row>
                 <List
@@ -55,7 +55,7 @@ function Papers(props){
                        </Link>
                        </Row>
                        <Row>
-                       <Text as='em' fontSize="16px" fontWeight={'normal'}  className="PVname">{"from venue: " + item.pVName}</Text>
+                       <Text as='em' fontSize="16px" fontWeight={'normal'}  className="PVname">{"from venue: " + (item.pVName == null? "unknown": item.pVName)}</Text>
                        </Row>
                        </div>
                     </List.Item>

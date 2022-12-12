@@ -39,7 +39,7 @@ function Conferences(props){
                 <Row>
                     <ImFire className="chart-icon"></ImFire>
                     <Heading className="title">
-                        {props.title + ": " + cname}
+                        {props.title + (cname != null ? (": " + cname): "")}
                     </Heading>
                 </Row>
                 <List

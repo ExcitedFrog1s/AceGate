@@ -14,16 +14,20 @@ function List() {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    var token = localStorage.getItem("userToken")
     const toast = useToast();
     useEffect(() => {
       const getData = ()=>{
         axios({
           method: "post",
-          url:"https://mock.apifox.cn/m1/1955876-0-default/manage/checkedlist"
+          url:"/manage/checkedlist",
+          headers: {
+            'token': token
+          }
         })
         .then(res => {
             console.log(res.data)
-            setData(res.data)
+            setData(res.data.data)
           }
         )
       }

@@ -3,7 +3,7 @@
 //
 import PubSub from 'pubsub-js';
 import * as React from 'react';
-import {Box} from "@chakra-ui/react";
+import {Box, HStack, Text} from "@chakra-ui/react";
 import { Skeleton, Stack } from '@chakra-ui/react'
 import ResultCard from "../result_card";
 import {Pagination, Row, Select, Col} from "antd";
@@ -26,7 +26,7 @@ function Sort(props) {
         data.startTime = props.startTime
         data.endTime = props.endTime
         data.sort = value
-        data.page = 1
+        data.page = props.page
         console.log(data)
         let config = {
             method: 'post',
@@ -75,6 +75,7 @@ function Sort(props) {
 
 
 function AdvancedSearchResults(props) {
+    const [resIsEmpty,setResIsEmpty] = React.useState(false)
     const [isInit,setIsInit] = React.useState(false)
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
@@ -85,8 +86,8 @@ function AdvancedSearchResults(props) {
     const [advEndTime,setAdvEndTime] = React.useState()
     const [sort_order, setSortOrder] = React.useState('default')
     const [totalNum,setTotalNum] = React.useState()
-    const [startTime,setStartTime] = React.useState()
-    const [endTime,setEndTime] = React.useState()
+    const [startTime,setStartTime] = React.useState("1900-01-01")
+    const [endTime,setEndTime] = React.useState("2030-01-01")
     const [filterAuthor,setFilterAuthor] = React.useState(null)
     const [filterPublicationType,setFilterPublocationType] = React.useState(null)
 
@@ -99,38 +100,40 @@ function AdvancedSearchResults(props) {
     let card_index_max
 
     const handleChange = (page,pageSize) => {
+        setCurrentPageIndex(page)
         let data = {}
-        data.advancedSearch = props.advancedSearch
-        data.advStartTime = props.advStartTime
-        data.advEndTime = props.advEndTime
-        data.filterAuthors = props.filterAuthor
-        data.filterPublicationTypes = props.filterPublicationType
-        data.startTime = props.startTime
-        data.endTime = props.endTime
-        data.page = 1
+        data.advancedSearch = advancedSearch
+        data.advStartTime = advStartTime
+        data.advEndTime = advEndTime
+        data.filterAuthors = filterAuthor
+        data.filterPublicationTypes = filterPublicationType
+        data.startTime = startTime
+        data.endTime = endTime
+        data.page = page
+        data.sort = sort_order
         console.log(data)
         let config = {
             method: 'post',
             url: '/AdvancedSearchResults',
             data : data
         }
-        props.setLoading(true)
+        setLoading(true)
         axios(config)
             .then(res => {
-                props.setInfos(res.data.data.list)
-                props.setFilterInfos({
+                setInfos(res.data.data.list)
+                setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
                     totalNumber: res.data.data.num
                 })
-                // props.setRecommendationInfos(res.data.data.recommendation)
-                props.setLoading(false)
+                setLoading(false)
                 console.log(res.data)
             })
     }
 
     PubSub.unsubscribe('PubParams');
     PubSub.subscribe('PubParams', (msg, params) => {
+        console.log('--------')
         let data = {}
         data.advancedSearch = params.dataList === undefined ? null : params.dataList
         data.advStartTime = params.startTime === undefined ? "1900-01-01" : params.startTime + "-01"
@@ -162,6 +165,12 @@ function AdvancedSearchResults(props) {
                 })
                 setCurrentPageIndex(1)
                 setTotalNum(res.data.data.num)
+                if(res.data.data.list.length === 0) {
+                    setResIsEmpty(true)
+                }
+                else {
+                    setResIsEmpty(false)
+                }
                 setLoading(false)
                 console.log(res.data.data)
                 console.log(infos)
@@ -204,6 +213,12 @@ function AdvancedSearchResults(props) {
                     })
                     setCurrentPageIndex(1)
                     setTotalNum(res.data.data.num)
+                    if(res.data.data.list.length === 0) {
+                        setResIsEmpty(true)
+                    }
+                    else {
+                        setResIsEmpty(false)
+                    }
                     setLoading(false)
                     console.log(res.data)
                 })
@@ -273,6 +288,7 @@ function AdvancedSearchResults(props) {
                 setFilterPublictionType={setFilterPublocationType}
                 setTotalNum={setTotalNum}
                 setSortOrder={setSortOrder}
+                setResIsEmpty={setResIsEmpty}
                 filterInfos={filterInfos}
                 advancedSearch={advancedSearch}
                 advStartTime={advStartTime}
@@ -280,21 +296,30 @@ function AdvancedSearchResults(props) {
             />
             <Box>
                 {/*排序*/}
-                <Sort
-                    sort_order={sort_order}
-                    infos={infos}
-                    setInfos={setInfos}
-                    setFilterInfos={setFilterInfos}
-                    setLoading={setLoading}
-                    setSortOrder={setSortOrder}
-                    startTime={startTime}
-                    endTime={endTime}
-                    advancedSearch={advancedSearch}
-                    advStartTime={advStartTime}
-                    advEndTime={advEndTime}
-                    filterAuthor={filterAuthor}
-                    filterPublicationType={filterPublicationType}
-                />
+                {
+                    !resIsEmpty &&
+                    <Sort
+                        page={current_page_index}
+                        sort_order={sort_order}
+                        infos={infos}
+                        setInfos={setInfos}
+                        setFilterInfos={setFilterInfos}
+                        setLoading={setLoading}
+                        setSortOrder={setSortOrder}
+                        startTime={startTime}
+                        endTime={endTime}
+                        advancedSearch={advancedSearch}
+                        advStartTime={advStartTime}
+                        advEndTime={advEndTime}
+                        filterAuthor={filterAuthor}
+                        filterPublicationType={filterPublicationType}
+                    />
+                }
+                <HStack float={'left'} ml={'30%'} mt={'-50'}>
+                    <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
+                    <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
+                    <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
+                </HStack>
                 {/*论文卡片*/}
                 <Box mt={'120'} ml={'80px'}>
                     {
@@ -306,14 +331,17 @@ function AdvancedSearchResults(props) {
                     }
                 </Box>
                 {/*分页*/}
-                <Box width={'50%'} ml={'40%'} mt={'50px'}>
-                    <Pagination
-                        onChange={handleChange}
-                        total={totalNum}
-                        showSizeChanger={false}
-                        defaultCurrent={current_page_index}
-                    />
-                </Box>
+                {
+                    !resIsEmpty &&
+                    <Box width={'50%'} ml={'40%'} mt={'50px'}>
+                        <Pagination
+                            onChange={handleChange}
+                            total={totalNum}
+                            showSizeChanger={false}
+                            defaultCurrent={current_page_index}
+                        />
+                    </Box>
+                }
             </Box>
         </Box>
     )
