@@ -32,16 +32,72 @@ import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import findPasswordImg from '../../assets/images/undraw_data_input_fxv2.png'
+import {useToast} from "@chakra-ui/react";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
+
+
+const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+
+
 
 function FindPassword() {
     const [email, setEmail] = useState("");
     const [verified, setVerified] = useState(false);
-    console.log(verified);
+    const [hasSendCode, setHasSendCode] = useState(0);
+    const [verifyCode, setVerifycode] = useState(0);
+    const [countdown, setCountdown] = useState(0);
+
+    const toast = useToast();
+
+    const sendVerificationEmail = (email) =>{
+
+        const formData = new FormData()
+        formData.append("to", email)
+        axios.post('/sendEmail',formData)
+            .then(res => {
+                console.log(res.data)
+                if(res.data.code === 200){
+                    message.success('发送成功')
+                    setCountdown(1);
+                    setHasSendCode(1);
+                    // 必须发送一次验证码
+                    setInterval(() => setCountdown(0), 60000);
+                }
+                else
+                    message.error(res.data.message)
+                return res.data.code;
+            })
+    }
+
+    const handleSendVerifyEmail = () => {
+        if (!validateEmail(email)) {
+            toast({
+                title: '请填写合法的邮箱',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+            })
+            return -1;
+        }
+        if (countdown === 0) {
+            let result =  sendVerificationEmail(email);
+        }
+    }
+
+
+    // console.log(verified);
     const goToSetPassword = () => {
+
         setVerified(true);
-        console.log(verified);
+        // console.log(verified);
     }
     const goToLogin = () => {
         window.location.href = "/loginAndRegister";
@@ -129,6 +185,7 @@ function FindPassword() {
                                         autoComplete={'off'}
                                         placeholder="请输入您的邮箱"
                                         type="email"
+                                        onChange={e => setEmail(e.target.value)}
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -155,6 +212,8 @@ function FindPassword() {
                                             marginBottom: '10px',
                                             letterSpacing: '0',
                                         }}
+                                        onClick={handleSendVerifyEmail}
+                                        disabled={countdown === 1}
                                     >
                                         发送验证码
                                     </Button>

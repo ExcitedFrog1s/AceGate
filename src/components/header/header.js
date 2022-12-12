@@ -9,6 +9,50 @@ import * as React from "react";
 
 
 
+const usefulLinks = [
+    {
+        name: "中文查重-PaperFree",
+        link: "https://www.paperfree.cn/"
+    },
+    {
+        name: "英文查重-Turnitin",
+        link: "https://www.turnitin.com/zh-hans"
+    },
+    {
+        name: "Google Scholar",
+        link: "https://scholar.google.com"
+    },
+    {
+        name: "arXiv",
+        link: "https://arxiv.org/"
+    },
+    {
+        name: "权威期刊分区-SJR",
+        link: "https://www.scimagojr.com/journalrank.php"
+    },
+    {
+        name: "权威会议分区-ConferenceRanks",
+        link: "http://www.conferenceranks.com/"
+    },
+    {
+        name: "中科院分区-LetPub",
+        link: "https://www.letpub.com.cn/index.php?page=journalapp"
+    },
+    {
+        name: "计算机科学排名-csrankings",
+        link: "http://csrankings.org/"
+    },
+    {
+        name: "上交自研排名引擎-AceRankings",
+        link: "https://www.acemap.info/ranking"
+    },
+    {
+        name: "上交自研学术平台-AceMap",
+        link: "https://www.acemap.info"
+    },
+]
+
+
 const NavLink = ({ children }) => (
     <Link
         as={RouterLink}
