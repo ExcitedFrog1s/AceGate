@@ -1,0 +1,63 @@
+import { useEffect } from "react"
+import "./homepage.css"
+import { Row, Col, List } from 'antd';
+import { Box, Text, Heading, Link } from "@chakra-ui/react";
+import axios from "axios";
+import { useState } from "react";
+import { FaQuoteLeft } from "react-icons/fa";
+import { ImFire } from "react-icons/im";
+
+function separator(numb) {
+    if(!numb) return ""
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
+
+function Conferences(props){
+    const [cname, setCname] = useState([])
+    const [data, setData] = useState([])
+    const getData = ()=>{
+        axios({
+          method: "get",
+          url: props.url,
+        })
+        .then(res => {
+            console.log(res.data)
+            setData(res.data.data.paperResults)
+            setCname(res.data.data.cName)
+          }
+        )
+      }
+    useEffect(() =>{
+    getData()
+    }, [])
+    return (
+        <Box boxShadow='xs' rounded='md'
+            borderRadius='25px' border='2px' borderColor='gray.200'
+            className='box'>
+                <Row>
+                    <ImFire className="chart-icon"></ImFire>
+                    <Heading className="title">
+                        {props.title + ": " + cname}
+                    </Heading>
+                </Row>
+                <List
+                    bordered={true}
+                    itemLayout="horizontal"
+                    dataSource={data}
+                    renderItem={(item) => (
+                    <List.Item className="listitem">
+                       <Link href={"/journal?VID=" + item.vID} isExternal>
+                            <Text as='em' fontWeight={'bold'} fontSize="18px" className="venueName">{item.vName}</Text>
+                       </Link>
+                       
+                       <Text fontSize="16px" fontWeight={'bold'}><FaQuoteLeft></FaQuoteLeft>{separator(item.vCite)}</Text>
+                    </List.Item>
+                    )}
+                />
+        </Box>    
+    )
+}
+
+export default Conferences
