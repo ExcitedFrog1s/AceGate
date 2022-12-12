@@ -151,7 +151,7 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(res.data.data.recommendation)
                 setLoading(false)
                 setTotalNum(res.data.data.num)
-                setTotalPage(Math.ceil(res.data.data.num))
+                setTotalPage(res.data.data.totalPage)
                 console.log(res.data)
             })
     }
@@ -183,7 +183,7 @@ function DefaultSearchResults(props) {
                 })
                 setRecommendationInfos(res.data.data.recommendation)
                 setCurrentPageIndex(1)
-                setTotalPage(Math.ceil(res.data.data.num / 10))
+                setTotalPage(res.data.data.totalPage)
                 setTotalNum(res.data.data.num)
                 setLoading(false)
                 console.log(res.data)
@@ -232,7 +232,6 @@ function DefaultSearchResults(props) {
             </Stack>
         )
     }
-
     return(
         <Box>
         <Header textColor={'black'} />
@@ -286,7 +285,7 @@ function DefaultSearchResults(props) {
                 <Box width={'50%'} ml={'40%'} mt={'50px'}>
                     <Pagination
                         onChange={handleChange}
-                        total={totalPage}
+                        total={totalNum}
                         showSizeChanger={false}
                         defaultCurrent={current_page_index}/>
                 </Box>

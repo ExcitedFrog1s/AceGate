@@ -127,7 +127,7 @@ function DefaultSearchFilter(props) {
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
                 props.setTotalNum(res.data.data.num)
-                props.setTotalPage(Math.ceil(res.data.data.num))
+                props.setTotalPage(res.data.data.totalPage)
                 props.setCurrentPageIndex(1)
                 props.setLoading(false)
             })
