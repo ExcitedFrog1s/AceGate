@@ -167,6 +167,18 @@ function LoginAndRegister () {
         console.log(currentIsLogin);
     }
 
+    const [linkIsHover, setLinkIsHover] = useState(false)
+    const handleMouseEnterLink = () => {
+        setLinkIsHover(true)
+    }
+    const handleMouseLeaveLink = () => {
+        setLinkIsHover(false);
+    }
+    const linkStyle = {
+        color: '#F7FAFC',
+        textDecoration: linkIsHover ? 'underline' : 'none'
+    }
+
     return (
         <Layout className="layout">
             <Header>
@@ -357,6 +369,13 @@ function LoginAndRegister () {
                                     />
                                 </Form.Item>
                             </Form>
+                            <Link
+                                to="/recoverPassword"
+                                component={Typography.Link}
+                                style={linkStyle}
+                                onMouseEnter={handleMouseEnterLink}
+                                onMouseLeave={handleMouseLeaveLink}
+                            >忘记密码？</Link>
                             <Button
                                 // type={"primary"}
                                 shape={"round"}
