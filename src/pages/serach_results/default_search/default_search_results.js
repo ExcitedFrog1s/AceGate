@@ -235,7 +235,7 @@ function DefaultSearchResults(props) {
                 setFilterPublictionType={setFilterPublocationType}
                 setTotalNum={setTotalNum}
                 setSortOrder={setSortOrder}
-                setResIsEmpty={setResIsEmpty()}
+                setResIsEmpty={setResIsEmpty}
                 filterInfos={filterInfos}
             />
             <Recommendation recommendation={recommendationInfos}/>

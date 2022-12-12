@@ -25,7 +25,7 @@ function PersonInfo() {
             url: "/personInfo",
             headers: {
                 token: token
-            } 
+            }
         }).then(res => {
                     setData(res.data.data)
                     console.log(res.data)
@@ -72,7 +72,7 @@ function PersonInfo() {
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
-                
+
                 <div
                     style={{
                         padding: '24px',
@@ -92,9 +92,9 @@ function PersonInfo() {
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
                                 src={
-                                    require("../../../assets/images/undraw_Male_avatar_re_y880.png")
-                                }                    
-                                
+                                    require("../../../assets/images/undraw_Cat_re_5yi8.png")
+                                }
+
                             />
                         </Col>
                         <Col span={15}>
