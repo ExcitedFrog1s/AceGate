@@ -32,7 +32,7 @@ import Translate from "../pages/discover/translate";
 const default_router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing />
+        element: <Homepage />
     },
     {
         path: '/landing',

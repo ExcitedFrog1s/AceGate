@@ -15,14 +15,18 @@ function CheckList() {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const toast = useToast();
+    var token = localStorage.getItem("userToken")
     const getData = ()=>{
       axios({
         method: "post",
-        url:"https://mock.apifox.cn/m1/1955876-0-default/manage/unchecklist"
+        url:"manage/unchecklist",
+        headers: {
+          'token': token
+        }
       })
       .then(res => {
           console.log(res.data)
-          setData(res.data)
+          setData(res.data.data)
         }
       )
     }
@@ -125,16 +129,16 @@ function CheckList() {
               <Card title="认领者信息" style={{width:400}}>
                 <Form labelCol={{span:8}}>
                   <Form.Item label='申请者用户名'>
-                    <div>{props.A.AA_Uname}</div>
+                    <div>{props.A.uname}</div>
                   </Form.Item>
                   <Form.Item label='入驻申请类型'>
-                    {props.A.AAtype == 1 && <div>认领学者门户</div> || props.A.AAtype == 2 && <div>新建学者门户</div>}
+                    {props.A.aatype == 1 && <div>认领学者门户</div> || props.A.aatype == 2 && <div>新建学者门户</div>}
                   </Form.Item>
                   <Form.Item label='申请者联系方式'>
-                    <div>{props.A.AAemail}</div>
+                    <div>{props.A.aaemail}</div>
                   </Form.Item>
                   <Form.Item label='申请者个人简介'>
-                    <div>{props.A.AAintroduction}</div>
+                    <div>{props.A.aaintroduction}</div>
                   </Form.Item>
                 </Form>
               </Card>
@@ -143,19 +147,19 @@ function CheckList() {
               <Card title="学者信息" style={{width:400}}>
                 <Form labelCol={{span:8}}>
                   <Form.Item label='学者姓名'>
-                    <div>{props.A.AAname}</div>
+                    <div>{props.A.aaname}</div>
                   </Form.Item>
                   <Form.Item label='研究领域'>
-                    <div>{props.A.AAinterestedareas}</div>
+                    <div>{props.A.aainterestedareas}</div>
                   </Form.Item>
                   <Form.Item label='所属机构'>
-                    <div>{props.A.AAinstitution}</div>
+                    <div>{props.A.aainstitution}</div>
                   </Form.Item>
                   <Form.Item label='个人主页链接'>
-                    <a href={props.A.AAhomepage}>{props.A.AAhomepage}</a>
+                    <a href={props.A.aahomepage}>{props.A.aahomepage}</a>
                   </Form.Item>
-                  {props.A.AAtype == 1 && <Form.Item label='学者门户'>
-                    <a href={"/scholarPortal?RID="+props.A.AA_RID}>跳转学者门户</a>
+                  {props.A.aatype == 1 && <Form.Item label='学者门户'>
+                    <a href={"/scholarPortal?RID="+props.A.aa_RID}>跳转学者门户</a>
                   </Form.Item>}
                 </Form>
               </Card>
@@ -173,29 +177,44 @@ function CheckList() {
       const showModal = () => {
         setIsModalOpen(true);
       };
+      var token = localStorage.getItem("userToken")
       const handleOk = () => {
-        // let formData = new FormData;
-        // formData.append("accept", props.type);
-        // formData.append("opinion", content);
         axios({
           method: 'post',
-          url: "https://mock.apifox.cn/m1/1955876-0-default/manage/check", 
+          url: "/manage/check", 
           data: {
             accept: props.type,
             opinion: content,
-            AAID: props.AAID
+            AAID: props.AAid
+          },
+          headers: {
+            "Content-Type": "application/json",
+            'token': token
           }
         })
           .then(res => {
-            toast({
-              description: "已"+text+"该申请！",
-              status: 'success',
-              duration: 5000,
-              isClosable: true,
-            })
-            setContent("");
-            setIsModalOpen(false);
-            getData();
+            if(res.data.code == 200){
+              toast({
+                description: "已"+text+"该申请！",
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+              })
+              setContent("");
+              setIsModalOpen(false);
+              getData();
+            }
+            else{
+              toast({
+                description: res.data.message,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+              })
+              setContent("");
+              setIsModalOpen(false);
+              getData();
+            }
           })
       };
       const handleCancel = () => {
@@ -230,40 +249,40 @@ function CheckList() {
     const columns = [
       {
         title: '申请类型',
-        dataIndex: 'AAtype',
-        key: 'AAtype',
+        dataIndex: 'aatype',
+        key: 'aatype',
         render: (_, record)=>(
-          record.AAtype == 1 && <Tag color='purple'>认领</Tag> || record.AAtype == 2 && <Tag color='blue'>新建</Tag>
+          record.aatype == 1 && <Tag color='purple'>认领</Tag> || record.aatype == 2 && <Tag color='blue'>新建</Tag>
         )
       },
       {
         title: '申请者用户名',
-        dataIndex: 'AA_Uname',
-        key: 'AA_Uname',
-        ...getColumnSearchProps('AA_Uname'),
-        sorter: (a, b) => a.AA_Uname.localeCompare(b.AA_Uname),
+        dataIndex: 'uname',
+        key: 'uname',
+        ...getColumnSearchProps('uname'),
+        sorter: (a, b) => a.uname.localeCompare(b.uname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '学者姓名',
-        dataIndex: 'AAname',
-        key: 'AAname',
-        ...getColumnSearchProps('AAname'),
-        sorter: (a, b) => a.AAname.localeCompare(b.AAname),
+        dataIndex: 'aaname',
+        key: 'aaname',
+        ...getColumnSearchProps('aaname'),
+        sorter: (a, b) => a.aaname.localeCompare(b.aaname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '联系方式',
-        dataIndex: 'AAemail',
-        key: 'AAemail',
-        ...getColumnSearchProps('AAemail'),
+        dataIndex: 'aaemail',
+        key: 'aaemail',
+        ...getColumnSearchProps('aaemail'),
       },
       {
           title: '申请时间',
-          dataIndex: 'AAtime',
-          key: 'AAtime',
-          ...getColumnSearchProps('AAtime'),
-          sorter: (a, b) => a.AAtime.localeCompare(b.AAtime),
+          dataIndex: 'aalastUpdateTime',
+          key: 'aalastUpdateTime',
+          ...getColumnSearchProps('aalastUpdateTime'),
+          sorter: (a, b) => a.aalastUpdateTime.localeCompare(b.aalastUpdateTime),
         sortDirections: ['descend', 'ascend'],
       },
       {
@@ -272,8 +291,8 @@ function CheckList() {
         render: (_, record) => (
           <Space size="middle">
             <Detail A={record} />
-            <Dialogue type={1} AAID={record.AAID}></Dialogue>
-            <Dialogue type={2} AAID={record.AAID}></Dialogue>
+            <Dialogue type={1} AAID={record.aaid}></Dialogue>
+            <Dialogue type={2} AAID={record.aaid}></Dialogue>
           </Space>
         ),
       },
@@ -282,8 +301,15 @@ function CheckList() {
 
     return (
         <div>
-          <div className='count'>未审核申请共{data.length}条</div>
-          <Table dataSource={data} columns={columns} rowKey="AAID"
+          <Row>
+            <Col span={18}><div className='count'>未审核申请共{data.length}条</div></Col>
+            <Col span={6}>
+              <div className='img1'>
+                <img src={require("../../assets/check.png")}></img>
+              </div>
+            </Col>
+          </Row>
+          <Table dataSource={data} columns={columns} rowKey="aaid"
             pagination={{
                 pageSize: 8,
             }}

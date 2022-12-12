@@ -23,8 +23,8 @@ function DefaultSearchTimeRangeFilter(props) {
     const changeTime = (date, dateString) => {
         setStartTime(dateString[0]);
         setEndTime(dateString[1]);
-        props.setStartTime(dateString[0])
-        props.setEndTime(dateString[1])
+        props.setStartTime(dateString[0] + "-01")
+        props.setEndTime(dateString[1] + "-01")
     };
 
     return(
@@ -90,7 +90,7 @@ function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01")
-    const [endTime,setEndTime] = useState("2030-12")
+    const [endTime,setEndTime] = useState("2030-01-01")
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -127,8 +127,13 @@ function DefaultSearchFilter(props) {
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
                 props.setTotalNum(res.data.data.num)
-                props.setTotalPage(res.data.data.totalPage)
                 props.setCurrentPageIndex(1)
+                if(res.data.data.list.length === 0) {
+                    props.setResIsEmpty(true)
+                }
+                else {
+                    props.setResIsEmpty(false)
+                }
                 props.setLoading(false)
             })
     }

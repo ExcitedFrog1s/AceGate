@@ -21,12 +21,13 @@ import React, { useEffect, useState } from 'react';
 import {Link, useLocation, useNavigate} from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from "axios";
+import { clean } from 'semver';
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text} = Typography;
 
 
 async function loginUser(username, password) {
-    let ret = ""
+    let ret;
     let status = ""
     const formData = new FormData();
     formData.append("username", username);
@@ -43,7 +44,8 @@ async function loginUser(username, password) {
             ret = res.data.data
         })
     return {
-        token: ret,
+        type: ret.type,
+        token: ret.token,
         status: status
     };
 }
@@ -90,6 +92,7 @@ function LoginAndRegister () {
     const [hasSendCode, setHasSendCode] = useState(0);
     const [verifyCode, setVerifycode] = useState(0);
     const [countdown, setCountdown] = useState(0);
+    const [wait, setWait] = useState(60);
 
     const [currentIsLogin, setCurrentIsLogin] = useState(true);
 
@@ -101,44 +104,93 @@ function LoginAndRegister () {
         e.preventDefault();
         let data = await loginUser(username, password);
         console.log(data.token);
+        console.log(data.type);
         console.log(data.status);
         if (data.token !== "" && data.status === "登录成功") {
             localStorage.setItem("userToken", data.token);
+            localStorage.setItem("userType", data.type);
             localStorage.setItem("username", username);
+            if(data.type == "admin"){
+                setTimeout(function () {
+                    navigate("/manage/uncheck");
+                }, 1000);
+            }
+            else{
+                setTimeout(function () {
+                    navigate("/");
+                }, 1000);
+            }
             
-            setTimeout(function () {
-                navigate("/landing");
-            }, 1000);
         }else if(data.status === "登录成功") {
         } else if (data.status === "密码错误") {
         } else {
         }
     }
 
-
-
-    const sendVerificationEmail = (email) =>{
-
+    async function sendVerificationEmail(email){
+        let ret = 500;
         const formData = new FormData()
         formData.append("to", email)
-        axios.post('/sendEmail',formData)
+        await axios.post('/sendEmail',formData)
         .then(res => {
             console.log(res.data)
             if(res.data.code == 200){
+                ret = 200;
                 message.success('发送成功')
                 setCountdown(1);
                 setHasSendCode(1);
                 // 必须发送一次验证码
-                setInterval(() => setCountdown(0), 60000);
+                //setInterval(() => setCountdown(0), 60000);
+                // setWait(60);
+                // let siv = setInterval(() => {
+                //     console.log(wait)
+                //     if(wait == 0)
+                //     clearInterval(siv)
+                //     setWait(wait-1)
+                // }, 1000);
             }
-                
             else
                 message.error(res.data.message)
-            return res.data.code;
+            
         })
+        console.log(ret)
+        return ret;
     }
 
-    const handleSendVerifyEmail = () => {
+    // async function handleSendVerifyEmail(){
+    //     let siv = setInterval(() => {
+    //         if(wait == 0)
+    //         clearInterval(siv)
+    //         setWait(wait-1)
+    //     }, 1000);
+    //     if (!validateEmail(email)) {
+    //         toast({
+    //             title: '请填写合法的邮箱',
+    //             status: 'error',
+    //             position:'top',
+    //             duration: 9000,
+    //             isClosable: true,
+    //           })
+    //           return -1; 
+    //     }
+    //     if (countdown === 0) {
+    //         let result =  await sendVerificationEmail(email); 
+    //         if(result == 200){
+    //             // let siv = setInterval(() => {
+    //             //     if(wait == 0)
+    //             //     clearInterval(siv)
+    //             //     setWait(wait-1)
+    //             // }, 1000);
+    //     }
+    //     }
+    // }
+    async function handleSendVerifyEmail() {
+        // let siv = setInterval(() => {
+        //     if(wait == 0)
+        //     clearInterval(siv)
+        //     setWait(wait-1)
+        // }, 1000);
+
         if (!validateEmail(email)) {
             toast({
                 title: '请填写合法的邮箱',
@@ -150,7 +202,24 @@ function LoginAndRegister () {
               return -1; 
         }
         if (countdown === 0) {
-            let result =  sendVerificationEmail(email);
+            let result =  await sendVerificationEmail(email); 
+            console.log(result)
+            if(result == 200){
+                let second = wait;
+                const countDown = ()=> {
+                    if( second > 0){
+                        second--;
+                        setWait( second );
+                    }
+                    if( second == 0 ){
+                        second = 60;
+                        setWait( second );
+                        return;
+                    }
+                    setTimeout( countDown,1000 );
+                };
+                setTimeout( countDown,1000 );
+        }
         }
     }
 
@@ -165,9 +234,9 @@ function LoginAndRegister () {
               })
               return -1;
         }
-        if (password.length < 8 || password.length > 16) {
+        if (password.length < 8 ) {
             toast({
-                title: '请输入8-16位密码，密码中必须包含大小写字母、数字',
+                title: '密码太短，请输入8-16位密码，必须包含大小写字母、数字',
                 status: 'error',
                 position:'top',
                 duration: 9000,
@@ -175,11 +244,22 @@ function LoginAndRegister () {
               })
               return -1; 
         }
+        if (password.length < 8 || password.length > 16) {
+            toast({
+                title: '密码太长，请输入8-16位密码，必须包含大小写字母、数字',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+              })
+              return -1; 
+        }
+
         
-        var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
         if (!reg.test(password)) {
             toast({
-                title: '密码强度不够，需包含大小写字母、数字',
+                title: '密码需包含大小写字母、数字',
                 status: 'error',
                 position:'top',
                 duration: 9000,
@@ -377,22 +457,41 @@ function LoginAndRegister () {
                                             width: '55%',
                                         }}
                                     />
-                                    <Button
-                                        shape={"round"}
-                                        size="large"
-                                        style={{
-                                            width: '45%',
-                                            margin: 'auto',
-                                            textAlign: 'center',
-                                            marginTop: '10px',
-                                            marginBottom: '10px',
-                                            letterSpacing: '0',
-                                        }}
-                                        isDisabled={(countdown !== 0)}
-                                        onClick={handleSendVerifyEmail}
-                                    >
-                                        发送验证码
-                                    </Button>
+                                    
+                                    {
+                                         wait == 60?(
+                                            <Button
+                                            shape={"round"}
+                                            size="large"
+                                            style={{
+                                                width: '45%',
+                                                margin: 'auto',
+                                                textAlign: 'center',
+                                                marginTop: '10px',
+                                                marginBottom: '10px',
+                                                letterSpacing: '0',
+                                            }}
+                                            onClick={handleSendVerifyEmail}>
+                                                发送验证码
+                                            </Button>
+                                         ):(
+                                            <Button
+                                            shape={"round"}
+                                            size="large"
+                                            style={{
+                                                width: '45%',
+                                                margin: 'auto',
+                                                textAlign: 'center',
+                                                marginTop: '10px',
+                                                marginBottom: '10px',
+                                                letterSpacing: '0',
+                                            }}
+                                            disabled="true">
+                                                重新发送 {wait}秒
+                                            </Button>
+                                         )
+                                    }
+                                    
                                 </Form.Item>
                             </Form>
                             <Button
@@ -496,7 +595,7 @@ function LoginAndRegister () {
                             onClick={goToLogin}
                         >去登录</Button>
                     </div>
-                    <div class="con-box right">
+                    <div className="con-box right">
                         <h2>欢迎来到<span className="blueText">AceGate</span></h2>
                         <p>Your gate towards<span className="blueText"> academia</span>.</p>
                         <Image

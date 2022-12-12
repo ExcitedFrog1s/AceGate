@@ -15,29 +15,6 @@ import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
 function Sort(props) {
-    // const cmpMostRecent = (a,b) => {
-    //     if(a.Pdate > b.Pdata) {
-    //         return -1
-    //     }
-    //     else if(a.Pdate < b.Pdata) {
-    //         return 1
-    //     }
-    //     else {
-    //         return 0
-    //     }
-    // }
-    //
-    // const cmpMostCited = (a,b) => {
-    //     if(Number(a.Pcite) > Number(b.Pcite)) {
-    //         return -1
-    //     }
-    //     else if(Number(a.Pcite) < Number(b.Pcite)) {
-    //         return 1
-    //     }
-    //     else {
-    //         return 0
-    //     }
-    // }
     let location = useLocation()
     let params = new URLSearchParams(location.search)
 
@@ -54,7 +31,7 @@ function Sort(props) {
         console.log(data)
         let config = {
             method: 'post',
-            url: 'DefaultSearchResults',
+            url: '/DefaultSearchResults',
             data : data
         }
         props.setLoading(true)
@@ -99,13 +76,13 @@ function Sort(props) {
 
 
 function DefaultSearchResults(props) {
+    const [resIsEmpty,setResIsEmpty] = React.useState(false)
     const [infos,setInfos] = React.useState()
     const [filterInfos,setFilterInfos] = React.useState()
     const [recommendationInfos,setRecommendationInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [current_page_index,setCurrentPageIndex] = React.useState(1)
     const [sort_order, setSortOrder] = React.useState('default')
-    const [totalPage,setTotalPage] = React.useState()
     const [totalNum,setTotalNum] = React.useState()
     const [startTime,setStartTime] = React.useState('1900-01-01')
     const [endTime,setEndTime] = React.useState('2030-01-01')
@@ -151,7 +128,12 @@ function DefaultSearchResults(props) {
                 setRecommendationInfos(res.data.data.recommendation)
                 setLoading(false)
                 setTotalNum(res.data.data.num)
-                setTotalPage(res.data.data.totalPage)
+                if(res.data.data.list.length === 0) {
+                    setResIsEmpty(true)
+                }
+                else {
+                    setResIsEmpty(false)
+                }
                 console.log(res.data)
             })
     }
@@ -174,7 +156,6 @@ function DefaultSearchResults(props) {
         setLoading(true)
         axios(config)
             .then(res => {
-                console.log(res)
                 setInfos(res.data.data.list)
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
@@ -183,8 +164,13 @@ function DefaultSearchResults(props) {
                 })
                 setRecommendationInfos(res.data.data.recommendation)
                 setCurrentPageIndex(1)
-                setTotalPage(res.data.data.totalPage)
                 setTotalNum(res.data.data.num)
+                if(res.data.data.list.length === 0) {
+                    setResIsEmpty(true)
+                }
+                else {
+                    setResIsEmpty(false)
+                }
                 setLoading(false)
                 console.log(res.data)
             })
@@ -232,6 +218,7 @@ function DefaultSearchResults(props) {
             </Stack>
         )
     }
+
     return(
         <Box>
         <Header textColor={'black'} />
@@ -246,26 +233,29 @@ function DefaultSearchResults(props) {
                 setEndTime={setEndTime}
                 setFilterAuthor={setFilterAuthor}
                 setFilterPublictionType={setFilterPublocationType}
-                setTotalPage={setTotalNum}
                 setTotalNum={setTotalNum}
                 setSortOrder={setSortOrder}
+                setResIsEmpty={setResIsEmpty()}
                 filterInfos={filterInfos}
             />
             <Recommendation recommendation={recommendationInfos}/>
             <Box>
                 {/*排序*/}
-                <Sort
-                    sort_order={sort_order}
-                    infos={infos}
-                    setInfos={setInfos}
-                    setFilterInfos={setFilterInfos}
-                    setLoading={setLoading}
-                    setSortOrder={setSortOrder}
-                    startTime={startTime}
-                    endTime={endTime}
-                    filterAuthor={filterAuthor}
-                    filterPublicationType={filterPublicationType}
-                />
+                {
+                    !resIsEmpty &&
+                    <Sort
+                        sort_order={sort_order}
+                        infos={infos}
+                        setInfos={setInfos}
+                        setFilterInfos={setFilterInfos}
+                        setLoading={setLoading}
+                        setSortOrder={setSortOrder}
+                        startTime={startTime}
+                        endTime={endTime}
+                        filterAuthor={filterAuthor}
+                        filterPublicationType={filterPublicationType}
+                    />
+                }
                 <HStack float={'left'} ml={'30%'} mt={'-50'}>
                     <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
                     <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
@@ -282,13 +272,16 @@ function DefaultSearchResults(props) {
                     }
                 </Box>
                 {/*分页*/}
-                <Box width={'50%'} ml={'40%'} mt={'50px'}>
-                    <Pagination
-                        onChange={handleChange}
-                        total={totalNum}
-                        showSizeChanger={false}
-                        defaultCurrent={current_page_index}/>
-                </Box>
+                {
+                    !resIsEmpty &&
+                    <Box width={'50%'} ml={'40%'} mt={'50px'}>
+                        <Pagination
+                            onChange={handleChange}
+                            total={totalNum}
+                            showSizeChanger={false}
+                            defaultCurrent={current_page_index}/>
+                    </Box>
+                }
             </Box>
         </Box>
             </Box>

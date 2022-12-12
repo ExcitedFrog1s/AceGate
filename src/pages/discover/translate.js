@@ -79,20 +79,20 @@ function Translate(){
 
 
     return (
-        <Box>
-            <Header isLanding={false} textColor={'black'} />
-            <Box w={'80vw'} ml={'10vw'} mr={'10vw'} mt={'50px'}>
-                <Text fontSize={'28px'} textAlign={'center'}>
-                    翻译
-                </Text>
+        // <Box>
+        //     <Header isLanding={false} textColor={'black'} />
+        //     <Box w={'80vw'} ml={'10vw'} mr={'10vw'} mt={'50px'}>
+        //         <Text fontSize={'28px'} textAlign={'center'}>
+        //             翻译
+        //         </Text>
 
-                <Flex
-                    w={'80vw'}
-                    ml={'10vw'}
-                    mr={'10vw'}
-                    alignItems={'center'}
-                    justifyContent={'space-between'}
-                >
+        //         <Flex
+        //             w={'80vw'}
+        //             ml={'10vw'}
+        //             mr={'10vw'}
+        //             alignItems={'center'}
+        //             justifyContent={'space-between'}
+        //         >
                     <Box>
                         <Select
                             placeholder='请选择源语言'
@@ -122,12 +122,12 @@ function Translate(){
                         <Textarea placeholder={"翻译结果"}
                                   value={translatedText}/>
                     </Box>
-                    <Box>
+        //             <Box>
 
-                    </Box>
-                </Flex>
-            </Box>
-        </Box>
+        //             </Box>
+        //         </Flex>
+        //     </Box>
+        // </Box>
     )
 }
 

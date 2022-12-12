@@ -1,11 +1,12 @@
 import "antd/dist/antd.min.css";
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, } from 'antd';
+import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button,Image } from 'antd';
 import {ReadOutlined, HeartOutlined} from '@ant-design/icons';
 import { UserOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,  } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
+import default_avatar from "../../../assets/default_avatar.png";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -15,26 +16,29 @@ const { Title, Paragraph, Text } = Typography;
 function PersonInfo() {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
+    const token = localStorage.getItem("userToken");
+    const name = localStorage.getItem("username");
     // let RID = params.get('RID')
-    const [data, setData] = useState([]);
-
+    const [data, setData] = React.useState([]);
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo",
-            data: {
-                RID: params.get('RID'),
-            }
-        })
-            .then(res => {
+            url: "/personInfo",
+            headers: {
+                token: token
+            } 
+        }).then(res => {
+                    setData(res.data.data)
                     console.log(res.data)
-                    setData(res.data)
+                    localStorage.setItem("interest", res.data.data.uinterest);
+                    localStorage.setItem("field", res.data.data.ufield);
                 }
             )
     }
     useEffect(() => {
         getData();
-    }, [])
+        document.addEventListener('myEvent', getData)
+    },[])
 
     // hover style
     // homepage
@@ -88,7 +92,10 @@ function PersonInfo() {
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
-                                src="https://img1.baidu.com/it/u=3345281312,1299187552&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
+                                src={
+                                    default_avatar
+                                }                    
+                                
                             />
                         </Col>
                         <Col span={15}>
@@ -101,24 +108,36 @@ function PersonInfo() {
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
                                     }}
-                                >{data.Uname}</Title>
-                                <Paragraph>
+                                >{name}</Title>
+                                <Paragraph
+                                    style={{
+                                        fontSize: '20px',
+                                    }}
+                                >
                                     <Space>
                                         <MailOutlined />
                                     </Space>
-                                    <Text> {data?.Uemail}</Text>
+                                    <Text> {data.uemail}</Text>
                                 </Paragraph>
-                                <Paragraph>
+                                <Paragraph
+                                    style={{
+                                        fontSize: '20px',
+                                    }}
+                                >
                                     <Space>
                                         <ReadOutlined />
                                     </Space>
-                                    <Text> {optionValue2}</Text>
+                                    <Text> {data.ufield}</Text>
                                 </Paragraph>
-                                <Paragraph>
+                                <Paragraph
+                                    style={{
+                                        fontSize: '20px',
+                                    }}
+                                >
                                     <Space>
                                         <HeartOutlined />
                                     </Space>
-                                    <Text> {optionTest}</Text>
+                                    <Text> {data.uinterest}</Text>
                                 </Paragraph>
                             </Typography>
                         </Col>
