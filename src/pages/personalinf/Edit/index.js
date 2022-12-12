@@ -74,7 +74,6 @@ function Edit() {
             }
         })
             .then(res => {
-                    console.log(res.data)
                     setData(res.data)
                 }
             )
@@ -119,8 +118,6 @@ function Edit() {
             Ufield : Ufield,
           }
         }).then(response =>{
-          console.log(Uavatar);
-          console.log(imageUrl);
         });
       }
 
@@ -182,6 +179,8 @@ function Edit() {
     '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
     '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
     '盈利能力分析', '工程伦理']
+    const optionTest = `111\u00A0\u00A0222\u00A0\u00A0333`;
+    const optionTest2 = optionTest.split("\u00A0\u00A0");
     const options = [];
     const options2 = [];
     for (let i = 10; i < 26; i++) {
@@ -195,10 +194,10 @@ function Edit() {
     });
     }
     const handleChange2 = (value) => {
-        Ufield = [...value];
+        Ufield = value.join(`\u00A0\u00A0`);
     };
     const handleChange3 = (value) => {
-        Uinterest = [...value];
+        Uinterest = value.join(`\u00A0\u00A0`);
     };
     return (
         <Layout className="layout">
@@ -277,22 +276,9 @@ function Edit() {
                             </Upload>
                         </Form.Item>
                         <Form.Item
-                            name="Uname"
-                            label="用户名"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder={data.Uname}/>
-                        </Form.Item>
-                        <Form.Item
                              name="Ufield"
                              label="研究领域"
+                             initialValue={optionTest2}
                              style={{
                                 padding: '10px',
                             }}
@@ -301,7 +287,6 @@ function Edit() {
                                 mode="tags"
                                 size={size}
                                 placeholder="请选择你的研究领域"
-                                defaultValue={data.Ufield}
                                 onChange={handleChange2}
                                 style={{
                                 width: '100%',
@@ -312,6 +297,7 @@ function Edit() {
                         <Form.Item
                              name="Uinterest"
                              label="我的兴趣词"
+                             initialValue={optionTest2}
                              style={{
                                 padding: '10px',
                             }}
@@ -320,7 +306,6 @@ function Edit() {
                                 mode="tags"
                                 size={size}
                                 placeholder="请选择你的兴趣词"
-                                defaultValue={data.Uinterest}
                                 onChange={handleChange3}
                                 style={{
                                 width: '100%',

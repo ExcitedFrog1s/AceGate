@@ -40,6 +40,7 @@ const validateMessages = {
 
 function AccountEdit() {
     const [data, setData] = useState([]);
+    const token = localStorage.getItem("userToken");
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -50,7 +51,7 @@ function AccountEdit() {
             method: "post",
             url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo/accountedit",
             data: {
-                UID: params.get('UID'),
+                UID: params.get(token),
             }
         })
             .then(res => {
@@ -61,15 +62,13 @@ function AccountEdit() {
     }
 
     const [form] = Form.useForm();
-    const Uemail = Form.useWatch('Uemail', form);
     const password = Form.useWatch('password', form);
     const changeInfo = () =>{
         axios({
           method: 'POST',
           url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
           data:{
-            UID: params.get('UID'),
-            Uemail : Uemail,
+            UID: params.get(token),
             Upassword : password,
           }
         }).then(response =>{
@@ -170,8 +169,8 @@ function AccountEdit() {
                             name="password"
                             rules={[{
                                 pattern:
-                                    /^(?![^a-zA-Z]+$)(?!\\D+$).{8,16}$/,
-                                message: "8-16位字符，必须包括字母和数字",
+                                    /.{8,16}$/,
+                                message: "密码必须为8-16位字符",
                             }]}
                             style={{
                                 padding: '10px',

@@ -42,6 +42,7 @@ function PersonInfo() {
     '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
     '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
     '盈利能力分析', '工程伦理']
+    const optionTest = optionValue2.join(`\u00A0\u00A0`);
     optionValue2.map((value, index)=>{
         optionValue2[index] = `${value}\u00A0\u00A0\u00A0` ;
     })
@@ -117,7 +118,7 @@ function PersonInfo() {
                                     <Space>
                                         <HeartOutlined />
                                     </Space>
-                                    <Text> {optionValue2}</Text>
+                                    <Text> {optionTest}</Text>
                                 </Paragraph>
                             </Typography>
                         </Col>
