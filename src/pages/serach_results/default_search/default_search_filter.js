@@ -47,11 +47,13 @@ function DefaultSearchPublicationTypesFilter(props) {
                     <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
                     {
                         props.content.map((value, key) => {
-                            return(
-                                <Radio value={value.type} key={key}>
-                                    {value.type + "（" + value.num + "）"}
-                                </Radio>
-                            )
+                            if(value.num !== 0) {
+                                return (
+                                    <Radio value={value.type} key={key}>
+                                        {value.type + "（" + value.num + "）"}
+                                    </Radio>
+                                )
+                            }
                         })
                     }
                 </Stack>
@@ -69,11 +71,13 @@ function DefaultSearchAuthorsFilter(props) {
                     <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
                     {
                         props.content.map((value, key) => {
-                            return(
-                                <Radio value={value.uid} key={key}>
-                                    {value.name + "（" + value.num + "）"}
-                                </Radio>
-                            )
+                            if(value.num !== 0) {
+                                return (
+                                    <Radio value={value.uid} key={key}>
+                                        {value.name + "（" + value.num + "）"}
+                                    </Radio>
+                                )
+                            }
                         })
                     }
                 </Stack>
@@ -85,8 +89,8 @@ function DefaultSearchAuthorsFilter(props) {
 function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
-    const [startTime,setStartTime] = useState("1900")
-    const [endTime,setEndTime] = useState("2022")
+    const [startTime,setStartTime] = useState("1900-01")
+    const [endTime,setEndTime] = useState("2030-12")
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -94,26 +98,40 @@ function DefaultSearchFilter(props) {
     const filter = () => {
         let data = {}
         data.normalSearch = params.get('q')
-        data.filterAuthors = authors === '全部' ? '' : authors
-        data.filterPublicationTypes = publicationTypes === '全部' ? '' : publicationTypes
-        data.startTime = startTime === undefined ? '' : startTime
-        data.endTime = endTime === undefined ? '' : endTime
+        data.filterAuthors = authors === '全部' ? null : authors
+        data.filterPublicationTypes = publicationTypes === '全部' ? null : publicationTypes
+        data.startTime = startTime + "-01"
+        data.endTime = endTime + "-01"
+        data.sort = 'default'
+        data.page = 1
+        props.setStartTime(data.startTime)
+        props.setEndTime(data.endTime)
+        props.setFilterAuthor(data.filterAuthors)
+        props.setFilterPublictionType(data.filterPublicationTypes)
+        props.setSortOrder('default')
         console.log(data)
         let config = {
             method: 'post',
-            url: 'https://mock.apifox.cn/m1/1955876-0-default/AdvancedSearchResults',
+            url: '/DefaultSearchResults',
             data : data
         };
         props.setLoading(true)
         axios(config)
             .then(res => {
-                props.setInfos(res.data.results)
-                props.setFilterInfos(res.data.filterItems)
+                console.log(res.data.data)
+                props.setInfos(res.data.data.list)
+                props.setFilterInfos({
+                    publicationTypes: res.data.data.venue,
+                    authors: res.data.data.author,
+                    totalNumber: res.data.data.num
+                })
+                // props.setRecommendationInfos(res.data.data.recommendation)
+                props.setTotalNum(res.data.data.num)
+                props.setTotalPage(res.data.data.totalPage)
                 props.setCurrentPageIndex(1)
                 props.setLoading(false)
             })
     }
-    console.log(authors)
     return(
         <Box
             minHeight={'1000px'}

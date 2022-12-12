@@ -250,10 +250,14 @@ function ScholarDataList({props}) {
         </div>
     )
 }
+
 function Portal() {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    // let RID = params.get('RID')
+    var RID;
+    if(params.has('RID')){
+        RID = params.get('RID')
+    }
     const [data, setData] = useState([]);
 
     const getData = ()=>{
