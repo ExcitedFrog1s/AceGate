@@ -33,7 +33,7 @@ import Toolbox from "../pages/discover/toolbox";
 const default_router = createBrowserRouter([
     {
         path: '/',
-        element: <Landing />
+        element: <Homepage />
     },
     {
         path: '/landing',

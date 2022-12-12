@@ -1,8 +1,45 @@
-import { useEffect } from "react"
+import React, { useEffect } from "react"
 import "./homepage.css"
 import { Row, Col } from 'antd';
-import { Box, Text } from "@chakra-ui/react";
+import { Input, Text, Link } from "@chakra-ui/react";
 import Conferences from "./conferences";
+import Papers from "./paper";
+
+function Header1(){
+    const [input,setInput] = React.useState()
+    return (
+        <Row>
+                    <Col span={2}>
+                        <img src={require("../../assets/acegate_icon.png")} style={{height:80,width:80, marginRight:30}}></img>
+                    </Col>
+                    <Col span={19}>
+                        <Input
+                            style={{marginTop:20}}
+                            size='lg'
+                            backgroundColor='white'
+                            width='80%'
+                            placeholder="输入您想搜索的论文，学者等，敲下回车"
+                            onChange={(e) => {
+                                setInput(e.target.value)
+                            }}
+                            onKeyPress={(value) => {
+                                if(value.key === "Enter") {
+                                    window.open("/defaultSearch?q=" + input)
+                                }
+                            }}
+                        />
+                    </Col>
+                    <Col span={3}>
+                        <div style={{marginTop:30}}>
+                        <Link href={"/loginAndRegister"} className="login" >
+                            <Text fontWeight={'bold'} fontSize="20px">登录 / 注册</Text>
+                        </Link>
+                        </div>
+                    </Col>
+                </Row>
+    )
+}
+
 function Homepage(){
     useEffect(()=>{
         let bg = document.querySelector('#bg')
@@ -21,6 +58,7 @@ function Homepage(){
     }, [])
     return(
         <div className="homepage">
+            <Header1></Header1>
             <section>
                 <img
                     src={require("../../assets/bg.jpg")}
@@ -48,8 +86,22 @@ function Homepage(){
                 </div>
             </section> 
             <div className="recomand">
-                <Conferences></Conferences>  
-                
+                <Header1></Header1>
+                <Row style={{marginTop:30}}>
+                    <Text fontWeight={"extrabold"} color="#ffffff" fontSize="55px">热门推荐</Text>
+                </Row>
+                <Row style={{marginTop:30}}>
+                    <Col span={16}><Papers  title="热门文献"></Papers></Col>
+                    <Col span={8}><img src={require("../../assets/homepage3.png")} style={{marginTop:90}}></img></Col>
+                </Row>
+                <Row gutter={30} style={{marginTop:30}}>
+                    <Col span={8}><img src={require("../../assets/homepage1.png")} style={{marginTop:90}}></img></Col>
+                    <Col span={16}><Conferences url="/recommendJournals" title="热门期刊"></Conferences></Col>
+                </Row>
+                <Row gutter={30} style={{marginTop:30}}>
+                    <Col span={16}><Conferences url="/recommendConferences" title="热门会议"></Conferences> </Col>
+                    <Col span={8}><img src={require("../../assets/homepage2.png")} style={{marginTop:90}}></img></Col>
+                </Row>
             </div>
         </div>
     )

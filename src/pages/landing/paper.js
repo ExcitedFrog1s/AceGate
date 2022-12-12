@@ -14,13 +14,13 @@ function separator(numb) {
     return str.join(".");
 }
 
-function Conferences(props){
-    const [cname, setCname] = useState([])
+function Papers(props){
     const [data, setData] = useState([])
+    const [cname, setCname] = useState([])
     const getData = ()=>{
         axios({
           method: "get",
-          url: props.url,
+          url: '/recommendPapers',
         })
         .then(res => {
             console.log(res.data)
@@ -35,7 +35,7 @@ function Conferences(props){
     return (
         <Box boxShadow='xs' rounded='md'
             borderRadius='25px' border='2px' borderColor='gray.200'
-            className='box'>
+            className='pbox'>
                 <Row>
                     <ImFire className="chart-icon"></ImFire>
                     <Heading className="title">
@@ -47,12 +47,17 @@ function Conferences(props){
                     itemLayout="horizontal"
                     dataSource={data}
                     renderItem={(item) => (
-                    <List.Item className="listitem">
-                       <Link href={"/journal?VID=" + item.vID} isExternal>
-                            <Text as='em' fontWeight={'bold'} fontSize="18px" className="venueName">{item.vName}</Text>
+                    <List.Item >
+                        <div className="listitem">
+                        <Row>
+                       <Link href={"/paperDetails?PID=" + item.pID} isExternal>
+                            <Text fontWeight={'bold'} fontSize="18px" className="pName">{item.pName}</Text>
                        </Link>
-                       
-                       <Text fontSize="16px" fontWeight={'bold'}><FaQuoteLeft></FaQuoteLeft>{separator(item.vCite)}</Text>
+                       </Row>
+                       <Row>
+                       <Text as='em' fontSize="16px" fontWeight={'normal'}  className="PVname">{"from venue: " + item.pVName}</Text>
+                       </Row>
+                       </div>
                     </List.Item>
                     )}
                 />
@@ -60,4 +65,4 @@ function Conferences(props){
     )
 }
 
-export default Conferences
+export default Papers
