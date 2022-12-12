@@ -73,9 +73,9 @@ function Search(props) {
 
     const addItem = (index) => {
         dataList.splice(index+1, 0, {
-            category: '',
+            category: 'main',
             content: '',
-            type: '',
+            type: 1,
         });
         setDataList([...dataList]);
     };
@@ -373,7 +373,7 @@ function AdvancedSearch({}) {
                     bgGradient='linear(to-r, gray.100, gray.300)'>
                     <AccordionItem padding={'10px'}  >
                         <AccordionButton>
-                            <Box flex='1' textAlign='left'> 
+                            <Box flex='1' textAlign='left'>
                             <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
                                 <BreadcrumbItem >
                                     <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
@@ -398,7 +398,7 @@ function AdvancedSearch({}) {
                         </AccordionPanel>
                     </AccordionItem>
                 </Accordion>
-            
+
                 <AdvancedSearchResults/>
         </Box>
     )

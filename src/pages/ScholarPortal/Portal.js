@@ -1,5 +1,6 @@
 import "antd/dist/antd.min.css";
 import './portal.css';
+import default_avatar from '../../assets/default_avatar.png';
 import Chart from 'react-apexcharts'
 import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
 import {
@@ -16,7 +17,8 @@ import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import {Box, Heading} from "@chakra-ui/react";
-
+import {FaQuoteLeft} from "react-icons/fa";
+import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -26,25 +28,51 @@ const onChange = (key) => {
     console.log(key);
 };
 
-function ScholarPaperList({props}) {
+function ScholarPaperList(props) {
+    const [RpaperList, setRpaperList] = useState({});
+
+    useEffect(() =>{
+        setRpaperList(props.RpaperList)
+        // getData()
+    }, [props])
+    // console.log(props)
+    // console.log(RpaperList)
+    // console.log(RpaperList[1].pname)
+    function authors(list) {
+        var str = "";
+        for (let i = 0; i < (list.length-1); i++) {
+            str += list[i] + ', '
+        }
+        str += list[list.length-1]
+        // console.log(str)
+        return str;
+    }
+
     const columns = [
         {
             title: '',
-            dataIndex: 'Pname',
-            key: 'Pname',
-            width: '65%',
+            dataIndex: 'pname',
+            key: 'pname',
+            width: '74%',
+            sorter: (a, b) => a.pname.localeCompare(b.pname),
+            sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
                 <div>
                     <Typography>
                         <Row>
                             <Link
+                                onClick={() => window.open(record.dOI)}
                                 style={{
-                                    fontSize: '20px',
+                                    fontSize: '16px',
                                 }}
-                            >{record.Pname}</Link>
+                            >{record.pname}</Link>
                         </Row>
                         <Row>
-                            <Text>{record.Pauthor}</Text>
+                            <Text
+                                style={{
+                                    fontSize: '12px',
+                                }}
+                            >{authors(record.pauthorname)}</Text>
                         </Row>
                     </Typography>
                 </div>
@@ -52,21 +80,26 @@ function ScholarPaperList({props}) {
         },
         {
             title: '发表时间',
-            dataIndex: 'Pdate',
-            key: 'Pdate',
+            dataIndex: 'pdate',
+            key: 'pdate',
+            width: '13%',
             sorter: (a, b) => {
-                let aDate = new Date(a.Pdate).getTime();
-                let bDate = new Date(b.Pdate).getTime();
+                let aDate = new Date(a.pdate).getTime();
+                let bDate = new Date(b.pdate).getTime();
                 console.log("a",a);
                 return aDate - bDate;
             },
+            render: (_, record) => (
+                <Text>{new Date(record.pdate).getFullYear()+'-'+ new Date(record.pdate).getMonth()+'-'+new Date(record.pdate).getDay()}</Text>
+            ),
         },
         {
             title: '引用次数',
-            dataIndex: 'Pcite',
-            key: 'Pcite',
+            dataIndex: 'pcite',
+            key: 'pcite',
+            width: '13%',
             sorter: {
-                compare: (a, b) => a.Pcite - b.Pcite,
+                compare: (a, b) => a.pcite - b.pcite,
                 multiple: 1,
             },
         },
@@ -90,23 +123,18 @@ function ScholarPaperList({props}) {
                     border: 'none',
                 }}
             >
-                {/*<InfiniteScroll*/}
-                {/*    // dataLength={props.length}*/}
-                {/*    endMessage={<Divider plain></Divider>}*/}
-                {/*    scrollableTarget="scrollablePaperList"*/}
-                {/*>*/}
-                    <Table
-                        columns={columns}
-                        dataSource={props}
-                        pagination={false}
-                    />
-                {/*</InfiniteScroll>*/}
+                <Table
+                    columns={columns}
+                    dataSource={props.RpaperList}
+                    pagination={false}
+                    rowKey="pid"
+                />
             </div>
         </div>
     );
 }
 
-function PaperAmount(props) {
+function DataChart(props) {
     React.useEffect(() => {
         setSeries([{data:props.count}])
     },[props])
@@ -148,70 +176,31 @@ function PaperAmount(props) {
              borderRadius='25px' border='2px' borderColor='gray.200'
              className='chart'>
             <Row>
-                <BarChartOutlined className='chart-icon'  />
-                <Heading className='chart-head'>论文数量</Heading>
-            </Row>
-            <Chart options={options} series={series} type="bar"
-                   style={{
-                       marginTop:'0px',
-                   }}
-            />
-        </Box>
-    )
-}
+                {props.icon}
 
-function CitationAmount(props) {
-    React.useEffect(() => {
-        setSeries([{data:props.count}])
-    },[props])
-    const [options, setOptions] = React.useState(
-        {
-            chart: {
-                type: 'bar',
-            },
-            xaxis: {
-                categories: [2017,2018,2019,2020,2021]
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: '40%',
-                    borderRadius: 6
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    gradientToColors: ['#1b3bbb'],
-                    opacityFrom: 0.96,
-                    opacityTo: 0.2,
-                    stops:[0,100]
-                }
-            },
-        }
-    )
-    const [series, setSeries] = React.useState(
-        [{
-            data: props.count
-        }]
-    );
-    return(
-        <Box boxShadow='xs' rounded='md'
-             borderRadius='25px' border='2px' borderColor='gray.200'
-             className='chart'>
-            <Row>
-                <BarChartOutlined className='chart-icon'  />
-                <Heading className='chart-head'>被引数量</Heading>
+                <Heading className='chart-head'>{props.title}</Heading>
             </Row>
             <Chart options={options} series={series} type="bar" style={{marginTop:'0px'}}/>
         </Box>
     )
 }
 
-function ScholarDataList({props}) {
+function ScholarDataList(props) {
+    const [workscount, setWorkscount] = useState();
+    const [citescount, setCitescount] = useState();
+    const [worksyear, setWorksyear] = useState([]);
+    const [citesyear, setCitesyear] = useState([]);
+
+    useEffect(() =>{
+        setWorkscount(props.workscount);
+        setCitescount(props.citescount);
+        setWorksyear(props.worksyear);
+        setCitesyear(props.citesyear);
+    }, [props])
+    console.log(workscount)
+    console.log(citescount)
+    console.log(worksyear)
+    console.log(citesyear)
     return (
         <div
             style={{
@@ -230,53 +219,136 @@ function ScholarDataList({props}) {
                     border: 'none',
                 }}
             >
-                <div
+                <Row>
+                    <Col span={12}>
+                        <DataChart
+                            count={worksyear}
+                            title="近五年论文数量"
+                            icon={<IoNewspaperSharp className='chart-icon' />}
+                        ></DataChart>
+                    </Col>
+                    <Col span={12}>
+                        <Typography
+                            style={{
+                                padding: '300px 0 0 16px',
+                            }}
+                        >
+                            <Text
+                                className={'dark-text'}
+                                style={{
+                                    margin: '200px 0 0 30px',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                发表总论文数为
+                            </Text>
+                            <Text
+                                style={{
+                                    margin: '200px 0 0 20px',
+                                    color: '#728fea',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                {workscount}
+                            </Text>
+                        </Typography>
+                    </Col>
+                </Row>
+                <Row
                     style={{
-                        width: '60%',
-                        margin: 'auto',
+                        marginBottom: '30px',
                     }}
                 >
-                    <PaperAmount count={props.Vworksyear}></PaperAmount>
-                </div>
-                <div
-                    style={{
-                        width: '60%',
-                        margin: 'auto',
-                    }}
-                >
-                    <CitationAmount count={props.Vcitesyear}></CitationAmount>
-                </div>
+                    <Col span={12}>
+                        <Typography
+                            style={{
+                                padding: '300px 0 0 0px',
+                            }}
+                        >
+                            <Text
+                                className={'dark-text'}
+                                style={{
+                                    margin: '200px 0 0 10px',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                总被引用量为
+                            </Text>
+                            <Text
+                                style={{
+                                    margin: '200px 0 0 20px',
+                                    color: '#728fea',
+                                    fontSize: '36px',
+                                    fontWeight: 'bold',
+                                    letterSpacing: '3px',
+                                }}
+                            >
+                                {citescount}
+                            </Text>
+                        </Typography>
+                    </Col>
+                    <Col span={12}>
+                        <DataChart
+                            count={citesyear}
+                            title="近五年被引数量"
+                            icon={<FaQuoteLeft className='chart-icon' />}
+                        ></DataChart>
+                    </Col>
+                </Row>
+
             </div>
         </div>
     )
 }
 
 function Portal() {
+    const [data, setData] = useState({});
+
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     var RID;
     if(params.has('RID')){
         RID = params.get('RID')
     }
-    const [data, setData] = useState([]);
+    console.log('RID:' + RID)
 
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/scholarPortal",
+            url: "/scholarPortal",
             data: {
-                RID: params.get('RID'),
+                RID: RID,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
-            .then(res => {
-                    console.log(res.data)
-                    setData(res.data)
-                }
-            )
+        .then(res => {
+            setData(res.data.data)
+            console.log(res.data.data)
+        })
     }
     useEffect(() => {
         getData();
     }, [])
+
+    const institute_name = (institute) => {
+        var name = institute.split('|')[0]
+        return name
+    }
+
+    const reformCoauthor = (coauthors) => {
+        for (var i = 0; i < coauthors.length; i++) {
+            coauthors[i].institute = institute_name(coauthors[i].institute);
+        }
+        return coauthors
+    }
 
     // hover style
     // homepage
@@ -291,17 +363,18 @@ function Portal() {
         color: '#1890ff',
         textDecoration: homepageIsHover ? 'underline' : 'none'
     }
-    // area
-    const [areaIsHover, setAreaIsHover] = useState(false)
-    const handleMouseEnterArea = () => {
-        setAreaIsHover(true)
+
+    // institute
+    const [instituteIsHover, setInstituteIsHover] = useState(false)
+    const handleMouseEnterInstitute = () => {
+        setInstituteIsHover(true)
     }
-    const handleMouseLeaveArea = () => {
-        setAreaIsHover(false);
+    const handleMouseLeaveInstitute = () => {
+        setInstituteIsHover(false);
     }
-    const areaStyle = {
+    const instituteStyle = {
         color: '#1890ff',
-        textDecoration: areaIsHover ? 'underline' : 'none'
+        textDecoration: instituteIsHover ? 'underline' : 'none'
     }
 
     return (
@@ -344,7 +417,7 @@ function Portal() {
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)'
                                 }}
-                                src={data?.Ravatar}
+                                src={default_avatar}
                             />
                         </Col>
                         <Col span={15}>
@@ -357,22 +430,32 @@ function Portal() {
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
                                     }}
-                                >{data.Rname}</Title>
+                                >
+                                    {data.rname}
+                                </Title>
                                 <Paragraph>
                                     <Space>
                                         <HomeOutlined />
                                     </Space>
-                                    <Text> {data.Rinstitute} </Text>
-                                    {data.RpersonalPage &&
+                                    <Link
+                                        component={Typography.Link}
+                                        style={instituteStyle}
+                                        onMouseEnter={handleMouseEnterInstitute}
+                                        onMouseLeave={handleMouseLeaveInstitute}
+                                        to={"/institute?IID="+data.r_IID}
+                                    > {data.rinstitute} </Link>
+                                    {data.rpersonalPage != "none" &&
                                         <Space>
                                             <Text>-</Text>
                                             <Link
-                                            to="/scholarPortal"
                                             component={Typography.Link}
                                             style={homepageStyle}
                                             onMouseEnter={handleMouseEnterHomepage}
                                             onMouseLeave={handleMouseLeaveHomepage}
-                                            >{data.RpersonalPage}</Link>
+                                            onClick={() => window.open(data.rpersonalPage)}
+                                            >
+                                                个人主页
+                                            </Link>
                                         </Space>
                                     }
                                 </Paragraph>
@@ -380,33 +463,32 @@ function Portal() {
                                     <Space>
                                         <BulbOutlined />
                                     </Space>
-                                    <Link
-                                        to="/scholarPortal"
-                                        component={Typography.Link}
-                                        style={areaStyle}
-                                        onMouseEnter={handleMouseEnterArea}
-                                        onMouseLeave={handleMouseLeaveArea}
-                                    > {data?.Rconcepts}</Link>
+                                    <Text> {data.rcustomconcepts}</Text>
                                 </Paragraph>
-                                <Paragraph>
-                                    <Space>
-                                        <MailOutlined />
-                                    </Space>
-                                    <Text> {data?.Rcontact}</Text>
-                                </Paragraph>
-                                <Paragraph>
-                                    <Space>
-                                        <SolutionOutlined />
-                                    </Space>
-                                    <Text> {data?.Rgateinfo}</Text>
-                                </Paragraph>
+                                {data.rcontact != "none" &&
+                                    <Paragraph>
+                                        <Space>
+                                            <MailOutlined />
+                                        </Space>
+                                        <Text> {data.rcontact}</Text>
+                                    </Paragraph>
+                                }
+                                {data.rgateinfo != "none" &&
+                                    <Paragraph>
+                                        <Space>
+                                            <SolutionOutlined/>
+                                        </Space>
+                                        <Text> {data.rgateinfo}</Text>
+                                    </Paragraph>
+                                }
                             </Typography>
                         </Col>
                         <Col span={4}>
-                            {data.Rapplied === true &&
+                            {data.flag === true &&
                                 <Link
                                     to={{
-                                        pathname: '/editPortal',
+                                        pathname: '/editPortal/',
+                                        search: '?RID=' + RID,
                                     }}
                                 >
                                     <Button
@@ -454,12 +536,17 @@ function Portal() {
                                 {
                                     label: `发表文献`,
                                     key: '1',
-                                    children: <ScholarPaperList props={data.RpaperList}/>,
+                                    children: <ScholarPaperList RpaperList={data.RpaperList}/>,
                                 },
                                 {
                                     label: `数据分析`,
                                     key: '2',
-                                    children: <ScholarDataList props={data}/>,
+                                    children: <ScholarDataList
+                                                workscount={data.rworkscount}
+                                                worksyear={data.rworksyear}
+                                                citescount={data.rcitescount}
+                                                citesyear={data.rcitesyear}
+                                            />,
                                 },
                             ]}
                         />
@@ -482,6 +569,7 @@ function Portal() {
                     >
                         <Typography>
                             <Title level={4}
+                                   className={'dark-text'}
                                 style={{
                                     padding: '24px 24px 16px 24px',
                                 }}
@@ -497,51 +585,30 @@ function Portal() {
                                     border: 'none',
                                 }}
                             >
-                                {/*<InfiniteScroll*/}
-                                {/*    dataLength={data.RcoauthorList.length}*/}
-                                {/*    loader={*/}
-                                {/*        <Skeleton*/}
-                                {/*            avatar*/}
-                                {/*            paragraph={{*/}
-                                {/*                rows: 1,*/}
-                                {/*            }}*/}
-                                {/*            active*/}
-                                {/*        />*/}
-                                {/*    }*/}
-                                {/*    endMessage={<Divider plain></Divider>}*/}
-                                {/*    scrollableTarget="scrollableDiv"*/}
-                                {/*>*/}
+                                {data.RcoauthorList &&
                                     <List
-                                        dataSource={data.RcoauthorList}
+                                        dataSource={reformCoauthor(data.RcoauthorList)}
                                         renderItem={(item) => (
                                             <List.Item
-                                                key={item.Rinstitute}
+                                                key={item.name}
                                                 style={{
                                                     padding: '10px 0 10px 0',
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    avatar={<Avatar src={item.Ravatar.large} />}
-                                                    title={<a href="http://localhost:3000/scholarPortal">{item.Rname}</a>}
-                                                    description={item.Rinstitute}
+                                                    title={item.name}
+                                                    description={item.institute}
                                                 />
                                             </List.Item>
                                         )}
                                     />
-                                {/*</InfiniteScroll>*/}
+                                }
+
                             </div>
                         </Typography>
                     </div>
                 </Sider>
             </Layout>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                    backgroundColor: 'rgb(230,235,247)',
-                }}
-            >
-                AceGate ©2022 Beihang University
-            </Footer>
         </Layout>
     );
 }

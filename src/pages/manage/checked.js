@@ -14,16 +14,20 @@ function List() {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+    var token = localStorage.getItem("userToken")
     const toast = useToast();
     useEffect(() => {
       const getData = ()=>{
         axios({
           method: "post",
-          url:"https://mock.apifox.cn/m1/1955876-0-default/manage/checkedlist"
+          url:"/manage/checkedlist",
+          headers: {
+            'token': token
+          }
         })
         .then(res => {
             console.log(res.data)
-            setData(res.data)
+            setData(res.data.data)
           }
         )
       }
@@ -125,18 +129,18 @@ function List() {
               <Card title="认领者信息" style={{width:400}}>
                 <Form labelCol={{span:8}}>
                   <Form.Item label='申请者用户名'>
-                    <div>{props.A.AA_Uname}</div>
+                    <div>{props.A.uname}</div>
                   </Form.Item>
                   <Form.Item label='入驻申请类型'>
-                    {props.A.AAtype == 1 && <div>认领学者门户</div> || props.A.AAtype == 2 && <div>新建学者门户</div>}
+                    {props.A.aatype == 1 && <div>认领学者门户</div> || props.A.aatype == 2 && <div>新建学者门户</div>}
                   </Form.Item>
                   <Form.Item label='申请者联系方式'>
                     <div>{props.A.AAemail}</div>
                   </Form.Item>
                   <Form.Item label='申请者个人简介'>
-                    <div>{props.A.AAintroduction}</div>
+                    <div>{props.A.aaintroduction}</div>
                   </Form.Item>
-                  {props.A.AAtype == 1 && <Form.Item label='学者门户'>
+                  {props.A.aatype == 1 && <Form.Item label='学者门户'>
                     <a href={"/scholarPortal?RID="+props.A.AA_RID}>跳转学者门户</a>
                   </Form.Item>}
                 </Form>
@@ -146,16 +150,16 @@ function List() {
               <Card title="学者信息" style={{width:400}}>
                 <Form labelCol={{span:8}}>
                   <Form.Item label='学者姓名'>
-                    <div>{props.A.AAname}</div>
+                    <div>{props.A.aaname}</div>
                   </Form.Item>
                   <Form.Item label='研究领域'>
-                    <div>{props.A.AAinterestedareas}</div>
+                    <div>{props.A.aainterestedareas}</div>
                   </Form.Item>
                   <Form.Item label='所属机构'>
-                    <div>{props.A.AAinstitution}</div>
+                    <div>{props.A.aainstitution}</div>
                   </Form.Item>
                   <Form.Item label='个人主页链接'>
-                    <div>{props.A.AAhomepage}</div>
+                    <div>{props.A.aahomepage}</div>
                   </Form.Item>
                 </Form>
               </Card>
@@ -165,10 +169,10 @@ function List() {
               <Card title="审核结果" style={{width:850}}>
                 <Form>
                   <Form.Item label="结果">
-                    {props.A.AAccept == 1 && <Tag color='green'>通过</Tag> || props.A.AAccept == 2 && <Tag color='red'>拒绝</Tag>}
+                    {props.A.aaccept == 1 && <Tag color='green'>通过</Tag> || props.A.aaccept == 2 && <Tag color='red'>拒绝</Tag>}
                   </Form.Item>
                   <Form.Item label="说明">
-                    {props.A.AOpinion}
+                    {props.A.aopinion}
                   </Form.Item>
                 </Form>
               </Card>
@@ -182,26 +186,26 @@ function List() {
     const columns = [
       {
         title: '申请者用户名',
-        dataIndex: 'AA_Uname',
-        key: 'AA_Uname',
-        ...getColumnSearchProps('AA_Uname'),
-        sorter: (a, b) => a.AA_Uname.localeCompare(b.AA_Uname),
+        dataIndex: 'uname',
+        key: 'uname',
+        ...getColumnSearchProps('uname'),
+        sorter: (a, b) => a.uname.localeCompare(b.uname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '学者姓名',
-        dataIndex: 'AAname',
-        key: 'AAname',
-        ...getColumnSearchProps('AAname'),
-        sorter: (a, b) => a.AAname.localeCompare(b.AAname),
+        dataIndex: 'aaname',
+        key: 'aaname',
+        ...getColumnSearchProps('aaname'),
+        sorter: (a, b) => a.aaname.localeCompare(b.aaname),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '申请类型',
-        dataIndex: 'AAtype',
-        key: 'AAtype',
+        dataIndex: 'aatype',
+        key: 'aatype',
         render: (_, record)=>(
-          record.AAtype == 1 && <Tag color='purple'>认领</Tag> || record.AAtype == 2 && <Tag color='blue'>新建</Tag>
+          record.aatype == 1 && <Tag color='purple'>认领</Tag> || record.aatype == 2 && <Tag color='blue'>新建</Tag>
         )
       },
       {
@@ -212,18 +216,18 @@ function List() {
       },
       {
           title: '审核时间',
-          dataIndex: 'AAtime',
-          key: 'AAtime',
-          ...getColumnSearchProps('AAtime'),
-          sorter: (a, b) => a.AAtime.localeCompare(b.AAtime),
+          dataIndex: 'aalastUpdateTime',
+          key: 'aalastUpdateTime',
+          ...getColumnSearchProps('aalastUpdateTime'),
+          sorter: (a, b) => a.aalastUpdateTime.localeCompare(b.aalastUpdateTime),
         sortDirections: ['descend', 'ascend'],
       },
       {
         title: '审核结果',
-        dataIndex: 'AAccept',
-        key: 'AAccept',
+        dataIndex: 'aaccept',
+        key: 'aaccept',
         render: (_, record)=>(
-          record.AAccept == 1 && <Tag color='green'>通过</Tag> || record.AAccept == 2 && <Tag color='red'>拒绝</Tag>
+          record.aaccept == 1 && <Tag color='green'>通过</Tag> || record.aaccept == 2 && <Tag color='red'>拒绝</Tag>
         )
       },
       {
@@ -238,8 +242,15 @@ function List() {
 
     return (
         <div>
-          <div className='count'>已审核申请共{data.length}条</div>
-          <Table dataSource={data} columns={columns} rowKey="AAID"
+          <Row>
+            <Col span={18}><div className='count'>已审核申请共{data.length}条</div></Col>
+            <Col span={6}>
+              <div className='img1'>
+                <img src={require("../../assets/check.png")}></img>
+              </div>
+            </Col>
+          </Row>
+          <Table dataSource={data} columns={columns} rowKey="aaid"
             pagination={{
                 pageSize: 8,
             }}

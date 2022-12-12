@@ -128,6 +128,9 @@ function ApplyPortal() {
                 Rconcepts: Rconcepts,
                 RpersonalPage: RpersonalPage,
                 Rgateinfo: Rgateinfo,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
             .then(res => {
