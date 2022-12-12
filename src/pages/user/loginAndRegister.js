@@ -110,10 +110,17 @@ function LoginAndRegister () {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("userType", data.type);
             localStorage.setItem("username", username);
+            if(data.type == "admin"){
+                setTimeout(function () {
+                    navigate("/manage/uncheck");
+                }, 1000);
+            }
+            else{
+                setTimeout(function () {
+                    navigate("/");
+                }, 1000);
+            }
             
-            setTimeout(function () {
-                navigate("/");
-            }, 1000);
         }else if(data.status === "登录成功") {
         } else if (data.status === "密码错误") {
         } else {

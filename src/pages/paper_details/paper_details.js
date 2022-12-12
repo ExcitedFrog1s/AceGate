@@ -51,7 +51,7 @@ function PaperDetails() {
         const formData = new FormData()
         formData.append('PID', PID)
         // console.log(formData)
-        axios.post("http://localhost:8083/paper/view", formData)
+        axios.post("paper/view", formData)
             .then(function (res){
                 setInfos(res.data)
                 setLoading(false)
