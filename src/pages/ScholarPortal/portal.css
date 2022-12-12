@@ -1,8 +1,8 @@
 .portal .chart{
-    margin:auto;
-    height: 360px;
-    margin-top: 50px;
+    height: 90%;
+    margin-top: 30px;
     padding: 40px 20px 30px 10px;
+    box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.1);
 }
 
 .portal .chart-icon {
@@ -21,4 +21,8 @@
 
 .portal .apexcharts-menu-item {
     width: 105px;
+}
+
+.dark-text {
+    color: #4A5568;
 }
