@@ -1,10 +1,10 @@
 .journal .title{
     margin:auto;
     height: 400px;
-    width: 870px;
+    width: 760px;
     margin-top: 50px;
     margin-left: 60px;
-    padding: 70px;
+    padding: 70px 40px 40px 20px;
 }
 
 .journal .link{
@@ -21,11 +21,12 @@
 .journal .index{
     margin:auto;
     margin-top: 60px;
-    margin-left: 100px;
+    margin-left: 20px;
 }
 
 .journal .index-data{
     text-align: center;
+    margin-top: 20px;
 }
 
 .journal .index-name{
@@ -38,7 +39,7 @@
 .journal .keywords{
     margin:auto;
     height: 400px;
-    width: 530px;
+    width: 480px;
     margin-top: 50px;
     margin-left: 20px;
     padding: 30px;
@@ -59,20 +60,21 @@
 
 .journal .chart{
     margin:auto;
-    height: 380px;
+    width: 310px;
+    height: 360px;
     margin-top: 50px;
     padding: 40px 20px 30px 10px;
 }
 
 .journal .chart-icon{
-    font-size: 28px;
+    font-size: 25px;
     color: #422afb !important;
     margin-top: 3px;
     margin-left: 15px;
 }
 
 .journal .chart-head{
-    font-size: 22px !important;
+    font-size: 20px !important;
     margin-left: 10px;
     margin-bottom: 10px;
     letter-spacing:0.7mm;
@@ -84,10 +86,10 @@
 
 .journal .list{
     margin:auto;
-    width: 1470px;
+    width: 95%;
     margin-top: 50px;
-    margin-left: 60px;
-    padding: 50px;
+    margin-left: 50px;
+    padding: 40px;
 }
 
 .journal .institutionList{
@@ -96,12 +98,12 @@
 
 .journal .institutionList .ant-table-thead>tr>th {
     color: #A0AEC0;
-    font-weight: 800;
-    font-size: 17px;
+    font-weight: 700;
+    font-size: 15px;
 }
 
 .journal .institutionList .ant-table-tbody>tr>td {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 550;
 }
 
@@ -111,8 +113,8 @@
 
 .journal .institution-Title{
     margin-left: 20px;
-    margin-top: 3px;
+    margin-top: 1px;
     letter-spacing: 0.7mm;
     font-weight: 600;
-    font-size: 24px;
+    font-size: 22px;
 }

@@ -14,15 +14,15 @@
 
 /*publish time*/
 .site-card-border-less-wrapper .time{
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 550;
-    margin-left:75px;
+    margin-left:50px;
     margin-top:5px;
 }
 .site-card-border-less-wrapper .datePicker{
-    width: 615px;
-    height: 40px;
-    border-radius: 8px;
+    width: 465px;
+    height: 34px;
+    border-radius: 3px;
     background: white;
     border: 1.5px #a0aec051 solid;
 }
@@ -39,7 +39,7 @@
     margin:auto;
     overflow: auto;
     height: 350px;
-    width: 420px;
+    width: 360px;
     margin-top: 10px;
     padding: 30px 30px 50px 30px;
 }
@@ -58,10 +58,10 @@
 
 
 /* search_button */
-.css-730w10{
+.css-10fcgzw{
  background: #3652ba !important;
 }
-.css-730w10:hover{
+.css-10fcgzw:hover{
     background: #3653bab3 !important;
 }
 .css-yw8y58{
