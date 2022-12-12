@@ -10,11 +10,12 @@ import {
 } from 'antd';
 import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
+import {DeviceEventEmitter} from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import {Select } from 'antd';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Footer} = Layout;
 
 
 const getBase64 = (img, callback) => {
@@ -23,17 +24,6 @@ const getBase64 = (img, callback) => {
     reader.readAsDataURL(img);
 };
 
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('请上传JPG/PNG格式的文件!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('图片必须小于2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-};
 
 const layout = {
     labelCol: {
@@ -60,18 +50,21 @@ function Edit() {
     const [data, setData] = useState([]);
     const [imageUrl, setImageUrl] = useState();
     const [size] = useState('middle');
+    const interest = localStorage.getItem("interest");
+    const field = localStorage.getItem("field");
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
+    const token = localStorage.getItem("userToken");
     // let RID = params.get('RID')
 
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/personInfo",
-            data: {
-                UID: params.get('UID'),
-            }
+            url: "/personInfo",
+            headers: {
+                token: token
+            } 
         })
             .then(res => {
                     setData(res.data)
@@ -80,10 +73,8 @@ function Edit() {
     }
 
     const [form] = Form.useForm();
-    const Uavatar = Form.useWatch('Uavatar', form);
-    const Uname = Form.useWatch('Uname', form);
-    let Uinterest = [];
-    let Ufield = [];
+    const [Uinterest,setUinterest] = React.useState() 
+    const [Ufield,setUfield] = React.useState() 
     // const pushData = ()=>{
     //     axios({
     //         method: "post",
@@ -109,20 +100,33 @@ function Edit() {
     const changeInfo = () =>{
         axios({
           method: 'POST',
-          url: 'https://mock.apifox.cn/m1/1955876-0-default/personInfo/edit',
+          url: '/personInfo/edit',
+          headers: {
+            token: token
+            },
           data:{
-            UID : params.get('UID'),
-            Uavatar : Uavatar,
-            Uname : Uname,
-            Uinterest: Uinterest,
-            Ufield : Ufield,
+          Uinterest: Uinterest,
+          Ufield : Ufield,
           }
         }).then(response =>{
+            console.log('information');
+            console.log(Uinterest);
+            console.log(response.data)
         });
+        document.dispatchEvent(new CustomEvent('myEvent', {
+            detail: {
+               log: "i'm zach"
+            }
+          }))
+  
       }
 
     useEffect(() => {
         getData();
+        setUfield(field);
+        setUinterest(interest);
+        localStorage.setItem("interest", '');
+        localStorage.setItem("field", '');
     }, [])
 
     const handleChange = (info) => {
@@ -138,18 +142,6 @@ function Edit() {
             });
         }
     };
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
 
     const onFinish = (values) => {
         
@@ -179,8 +171,14 @@ function Edit() {
     '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
     '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
     '盈利能力分析', '工程伦理']
-    const optionTest = `111\u00A0\u00A0222\u00A0\u00A0333`;
-    const optionTest2 = optionTest.split("\u00A0\u00A0");
+    let interestoption = [];
+    let fieldoption = [];
+    if (interest.length > 0){
+        interestoption = interest.split("\u00A0\u00A0");
+    }
+    if (field.length > 0){
+        fieldoption  = field.split("\u00A0\u00A0");
+    }
     const options = [];
     const options2 = [];
     for (let i = 10; i < 26; i++) {
@@ -194,10 +192,12 @@ function Edit() {
     });
     }
     const handleChange2 = (value) => {
-        Ufield = value.join(`\u00A0\u00A0`);
+        setUfield(value.join(`\u00A0\u00A0`))
+        localStorage.setItem("interest", value.join(`\u00A0\u00A0`));
     };
     const handleChange3 = (value) => {
-        Uinterest = value.join(`\u00A0\u00A0`);
+       setUinterest(value.join(`\u00A0\u00A0`)) 
+        localStorage.setItem("field", value.join(`\u00A0\u00A0`));
     };
     return (
         <Layout className="layout">
@@ -242,45 +242,12 @@ function Edit() {
                         }}
                     >
                         <Form.Item
-                            name="Uavatar"
-                            label="头像"
-                            rules={[
-                                {
-                                    required: false,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Upload
-                                name="avatar"
-                                listType="picture-card"
-                                className="avatar-uploader"
-                                showUploadList={false}
-                                action="https://mock.apifox.cn/m1/1955876-0-default/personInfo/account"
-                                beforeUpload={beforeUpload}
-                                onChange={handleChange}
-                            >
-                                {imageUrl ? (
-                                    <img
-                                        src={imageUrl}
-                                        alt="avatar"
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                    />
-                                ) : (
-                                    uploadButton
-                                )}
-                            </Upload>
-                        </Form.Item>
-                        <Form.Item
                              name="Ufield"
                              label="研究领域"
-                             initialValue={optionTest2}
+                             initialValue={fieldoption}
                              style={{
                                 padding: '10px',
+                                margin: '0 0 57px 0'
                             }}
                         >
                             <Select
@@ -297,7 +264,7 @@ function Edit() {
                         <Form.Item
                              name="Uinterest"
                              label="我的兴趣词"
-                             initialValue={optionTest2}
+                             initialValue={interestoption}
                              style={{
                                 padding: '10px',
                             }}

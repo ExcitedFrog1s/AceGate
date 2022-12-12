@@ -68,21 +68,23 @@ function EditPortal() {
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
-    // let RID = params.get('RID')
+    let RID = params.get('RID')
 
     const getData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/scholarPortal",
+            url: "/editPortal",
             data: {
-                RID: params.get('RID'),
+                RID: RID,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
-            .then(res => {
-                    console.log(res.data)
-                    setData(res.data)
-                }
-            )
+        .then(res => {
+            setData(res.data.data)
+            console.log(res.data.data)
+        })
     }
 
     const [form] = Form.useForm();
@@ -97,15 +99,17 @@ function EditPortal() {
     const pushData = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/editPortal2",
+            url: "/editPortal2",
             data: {
-                RID: params.get('RID'),
+                RID: RID,
                 Ravatar: Ravatar,
-                Rinstitute: Rinstitute,
                 Rcontact: Rcontact,
                 Rconcepts: Rconcepts,
                 RpersonalPage: RpersonalPage,
                 Rgateinfo: Rgateinfo,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
             .then(res => {
@@ -204,7 +208,7 @@ function EditPortal() {
                                         fontSize: '50px',
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
                                     }}
-                                >{data.Rname}</Title>
+                                >{data.rname}</Title>
                             </Typography>
                         </Col>
                     </Row>
@@ -237,7 +241,7 @@ function EditPortal() {
                                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                                 beforeUpload={beforeUpload}
                                 onChange={handleChange}
-
+                                initialvalue={data.ravatar}
                             >
                                 {imageUrl ? (
                                     <img
@@ -253,20 +257,6 @@ function EditPortal() {
                             </Upload>
                         </Form.Item>
                         <Form.Item
-                            name="Rinstitute"
-                            label="工作单位"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder={data.Rinstitute}/>
-                        </Form.Item>
-                        <Form.Item
                             name="Rcontact"
                             label="电子邮箱"
                             rules={[
@@ -279,7 +269,10 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder={data.Rcontact}/>
+                            <Input
+                                autoComplete={'off'}
+                                initialValue={data.rcontact}
+                                placeholder={data.rcontact}/>
                         </Form.Item>
                         <Form.Item
                             name="Rconcepts"
@@ -293,15 +286,27 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input placeholder={data.Rconcepts} />
+                            <Input
+                                autoComplete={'off'}
+                                initialvalues={data.rcustomconcepts}
+                                placeholder={data.rcustomconcepts}
+                            />
                         </Form.Item>
                         <Form.Item
                             name="RpersonalPage" label="个人主页"
                             style={{
                                 padding: '10px',
                             }}
+                            rules={[
+                                {
+                                    required: true,
+                                },
+                            ]}
                         >
-                            <Input placeholder={data.RpersonalPage}/>
+                            <Input
+                                autoComplete={'off'}
+                                initialvalues={data.rpersonalpage}
+                                placeholder={data.rpersonalPage}/>
                         </Form.Item>
                         <Form.Item
                             name="Rgateinfo" label="个人简介"
@@ -309,7 +314,10 @@ function EditPortal() {
                                 padding: '10px',
                             }}
                         >
-                            <Input.TextArea placeholder={data.Rgateinfo}/>
+                            <Input.TextArea
+                                autoComplete={'off'}
+                                initialvalues={data.rgateinfo}
+                                placeholder={data.rgateinfo}/>
                         </Form.Item>
                     </Form>
                     <Row
@@ -320,6 +328,7 @@ function EditPortal() {
                         <Link
                             to={{
                                 pathname: '/scholarPortal',
+                                search: '?RID=' + RID,
                             }}
                             style={{
                                 margin: "auto",
