@@ -5,8 +5,6 @@ import {Link as RouterLink} from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faUser} from "@fortawesome/free-solid-svg-icons";
-import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
-import {Row,Col} from 'antd'
 import * as React from "react";
 
 
@@ -27,10 +25,6 @@ const NavLink = ({ children }) => (
         {children}
     </Link>
 );
-
-React.useEffect(() => {
-    
-}, [])
 
 
 function Header({textColor, isLanding=false}){
@@ -58,24 +52,33 @@ function Header({textColor, isLanding=false}){
 
     return (
         <Box
-            w='100%'
-            h='9.5vh'
-            bg='#0a2a43'
+            w='80vw'
+            mx={'10vw'}
+            h='8vh'
+            color={textColor}
         >
-            <Row>
-                <Col span='2' offset={1}>
-                    <Avatar src={require("../../assets/acegate_icon.png")} width='75px' height='75px'></Avatar>
-                </Col>
-                <Col span='10' offset={2}>
-                    {isLanding ?
+            <Flex
+                h={'100%'}
+                alignItems={'center'}
+                justifyContent={'space-between'}
+            >
+                <HStack
+                    spacing={'15vw'}
+                >
+                    <Text fontSize={28}>Logo</Text>
+                    <HStack
+
+                        as={'nav'}
+                        spacing={'5vw'}
+                        display={{ base: 'none', md: 'flex' }}>
+
+                        {isLanding ?
                             <Box />
                             :
                             <Input
                                 size='md'
                                 backgroundColor='white'
-                                focusBorderColor = "white"
-                                width='40vw'
-                                mt='14px'
+                                width='25vw'
                                 placeholder="快捷搜索……"
                                 onChange={(e) => {
                                     setInput(e.target.value)
@@ -86,18 +89,16 @@ function Header({textColor, isLanding=false}){
                                         }
                                 }}
                             />
-                    }
-                </Col>
-                <Col span='1'  offset='1' style={{margin:'auto'}}>
+                        }
+
+                    </HStack>
+                </HStack>
+                <HStack spacing={'3vw'}>
                     {sections.map((link) => (
-                        // <NavLink key={link} >{link}</NavLink>
-                        <Text color='tomato'>工具箱</Text>
+                        <NavLink key={link}>{link}</NavLink>
                     ))}
-                </Col>
-                <Col span='2' offset={1} style={{margin:'auto'}}>
                     {isLoggedIn ?
                         <Link
-                            color='tomato'
                             as={RouterLink} to={'/landing'}
                             fontSize={'16px'}
                             _hover={{
@@ -106,7 +107,6 @@ function Header({textColor, isLanding=false}){
                         >欢迎回来，{loggedInUsername}</Link>
                     :
                         <Link
-                        color='white'
                             as={RouterLink} to={'/login2'}
                             fontSize={'16px'}
                             _hover={{
@@ -114,8 +114,10 @@ function Header({textColor, isLanding=false}){
                             }}
                         >登录/注册</Link>
                     }
-                </Col>
-            </Row>
+
+                </HStack>
+
+            </Flex>
         </Box>
 
     )
