@@ -42,14 +42,18 @@ function Cite(prop) {
     const Style = {
         cursor: 'pointer',
     }
+
     const { isOpen, onOpen,  onToggle, onClose } = useDisclosure()
-    const formData = new FormData()
-    formData.append('PID', prop.pid)
+    const [cite,setCite] = React.useState()
+    React.useEffect(() => {
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        axios.post("http://localhost:8083/paper/cite",formData)
+            .then(function (res){
+                setCite(res.data.data)
+            })
+    },[])
 
-    axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53125874",formData)
-        .then(function (res){
-
-        })
     return (
         <>
             <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>

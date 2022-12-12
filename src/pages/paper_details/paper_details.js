@@ -5,7 +5,7 @@ import Abstract from "./paper_abstract";
 import Data from "./paper_data";
 import Op from "./paper_op"
 import Reference from "./paper_reference";
-import moment, {parse} from "moment";
+import moment from "moment";
 import {Box, HStack, Link, Spinner, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
@@ -44,17 +44,15 @@ function PaperDetails() {
     // navigate('/paperDetails?' + params.toString())
 
     React.useEffect( () => {
-        let body = {
-            PID:PID
-        }
-        console.log(body)
+
         const formData = new FormData()
         formData.append('PID', PID)
         // console.log(formData)
         axios.post("http://localhost:8083/paper/view", formData)
             .then(function (res){
-                setInfos(res.data)
+                setInfos(res.data.data)
                 setLoading(false)
+                console.log(res.data.data)
             })
     },[])
     // console.log(infos["Pname"])
@@ -71,14 +69,14 @@ function PaperDetails() {
             />
         )
     }
-    // console.log(infos)
+
     return(
         <Box>
             <Info infos={infos}/>
-            <Abstract ab={infos.Pabstract} kw={infos.Pconcepts}/>
-            <Data pid={PID}/>
+            <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
+            <Data pid={PID} fields={infos.pconcepts}/>
             <Op  pid={PID}/>
-            <Reference refs={infos.Preferences} rels={infos.Prelated} />
+            <Reference refs={infos.Preferences} rels={infos.Prelateds} reflink={infos.preferences} rellink={infos.related}/>
         </Box>
     )
 }
@@ -86,23 +84,22 @@ function Authors(prop){
     const property = {
         authors: ["Maple826","AboveParadise","euphoria"],
     }
-    console.log(prop)
+
     const handleClick = (key) => {
-        console.log(prop.P_RID)
-        window.open('/scholarPortal?RID=' + prop.P_RID[key])
+        window.open('/scholarPortal?RID=' + prop.Pauthor[key].rid)
     }
 
-    console.log(prop)
+
     return (
         prop.Pauthor.map((value, key) => {
             return (
                 <Link key={key} fontSize={15}
-                      textDecoration={'none'}
+                      textDecoration={'none'} className="ft"
                       onClick={()=>handleClick(key)}
                       color={'#3311DB'}
                       mr={7}
                 >
-                    {value}
+                    {value.rname}
                 </Link>
             );
         })
@@ -118,27 +115,27 @@ function Info(prop){
         tags:['jdg', '马克思', 'lggggg'],
     }
     const handleClick = () => {
-        window.open('/journal?VID=' + prop.infos.P_VID)
+        window.open('/journal?VID=' + prop.infos.p_VID)
     }
     return(
-        <Box ml={'3%'} mb={5}>
+        <Box ml={'3%'} mb={5} className="ft">
             <Box>
-            <Text fontSize={30} fontFamily={'宋体'}>
-                {prop.infos.Pname}
+            <Text fontSize={30}>
+                {prop.infos.pname}
             </Text>
             </Box>
             <HStack>
-                <Text mt={3} mb={3} mr={5} fontSize={17}  fontFamily={"Times New Roman"}>
-                    {prop.infos.Pdate}
+                <Text mt={3} mb={3} mr={5} fontSize={17}>
+                    {moment(prop.infos.pdate).format("YYYY-MM-DD")}
                 </Text>
                 <Link onClick={handleClick}>
-                <Text fontFamily={'宋体'} fontSize={17}>
-                    {prop.infos.P_Vname}
+                <Text fontSize={17}>
+                    {prop.infos.p_Vname}
                 </Text>
                 </Link>
             </HStack>
 
-            <Authors Pauthor={prop.infos.Pauthor} P_RID={prop.infos.PauthorID}/>
+            <Authors Pauthor={prop.infos.Pauthor}/>
 
         </Box>
     )

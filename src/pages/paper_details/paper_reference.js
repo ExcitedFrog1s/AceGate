@@ -21,7 +21,16 @@ function Reference(prop) {
     const handleClick = (PID) => {
         window.open('/paperDetails?PID=' + PID)
     }
-
+    const [isreflink, setReflink] = React.useState(false)
+    const [isrellink, setRellink] = React.useState(false)
+    React.useEffect( () => {
+        if(prop.refs.length === 0){
+            setReflink(true)
+        }
+        if(prop.rels.length == 0){
+            setRellink(true)
+        }
+    },[])
     return(
         <Box
             width={'55%'}
@@ -48,32 +57,33 @@ function Reference(prop) {
                         >
                             共 {prop.refs.length} 篇参考文献
                         </Text>
-                        <Text color={'gray'} fontSize={'15'} mt={4}>
+                         <Text color={'gray'} fontSize={'15'} mt={4}>
                             受版权限制，部分论文可能无法展示
-                        </Text>
-                        <List mt={4} fontSize={'15'}>
-                            {prop.refs.map((value, key) => {
-                                return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{ textDecoration:'none'}} onClick={()=>handleClick(value.PID)}>
-                                        [{key+1}]&nbsp;&nbsp;
-                                        {value.Pname}
+                            </Text>
+                        {!isreflink &&
+                            <List mt={4} fontSize={'15'}>
+                        {prop.refs.map((value, key) => {
+                            return (<ListItem key={key} mb={4} className={'t'}>
+                            <Link style={{textDecoration:'none'}} onClick={()=>handleClick(value.PID)}>
+                            [{key+1}]&nbsp;&nbsp;
+                        {value.Pname}
 
-                                        </Link>
-                                        <HStack>
-                                    {
-                                        value.Pauthor.map((aut,key1) => {
-                                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
-                                                    {aut}</Text>
-                                        )
-                                    })
-                                    }
+                            </Link>
+                            <HStack>
+                        {
+                            value.Pauthor.map((aut,key1) => {
+                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
+                        {aut}</Text>
+                            )
+                        })
+                        }
 
-                                    </HStack>
-                                </ListItem>)
+                            </HStack>
+                            </ListItem>)
 
-                            })}
+                        })}
 
-                        </List>
+                            </List>}
 
                     </TabPanel>
 
@@ -88,17 +98,17 @@ function Reference(prop) {
                         <Text color={'gray'} fontSize={'15'} mt={4}>
                             受版权限制，部分论文可能无法展示
                         </Text>
-                        <List mt={4} fontSize={'15'}>
+                        {!isrellink && <List mt={4} fontSize={'15'}>
                             {prop.rels.map((value, key) => {
                                 return (<ListItem key={key} mb={4} className={'t'}>
-                                    <Link onClick={()=>handleClick(value.PID)} style={{ textDecoration:'none'}}>
-                                        [{key+1}]&nbsp;&nbsp;
+                                    <Link onClick={() => handleClick(value.PID)} style={{textDecoration: 'none'}}>
+                                        [{key + 1}]&nbsp;&nbsp;
                                         {value.Pname}
 
                                     </Link>
                                     <HStack>
                                         {
-                                            value.Pauthor.map((aut,key1) => {
+                                            value.Pauthor.map((aut, key1) => {
                                                 return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
                                                         {aut}</Text>
                                                 )
@@ -110,7 +120,7 @@ function Reference(prop) {
 
                             })}
 
-                        </List>
+                        </List>}
 
 
                     </TabPanel>

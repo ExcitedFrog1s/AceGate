@@ -14,7 +14,7 @@ function Keywords(prop){
     let count = 0
     return (
         <Box>
-        <HStack className="kw" mr={8} mt={5}>
+        <HStack className="ft" mr={8} mt={5}>
             <Text textDecoration={'none'}
                   color={'#161616'}
                   as={'b'}
@@ -89,9 +89,9 @@ function Abstract(prop) {
                 摘要
             </Text>
             <Box minH={75} mt={3}>
-            <Text ml={8} color={'#161616'} fontFamily={'宋体'}
-                  fontSize={15} noOfLines={8}
-            maxW={850} mr={8}>{property.ab}</Text>
+            <Text ml={8} color={'#161616'}
+                  fontSize={17} noOfLines={8} className="ft"
+            maxW={850} mr={8}>{prop.ab}</Text>
             </Box>
             {/*<Keywords kw={prop.kw}/>*/}
 

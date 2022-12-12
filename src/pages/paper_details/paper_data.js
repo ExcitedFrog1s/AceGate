@@ -71,8 +71,9 @@ function Data(prop) {
 
             })
 
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/papaerDetails", formData)
+        axios.post("http://localhost:8083/paper/systemTags", formData)
             .then(function (res){
+                console.log(res.data)
                 setFields(res.data)
                 mark += 1
                 if(mark === 2){
@@ -130,7 +131,7 @@ function Data(prop) {
                     领域
                 </Text>
                 <UnorderedList mt={2} color={'#7551FF'}>
-                    {Fields.field.map((value, key) => {
+                    {prop.fields.map((value, key) => {
                         return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
                         </Link></ListItem>)
                     })}

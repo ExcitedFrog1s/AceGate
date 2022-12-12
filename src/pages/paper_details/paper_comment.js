@@ -28,24 +28,47 @@ function Heart(prop){
         const formData = new FormData()
         formData.append('CID', prop.CID)
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53379528",formData)
-            .then(function (res){
-                if(res.status !== 200){
-                    return (
-                        <Alert status='error'>
-                            <AlertIcon />
-                            操作失败！
-                        </Alert>)
-                }
-                else{
-                    if(isClick) {
-                        setIsClick(false)
+        if(prop.state === false){
+            axios.post("http://localhost:8083/comment/like",formData)
+                .then(function (res){
+                    if(res.status !== 200){
+                        return (
+                            <Alert status='error'>
+                                <AlertIcon />
+                                操作失败！
+                            </Alert>)
                     }
-                    else {
-                        setIsClick(true)
+                    else{
+                        if(isClick) {
+                            setIsClick(false)
+                        }
+                        else {
+                            setIsClick(true)
+                        }
                     }
-                }
-            })
+                })
+        }
+        else{
+            axios.post("http://localhost:8083/comment/unlike",formData)
+                .then(function (res){
+                    if(res.status !== 200){
+                        return (
+                            <Alert status='error'>
+                                <AlertIcon />
+                                操作失败！
+                            </Alert>)
+                    }
+                    else{
+                        if(isClick) {
+                            setIsClick(false)
+                        }
+                        else {
+                            setIsClick(true)
+                        }
+                    }
+                })
+        }
+
     }
 
     const Style = {
@@ -93,11 +116,11 @@ function Comment(prop) {
     React.useEffect( () => {
         const formData = new FormData()
         formData.append('PID', prop.pid)
-        formData.append('UID', window.localStorage.getItem('userToken'))
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53289067",formData)
+        axios.post("http://localhost:8083/paper/viewComment",formData)
             .then(function (res){
-                setComs(res.data.comments)
+                console.log(res.data)
+                setComs(res.data.data)
                 setLoading(false)
             })
     },[])
@@ -117,7 +140,7 @@ function Comment(prop) {
         const formData = new FormData()
         formData.append('PID', prop.pid)
 
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53293860",formData)
+        axios.post("http://localhost:8083/comment/add",formData)
             .then(function (res){
                 if(res.status !== 200){
                     return (
@@ -129,9 +152,10 @@ function Comment(prop) {
                 else{
                     formData.append('UID', window.localStorage.getItem('userToken'))
                     // console.log(formData)
-                    axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53289067",formData)
+                    axios.post("http://localhost:8083/paper/viewComment",formData)
                         .then(function (res){
-                            setComs(res.data.comments)
+                            console.log(res.data)
+                            setComs(res.data.data)
                             setLoading(false)
                         })
                 }
