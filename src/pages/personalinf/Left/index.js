@@ -15,8 +15,8 @@ function getItem(label, key, icon){
 }
 
 const items = [
-    getItem("基础信息", "", <IdcardOutlined />),
-    getItem("账号安全", "/account", <LockOutlined />),
+    getItem("个人信息", "", <IdcardOutlined />),
+    getItem("修改密码", "/accountedit", <LockOutlined />),
 ]
 
 
