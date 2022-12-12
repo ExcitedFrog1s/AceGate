@@ -2,12 +2,14 @@ import Highlighter from 'react-highlight-words'
 import { SearchIcon } from '@chakra-ui/icons'
 import { Box} from '@chakra-ui/react'
 import './scholarlist.css'
+import { IoSchoolSharp} from "react-icons/io5"
 import React, { useEffect, useRef, useState } from 'react';
 import { Row, Col, Button, Space, Table, Input } from 'antd';
 import { Avatar } from '@chakra-ui/react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { wait } from '@testing-library/user-event/dist/utils';
+import { Heading } from '@chakra-ui/react'
 
 function List() {
     const [data, setData] = useState([]);
@@ -182,11 +184,15 @@ function List() {
       },
     ];
       return (
-          <div className="list" style={{marginTop:30}}>
+          <div className="ischolarlist" >
             <Box boxShadow='xs' rounded='md'
         borderRadius='25px' border='2px' borderColor='gray.200'
-        className='box'>
-            <div className='title2'>机构下学者列表</div>
+        className='box'
+        >
+          <Row style={{marginTop:30}}>
+            <IoSchoolSharp className="chart-icon"/>
+            <Heading className='chart-head'>机构下学者列表</Heading>
+            </Row>
                 <Table dataSource={data} columns={columns} rowKey="rID"
               pagination={false} scroll={{
                 y: 400,

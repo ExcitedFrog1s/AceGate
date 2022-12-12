@@ -100,7 +100,6 @@
 
 .institute .title2{
     font-weight: 600;
-    margin-top: 30px;
     font-size: 22px;
 }
 
@@ -112,3 +111,19 @@
     background: #EDF2F7 !important;
     font-weight: 600;
 }
+
+.institute .concept .ant-table-thead .ant-table-cell{
+    background: #EDF2F7 !important;
+    font-weight: 600;
+}
+
+.institute .concept .ant-table{
+    background: #11111100 !important;
+}
+
+.institute .concept {
+    height: 600px;
+    margin: auto;
+    padding: 30px 30px 30px 30px;
+}
+

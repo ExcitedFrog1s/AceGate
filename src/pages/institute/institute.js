@@ -1,6 +1,5 @@
 import Chart from 'react-apexcharts'
 import "./institute.css"
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Box, Link } from '@chakra-ui/react'
 import { FaQuoteLeft } from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
@@ -232,6 +231,44 @@ function AmoutChart(props) {
     )
 }    
 
+function Concept(props){
+    const [cons, setCons] = useState([]);
+
+    const columns = [
+        {
+            title: '关键领域',
+            key: 'concept',
+            dataIndex: 'concept'
+        },
+    ]
+    useEffect(()=>{
+        let arr = []
+        let j = props.concept ? props.concept.length : 0;
+        for(let k = 0; k < j; k++){
+            let a = {}
+            a.id = k
+            a.concept = props.concept[k]
+            arr.push(a)
+        }
+        setCons(arr)
+    },[props])
+    return (
+        <Box boxShadow='xs' rounded='md'
+        borderRadius='25px' border='2px' borderColor='gray.200'
+        className='concept'>
+            <Row>
+                <BankFilled className='chart-icon'  />
+                <Heading className='chart-head'>关键领域</Heading>
+            </Row>
+            <Table columns={columns} dataSource={cons} rowKey="id" pagination={false}
+            size="middle" showHeader={false} bordered={true} style={{marginTop:30}}
+            scroll={{
+                y: 450,
+              }}>
+            </Table>
+        </Box>
+    )
+}
 
 function Institute(){
     const [insdata, setInsdata] = useState({})
@@ -281,11 +318,12 @@ function Institute(){
                             <CoInstitute coins={insdata.iassociations} core={insdata.irelation} name={insdata.IassoNames}></CoInstitute>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{marginTop:30}} gutter={20}>
                         <Col span={17}>
                             <List></List>
                         </Col>
                         <Col span={7}>
+                            <Concept concept={insdata.iconcept}></Concept>
                         </Col>
                     </Row>
                 </div>

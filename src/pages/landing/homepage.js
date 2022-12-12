@@ -38,10 +38,10 @@ function Homepage(){
                     id="road"
                 />
                 <h2 id="text">
-                    Moon Light
+                    ACEGATE
                 </h2>
             </section> 
-
+            
         </div>
     )
 }
