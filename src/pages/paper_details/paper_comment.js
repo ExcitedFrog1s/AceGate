@@ -218,7 +218,7 @@ function Comment(prop) {
                                     {value.name}</Link>
 
                                 <Text color={'#7551FF'}>
-                                    {value.clikes}点赞
+                                    {value.likes}点赞
                                 </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
