@@ -132,8 +132,11 @@ function Data(prop) {
                 </Text>
                 <UnorderedList mt={2} color={'#7551FF'}>
                     {prop.fields.map((value, key) => {
-                        return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
-                        </Link></ListItem>)
+                        if(key <= 7){
+                            return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
+                            </Link></ListItem>)
+                        }
+
                     })}
                 </UnorderedList>
             </Box>

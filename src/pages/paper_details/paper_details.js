@@ -76,7 +76,8 @@ function PaperDetails() {
             <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
             <Data pid={PID} fields={infos.pconcepts}/>
             <Op  pid={PID}/>
-            <Reference refs={infos.Preferences} rels={infos.Prelateds} reflink={infos.preferences} rellink={infos.related}/>
+            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
+                       reflink={infos.preferences} rellink={infos.related}/>
         </Box>
     )
 }
@@ -89,20 +90,49 @@ function Authors(prop){
         window.open('/scholarPortal?RID=' + prop.Pauthor[key].rid)
     }
 
+    let cur_num = prop.Pauthor.length
 
     return (
+        <>
+            {
         prop.Pauthor.map((value, key) => {
-            return (
-                <Link key={key} fontSize={15}
-                      textDecoration={'none'} className="ft"
-                      onClick={()=>handleClick(key)}
-                      color={'#3311DB'}
-                      mr={7}
-                >
-                    {value.rname}
-                </Link>
-            );
+            if(key < 10){
+                return (
+                    <Link key={key} fontSize={15}
+                          textDecoration={'none'} className="ft"
+                          onClick={()=>handleClick(key)}
+                          color={'#3311DB'}
+                          mr={7}
+                    >
+                        {value.rname}
+                    </Link>
+                );
+            }
+
         })
+        }
+        {
+        prop.pauthor.map((value, key) => {
+                if(cur_num < 10){
+                    if(key < 10 - cur_num){
+                        return (
+                            <Link key={key} fontSize={15}
+                                  textDecoration={'none'} className="ft"
+
+                                  color={'#3311DB'}
+                                  mr={7}
+                            >
+                                {value}
+                            </Link>
+                        );
+                    }
+
+                }
+
+            })
+        }
+        </>
+
 
    )
 }
@@ -135,7 +165,7 @@ function Info(prop){
                 </Link>
             </HStack>
 
-            <Authors Pauthor={prop.infos.Pauthor}/>
+            <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
 
         </Box>
     )
