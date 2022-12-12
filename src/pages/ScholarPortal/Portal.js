@@ -326,7 +326,7 @@ function Portal() {
                 RID: RID,
             },
             headers: {
-                "Content-Type": "application/json",
+                token: localStorage.getItem("userToken")
             }
         })
         .then(res => {
@@ -362,6 +362,19 @@ function Portal() {
     const homepageStyle = {
         color: '#1890ff',
         textDecoration: homepageIsHover ? 'underline' : 'none'
+    }
+
+    // institute
+    const [instituteIsHover, setInstituteIsHover] = useState(false)
+    const handleMouseEnterInstitute = () => {
+        setInstituteIsHover(true)
+    }
+    const handleMouseLeaveInstitute = () => {
+        setInstituteIsHover(false);
+    }
+    const instituteStyle = {
+        color: '#1890ff',
+        textDecoration: instituteIsHover ? 'underline' : 'none'
     }
 
     return (
@@ -426,9 +439,9 @@ function Portal() {
                                     </Space>
                                     <Link
                                         component={Typography.Link}
-                                        style={homepageStyle}
-                                        onMouseEnter={handleMouseEnterHomepage}
-                                        onMouseLeave={handleMouseLeaveHomepage}
+                                        style={instituteStyle}
+                                        onMouseEnter={handleMouseEnterInstitute}
+                                        onMouseLeave={handleMouseLeaveInstitute}
                                         to={"/institute?IID="+data.r_IID}
                                     > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
@@ -450,7 +463,7 @@ function Portal() {
                                     <Space>
                                         <BulbOutlined />
                                     </Space>
-                                    <Text> {data.Cname}</Text>
+                                    <Text> {data.rcustomconcepts}</Text>
                                 </Paragraph>
                                 {data.rcontact != "none" &&
                                     <Paragraph>
