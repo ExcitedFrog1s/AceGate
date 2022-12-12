@@ -1,21 +1,49 @@
-.list .ant-table{
+.ischolarlist .ant-table{
     background-color: #2d2d2d05 !important;
 }
-.list .ant-table-thead .ant-table-cell{
+.ischolarlist .ant-table-thead .ant-table-cell{
     background: #EDF2F7 !important;
     font-weight: 600;
 }
-.list .css-uo84k3{
+.ischolarlist .css-uo84k3{
     color: gray !important;
 }
-.list .box{
+.ischolarlist .box{
     height: 600px;
     margin: auto;
     padding-left: 30px;
     padding-right: 30px;
 }
 
-.list .table{
+.ischolarlist .table{
     width: 100%;
     margin-top: 30px;
 }
+
+.ischolarlist .chart-icon{
+    font-size: 28px;
+    color: #422afb !important;
+    margin-top: 3px;
+    margin-left: 15px;
+}
+
+.ant-table-body::-webkit-scrollbar{
+    width:10px;
+    height:10px;
+    /**/
+  }
+  .ant-table-body::-webkit-scrollbar-track{
+    background: rgb(239, 239, 239);
+    border-radius:2px;
+  }
+  .ant-table-body::-webkit-scrollbar-thumb{
+    background: #bfbfbf;
+    border-radius:10px;
+  }
+  .ant-table-body::-webkit-scrollbar-thumb:hover{
+    background: #333;
+  }
+  .ant-table-body::-webkit-scrollbar-corner{
+    background: #179a16;
+  }
+

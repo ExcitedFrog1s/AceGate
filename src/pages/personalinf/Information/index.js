@@ -2,10 +2,8 @@
 import React, { Component } from 'react'
 import Frame from '../Frame'
 import Edit from '../Edit';
-import Account from '../Account';
 import AccountEdit from '../AccountEdit';
 import { Route,Routes } from 'react-router-dom';
-import '../index.css';
 import axios from 'axios'
 
 
@@ -45,7 +43,6 @@ export default class Information extends Component {
         <Routes>
           <Route path="/" element={<Frame  accountinfs={accountinfs} personalinfs={personalinfs} scholar={scholar}/> }  />
           <Route path="edit" element={<Edit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
-          <Route path="account" element={<Account  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
           <Route path="accountedit" element={<AccountEdit  accountinfs={accountinfs} interestwords={interestwords} scholar={scholar}/>} />
         </Routes>
         <div>&nbsp;</div>

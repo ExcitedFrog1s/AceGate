@@ -1,5 +1,6 @@
 import "antd/dist/antd.min.css";
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
+import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, } from 'antd';
+import {ReadOutlined, HeartOutlined} from '@ant-design/icons';
 import { UserOutlined, FormOutlined, MailOutlined, SolutionOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
@@ -7,7 +8,7 @@ import axios from "axios";
 import Left from "../Left";
 
 const { Header, Content, Footer, Sider } = Layout;
-const { Title,  } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 
 
@@ -37,6 +38,14 @@ function PersonInfo() {
 
     // hover style
     // homepage
+    const optionValue2 = ['中国式现代化', '文献综述', '人工智能',
+    '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
+    '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
+    '盈利能力分析', '工程伦理']
+    const optionTest = optionValue2.join(`\u00A0\u00A0`);
+    optionValue2.map((value, index)=>{
+        optionValue2[index] = `${value}\u00A0\u00A0\u00A0` ;
+    })
     return (
         <Layout className="layout">
             <Header>
@@ -79,7 +88,7 @@ function PersonInfo() {
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
-                                src={data?.Uavatar}
+                                src="https://img1.baidu.com/it/u=3345281312,1299187552&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281"
                             />
                         </Col>
                         <Col span={15}>
@@ -91,10 +100,26 @@ function PersonInfo() {
                                 <Title
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
-                                        textAlign: "center",
-                                        margin: '100 0 0 0px'
                                     }}
                                 >{data.Uname}</Title>
+                                <Paragraph>
+                                    <Space>
+                                        <MailOutlined />
+                                    </Space>
+                                    <Text> {data?.Uemail}</Text>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Space>
+                                        <ReadOutlined />
+                                    </Space>
+                                    <Text> {optionValue2}</Text>
+                                </Paragraph>
+                                <Paragraph>
+                                    <Space>
+                                        <HeartOutlined />
+                                    </Space>
+                                    <Text> {optionTest}</Text>
+                                </Paragraph>
                             </Typography>
                         </Col>
                         <Col span={4}>

@@ -14,7 +14,7 @@ function Author(props) {
     }
 
     const handleClick1 = () => {
-        window.open('/scholarPortal?RID=' + props.info.RID)
+        window.open('/scholarPortal?RID=' + props.info.rID)
     }
 
     const linkStyle1 = {
@@ -35,7 +35,8 @@ function Author(props) {
     }
 
     const handleClick2 = () => {
-        window.open("/institute?IID=" + props.info.RIID)
+        console.log(props.info)
+        window.open("/institute?IID=" + props.info.r_IID)
     }
 
     const linkStyle2 = {
@@ -54,7 +55,7 @@ function Author(props) {
                 onClick={handleClick1}
             >
                 <Text>
-                    {props.info.Rname}
+                    {props.info.rname}
                 </Text>
             </Link>
             <Link
@@ -64,16 +65,16 @@ function Author(props) {
                 onClick={handleClick2}
             >
                 <Text>
-                    {props.info.Rinstitute}
+                    {props.info.rinstitute}
                 </Text>
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.Rcitescount}</Text>
+                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.rcitescount}</Text>
                     <Text fontSize={'18px'}>{'总引用量'}</Text>
                 </VStack>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.Rworkscount}</Text>
+                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.rworkscount}</Text>
                     <Text fontSize={'16px'}>{'总论文数'}</Text>
                 </VStack>
             </HStack>
@@ -93,7 +94,7 @@ function Institute(props) {
     }
 
     const handleClick = () => {
-        window.open("/institute?IID=" + props.info.IID)
+        window.open("/institute?IID=" + props.info.iID)
     }
 
     const linkStyle = {
@@ -112,16 +113,16 @@ function Institute(props) {
                 onClick={handleClick}
             >
                 <Text>
-                    {props.info.Iname}
+                    {props.info.ichinesename}
                 </Text>
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.Icitedsum}</Text>
+                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.icitednum}</Text>
                     <Text fontSize={'18px'}>{'总引用量'}</Text>
                 </VStack>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.Iworksnum}</Text>
+                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.iworksum}</Text>
                     <Text fontSize={'16px'}>{'总论文数'}</Text>
                 </VStack>
             </HStack>
