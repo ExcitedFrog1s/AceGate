@@ -38,8 +38,8 @@ function Header({textColor, isLanding=false}){
         // 已经登录
         isLoggedIn = 1;
         loggedInUsername = localStorage.getItem("username");
-        console.log(localStorage.getItem("userToken"));
-        console.log(localStorage.getItem("username"));
+        // console.log(localStorage.getItem("userToken"));
+        // console.log(localStorage.getItem("username"));
     }
 
 
