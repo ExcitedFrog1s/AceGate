@@ -1,9 +1,9 @@
 .journal .title{
     margin:auto;
     height: 400px;
-    width: 900px;
+    width: 870px;
     margin-top: 50px;
-    margin-left: 80px;
+    margin-left: 60px;
     padding: 70px;
 }
 
@@ -38,8 +38,9 @@
 .journal .keywords{
     margin:auto;
     height: 400px;
-    width: 600px;
+    width: 530px;
     margin-top: 50px;
+    margin-left: 20px;
     padding: 30px;
 }
 
@@ -53,12 +54,12 @@
 .journal .keywordItem{
     margin-left: 5px;
     margin-top: 10px;
-    font-weight: 600;
+    font-weight: 550;
 }
 
 .journal .chart{
     margin:auto;
-    height: 360px;
+    height: 380px;
     margin-top: 50px;
     padding: 40px 20px 30px 10px;
 }
@@ -71,7 +72,7 @@
 }
 
 .journal .chart-head{
-    font-size: 23px !important;
+    font-size: 22px !important;
     margin-left: 10px;
     margin-bottom: 10px;
     letter-spacing:0.7mm;
@@ -83,9 +84,9 @@
 
 .journal .list{
     margin:auto;
-    width: 1570px;
+    width: 1470px;
     margin-top: 50px;
-    margin-left: 80px;
+    margin-left: 60px;
     padding: 50px;
 }
 
