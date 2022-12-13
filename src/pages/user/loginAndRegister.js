@@ -596,7 +596,7 @@ function LoginAndRegister () {
                             onClick={goToLogin}
                         >去登录</Button>
                     </div>
-                    <div class="con-box right">
+                    <div className="con-box right">
                         <h2>欢迎来到<span className="blueText">AceGate</span></h2>
                         <p>Your gate towards<span className="blueText"> academia</span>.</p>
                         <Image

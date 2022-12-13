@@ -69,57 +69,53 @@ function ApplyPortal() {
     const getPortal = ()=>{
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal",
+            url: "/applyPortal1",
             data: {
-                UID: params.get('UID'),
                 Rname: Rname,
                 Rinstitute: Rinstitute,
-                Rcontact: Rcontact,
-                Rconcepts: Rconcepts,
-                RpersonalPage: RpersonalPage,
-                Rgateinfo: Rgateinfo,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
-            .then(res => {
-                    console.log(res.data)
-                    setData(res.data)
-                    setRlist(res.data.Rlist)
-                }
-            )
+        .then(res => {
+            console.log(res.data.data)
+            setData(res.data.data.list)
+            console.log(localStorage.getItem("userToken"))
+        })
         next()
     }
 
     const findMore = ()=>{
         axios({
-            method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/findMore",
+            method: "get",
+            url: "/crawlResearchersAgain",
             data: {
                 Rname: Rname,
-                Rinstitute: Rinstitute,
-                Rcontact: Rcontact,
-                Rconcepts: Rconcepts,
-                RpersonalPage: RpersonalPage,
-                Rgateinfo: Rgateinfo,
+                Rinstitution: Rinstitute,
+            },
+            headers: {
+                token: localStorage.getItem("userToken")
             }
         })
-            .then(res => {
-                    console.log(res.data)
-                    setData(res.data)
-                    setRlist(res.data.Rlist)
-                }
-            )
+        .then(res => {
+            console.log(res.data.data)
+            setData(res.data.data.list)
+        })
     }
 
     const [value, setValue] = useState(1);
     const onChange = (e) => {
         console.log('radio checked', e.target.value);
         setValue(e.target.value);
+        // console.log(value);
     };
 
     const choosePortal = ()=>{
+        console.log(value);
         axios({
             method: "post",
-            url: "https://mock.apifox.cn/m1/1955876-0-default/applyPortal2",
+            url: "/applyPortal2",
             data: {
                 RID: value,
                 Rname: Rname,
@@ -134,9 +130,8 @@ function ApplyPortal() {
             }
         })
             .then(res => {
-                    console.log(res.data)
-                }
-            )
+                console.log(res.data)
+            })
         next()
     }
 
@@ -303,10 +298,10 @@ function ApplyPortal() {
                         >
                             <Space direction="vertical">
                                 {
-                                    Rlist.map((value,key) => {
+                                    data.map((value,key) => {
                                         return (
                                             <Radio
-                                                value={value.RID}
+                                                value={value.rID}
                                                 style={{
                                                     padding: '5px 20px 15px 20px',
                                                     width: '100%',
@@ -316,7 +311,7 @@ function ApplyPortal() {
                                                 <Card
                                                     hoverable={true}
                                                     style={{
-                                                        width: '100vh',
+                                                        width: '60vw',
                                                         height: '22vh',
                                                         overflow: 'auto',
                                                         margin: '0 0 0 20px',
@@ -324,14 +319,18 @@ function ApplyPortal() {
                                                 >
                                                     <Row>
                                                         <Typography>
-                                                                <Title level={2}>
-                                                                    {value.Rname}
-                                                                </Title>
-                                                                <HomeOutlined/>
-                                                                <Text> </Text>
-                                                                <Text>
-                                                                    {value.Rinstitute}
-                                                                </Text>
+                                                            <Title level={2}>
+                                                                {value.rname}
+                                                            </Title>
+                                                            {value.rinstitute &&
+                                                                <Row>
+                                                                    <Space>
+                                                                        <HomeOutlined/>
+                                                                        <Text> </Text>
+                                                                    </Space>
+                                                                    <Text>{value.rinstitute}</Text>
+                                                                </Row>
+                                                            }
                                                         </Typography>
                                                         <Divider
                                                             type={"vertical"}
@@ -342,50 +341,58 @@ function ApplyPortal() {
                                                             }}
                                                         />
                                                         <Typography>
-                                                            <Row>
-                                                                <Space>
-                                                                    <BulbOutlined />
-                                                                    <Text> </Text>
-                                                                </Space>
-                                                                <Text
-                                                                    style={{
-                                                                        fontSize: '16px',
-                                                                    }}
-                                                                >{value.Rconcepts}</Text>
-                                                            </Row>
-                                                            <Row>
-                                                                <Space>
-                                                                    <MailOutlined />
-                                                                    <Text> </Text>
-                                                                </Space>
-                                                                <Text
-                                                                    style={{
-                                                                        fontSize: '16px',
-                                                                    }}
-                                                                >{value.Rcontact}</Text>
-                                                            </Row>
-                                                            <Row>
-                                                                <Space>
-                                                                    <FileOutlined />
-                                                                    <Text> </Text>
-                                                                </Space>
-                                                                <Text
-                                                                    style={{
-                                                                        fontSize: '16px',
-                                                                    }}
-                                                                >共发表论文{value.Rworkscount}篇</Text>
-                                                            </Row>
-                                                            <Row>
-                                                                <Space>
-                                                                    <LinkOutlined />
-                                                                    <Text> </Text>
-                                                                </Space>
-                                                                <Text
-                                                                    style={{
-                                                                        fontSize: '16px',
-                                                                    }}
-                                                                >共计被引用{value.Rcitescount}次</Text>
-                                                            </Row>
+                                                            {value.Cname &&
+                                                                <Row>
+                                                                    <Space>
+                                                                        <BulbOutlined />
+                                                                        <Text> </Text>
+                                                                    </Space>
+                                                                    <Text
+                                                                        style={{
+                                                                            fontSize: '16px',
+                                                                        }}
+                                                                    >{value.Cname}</Text>
+                                                                </Row>
+                                                            }
+                                                            {value.rcontact &&
+                                                                <Row>
+                                                                    <Space>
+                                                                        <MailOutlined />
+                                                                        <Text> </Text>
+                                                                    </Space>
+                                                                    <Text
+                                                                        style={{
+                                                                            fontSize: '16px',
+                                                                        }}
+                                                                    >{value.rcontact}</Text>
+                                                                </Row>
+                                                            }
+                                                            {value.rworkscount &&
+                                                                <Row>
+                                                                    <Space>
+                                                                        <FileOutlined/>
+                                                                        <Text> </Text>
+                                                                    </Space>
+                                                                    <Text
+                                                                        style={{
+                                                                            fontSize: '16px',
+                                                                        }}
+                                                                    >共发表论文{value.rworkscount}篇</Text>
+                                                                </Row>
+                                                            }
+                                                            {value.rcitescount &&
+                                                                <Row>
+                                                                    <Space>
+                                                                        <LinkOutlined/>
+                                                                        <Text> </Text>
+                                                                    </Space>
+                                                                    <Text
+                                                                        style={{
+                                                                            fontSize: '16px',
+                                                                        }}
+                                                                    >共计被引用{value.rcitescount}次</Text>
+                                                                </Row>
+                                                            }
                                                         </Typography>
                                                     </Row>
                                                 </Card>

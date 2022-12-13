@@ -6,6 +6,7 @@ import React, { useEffect,  } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
+import default_avatar from "../../../assets/default_avatar.png";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -25,10 +26,10 @@ function PersonInfo() {
             url: "/personInfo",
             headers: {
                 token: token
-            } 
+            }
         }).then(res => {
                     setData(res.data.data)
-                    console.log(token)
+                    console.log(res.data)
                     localStorage.setItem("interest", res.data.data.uinterest);
                     localStorage.setItem("field", res.data.data.ufield);
                 }
@@ -72,7 +73,7 @@ function PersonInfo() {
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
-                
+
                 <div
                     style={{
                         padding: '24px',
@@ -92,9 +93,8 @@ function PersonInfo() {
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
                                 src={
-                                    require("../../../assets/default_avatar.png")
-                                }                    
-                                
+                                    default_avatar
+                                }
                             />
                         </Col>
                         <Col span={15}>

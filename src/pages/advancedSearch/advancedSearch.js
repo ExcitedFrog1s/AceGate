@@ -2,7 +2,7 @@ import * as React from 'react'
 import PubSub from 'pubsub-js';
 import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
-
+import Header from '../../components/header/header';
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
 
@@ -184,11 +184,13 @@ function Search(props) {
 
             {dataList.map((item, index) => (
                 <Row style={{marginTop:'20px'}} key={index}>
-                    <Col span={3}>
+                    <Col span={2}>
                         {
                             index !== 0?(
                                 <Select
+                                    size='sm'
                                     bg='white'
+                                    width='80px'
                                     fontWeight='550'
                                     border='1.5px #A0AEC0 solid'
                                     focusBorderColor='sg.600'
@@ -208,11 +210,14 @@ function Search(props) {
                     </Col>
                     <Col span={3}>
                         <Select
+                            size='sm'
                             bg='white'
+                            width='120px'
                             fontWeight='550'
                             border='1.5px #A0AEC0 solid'
                             focusBorderColor='sg.600'
-                            style={{marginLeft: '5px'}} value={item.category}
+                            ml='30px'
+                            value={item.category}
                             onChange={(e) => {
                                 dataList[index].category = e.target.value;
                                 setDataList([...dataList]);
@@ -229,8 +234,9 @@ function Search(props) {
                             <option value='PsystemTags'>标签</option>
                         </Select>
                     </Col>
-                    <Col span={14} offset={1}>
+                    <Col span={14} offset={2}>
                         <Input
+                        size='sm'
                             bg='white'
                             border='1.5px #A0AEC0 solid'
                             focusBorderColor='sg.600'
@@ -242,9 +248,8 @@ function Search(props) {
                     </Col>
                     <Col span={2} offset={1}>
                     <IconButton
-                        colorScheme='purple'
                         aria-label='Call Segun'
-                        size='sm'
+                        size='xs'
                         icon={<AddIcon />}
                         onClick={() => {
                             addItem(index);
@@ -254,9 +259,8 @@ function Search(props) {
                                 <IconButton
                                 style={{marginLeft: '5px'}}
                                 variant='outline'
-                                colorScheme='blue'
                                 aria-label='Call Segun'
-                                size='sm'
+                                size='xs'
                                 icon={<MinusIcon />}
                                 onClick={() => {
                                     deleteItem(index);
@@ -279,11 +283,15 @@ function Search(props) {
                         onChange={changeTime} key={timeValue}/>
                 </Col>
             </Row>
-            <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '400px'}} >
-                <Button colorScheme='purple' leftIcon={<Search2Icon />} onClick={search}>
+            <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '300px'}} >
+                <Button  leftIcon={<Search2Icon />} 
+                colorScheme='blue'
+                        size='sm'
+                        onClick={search}>
                     搜索
                 </Button>
                 <Button variant='outline' colorScheme='blue' leftIcon={<RepeatIcon />}
+                 size='sm'
                     onClick={() => {
                         clean();
                     }}>
@@ -312,31 +320,31 @@ function Description({}) {
             },
           }}
         >
-            <Heading size='md' style={{marginBottom:'20px'}} className="d0">高级检索使用方法</Heading>
+            <Text fontSize='16px' fontWeight='550' style={{marginBottom:'20px'}} className="d0">高级检索使用方法</Text>
             <Stack divider={<StackDivider />} spacing='4'>
                 <Box>
-                    <Heading size='xs' textTransform='uppercase' className="d1">
+                    <Text fontSize='sm' fontWeight='550' textTransform='uppercase' className="d1">
                     高级检索特点
-                    </Heading>
-                    <Text pt='2' fontSize='sm'>
+                    </Text>
+                    <Text pt='2' fontSize='xs'>
                     高级检索支持多字段逻辑组合，并可通过检索控制等方法完成较复杂的检索，得到符合需求的检索结果。
                     多字段组合检索的运算优先级，按从上到下的顺序依次进行。
                     </Text>
                 </Box>
                 <Box>
-                    <Heading size='xs' textTransform='uppercase' className="d2">
+                    <Text fontSize='sm' fontWeight='550'textTransform='uppercase' className="d2">
                     检索条件输入区
-                    </Heading>
-                    <Text pt='2' fontSize='sm'>
+                    </Text>
+                    <Text pt='2' fontSize='xs'>
                     默认显示篇关摘、作者、论文来源三个检索框, 可自由选择检索项、检索项间的逻辑关系。
                     点击检索框后的、按钮可添加或删除检索项, 最多支持10个检索项的组合检索。
                     </Text>
                 </Box>
                 <Box>
-                    <Heading size='xs' textTransform='uppercase' className="d3">
+                    <Text fontSize='sm' fontWeight='550' textTransform='uppercase' className="d3">
                     检索项
-                    </Heading>
-                    <Text pt='2' fontSize='sm'>
+                    </Text>
+                    <Text pt='2' fontSize='xs'>
                     提供的检索项有: 主题、篇关摘、关键词、篇名、全文、作者、作者单位、基金、摘要、小标题、参考文献、分类号、文献来源、DOI。
                     </Text>
                 </Box>
@@ -357,11 +365,13 @@ function AdvancedSearch({}) {
     return(
         <Box>
             <Row>
-                <Heading size='md' style={{margin:'auto'}}>Header</Heading>
+                {/* <Heading size='md' style={{margin:'auto'}}>Header</Heading> */}
+                <Header></Header>
             </Row>
             <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
-                    onChange={onChange} >
-                    <AccordionItem padding={'10px'}  bgGradient='linear(to-r, gray.100, gray.300)'>
+                    onChange={onChange} 
+                    bgGradient='linear(to-r, gray.100, gray.300)'>
+                    <AccordionItem padding={'10px'}  >
                         <AccordionButton>
                             <Box flex='1' textAlign='left'>
                             <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
@@ -377,11 +387,11 @@ function AdvancedSearch({}) {
                         </AccordionButton>
                         <AccordionPanel pb={4}>
                         <Row>
-                        <Col span={7} >
-                            <Image src={require('../../assets/advsearch.png')} height='140px' ml='130px' />
+                        <Col span={8} >
+                            <Image src={require('../../assets/advsearch.png')} height='140px' ml='80px' />
                             <Description />
                         </Col>
-                        <Col span={17}>
+                        <Col span={16}>
                             <Search setIsShow={setIsShow} />
                         </Col>
                         </Row>

@@ -3,6 +3,8 @@ import { useRef, useState } from 'react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
 
+import Header from '../../components/header/header';
+
 import {useLocation, useNavigate} from "react-router-dom";
 
 import {ProjectOutlined, BarsOutlined, BarChartOutlined, KeyOutlined, RedoOutlined} from '@ant-design/icons';
@@ -10,7 +12,7 @@ import { Col, Row } from 'antd';
 import {Table} from 'antd';
 import {Divider} from 'antd'
 
-import {HStack,Tag, TagLabel} from '@chakra-ui/react'
+import {HStack,Tag, TagLabel,Image, Tooltip} from '@chakra-ui/react'
 import { Progress } from '@chakra-ui/react'
 import { Button, Avatar } from '@chakra-ui/react'
 import {Box } from '@chakra-ui/react'
@@ -54,24 +56,27 @@ function Title(props) {
             borderRadius='25px' border='2px' borderColor='gray.200'
             className='title'>
             <Row>
-            <ProjectOutlined style={{ fontSize: '42px', color: '#422afb'}}></ProjectOutlined>
-            <Heading as='h3' size='xl' style={{marginLeft:'25px', width:'650px'}}>
+            <ProjectOutlined style={{ marginLeft:'45px', fontSize: '36px', color: '#422afb'}}></ProjectOutlined>
+            <Heading as='h3' size='lg' style={{marginLeft:'20px', width:'580px'}}>
                 {props.name} 
             </Heading>
             </Row>
             <Row>
-                <Link href={props.homepage}  isExternal className='link'>
+                {/* <Link href={props.homepage}  isExternal className='link'>
                     前往官网<ExternalLinkIcon mx='2px' />
-                </Link>
+                </Link> */}
             </Row>
             <Row className='index'>
-                <Col span={6}>
-                    <Heading as='h3' size='lg' className='index-data'>{dealNumber(props.work)} </Heading>
-                    <Text fontSize='xl' className='index-name'>论文</Text>
+                <Col span={8}>
+                <Image src={require('../../assets/journal.png')} height='160px'/>
                 </Col>
                 <Col span={8}>
-                    <Heading as='h3' size='lg' className='index-data'>{dealNumber(props.cite)} </Heading>
-                    <Text fontSize='xl' className='index-name'>引用</Text>
+                    <Heading as='h3' fontSize='26px' className='index-data'>{dealNumber(props.work)} </Heading>
+                    <Text fontSize='lg' className='index-name'>论文</Text>
+                </Col>
+                <Col span={8}>
+                    <Heading as='h3' fontSize='26px'  className='index-data'>{dealNumber(props.cite)} </Heading>
+                    <Text fontSize='lg' className='index-name'>引用</Text>
                 </Col>
             </Row>
         </Box>
@@ -92,8 +97,8 @@ function Keywords(props) {
         borderRadius='25px' border='2px' borderColor='gray.200'
         className='keywords' >
             <Row>
-                <KeyOutlined style={{ fontSize: '30px', color: '#422afb'}}></KeyOutlined>
-                <Heading  style={{marginLeft:'15px', marginBottom:'10px', fontSize:'22px'}}>领 域</Heading>
+                <KeyOutlined style={{ fontSize: '25px', color: '#422afb'}}></KeyOutlined>
+                <Heading  style={{marginLeft:'15px', marginBottom:'10px', fontSize:'20px'}}>领 域</Heading>
             </Row>
             <Box className='concepts' css={{
             '&::-webkit-scrollbar': {
@@ -109,27 +114,27 @@ function Keywords(props) {
           }}>
             <Row>
                 <Col span={16}>
-                    <Text color='#A0AEC0' mb='10px' fontWeight={'600'} fontSize={'17px'}>名 称</Text>
+                    <Text color='#A0AEC0' mb='10px' fontWeight={'600'} fontSize={'15px'}>名 称</Text>
                     <Divider style={{margin:3}}/>
                     {props.Cname.map((item, index) => (
                         <Row  key={index} style={{height:'45px'}} >
-                            <Text fontSize='lg' className='keywordItem'>{item}</Text>
+                            <Text fontSize='md' className='keywordItem'>{item}</Text>
                         </Row>
                     ))}
                 </Col>
                 <Col span={7}>
-                    <Text color='#A0AEC0' mb='10px' fontWeight={'800'} fontSize={'17px'}>相 关 度</Text>
+                    <Text color='#A0AEC0' mb='10px' fontWeight={'800'} fontSize={'15px'}>相 关 度</Text>
                     <Divider style={{margin:5}} />
                     {props.Vconceptscores.map((item, index) => (
                         <Row  key={index} style={{height:'45px'}} >
-                            <Heading style={{margin:'12px 0'}}  as='h6' size='xs'>{item}</Heading>
+                            <Text style={{margin:'12px 2px'}} fontSize='sm' color='gray.400'>{item}</Text>
                             <Progress
                             style={{margin:'auto'}}
                             colorScheme='frog'
                             h='7px'
                             ml='0'
                             borderRadius='10px'
-                            w='90px'
+                            w='80px'
                             value={item}/>
 
                         </Row>
@@ -556,7 +561,7 @@ function PaperList(props) {
                 item.author = item.pauthorname[0]
                 item.field = item.pconcepts[0]
                 item.pdate = new Date(item.pdate).getFullYear()+'-'+ new Date(item.pdate).getMonth()+'-'+new Date(item.pdate).getDay()
-                console.log(item.pdate)
+
                 if(item.pcite > max){
                     max = item.pcite
                 }
@@ -658,12 +663,14 @@ function PaperList(props) {
             sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <Link href={"/paperDetails?PID=" + record.PID} isExternal>
+                <Tooltip label={record.pname} aria-label='A tooltip'>
+                    <Link href={"/paperDetails?PID=" + record.pID} isExternal>
                     {record.pname} <ExternalLinkIcon mx='2px' />
-                </Link>
+                    </Link>
+                </Tooltip>
             ),
             ellipsis: true,
-            width: 450
+            width: 400
         },{
             title: '第一作者',
             dataIndex: 'author',
@@ -685,12 +692,15 @@ function PaperList(props) {
             key: 'field',
             render: (_,record) => (
                 <HStack spacing={4}>
+                    <Tooltip label={record.field} aria-label='A tooltip'>
                     <Tag size='lg'  variant='subtle' bg='navy.200' color='white'>
                     <TagLabel>{record.field}</TagLabel>
                     </Tag>
+                    </Tooltip>
+                    
                 </HStack>
             ),
-            width: 160
+            width: 150
         },{
             title: '引用量',
             dataIndex: 'pcite',
@@ -706,7 +716,7 @@ function PaperList(props) {
                             colorScheme='frog'
                             h='7px'
                             borderRadius='10px'
-                            w='120px'
+                            w='110px'
                             value={100 * record.pcite / record.max_cite}/>
                 </Row>
             )
@@ -739,10 +749,10 @@ function PaperList(props) {
         borderRadius='25px' border='2px' borderColor='gray.200'
         className='list'>
             <Row>
-                <BarsOutlined style={{ fontSize: '36px', color: '#422afb', marginTop:'3px'}}></BarsOutlined>
+                <BarsOutlined style={{ fontSize: '28px', color: '#422afb', marginTop:'3px'}}></BarsOutlined>
                 <Text className='institution-Title'>论文</Text>
             </Row>
-            <Text mt='20px' ml='20px' color='gray.500' fontSize='md'>共有 {data.length} 篇论文</Text>
+            {/* <Text mt='20px' ml='20px' color='gray.500' fontSize='md'>共有 {data.length} 篇论文</Text> */}
             <Table dataSource={data} columns={columns} 
                     pagination={{
                         onChange: page => setCurrent(page)
@@ -829,7 +839,10 @@ function Journal({}) {
 
     },[])
     return(
-        <html className='journal'>
+        <Box className='journal'>
+            <Row>
+                <Header></Header>
+            </Row>
             <Row>
                 <Col span={15}>
                     <Title name={data.vfullname} cite={data.vcitecount}
@@ -840,22 +853,22 @@ function Journal({}) {
                 </Col>
             </Row>
             <Row>
-                <Col span={5} style={{marginLeft:'60px'}} >
+                <Col span={5} style={{marginLeft:'50px'}} >
                     <PaperAmount count={data.vworksyear}></PaperAmount>
                 </Col>
-                <Col span={5} style={{marginLeft:'40px'}}>
+                <Col span={5} style={{marginLeft:'50px'}}>
                     <CitationAmount count={data.vcitesyear}></CitationAmount>
                 </Col>
-                <Col span={5} style={{marginLeft:'40px'}}>
+                <Col span={5} style={{marginLeft:'50px'}}>
                     <PaperAmountAcc count={data.vworksAccumulate}></PaperAmountAcc>
                 </Col>
-                <Col span={5} style={{marginLeft:'40px'}}>
+                <Col span={5} style={{marginLeft:'50px'}}>
                     <CitationAmountAcc count={data.vcitesAccumulate}></CitationAmountAcc>
                 </Col>
             </Row>
             {/* <InstitutionList ></InstitutionList> */}
             <PaperList vid = {vid}></PaperList>
-        </html>
+        </Box>
     )
 }
 
