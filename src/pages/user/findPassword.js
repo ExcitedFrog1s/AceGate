@@ -37,6 +37,22 @@ const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
 
+async function validateVerifyCode(email, verifyCode) {
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("vercode", verifyCode);
+
+    await axios.post("/ConfirmVerCode", formData)
+        .then(res => {
+            console.log(res.data);
+        })
+}
+
+
+
+
+
 const validateEmail = (email) => {
     return String(email)
         .toLowerCase()
@@ -60,7 +76,7 @@ function FindPassword() {
 
         const formData = new FormData()
         formData.append("to", email)
-        axios.post('/sendEmail',formData)
+        axios.post('/sendEmail2',formData)
             .then(res => {
                 console.log(res.data)
                 if(res.data.code === 200){
@@ -91,6 +107,12 @@ function FindPassword() {
             let result =  sendVerificationEmail(email);
         }
     }
+
+    const handleValidateEmail = async e => {
+        e.preventDefault();
+        await validateVerifyCode(email, verifyCode);
+    }
+
 
 
     // console.log(verified);
@@ -232,7 +254,7 @@ function FindPassword() {
                                         marginBottom: '10px',
                                         letterSpacing: '3px',
                                     }}
-                                    onClick={goToSetPassword}
+                                    onClick={handleValidateEmail}
                                 >重置密码
                                 </Button>
                             </Row>
