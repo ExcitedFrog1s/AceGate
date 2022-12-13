@@ -2,7 +2,7 @@
 // Created by zyc on 2022/12/09.
 //
 
-import Header from '../../../components/header/header'
+import MyHeader from '../../../components/header/header'
 import * as React from 'react';
 import {Box, HStack, Input, Skeleton, Stack, Text} from "@chakra-ui/react";
 import ResultCard from "../result_card";
@@ -178,50 +178,52 @@ function DefaultSearchResults(props) {
 
     if(isLoading) {
         return (
-            <Stack ml={'150px'} mt={'100px'}>
-                <Row>
-                    <Col span={6}>
-                        <Skeleton height='30px' width='100px' mt='100px'/>
+            <Box>
+                <Header textColor={'black'}/>
+                <Stack ml={'150px'} mt={'100px'}>
+                    <Row>
+                        <Col span={6}>
+                            <Skeleton height='30px' width='100px' mt='100px'/>
 
-                        <Skeleton height='20px' width='250px' mt='40px'/>
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='20px' width='250px' mt='40px'/>
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
 
-                        <Skeleton height='20px' width='250px' mt='40px'/>
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                    </Col>
-                    <Col span={17} offset={1}>
-                        <Skeleton height='50px' width='700px' />
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='250px' mt='40px'/>
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        </Col>
+                        <Col span={17} offset={1}>
+                            <Skeleton height='50px' width='700px' />
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
 
-                        <Skeleton height='50px' width='700px' mt='100px' />
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='50px' width='700px' mt='100px' />
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
 
-                        <Skeleton height='50px' width='700px' mt='100px'/>
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                    </Col>
-                </Row>
-
-            </Stack>
+                            <Skeleton height='50px' width='700px' mt='100px'/>
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                        </Col>
+                    </Row>
+                </Stack>
+            </Box>
         )
     }
 
     return(
         <Box>
-        <Header textColor={'black'} />
+        <MyHeader textColor={'black'} />
         <Box>
             {/*左侧界面*/}
             <DefaultSearchFilter

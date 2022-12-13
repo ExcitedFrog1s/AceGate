@@ -2,7 +2,7 @@ import * as React from 'react'
 import PubSub from 'pubsub-js';
 import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
-import Header from '../../components/header/header';
+import MyHeader from '../../components/header/header';
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
 
@@ -129,7 +129,7 @@ function Search(props) {
         if(params.has('label')) {
             setDataList([
                 {
-                    category: 'PsystemTags',
+                    category: 'Cname',
                     content: params.get('label'),
                     type: 1
                 }
@@ -137,7 +137,7 @@ function Search(props) {
             PubSub.publish('PubParams', {
                 dataList: [
                     {
-                        category: 'PsystemTags',
+                        category: 'Cname',
                         content: params.get('label'),
                         type: 1
                     }],
@@ -145,25 +145,25 @@ function Search(props) {
                 endTime: endTime
             });
         }
-        else if(params.has('source')) {
-            setDataList([
-                {
-                    category: 'source',
-                    content: params.get('source'),
-                    type: 1
-                }
-            ])
-            PubSub.publish('PubParams', {
-                dataList: [
-                    {
-                        category: 'source',
-                        content: params.get('source'),
-                        type: 1
-                    }],
-                startTime: startTime,
-                endTime: endTime
-            });
-        }
+        // else if(params.has('source')) {
+        //     setDataList([
+        //         {
+        //             category: 'source',
+        //             content: params.get('source'),
+        //             type: 1
+        //         }
+        //     ])
+        //     PubSub.publish('PubParams', {
+        //         dataList: [
+        //             {
+        //                 category: 'source',
+        //                 content: params.get('source'),
+        //                 type: 1
+        //             }],
+        //         startTime: startTime,
+        //         endTime: endTime
+        //     });
+        // }
     }, [])
 
     return(
@@ -372,8 +372,8 @@ function AdvancedSearch({}) {
     return(
         <Box>
             <Row>
-                {/* <Heading size='md' style={{margin:'auto'}}>Header</Heading> */}
-                <Header></Header>
+                {/* <Heading size='md' style={{margin:'auto'}}>MyHeader</Heading> */}
+                <MyHeader></MyHeader>
             </Row>
             <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
                     onChange={onChange}
