@@ -65,8 +65,7 @@ function Abstract(prop) {
     return(
 
         <Box
-            width={'55%'}
-            minH={280}
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'15'}
             borderStyle={'solid'}

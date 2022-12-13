@@ -18,6 +18,11 @@ import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
 import axios from "axios";
 
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 // import * as React from "react";
 function Data(prop) {
     const property = {
@@ -107,13 +112,15 @@ function Data(prop) {
         };
         return(
             <Box
-                width={'35%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'} marginLeft={'60%'}
-                mr={20} position={'absolute'} boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}>
+                width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+                boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                backgroundColor={'#ffffff'}
+                padding="20px">
 
                 <StatGroup mt={10} mb={7} textAlign={'center'}>
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>引用量</StatLabel>
-                        <StatNumber color={'#5808fb'}>{Pdata.citeNum}</StatNumber>
+                        <StatLabel fontWeight='bold' fontSize="16px" color="">引用量</StatLabel>
+                        <StatNumber color={'#5808fb'}>{separator(Pdata.citeNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
                         {/*    23.36%*/}
@@ -122,7 +129,7 @@ function Data(prop) {
 
                     <Stat>
                         <StatLabel fontFamily={'宋体'}>被引用量</StatLabel>
-                        <StatNumber  color={'#650ff8'}>{Pdata.beCitedNum}</StatNumber>
+                        <StatNumber  color={'#650ff8'}>{separator(Pdata.beCitedNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
                         {/*    9.05%*/}
@@ -130,7 +137,7 @@ function Data(prop) {
                     </Stat>
                     <Stat>
                         <StatLabel fontFamily={'宋体'}>收藏量</StatLabel>
-                        <StatNumber color={"#8720ef"}>{Pdata.collectNum}</StatNumber>
+                        <StatNumber color={"#8720ef"}>{separator(Pdata.collectNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
                         {/*    23.36%*/}
@@ -139,7 +146,7 @@ function Data(prop) {
 
                     <Stat>
                         <StatLabel fontFamily={'宋体'}>评论量</StatLabel>
-                        <StatNumber color={"#9929ea"}>{Pdata.commentNum}</StatNumber>
+                        <StatNumber color={"#9929ea"}>{separator(Pdata.commentNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
                         {/*    9.05%*/}

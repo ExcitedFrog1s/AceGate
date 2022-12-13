@@ -507,7 +507,7 @@ function Op(prop) {
     // }
     return(
 
-        <Box borderWidth={'5'} marginLeft={'4.5%'} mt={320} fontSize={25} position={'relative'}>
+        <Box borderWidth={'5'} fontSize={25} >
 
             {prop.url.slice(-3,3) === "pdf" && <Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
                 <span>

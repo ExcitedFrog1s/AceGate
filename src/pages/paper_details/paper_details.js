@@ -11,7 +11,7 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
-import {Spin, Layout} from "antd";
+import { Row, Col, Layout} from "antd";
 import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
 import MyHeader from "../../components/header/header";
@@ -79,11 +79,28 @@ function PaperDetails() {
             <MyHeader></MyHeader>
             <div className="paperdetail">
                 <Info infos={infos}/>
-                <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
-                <Data pid={PID} fields={infos.pconcepts}/>
-                <Op  pid={PID} url={infos.p_Vurl}/>
-                <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
-                        reflink={infos.preferences} rellink={infos.prelated}/>
+                <Row gutter={30}>
+                    <Col span={15}>
+                        <Row>
+                        <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
+                        </Row>
+                        <Row>
+                            <Op  pid={PID} url={infos.p_Vurl}/>
+                        </Row>
+                        <Row>
+                            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
+                            reflink={infos.preferences} rellink={infos.prelated}/>
+                        </Row>
+                    </Col>
+                    <Col span={9}>
+                        <Data pid={PID} fields={infos.pconcepts}/>
+                    </Col>
+                </Row>
+                
+                
+                
+                
+                
             </div>
         </Layout>
     )

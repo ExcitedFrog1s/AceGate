@@ -38,13 +38,13 @@ function Reference(prop) {
     console.log(isrellink)
     return(
         <Box
-            width={'55%'}
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
-            marginLeft={'3%'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
+            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+            backgroundColor={'#ffffff'}
+            padding="20px"
         >
             <Tabs align={'end'} colorScheme={'purple'}>
                 <TabList >
