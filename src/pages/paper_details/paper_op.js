@@ -48,8 +48,8 @@ import axios from "axios";
 
     const formData = new FormData()
     formData.append('PID', prop.pid)
-    React.useEffect(async()=>{
-         await axios.post("/citations", formData
+    React.useEffect(()=>{
+         axios.post("/citations", formData
          )
              .then(function (res){
                  setCite(res.data)
