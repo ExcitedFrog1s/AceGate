@@ -16,10 +16,9 @@ function Keywords(prop){
         <Box>
         <HStack className="ft" mr={8} mt={5}>
             <Text textDecoration={'none'}
-                  color={'#161616'}
+                  color={'#4A5568'}
                   as={'b'}
                   ml={8} mt={5} mb={5}
-                  fontFamily={'宋体'}
                   fontSize={18}>关键词：</Text>
             {prop.kw.map((value,key) => {
 
@@ -28,7 +27,7 @@ function Keywords(prop){
                     return (
                         <Link mt={5} key={key} style={{ textDecoration:'none'}}>
                         <Text textDecoration={'none'}
-                              color={'#161616'}
+                              color={'#4A5568'}
                               mr={5}
                               // fontFamily={'Times New Roman'}
                               fontSize={18}>{value}</Text>
@@ -39,10 +38,9 @@ function Keywords(prop){
                     return (
 
                             <Text textDecoration={'none'}
-                                  color={'#161616'}
+                                  color={'#4A5568'}
                                   key={key}
                                   mt={5}
-                                  fontFamily={'Times New Roman'}
                                   fontSize={18}>.....</Text>
 
                     )
@@ -67,31 +65,38 @@ function Abstract(prop) {
     return(
 
         <Box
-            width={'55%'}
-            minH={280}
+            width={'100%'}
             borderWidth={'5'}
-            borderRadius={'12'}
+            borderRadius={'15'}
             borderStyle={'solid'}
-            marginLeft={'3%'}
-            color={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
-
+            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+            backgroundColor={'#ffffff'}
+            padding='15px'
         >
             <Text textDecoration={'none'}
-                  color={'#161616'}
-                  fontSize={25} fontFamily={'宋体'}
+                  color={'#4A5568'}
+                  fontSize={25} 
                   m={3}
-                  mt={5}
                   ml={8}
                   fontWeight={'bold'}
             >
                 摘要
             </Text>
-            <Box minH={75} mt={3}>
-            <Text ml={8} color={'#161616'} mb={6}
-                  fontSize={17} noOfLines={8} className="ft"
-            maxW={850} mr={8}>{prop.ab}</Text>
+            <Box mt={3} className="ab" css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#cccccc',
+              borderRadius: '24px',
+            },
+          }}>
+            <Text ml={8} color={'#4A5568'} mb={6} fontWeight={500}
+                  fontSize={17}  className="ft"
+             mr={8}>{prop.ab}</Text>
             </Box>
             {/*<Keywords kw={prop.kw}/>*/}
 

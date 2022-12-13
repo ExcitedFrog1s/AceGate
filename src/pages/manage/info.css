@@ -1,6 +1,6 @@
 /* 平台概况样式 */
 .info{
-    margin-left: 5%;
+    margin-left: 10%;
     margin-right: 5%;
     margin-top: 3%;
 }
@@ -42,7 +42,7 @@
     color: #319795;
 }
 .info .ant-row {
-    margin-bottom: 20px;
+    margin-bottom: 35px;
 }
 .info .ant-card{
     padding-left: 40px!important;
@@ -72,3 +72,9 @@
     font-size: 16px;
 }
 
+.info .totalTitle{
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #444545;
+}

@@ -18,6 +18,11 @@ import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
 import axios from "axios";
 
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 // import * as React from "react";
 function Data(prop) {
     const property = {
@@ -107,13 +112,15 @@ function Data(prop) {
         };
         return(
             <Box
-                width={'35%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'} marginLeft={'60%'}
-                mr={20} position={'absolute'} boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}>
+                width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+                boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                backgroundColor={'#ffffff'}
+                padding="20px">
 
-                <StatGroup mt={10} mb={7} textAlign={'center'}>
+                <StatGroup mt={8} mb={5} textAlign={'center'}>
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>引用量</StatLabel>
-                        <StatNumber color={'#5808fb'}>{Pdata.citeNum}</StatNumber>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">引用量</StatLabel>
+                        <StatNumber color={'frog.500'}>{separator(Pdata.citeNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
                         {/*    23.36%*/}
@@ -121,16 +128,16 @@ function Data(prop) {
                     </Stat>
 
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>被引用量</StatLabel>
-                        <StatNumber  color={'#650ff8'}>{Pdata.beCitedNum}</StatNumber>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">被引用量</StatLabel>
+                        <StatNumber  color={'frog.500'}>{separator(Pdata.beCitedNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
                         {/*    9.05%*/}
                         {/*</StatHelpText>*/}
                     </Stat>
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>收藏量</StatLabel>
-                        <StatNumber color={"#8720ef"}>{Pdata.collectNum}</StatNumber>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">收藏量</StatLabel>
+                        <StatNumber color={"frog.500"}>{separator(Pdata.collectNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
                         {/*    23.36%*/}
@@ -138,8 +145,8 @@ function Data(prop) {
                     </Stat>
 
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>评论量</StatLabel>
-                        <StatNumber color={"#9929ea"}>{Pdata.commentNum}</StatNumber>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">评论量</StatLabel>
+                        <StatNumber color={"frog.500"}>{separator(Pdata.commentNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
                         {/*    9.05%*/}
@@ -148,17 +155,17 @@ function Data(prop) {
                 </StatGroup>
                 <Divider/>
                 <Box ml={8} mt={5} mb={5}>
-                    <Text as={'b'} color={'black'} fontSize={20} fontFamily={'宋体'}>
+                    <Text as={'b'} fontSize={20} fontWeight='550' color="#4A5568">
                         领域
                     </Text>
-                    <UnorderedList mt={2} color={'#7551FF'}>
+                    <UnorderedList mt={5} color={'frog.500'}>
                         {prop.fields.map((value, key) => {
                             if(key <= 7){
                                 if(value[0] === 'C' && isNaN(Number(value[1],10)) === false && isNaN(Number(value[2],10)) === false){
 
                                 }
                                 else{
-                                    return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
+                                    return(<ListItem key={key} mb={2}><Link onClick={()=>handleClick(value)} fontWeight="bold" as='em'> {value}
                                     </Link></ListItem>)
                                 }
                             }
@@ -171,8 +178,7 @@ function Data(prop) {
                 <Box sx={{ minWidth: 120, width:'100%'}}>
                     <HStack mt={30}>
                         <Text  textDecoration={'none'}
-                               color={'#000000'}
-                               fontSize={'20'} fontFamily={'宋体'}
+                               fontSize={'20'} fontWeight='550' color="#4A5568"
                                ml={8}
                                mr={20}
                                whiteSpace={'normal'}

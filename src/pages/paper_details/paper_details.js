@@ -11,10 +11,11 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
-import {Spin} from "antd";
+import { Row, Col, Layout} from "antd";
 import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
-import MyHeader from '../../components/header/header'
+import MyHeader from "../../components/header/header";
+
 
 function PaperDetails() {
     axios.defaults.headers["Content-Type"] = 'application/json';
@@ -74,15 +75,38 @@ function PaperDetails() {
     }
 
     return(
-        <Box>
+        <Layout>
             <MyHeader></MyHeader>
-            <Info infos={infos}/>
-            <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
-            <Data pid={PID} fields={infos.pconcepts}/>
-            <Op  pid={PID} url={infos.p_Vurl}/>
-            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
-                       reflink={infos.preferences} rellink={infos.prelated}/>
-        </Box>
+            <div className="paperdetail">
+                <Box width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+                boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                backgroundColor={'#ffffff'}
+                padding="20px" mb={10}>
+                    <Info infos={infos}/>
+                    <Op  pid={PID} url={infos.p_Vurl}/>
+                </Box>
+                
+                <Row gutter={30}>
+                    <Col span={15}>
+                        <Row>
+                        <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
+                        </Row>
+                        <Row style={{marginTop:40}}>
+                            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
+                            reflink={infos.preferences} rellink={infos.prelated}/>
+                        </Row>
+                    </Col>
+                    <Col span={9}>
+                        <Data pid={PID} fields={infos.pconcepts}/>
+                    </Col>
+                </Row>
+                
+                
+                
+                
+                
+            </div>
+        </Layout>
     )
 }
 function Authors(prop){
@@ -153,7 +177,7 @@ function Info(prop){
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
     return(
-        <Box ml={'3%'} mb={5} className="ft">
+        <Box mb={5} className="ft">
             <Box>
             <Text fontSize={30}>
                 {prop.infos.pname}

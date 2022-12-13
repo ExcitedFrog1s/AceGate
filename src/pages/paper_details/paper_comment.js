@@ -222,7 +222,7 @@ function Comment(prop) {
                     <Box
                         key={key}
                         minH={'120'}
-                        width={'90%'}
+                        width={'100%'}
                         borderWidth={'5'}
                         borderRadius={'12'}
                         borderStyle={'solid'}
@@ -258,15 +258,12 @@ function Comment(prop) {
 
                 );
             })}
-        }
-
-
         </VStack>
             <Alert status='error' visibility={vis?"visible":"hidden"} mt={5} width={'90%'} ml={9}>
                 <AlertIcon />
                 请填写评论内容</Alert>
         <Box ml={9} mt={5} width={'90%'} size='lg'>
-            <Textarea placeholder='请发表你的见解' value={value} fontFamily={'宋体'}
+            <Textarea placeholder='请发表你的见解' value={value} 
                       onChange={handleInputChange}/>
             <Button  onClick={NewComment} ml={'90.5%'} color={"white"} fontFamily={'宋体'}
                     colorScheme='purple' bgColor={'#7551FF'} mt={5}>

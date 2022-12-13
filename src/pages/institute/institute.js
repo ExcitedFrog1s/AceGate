@@ -10,7 +10,9 @@ import { Heading } from '@chakra-ui/react'
 import { Card, Layout, Row, Col, Avatar, Button, Space, Table, Input } from 'antd';
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import MyHeader from '../../components/header/header';
 const { Header, Content } = Layout;
+
 function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -303,7 +305,7 @@ function Institute(){
 
     return (
         <Layout>
-            <Header style={{height:60}}></Header>
+            <MyHeader></MyHeader>
             <Content>
                 <div className="institute">
                     <Icard insdata={insdata}></Icard>

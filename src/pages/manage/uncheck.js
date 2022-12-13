@@ -1,7 +1,8 @@
 /**
  * 后台管理/审核认领
  */
-import { Card, Col, Row, Space, Table, Input, Modal, Form, Button, Tag } from 'antd';
+import { Card, Col, Row, Space, Table, Input, Modal, Form, Tag } from 'antd';
+import { Button } from '@chakra-ui/react'
 import React, { useEffect, useRef, useState } from 'react';
 import { SearchIcon } from '@chakra-ui/icons'
 import { useToast } from '@chakra-ui/react'
@@ -25,8 +26,17 @@ function CheckList() {
         }
       })
       .then(res => {
-          console.log(res.data)
-          setData(res.data.data)
+        console.log(res.data)
+        let a = res.data.data
+        for(let i in a){
+          let t = a[i]
+          for(let j in t){
+            if(!t[j]){
+              t[j] = 'none'
+            }
+          }
+        }
+        setData(a)
         }
       )
     }
@@ -61,7 +71,7 @@ function CheckList() {
           />
           </Col>
           <Col span={3}>
-            <Button type='primary'
+            <Button colorScheme='frog'
               onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
               size="small"
               style={{height:30}} 
@@ -70,7 +80,7 @@ function CheckList() {
             </Button>
           </Col>
           <Col span={3}>
-            <Button type='primary'
+            <Button colorScheme='frog'
               onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
               size="small"
               style={{height:30}} 
@@ -120,7 +130,7 @@ function CheckList() {
         setIsModalOpen(false);
       };
       return(
-        <><Button onClick={showModal} type='primary'>详情</Button>
+        <><Button onClick={showModal} size='sm' colorScheme='frog'>详情</Button>
         <Modal open={isModalOpen} className="modal" footer={null}
         title='认领申请详情' width={900} onCancel={handleCancel}>
           <div className='detailForm'>
@@ -131,8 +141,8 @@ function CheckList() {
                   <Form.Item label='申请者用户名'>
                     <div>{props.A.uname}</div>
                   </Form.Item>
-                  <Form.Item label='入驻申请类型'>
-                    {props.A.aatype == 1 && <div>认领学者门户</div> || props.A.aatype == 2 && <div>新建学者门户</div>}
+                  <Form.Item label='申请者用户ID'>
+                    <div>{props.A.aa_UID}</div>
                   </Form.Item>
                   <Form.Item label='申请者联系方式'>
                     <div>{props.A.aaemail}</div>
@@ -185,7 +195,7 @@ function CheckList() {
           data: {
             accept: props.type,
             opinion: content,
-            AAID: props.AAid
+            AAID: props.AAID
           },
           headers: {
             "Content-Type": "application/json",
@@ -222,14 +232,17 @@ function CheckList() {
       };
       //如果type == 2, 拒绝
       //如果type == 1, 通过
+      let bcolor
       if(props.type === 1){
         text = '通过';
+        bcolor = 'whatsapp'
       }
       else{
         text = '拒绝';
+        bcolor = 'red'
       }
       return (
-        <><Button size='xs' onClick={showModal}>
+        <><Button size='sm' onClick={showModal} colorScheme={bcolor}>
           {text}
         </Button>
         <Modal open={isModalOpen} onOk={handleOk} onCancel={handleCancel} 
@@ -247,14 +260,6 @@ function CheckList() {
     }
 
     const columns = [
-      {
-        title: '申请类型',
-        dataIndex: 'aatype',
-        key: 'aatype',
-        render: (_, record)=>(
-          record.aatype == 1 && <Tag color='purple'>认领</Tag> || record.aatype == 2 && <Tag color='blue'>新建</Tag>
-        )
-      },
       {
         title: '申请者用户名',
         dataIndex: 'uname',

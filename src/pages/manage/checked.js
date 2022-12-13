@@ -2,9 +2,9 @@
  * 后台管理/入驻学者
  */
 import "./checked.css"
-import { Card, Col, Row, Space, Table, Input, Modal, Form, Button, Tag } from 'antd';
+import { Card, Col, Row, Table, Input, Modal, Form, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { useToast } from '@chakra-ui/react'
+import { useToast,Button,Link,Text } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 import Highlighter from 'react-highlight-words'
 import axios from 'axios';
@@ -27,7 +27,16 @@ function List() {
         })
         .then(res => {
             console.log(res.data)
-            setData(res.data.data)
+            let a = res.data.data
+            for(let i in a){
+              let t = a[i]
+              for(let j in t){
+                if(!t[j]){
+                  t[j] = 'none'
+                }
+              }
+            }
+            setData(a)
           }
         )
       }
@@ -61,18 +70,18 @@ function List() {
           />
           </Col>
           <Col span={3}>
-            <Button type='primary'
+            <Button colorScheme='frog'
               onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-              size="small"
+              size="xs"
               style={{height:30}} 
             >
               <SearchIcon />
             </Button>
           </Col>
           <Col span={3}>
-            <Button type='primary'
+            <Button colorScheme='frog'
               onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
-              size="small"
+              size="xs"
               style={{height:30}} 
             >
               重置
@@ -120,7 +129,7 @@ function List() {
         setIsModalOpen(false);
       };
       return(
-        <><Button onClick={showModal} type='primary'>详情</Button>
+        <><Button onClick={showModal} colorScheme='frog' size='sm'>详情</Button>
         <Modal open={isModalOpen} className="modal" footer={null}
         title='认领详情' width={900} onCancel={handleCancel}>
           <div className='detailForm'>
@@ -131,8 +140,8 @@ function List() {
                   <Form.Item label='申请者用户名'>
                     <div>{props.A.uname}</div>
                   </Form.Item>
-                  <Form.Item label='入驻申请类型'>
-                    {props.A.aatype == 1 && <div>认领学者门户</div> || props.A.aatype == 2 && <div>新建学者门户</div>}
+                  <Form.Item label='申请者用户ID'>
+                    <div>{props.A.aa_UID}</div>
                   </Form.Item>
                   <Form.Item label='申请者联系方式'>
                     <div>{props.A.AAemail}</div>
@@ -141,7 +150,9 @@ function List() {
                     <div>{props.A.aaintroduction}</div>
                   </Form.Item>
                   {props.A.aatype == 1 && <Form.Item label='学者门户'>
-                    <a href={"/scholarPortal?RID="+props.A.AA_RID}>跳转学者门户</a>
+                      <Link href={"/scholarPortal?RID="+props.A.aa_RID}  isExternal>
+                        跳转学者门户
+                      </Link>
                   </Form.Item>}
                 </Form>
               </Card>
@@ -167,14 +178,24 @@ function List() {
             </Row>
             <Row>
               <Card title="审核结果" style={{width:850}}>
-                <Form>
-                  <Form.Item label="结果">
-                    {props.A.aaccept == 1 && <Tag color='green'>通过</Tag> || props.A.aaccept == 2 && <Tag color='red'>拒绝</Tag>}
-                  </Form.Item>
-                  <Form.Item label="说明">
-                    {props.A.aopinion}
-                  </Form.Item>
-                </Form>
+                <Row>
+                  <Col span={20}>
+                  <Form>
+                    <Form.Item label="结果">
+                      {props.A.aaccept == 1 && <Tag color='green'>通过</Tag> || props.A.aaccept == 2 && <Tag color='red'>拒绝</Tag>}
+                    </Form.Item>
+                    <Form.Item label="说明">
+                      {props.A.aopinion}
+                    </Form.Item>
+                  </Form>
+                  </Col>
+                  <Col span={4}>
+                  <div className='img1'>
+                    <img src={require("../../assets/check.png")}></img>
+                  </div>
+                  </Col>
+                </Row>
+                
               </Card>
             </Row>
           </div>
@@ -199,14 +220,6 @@ function List() {
         ...getColumnSearchProps('aaname'),
         sorter: (a, b) => a.aaname.localeCompare(b.aaname),
         sortDirections: ['descend', 'ascend'],
-      },
-      {
-        title: '申请类型',
-        dataIndex: 'aatype',
-        key: 'aatype',
-        render: (_, record)=>(
-          record.aatype == 1 && <Tag color='purple'>认领</Tag> || record.aatype == 2 && <Tag color='blue'>新建</Tag>
-        )
       },
       {
         title: '联系方式',
