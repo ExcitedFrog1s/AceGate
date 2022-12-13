@@ -211,7 +211,7 @@ function Info(prop){
                     </HStack>
                     <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
                     <Row>
-                        {/*<Op  pid={prop.PID} url={prop.infos.p_Vurl}/>*/}
+                        <Op  pid={prop.PID} url={prop.infos.p_Vurl}/>
                     </Row>
                 </Col>
                 <Col span={4}>
