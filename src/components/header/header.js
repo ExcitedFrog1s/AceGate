@@ -179,7 +179,7 @@ function MyHeader({textColor, isLanding=false}){
                 <Col span='2' offset={1}>
                     <Avatar src={require("../../assets/acegate_icon_header.png")} width='95px' height='60px' marginTop='9px'></Avatar>
                 </Col>
-                <Col span='10' offset={1}>
+                <Col span='9' offset={1}>
                     {isLanding ?
                             <Box />
                             :
@@ -221,6 +221,7 @@ function MyHeader({textColor, isLanding=false}){
                     <Popover>
                         <PopoverTrigger>
                             <Link
+                            ml='30px'
                             color='white'
                             fontSize={'15px'}
                             _hover={{
@@ -355,11 +356,11 @@ function MyHeader({textColor, isLanding=false}){
                     <p></p>
                 }
                 </Col>
-                <Col style={{margin:'auto'}}>
+                <Col span='5' style={{margin:'auto'}} >
                     {isLoggedIn ?
-                        <Popover>
+                        <Popover >
                         <PopoverTrigger>
-                            <Row>
+                            <Row style={{marginLeft:'60px'}}>
                                 <Col>
                                     <Text mt='6px' color='white' size='2xl' fontWeight='550'>👏Hey , {user.uname}</Text>
                                 </Col>
@@ -412,6 +413,7 @@ function MyHeader({textColor, isLanding=false}){
                     </Link>
                     }
                 </Col>
+
             </Row>
 
             <Drawer title="翻译" placement="right" onClose={onClose} open={open} width={600}>
