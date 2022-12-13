@@ -159,7 +159,6 @@ function Recommendation(props) {
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            padding={6}
             css={{
                 '&::-webkit-scrollbar': {
                   width: '4px',

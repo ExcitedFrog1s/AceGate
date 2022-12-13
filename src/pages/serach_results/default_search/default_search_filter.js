@@ -146,7 +146,6 @@ function DefaultSearchFilter(props) {
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
-            padding={6}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             css={{
                 '&::-webkit-scrollbar': {
