@@ -1,5 +1,7 @@
 import "antd/dist/antd.min.css";
 import "./editPortal.css"
+import right from '../../assets/check.png';
+import left from '../../assets/manageinfo.png';
 import {
     Typography,
     Layout,
@@ -10,6 +12,7 @@ import {
     Button,
     Form, Input,
     Menu,
+    Image
 } from 'antd';
 import MyHeader from '../../components/header/header'
 import { LoadingOutlined, PlusOutlined, CheckCircleOutlined} from '@ant-design/icons';
@@ -133,7 +136,7 @@ function EditPortal() {
             >
                 <div
                     style={{
-                        padding: '80px 50px 50px 50px',
+                        padding: '40px 0px 50px 50px',
                         Height: '200px',
                         background: 'linear-gradient(180deg,rgba(255,255,255,1.0), rgba(255,255,255,0.4))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
@@ -141,16 +144,24 @@ function EditPortal() {
                     }}
                 >
                     <Row>
-                        <Col span={3}></Col>
-                        <Col>
+                        <Col span={4}></Col>
+                        <Col span={10}>
                             <Typography>
                                 <Title
                                     style={{
                                         fontSize: '50px',
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
+                                        marginLeft: '20px',
+                                        marginTop: '40px'
+
                                     }}
                                 >{data.rname}</Title>
                             </Typography>
+                        </Col>
+                        <Col span={10}>
+                            <Image src={right} preview={false} style={{
+                                width: '60%',
+                            }}></Image>
                         </Col>
                     </Row>
                     <Form
@@ -247,6 +258,7 @@ function EditPortal() {
                             padding: '8px 0 0 0',
                         }}
                     >
+                        <Image src={left} preview={false} style={{width: '60%', marginTop: '-200px'}}></Image>
                         <Link
                             to={{
                                 pathname: '/scholarPortal',
