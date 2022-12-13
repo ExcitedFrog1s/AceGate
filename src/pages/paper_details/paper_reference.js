@@ -50,11 +50,11 @@ function Reference(prop) {
             backgroundColor={'#ffffff'}
             padding="20px"
         >
-            <Tabs align={'end'} colorScheme={'purple'}>
+            <Tabs colorScheme={'frog'}>
                 <TabList >
-                    <Tab >参考文献</Tab>
-                    <Tab>相关文献</Tab>
-                    <Tab>文章评论</Tab>
+                    <Tab fontWeight='bold'>参考文献</Tab>
+                    <Tab fontWeight='bold'>相关文献</Tab>
+                    <Tab fontWeight='bold'>文章评论</Tab>
                 </TabList>
 
                 <TabPanels>
@@ -74,15 +74,14 @@ function Reference(prop) {
                         {prop.refs.map((value, key) => {
                             // console.log(value)
                             return (<ListItem key={key} mb={4} className={'t'}>
-                            <Link style={{textDecoration:'none'}} onClick={()=>handleClick(value.pid)}>
+                            <Link onClick={()=>handleClick(value.pid)} fontWeight='bold' color={'#4A5568'}>
                             [{key+1}]&nbsp;&nbsp;
                         {value.pname}
-
                             </Link>
                             <HStack>
                         {(value.Pauthor !== undefined) &&
                             value.Pauthor.map((aut,key1) => {
-                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
+                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6} fontWeight='bold'>
                         {aut}</Text>
                             )
                         })
@@ -94,16 +93,15 @@ function Reference(prop) {
                         })}
 
                             </List>}
-                        {isreflink && <List mt={4} fontSize={'15'}>
+
+                        {isreflink && <List mt={4} fontSize={'15'} fontWeight='bold' color={'#4A5568'}>
                             {prop.reflink.map((value, key) => {
                                 if(key < 5){
                                     return (<ListItem key={key} mb={4} className={'t'}>
                                         <Link style={{textDecoration:'none'}} onClick={()=>jump(value)} >
                                             [{key+1}]&nbsp;&nbsp;
                                             {value}
-
                                         </Link>
-
                                     </ListItem>)
                                 }
                                 // console.log(value)
@@ -130,7 +128,7 @@ function Reference(prop) {
                             {prop.rels.map((value, key) => {
                                 console.log(value)
                                 return (<ListItem key={key} mb={4} className={'t'}>
-                                    <Link onClick={() => handleClick(value.pid)} style={{textDecoration: 'none'}}>
+                                    <Link onClick={() => handleClick(value.pid)} fontWeight='bold' color={'#4A5568'}>
                                         [{key + 1}]&nbsp;&nbsp;
                                         {value.pname}
 
@@ -138,7 +136,7 @@ function Reference(prop) {
                                     <HStack>
                                         {(value.Pauthor !== undefined) &&
                                             value.Pauthor.map((aut, key1) => {
-                                                return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
+                                                return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6} fontWeight='bold'>
                                                         {aut}</Text>
                                                 )
                                             })
@@ -155,7 +153,7 @@ function Reference(prop) {
                                 // console.log(value)
                                 if(key < 5){
                                     return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{textDecoration:'none'}} onClick={()=>jump(value)}>
+                                        <Link onClick={()=>jump(value)} fontWeight='bold' color={'#4A5568'}>
                                             [{key+1}]&nbsp;&nbsp;
                                             {value}
 

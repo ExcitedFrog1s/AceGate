@@ -78,16 +78,20 @@ function PaperDetails() {
         <Layout>
             <MyHeader></MyHeader>
             <div className="paperdetail">
-                <Info infos={infos}/>
+                <Box width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+                boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                backgroundColor={'#ffffff'}
+                padding="20px" mb={10}>
+                    <Info infos={infos}/>
+                    <Op  pid={PID} url={infos.p_Vurl}/>
+                </Box>
+                
                 <Row gutter={30}>
                     <Col span={15}>
                         <Row>
                         <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
                         </Row>
-                        <Row>
-                            <Op  pid={PID} url={infos.p_Vurl}/>
-                        </Row>
-                        <Row>
+                        <Row style={{marginTop:40}}>
                             <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
                             reflink={infos.preferences} rellink={infos.prelated}/>
                         </Row>
@@ -173,7 +177,7 @@ function Info(prop){
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
     return(
-        <Box ml={'3%'} mb={5} className="ft">
+        <Box mb={5} className="ft">
             <Box>
             <Text fontSize={30}>
                 {prop.infos.pname}
