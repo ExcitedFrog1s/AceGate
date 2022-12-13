@@ -33,6 +33,7 @@ import './advancedSearch.css';
 import moment from 'moment'
 import locale from 'antd/lib/date-picker/locale/zh_CN'
 import 'moment/locale/zh-cn'
+import {key} from "localforage";
 moment.locale('zh-cn')
 
 
@@ -198,7 +199,8 @@ function Search(props) {
                                     onChange={(e) => {
                                         dataList[index].type = e.target.value;
                                         setDataList([...dataList]);
-                                    }}>
+                                    }}
+                                >
                                     <option value='1'>AND</option>
                                     <option value='2'>OR</option>
                                     <option value='3'>NOT</option>
@@ -243,7 +245,12 @@ function Search(props) {
                             value={item.content}
                             onChange={(e) => {
                                 dataList[index].content = e.target.value;
-                                setDataList([...dataList]);}}>
+                                setDataList([...dataList]);}}
+                            onKeyPress={(value) => {
+                                if(value.key === "Enter")
+                                search()
+                            }}
+                        >
                         </Input>
                     </Col>
                     <Col span={2} offset={1}>
@@ -284,7 +291,7 @@ function Search(props) {
                 </Col>
             </Row>
             <ButtonGroup spacing={20} style={{marginTop: '60px', marginLeft: '300px'}} >
-                <Button  leftIcon={<Search2Icon />} 
+                <Button  leftIcon={<Search2Icon />}
                 colorScheme='blue'
                         size='sm'
                         onClick={search}>
@@ -369,7 +376,7 @@ function AdvancedSearch({}) {
                 <Header></Header>
             </Row>
             <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
-                    onChange={onChange} 
+                    onChange={onChange}
                     bgGradient='linear(to-r, gray.100, gray.300)'>
                     <AccordionItem padding={'10px'}  >
                         <AccordionButton>
