@@ -136,7 +136,7 @@ function Authors(prop){
         })
         }
         {
-
+        prop.pauthor !== undefined &&
         prop.pauthor.map((value, key) => {
                 if(cur_num < 10){
                     if(key < 10 - cur_num){
