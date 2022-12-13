@@ -843,6 +843,7 @@ function Journal({}) {
             <Row>
                 <MyHeader></MyHeader>
             </Row>
+            
             <Row>
                 <Col span={15}>
                     <Title name={data.vfullname} cite={data.vcitecount}
