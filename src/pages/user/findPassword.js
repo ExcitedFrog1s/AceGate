@@ -43,10 +43,34 @@ async function validateVerifyCode(email, verifyCode) {
     formData.append("email", email);
     formData.append("vercode", verifyCode);
 
+    let ret = -1;
+
     await axios.post("/ConfirmVerCode", formData)
         .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
+            if (res.data.code === 200) {
+                ret = 0;
+            }
         })
+    return ret;
+}
+
+async function resetPassword(email, password) {
+
+    let ret = -1;
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+
+    await axios.post("/ChangePassword", formData)
+        .then(res => {
+            // console.log(res.data);
+            if(res.data.code === 200) {
+                ret = 0;
+            }
+        })
+    return ret;
 }
 
 
@@ -67,7 +91,11 @@ function FindPassword() {
     const [email, setEmail] = useState("");
     const [verified, setVerified] = useState(false);
     const [hasSendCode, setHasSendCode] = useState(0);
-    const [verifyCode, setVerifycode] = useState(0);
+    const [verifyCode, setVerifyCode] = useState(0);
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmNewPassword, setConfirmNewPassword] = useState("");
+
+
     const [countdown, setCountdown] = useState(0);
 
     const toast = useToast();
@@ -110,7 +138,76 @@ function FindPassword() {
 
     const handleValidateEmail = async e => {
         e.preventDefault();
-        await validateVerifyCode(email, verifyCode);
+        let result = await validateVerifyCode(email, verifyCode);
+        if (result === 0) {
+            toast({
+                title: '验证码校验通过，请重置密码',
+                status: 'success',
+                position:'top',
+                duration: 5000,
+                isClosable: true,
+            })
+            goToSetPassword();
+        }
+    }
+
+    const handleResetPassword = async e => {
+        e.preventDefault();
+
+        if (newPassword !== confirmNewPassword) {
+            toast({
+                title: '两次输入的密码不一致。',
+                status: 'error',
+                position:'top',
+                duration: 5000,
+                isClosable: true,
+            })
+            return;
+        }
+
+        if (newPassword.length < 8 || newPassword.length > 16) {
+            toast({
+                title: '密码长度不符合要求，请输入8-16位密码，必须包含大小写字母、数字',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+            })
+            return -1;
+        }
+
+        var reg = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
+        if (!reg.test(newPassword)) {
+            toast({
+                title: '密码需包含大小写字母、数字',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+            })
+            return -1;
+        }
+
+
+        let result = await resetPassword(email, newPassword);
+        if (result === 0) {
+            toast({
+                title: '成功修改密码！',
+                status: 'success',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+            })
+            goToLogin();
+        }else {
+            toast({
+                title: '修改密码失败，请联系网站管理员。',
+                status: 'error',
+                position:'top',
+                duration: 9000,
+                isClosable: true,
+            })
+        }
     }
 
 
@@ -221,6 +318,7 @@ function FindPassword() {
                                         style={{
                                             width: '55%',
                                         }}
+                                        onChange={e => setVerifyCode(e.target.value)}
                                     />
                                     <Button
                                         className={'findPasswordButton'}
@@ -307,6 +405,7 @@ function FindPassword() {
                                         style={{
                                             margin: '20px 15px 0 0px',
                                         }}
+                                        onChange={e => setNewPassword(e.target.value)}
                                     />
                                 </Form.Item>
                                 <Form.Item
@@ -320,6 +419,7 @@ function FindPassword() {
                                         style={{
                                             margin: '20px 15px 0 0px',
                                         }}
+                                        onChange={e => setConfirmNewPassword(e.target.value)}
                                     />
                                 </Form.Item>
                             </Form>
@@ -336,8 +436,8 @@ function FindPassword() {
                                         marginBottom: '10px',
                                         letterSpacing: '3px',
                                     }}
-                                    onClick={goToLogin}
-                                >去登录
+                                    onClick={handleResetPassword}
+                                >重置
                                 </Button>
                             </Row>
                         </Col>

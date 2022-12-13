@@ -1,7 +1,7 @@
 
-import {Box, Button, Input, Link, Text, InputGroup, InputLeftElement} from '@chakra-ui/react'
+import {Box, Button, Input, Link, Text, InputGroup, InputLeftElement,Image, space} from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
-import './header.css'
+// import './header.css'
 import {
     Popover,
     PopoverTrigger,
@@ -92,7 +92,7 @@ const NavLink = ({ children }) => (
 
 
 
-function Header({textColor, isLanding=false}){
+function MyHeader({textColor, isLanding=false}){
     const navigate = useNavigate();
     const [user, SetUser]=React.useState({uname:''});
     const [open, setOpen] = React.useState(false);
@@ -103,10 +103,11 @@ function Header({textColor, isLanding=false}){
       setOpen(false);
     };
     React.useEffect(() => {
+        console.log(user.uname)
         var config = {
         method: 'post',
         url: '/personInfo',
-        headers: { 
+        headers: {
             token: localStorage.getItem("userToken")
         }
         };
@@ -181,7 +182,7 @@ function Header({textColor, isLanding=false}){
                 </Col>
                 <Col span={2} style={{margin:'auto'}}>
                     {isLoggedIn ?
-                        <Link href={"/advancedSearch"} color='white' fontSize={'15px'}>
+                        <Link target = "_blank"  href={"/advancedSearch"} color='white' fontSize={'15px'}>
                             高级检索
                         </Link>
                     :
@@ -192,7 +193,7 @@ function Header({textColor, isLanding=false}){
                 {isLoggedIn ?
                     <Popover>
                         <PopoverTrigger>
-                            <Link                         
+                            <Link
                             color='white'
                             fontSize={'15px'}
                             _hover={{
@@ -200,16 +201,126 @@ function Header({textColor, isLanding=false}){
                             }}>⚒️工具箱</Link>
                             {/* <Text color='white' size='2xl' >⚒️工具箱</Text> */}
                         </PopoverTrigger>
-                        <PopoverContent w='240px' border='blue'>
+                        <PopoverContent w='450px' border='blue'>
                             <PopoverArrow />
                             <PopoverCloseButton />
                             <PopoverHeader>
                                     <Text fontSize='md' fontWeight='550' mr='20px'> </Text>
                             </PopoverHeader>
                             <PopoverBody>
-                                <Button onClick={()=>{
+                                <Row>
+                                <Col span={6}>
+                                    <Image src={require('../../assets/chinese.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                            window.open("https://www.paperfree.cn")
+                                            }}
+                                            size='md'>
+                                        中文查重
+                                        </Button>
+                                    </Col>
+                                    <Col span={6}>
+                                    <Image src={require('../../assets/english.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                            window.open("https://www.turnitin.com/zh-hans")
+                                            }}
+                                            size='md'>
+                                        英文查重
+                                        </Button>
+                                    </Col>
+                                    <Col span={6}>
+                                        <Image src={require('../../assets/translate.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                            showDrawer()
+                                            }}
+                                            size='md'>
+                                        论文翻译
+                                        </Button>
+                                    </Col>
+
+                                    <Col span={6}>
+                                    <Image src={require('../../assets/analyse.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                             window.open("https://www.letpub.com.cn/index.php?page=journalapp")
+
+                                            }}
+                                            size='md'>
+                                        投稿分析
+                                        </Button>
+                                    </Col>
+                                </Row>
+
+                                <Row style={{marginTop:"20px"}}>
+                                    <Col span={6}>
+                                        <Image src={require('../../assets/rank.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                            window.open("https://www.acemap.info/ranking")
+                                            }}
+                                            size='md'>
+                                        排名引擎
+                                        </Button>
+                                    </Col>
+                                    <Col span={6}>
+                                    <Image src={require('../../assets/journal-header.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                            window.open("https://www.scimagojr.com/journalrank.php")
+                                            }}
+                                            size='md'>
+                                        期刊频道
+                                        </Button>
+                                    </Col>
+                                    <Col span={6}>
+                                    <Image src={require('../../assets/conference.png')} height='55px'w='55px' ml='15px' />
+                                        <Button onClick={()=>{
+                                           window.open("http://www.conferenceranks.com/")
+                                            }}
+                                            size='md'>
+                                        会议频道
+                                        </Button>
+                                    </Col>
+                                    <Col span={6}>
+                                    <Image src={require('../../assets/website.png')} height='55px'w='55px'  ml='15px'/>
+                                    <Popover placement='bottom-start'>
+                                    <PopoverTrigger>
+                                        <Button size='md'>
+                                        学术平台
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent  w='100px'>
+                                        <PopoverBody>
+                                        <Button onClick={()=>{
+                                           window.open("https://scholar.google.com")
+                                            }}
+                                            size='sm'
+                                            w='90px'>
+                                            Google Scholar
+                                        </Button>
+                                        <Button onClick={()=>{
+                                           window.open("https://arxiv.org/")
+                                            }}
+                                            size='sm'
+                                            w='90px'>
+                                            arXiv
+                                        </Button>
+                                        <Button onClick={()=>{
+                                           window.open("https://www.acemap.info")
+                                            }}
+                                            size='sm'
+                                            w='90px'>
+                                            AceMap
+                                        </Button>
+                                        </PopoverBody>
+                                    </PopoverContent>
+                                    </Popover>
+
+                                    </Col>
+                                </Row>
+
+
+
+
+                                {/* <Button onClick={()=>{
                                     showDrawer()
-                                }}> 翻译</Button>
+                                }}> 翻译</Button> */}
                             </PopoverBody>
                         </PopoverContent>
                     </Popover>
@@ -225,16 +336,16 @@ function Header({textColor, isLanding=false}){
                                 <Col>
                                     <Text mt='6px' color='white' size='2xl' fontWeight='550'>👏Hey , {user.uname}</Text>
                                 </Col>
-                                <Col> 
+                                <Col>
                                     <Avatar width='35px' ml='8px' height='35px' name={user.uname}></Avatar>
                                 </Col>
                             </Row >
                         </PopoverTrigger>
-                        <PopoverContent w='240px' border='blue'>
+                        <PopoverContent w='240px' border='blue' >
                             <PopoverArrow />
                             <PopoverCloseButton />
                             <PopoverHeader>
-                                    <Text fontSize='md' fontWeight='550' mr='20px'>Email  </Text>
+                                    <Text fontSize='md' fontWeight='550' mr='20px' >Email  </Text>
                                     <Text ml='20px' mt='10px'>{user.uemail}</Text>
                             </PopoverHeader>
                             <PopoverBody>
@@ -273,7 +384,7 @@ function Header({textColor, isLanding=false}){
                 </Col>
             </Row>
 
-            <Drawer title="翻译" placement="right" onClose={onClose} open={open} width={640}>
+            <Drawer title="翻译" placement="right" onClose={onClose} open={open} width={600}>
                 <Translate></Translate>
             </Drawer>
         </Box>
@@ -281,4 +392,4 @@ function Header({textColor, isLanding=false}){
     )
 }
 
-export default Header;
+export default MyHeader;

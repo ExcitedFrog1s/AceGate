@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
 
-import Header from '../../components/header/header';
+import MyHeader from '../../components/header/header';
 
 import {useLocation, useNavigate} from "react-router-dom";
 
@@ -841,7 +841,7 @@ function Journal({}) {
     return(
         <Box className='journal'>
             <Row>
-                <Header></Header>
+                <MyHeader></MyHeader>
             </Row>
             <Row>
                 <Col span={15}>

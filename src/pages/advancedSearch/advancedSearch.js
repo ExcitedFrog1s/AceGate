@@ -2,7 +2,7 @@ import * as React from 'react'
 import PubSub from 'pubsub-js';
 import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
-import Header from '../../components/header/header';
+import MyHeader from '../../components/header/header';
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
 
@@ -129,7 +129,7 @@ function Search(props) {
         if(params.has('label')) {
             setDataList([
                 {
-                    category: 'PsystemTags',
+                    category: 'Pname',
                     content: params.get('label'),
                     type: 1
                 }
@@ -137,7 +137,7 @@ function Search(props) {
             PubSub.publish('PubParams', {
                 dataList: [
                     {
-                        category: 'PsystemTags',
+                        category: 'Pname',
                         content: params.get('label'),
                         type: 1
                     }],
@@ -145,25 +145,25 @@ function Search(props) {
                 endTime: endTime
             });
         }
-        else if(params.has('source')) {
-            setDataList([
-                {
-                    category: 'source',
-                    content: params.get('source'),
-                    type: 1
-                }
-            ])
-            PubSub.publish('PubParams', {
-                dataList: [
-                    {
-                        category: 'source',
-                        content: params.get('source'),
-                        type: 1
-                    }],
-                startTime: startTime,
-                endTime: endTime
-            });
-        }
+        // else if(params.has('source')) {
+        //     setDataList([
+        //         {
+        //             category: 'source',
+        //             content: params.get('source'),
+        //             type: 1
+        //         }
+        //     ])
+        //     PubSub.publish('PubParams', {
+        //         dataList: [
+        //             {
+        //                 category: 'source',
+        //                 content: params.get('source'),
+        //                 type: 1
+        //             }],
+        //         startTime: startTime,
+        //         endTime: endTime
+        //     });
+        // }
     }, [])
 
     return(
@@ -227,10 +227,9 @@ function Search(props) {
                             <option value='main'>篇关摘</option>
                             <option value='Pname'>篇名</option>
                             <option value='Pabstract'>摘要</option>
-                            <option value='Pconcepts'>关键词</option>
+                            <option value='Pconcepts'>领域</option>
                             <option value='Pauthor'>作者</option>
                             <option value='Iname'>作者机构</option>
-                            <option value='Cname'>领域</option>
                             <option value='source'>论文来源</option>
                             <option value='DOI'>DOI</option>
                             <option value='PsystemTags'>标签</option>
@@ -372,8 +371,8 @@ function AdvancedSearch({}) {
     return(
         <Box>
             <Row>
-                {/* <Heading size='md' style={{margin:'auto'}}>Header</Heading> */}
-                <Header></Header>
+                {/* <Heading size='md' style={{margin:'auto'}}>MyHeader</Heading> */}
+                <MyHeader></MyHeader>
             </Row>
             <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
                     onChange={onChange}

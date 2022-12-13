@@ -2,7 +2,7 @@
 // Created by zyc on 2022/12/09.
 //
 
-import Header from '../../../components/header/header'
+import MyHeader from '../../../components/header/header'
 import * as React from 'react';
 import {Box, HStack, Input, Skeleton, Stack, Text} from "@chakra-ui/react";
 import ResultCard from "../result_card";
@@ -22,6 +22,9 @@ function Sort(props) {
         props.setSortOrder(value)
         let data = {}
         data.normalSearch = params.get('q')
+        if(data.normalSearch === undefined) {
+            data.normalSearch = ''
+        }
         data.filterAuthors = props.filterAuthor
         data.filterPublicationTypes = props.filterPublicationType
         data.startTime = props.startTime
@@ -103,6 +106,9 @@ function DefaultSearchResults(props) {
         setCurrentPageIndex(page)
         let data = {}
         data.normalSearch = params.get('q')
+        if(data.normalSearch === undefined) {
+            data.normalSearch = ''
+        }
         data.filterAuthors = filterPublicationType
         data.filterPublicationTypes = filterAuthor
         data.startTime = startTime
@@ -141,6 +147,9 @@ function DefaultSearchResults(props) {
     React.useEffect(() => {
         let data = {}
         data.normalSearch = params.get('q')
+        if(data.normalSearch === undefined) {
+            data.normalSearch = ''
+        }
         data.filterAuthors = null
         data.filterPublicationTypes = null
         data.startTime = "1900-01-01"
@@ -156,6 +165,7 @@ function DefaultSearchResults(props) {
         setLoading(true)
         axios(config)
             .then(res => {
+                console.log(res.data)
                 setInfos(res.data.data.list)
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
@@ -178,50 +188,52 @@ function DefaultSearchResults(props) {
 
     if(isLoading) {
         return (
-            <Stack ml={'150px'} mt={'100px'}>
-                <Row>
-                    <Col span={6}>
-                        <Skeleton height='30px' width='100px' mt='100px'/>
+            <Box>
+                <MyHeader textColor={'black'}/>
+                <Stack ml={'150px'} mt={'100px'}>
+                    <Row>
+                        <Col span={6}>
+                            <Skeleton height='30px' width='100px' mt='100px'/>
 
-                        <Skeleton height='20px' width='250px' mt='40px'/>
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='20px' width='250px' mt='40px'/>
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
 
-                        <Skeleton height='20px' width='250px' mt='40px'/>
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                        <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
-                    </Col>
-                    <Col span={17} offset={1}>
-                        <Skeleton height='50px' width='700px' />
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='250px' mt='40px'/>
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                            <Skeleton height='15px' width='200px' mt='10px' ml='50px' />
+                        </Col>
+                        <Col span={17} offset={1}>
+                            <Skeleton height='50px' width='700px' />
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
 
-                        <Skeleton height='50px' width='700px' mt='100px' />
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='50px' width='700px' mt='100px' />
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
 
-                        <Skeleton height='50px' width='700px' mt='100px'/>
-                        <Skeleton height='20px' width='400px' mt='10px' />
-                        <Skeleton height='20px' width='200px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='20px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                        <Skeleton height='20px' width='800px' mt='10px' />
-                    </Col>
-                </Row>
-
-            </Stack>
+                            <Skeleton height='50px' width='700px' mt='100px'/>
+                            <Skeleton height='20px' width='400px' mt='10px' />
+                            <Skeleton height='20px' width='200px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='20px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                            <Skeleton height='20px' width='800px' mt='10px' />
+                        </Col>
+                    </Row>
+                </Stack>
+            </Box>
         )
     }
 
     return(
         <Box>
-        <Header textColor={'black'} />
+        <MyHeader textColor={'black'} isLoading={false}/>
         <Box>
             {/*左侧界面*/}
             <DefaultSearchFilter
@@ -240,7 +252,7 @@ function DefaultSearchResults(props) {
             />
             <Recommendation recommendation={recommendationInfos}/>
             <Box>
-                {/*排序*/}
+            {/*    /!*排序*!/*/}
                 {
                     !resIsEmpty &&
                     <Sort
@@ -261,7 +273,7 @@ function DefaultSearchResults(props) {
                     <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
                     <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
                 </HStack>
-                {/*论文卡片*/}
+            {/*    /!*论文卡片*!/*/}
                 <Box mt={'200'} ml={'-60px'}>
                     {
                         infos.map((value,key) => {
