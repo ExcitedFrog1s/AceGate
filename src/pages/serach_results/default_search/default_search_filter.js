@@ -1,7 +1,7 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
+import "./search.css"
 import {Box, Stack, Input, Text, Checkbox, Button, RadioGroup, Radio} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
@@ -28,20 +28,18 @@ function DefaultSearchTimeRangeFilter(props) {
     };
 
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text mb={'10px'} fontWeight='bold' color='#'>{'发表年份'}</Text>
-            <Col span={17}>
-                <RangePicker locale={locale} picker="month" className='datePicker'
+        <Box mt={'50px'}>
+            <Text mb={2} fontWeight='bold' color='#4A5568' fontSize={16}>{'发表年份'}</Text>
+            <RangePicker locale={locale} picker="month" className='datePicker'
                              onChange={changeTime} key={timeValue}/>
-            </Col>
         </Box>
     )
 }
 
 function DefaultSearchPublicationTypesFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text>{'出版类型'}</Text>
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' mb={2} fontSize={16}>{'出版类型'}</Text>
             <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
@@ -65,7 +63,7 @@ function DefaultSearchPublicationTypesFilter(props) {
 function DefaultSearchAuthorsFilter(props) {
     return(
         <Box ml={'20px'} mt={'30px'}>
-            <Text>{'作者'}</Text>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'作者'}</Text>
             <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
@@ -142,18 +140,30 @@ function DefaultSearchFilter(props) {
     }
     return(
         <Box
-            Height={'800px'}
+            className='left'
             width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
+            padding={5}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}
         >
-            <Box>
+            <Box className="filterbutton">
                 <Button
-                    ml={'55%'}
-                    mt={'20px'}
+                    float={"right"}
                     rightIcon={<AiOutlineFilter/>}
                     colorScheme='blue'
                     variant='outline'

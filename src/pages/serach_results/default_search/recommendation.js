@@ -1,6 +1,6 @@
 import {Box, HStack, Link, Text, VStack} from "@chakra-ui/react";
 import * as React from 'react';
-
+import "./search.css"
 
 function Author(props) {
     const [isHover1, setIsHover1] = React.useState(false)

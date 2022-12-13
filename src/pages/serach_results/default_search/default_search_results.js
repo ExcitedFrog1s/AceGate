@@ -1,7 +1,7 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
+import "./search.css"
 import MyHeader from '../../../components/header/header'
 import * as React from 'react';
 import {Box, HStack, Input, Skeleton, Stack, Text} from "@chakra-ui/react";
@@ -232,7 +232,7 @@ function DefaultSearchResults(props) {
     }
 
     return(
-        <Box>
+        <Box className='search'>
         <MyHeader textColor={'black'} isLoading={false}/>
         <Box>
             <Row gutter={20} style={{marginTop:30}}>
