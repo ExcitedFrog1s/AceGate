@@ -2,6 +2,7 @@ import './loginAndRegister.css';
 import "antd/dist/antd.min.css";
 import loginImg from '../../assets/images/undraw_data_input_fxv2.png'
 import registerImg from '../../assets/images/undraw_data_input_fxv2.png'
+import MyHeader from '../../components/header/header';
 import {
     Typography,
     Layout,
@@ -340,22 +341,9 @@ function LoginAndRegister () {
     }
 
     return (
+        
         <Layout className="layout">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 className="content"
                 style={{

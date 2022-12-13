@@ -16,6 +16,7 @@ import {
   import {
     Drawer,
   } from 'antd'
+  import { message, Popconfirm } from 'antd';
 
 import {Link as RouterLink} from 'react-router-dom'
 
@@ -96,6 +97,7 @@ function MyHeader({textColor, isLanding=false}){
     const navigate = useNavigate();
     const [user, SetUser]=React.useState({uname:''});
     const [open, setOpen] = React.useState(false);
+    const [isLoggedIn, setIsLoggedIn]=React.useState(0);
     const showDrawer = () => {
       setOpen(true);
     };
@@ -103,37 +105,62 @@ function MyHeader({textColor, isLanding=false}){
       setOpen(false);
     };
     React.useEffect(() => {
-        console.log(user.uname)
-        var config = {
-        method: 'post',
-        url: '/personInfo',
-        headers: {
-            token: localStorage.getItem("userToken")
+        if (localStorage.getItem("userToken") !== 'null') {
+            // 已经登录
+            setIsLoggedIn(1)
+
+            var config = {
+                method: 'post',
+                url: '/personInfo',
+                headers: { 
+                    token: localStorage.getItem("userToken")
+                }
+                };
+                axios(config)
+                    .then(res => {
+                        SetUser(res.data.data)
+                    console.log(res.data.data);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
-        };
-        axios(config)
-            .then(res => {
-                SetUser(res.data.data)
-            console.log(res.data.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        
     }, [])
 
     const [input,setInput] = React.useState()
 
     const sections = ['工具箱']
 
-    let isLoggedIn = 0;
-    let loggedInUsername = "";
+    const confirm = (e) => {
+        setIsLoggedIn(0);
+        localStorage.setItem("userToken", null);
+        localStorage.setItem("userType", null);
+        localStorage.setItem("username", null);
+        message.success('退出成功');
+        setTimeout(function () {
+            navigate("/");
+        }, 1000);
+      };
 
-    if (localStorage.getItem("userToken") !== null) {
-        // 已经登录
-        isLoggedIn = 1;
-        loggedInUsername = localStorage.getItem("username");
-        // console.log(localStorage.getItem("userToken"));
-        // console.log(localStorage.getItem("username"));
+
+    let userButton;
+    if(isLoggedIn && user.utype == "default"){
+        userButton = (<Button w='220px' mt='8px' onClick={()=>{
+            navigate('/applyPortal')
+        }}
+        >申请入驻</Button>)
+    }
+    else if(isLoggedIn && user.utype == "admin"){
+        userButton = (<Button w='220px' mt='8px' onClick={()=>{
+            navigate('/manage/info')
+        }}
+        >后台管理</Button>)
+    }
+    else{
+        userButton = (<Button w='220px' mt='8px' onClick={()=>{
+            navigate('/scholarPortal?UID=' + user.uid)
+        }}>我的门户</Button>)
     }
 
 
@@ -152,7 +179,7 @@ function MyHeader({textColor, isLanding=false}){
                 <Col span='2' offset={1}>
                     <Avatar src={require("../../assets/acegate_icon_header.png")} width='95px' height='60px' marginTop='9px'></Avatar>
                 </Col>
-                <Col span='10' offset={1}>
+                <Col span='9' offset={1}>
                     {isLanding ?
                             <Box />
                             :
@@ -194,6 +221,7 @@ function MyHeader({textColor, isLanding=false}){
                     <Popover>
                         <PopoverTrigger>
                             <Link
+                            ml='30px'
                             color='white'
                             fontSize={'15px'}
                             _hover={{
@@ -328,11 +356,11 @@ function MyHeader({textColor, isLanding=false}){
                     <p></p>
                 }
                 </Col>
-                <Col style={{margin:'auto'}}>
+                <Col span='5' style={{margin:'auto'}} >
                     {isLoggedIn ?
-                        <Popover>
+                        <Popover >
                         <PopoverTrigger>
-                            <Row>
+                            <Row style={{marginLeft:'60px'}}>
                                 <Col>
                                     <Text mt='6px' color='white' size='2xl' fontWeight='550'>👏Hey , {user.uname}</Text>
                                 </Col>
@@ -356,21 +384,24 @@ function MyHeader({textColor, isLanding=false}){
                                     账户设置</Button>
                                 </Row>
                                 <Row>
-                                    {
-                                        user.utype == "default"?(
-                                            <Button w='220px' mt='8px' onClick={()=>{
-                                                navigate('/applyPortal')
-                                            }}
-                                            >申请入驻</Button>
-                                        ):(
-                                            <Button w='220px' mt='8px' onClick={()=>{
-                                                navigate('/scholarPortal?UID=' + user.uid)
-                                            }}>我的门户</Button>
-                                        )
-                                    }
+                                    {userButton}
                                 </Row>
                                 <Row>
-                                <Button w='220px' mt='8px'>登出</Button>
+
+                                    <Popconfirm
+                                        placement="bottom" 
+                                        title="确认退出登录？"
+                                        onConfirm={confirm}
+                                        okText="确认"
+                                        cancelText="取消"
+                                    >
+                                        <Button w='220px' mt='8px'>退出登录</Button>
+                                    </Popconfirm>
+
+
+                                            
+                                   
+                                    
                                 </Row>
                             </PopoverBody>
                         </PopoverContent>
@@ -382,6 +413,7 @@ function MyHeader({textColor, isLanding=false}){
                     </Link>
                     }
                 </Col>
+
             </Row>
 
             <Drawer title="翻译" placement="right" onClose={onClose} open={open} width={600}>

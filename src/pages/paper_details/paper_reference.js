@@ -21,6 +21,10 @@ function Reference(prop) {
     const handleClick = (PID) => {
         window.open('/paperDetails?PID=' + PID)
     }
+    const jump = (value) => {
+        window.open(value)
+    }
+
     const [isreflink, setReflink] = React.useState(false)
     const [isrellink, setRellink] = React.useState(false)
     React.useEffect( () => {
@@ -94,7 +98,7 @@ function Reference(prop) {
                             {prop.reflink.map((value, key) => {
                                 if(key < 5){
                                     return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{textDecoration:'none'}} href={value} >
+                                        <Link style={{textDecoration:'none'}} onClick={()=>jump(value)} >
                                             [{key+1}]&nbsp;&nbsp;
                                             {value}
 
@@ -151,7 +155,7 @@ function Reference(prop) {
                                 // console.log(value)
                                 if(key < 5){
                                     return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{textDecoration:'none'}}href={value}>
+                                        <Link style={{textDecoration:'none'}} onClick={()=>jump(value)}>
                                             [{key+1}]&nbsp;&nbsp;
                                             {value}
 

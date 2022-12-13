@@ -7,7 +7,7 @@ import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
 import default_avatar from "../../../assets/default_avatar.png";
-import MyHeader from "../../../components/header/header";
+import MyHeader from '../../../components/header/header'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
