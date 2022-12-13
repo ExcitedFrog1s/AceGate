@@ -15,7 +15,7 @@ import {
     Radio,
     Space,
     Card,
-    Form
+    Form, Skeleton
 } from 'antd';
 import {
     FormOutlined,
@@ -72,6 +72,7 @@ function ApplyPortal() {
     const [concepts, setConcepts] = useState();
     const [personalPage, setPersonalPage] = useState();
     const [gateinfo, setGateinfo] = useState();
+    const [loading, setLoading] = useState(false);
 
     const getPortal = ()=>{
         axios({
@@ -100,6 +101,7 @@ function ApplyPortal() {
     }
 
     const findMore = ()=>{
+        setLoading(true);
         axios({
             method: "post",
             url: "/crawlResearchersAgain",
@@ -112,7 +114,12 @@ function ApplyPortal() {
             }
         })
         .then(res => {
+            setLoading(false)
             console.log(res.data)
+            if (res.data.code === 200) {
+                console.log(res.data.code);
+                setData(res.data.data.list);
+            }
             // setData(res.data.data.list)
         })
     }
@@ -415,14 +422,19 @@ function ApplyPortal() {
                                 }
                             </Space>
                         </Radio.Group>
-                        <Text
-                            style={createStyle}
-                            onMouseEnter={handleMouseEnterCreate}
-                            onMouseLeave={handleMouseLeaveCreate}
-                            onClick={findMore}
-                        >
-                            没有我的门户？
-                        </Text>
+                        {!loading && (
+                            <Text
+                                style={createStyle}
+                                onMouseEnter={handleMouseEnterCreate}
+                                onMouseLeave={handleMouseLeaveCreate}
+                                onClick={findMore}
+                            >
+                                没有我的门户？
+                            </Text>
+                        )}
+                        {loading && (
+                            <Skeleton active />
+                        )}
                     </div>
                 </div>
             ),
