@@ -313,27 +313,27 @@ function MyHeader({textColor, isLanding=false}){
                                         学术平台
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent  w='100px'>
+                                    <PopoverContent  w='130px'>
                                         <PopoverBody>
                                         <Button onClick={()=>{
                                            window.open("https://scholar.google.com")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             Google Scholar
                                         </Button>
                                         <Button onClick={()=>{
                                            window.open("https://arxiv.org/")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             arXiv
                                         </Button>
                                         <Button onClick={()=>{
                                            window.open("https://www.acemap.info")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             AceMap
                                         </Button>
                                         </PopoverBody>
@@ -379,6 +379,12 @@ function MyHeader({textColor, isLanding=false}){
                             <PopoverBody>
                                 <Row>
                                 <Button w='220px' onClick={()=>{
+                                    navigate('/favorite')
+                                }}>
+                                    我的收藏</Button>
+                                </Row>
+                                <Row>
+                                <Button w='220px' mt='8px' onClick={()=>{
                                     navigate('/personInfo')
                                 }}>
                                     账户设置</Button>
@@ -397,10 +403,6 @@ function MyHeader({textColor, isLanding=false}){
                                     >
                                         <Button w='220px' mt='8px'>退出登录</Button>
                                     </Popconfirm>
-
-
-                                            
-                                   
                                     
                                 </Row>
                             </PopoverBody>
