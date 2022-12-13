@@ -31,9 +31,9 @@ import {
     BarChartOutlined
 } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import {Link, useLocation} from 'react-router-dom'
+import {useLocation} from 'react-router-dom'
 import axios from "axios";
-import {Box, Heading} from "@chakra-ui/react";
+import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
@@ -85,14 +85,12 @@ function ScholarPaperList(props) {
             sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <div>
+                <Box>
                     <Typography>
                         <Row>
                             <Link
-                                onClick={()=>handlePaper(record.dOI)}
-                                style={{
-                                    fontSize: '16px',
-                                }}
+                                href={record.dOI}
+                                isExternal
                             >{record.pname}</Link>
                         </Row>
                         <Row>
@@ -103,7 +101,7 @@ function ScholarPaperList(props) {
                             >{authors(record.pauthorname)}</Text>
                         </Row>
                     </Typography>
-                </div>
+                </Box>
             ),
         },
         {
@@ -142,7 +140,7 @@ function ScholarPaperList(props) {
                 border: 'none',
             }}
         >
-            <div
+            <Box
                 id="scrollablePaperList"
                 style={{
                     height: 450,
@@ -158,7 +156,7 @@ function ScholarPaperList(props) {
                     pagination={false}
                     rowKey="pid"
                 />
-            </div>
+            </Box>
         </div>
     );
 }
@@ -364,6 +362,8 @@ function Portal() {
     var RID;
     if(params.has('RID')){
         RID = params.get('RID')
+    }else {
+        RID = ''
     }
     console.log('RID:' + RID)
 
@@ -437,7 +437,7 @@ function Portal() {
                     style={{
                         padding: '24px',
                         Height: '150px',
-                        background: 'linear-gradient(360deg,#EDF2F7, rgba(158, 171, 196, 0.6))',
+                        background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
                     }}
@@ -474,22 +474,19 @@ function Portal() {
                                         <HomeOutlined style={{color :'#4A5568'}}/>
                                     </Space>
                                     <Link
-                                        component={Typography.Link}
                                         style={instituteStyle}
                                         onMouseEnter={handleMouseEnterInstitute}
                                         onMouseLeave={handleMouseLeaveInstitute}
-                                        to={"/institute?IID="+data.r_IID}
-                                        isExternal
+                                        href={"/institute?IID=" + data.r_IID} isExternal
                                     > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
                                         <Space>
                                             <Text style={{color :'#4A5568'}}>-</Text>
                                             <Link
-                                            component={Typography.Link}
-                                            style={homepageStyle}
-                                            onMouseEnter={handleMouseEnterHomepage}
-                                            onMouseLeave={handleMouseLeaveHomepage}
-                                            onClick={() => window.open(data.rpersonalPage)}
+                                                style={homepageStyle}
+                                                onMouseEnter={handleMouseEnterHomepage}
+                                                onMouseLeave={handleMouseLeaveHomepage}
+                                                href={"/institute?IID=" + data.rpersonalPage} isExternal
                                             >
                                                 个人主页
                                             </Link>
