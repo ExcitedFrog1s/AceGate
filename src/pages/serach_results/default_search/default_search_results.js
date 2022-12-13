@@ -179,7 +179,7 @@ function DefaultSearchResults(props) {
     if(isLoading) {
         return (
             <Box>
-                <Header textColor={'black'}/>
+                <MyHeader textColor={'black'}/>
                 <Stack ml={'150px'} mt={'100px'}>
                     <Row>
                         <Col span={6}>

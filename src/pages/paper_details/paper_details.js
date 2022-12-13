@@ -11,9 +11,10 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
-import {Spin} from "antd";
+import {Spin, Layout} from "antd";
 import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
+import MyHeader from "../../components/header/header";
 
 function PaperDetails() {
     axios.defaults.headers["Content-Type"] = 'application/json';
@@ -73,14 +74,17 @@ function PaperDetails() {
     }
 
     return(
-        <Box>
-            <Info infos={infos}/>
-            <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
-            <Data pid={PID} fields={infos.pconcepts}/>
-            <Op  pid={PID} url={infos.p_Vurl}/>
-            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
-                       reflink={infos.preferences} rellink={infos.prelated}/>
-        </Box>
+        <Layout>
+            <MyHeader></MyHeader>
+            <div className="paperdetail">
+                <Info infos={infos}/>
+                <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
+                <Data pid={PID} fields={infos.pconcepts}/>
+                <Op  pid={PID} url={infos.p_Vurl}/>
+                <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
+                        reflink={infos.preferences} rellink={infos.prelated}/>
+            </div>
+        </Layout>
     )
 }
 function Authors(prop){

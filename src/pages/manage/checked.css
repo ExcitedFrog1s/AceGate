@@ -1,7 +1,7 @@
-/*学者列表页面样式*/
+/*未审核列表页面样式*/
 .checked{
-    margin-left: 5%;
-    margin-right: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
 }
 .checked .chakra-input__group{
     margin-bottom: 20px;
