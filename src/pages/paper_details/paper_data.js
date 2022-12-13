@@ -117,9 +117,9 @@ function Data(prop) {
                 backgroundColor={'#ffffff'}
                 padding="20px">
 
-                <StatGroup mt={10} mb={7} textAlign={'center'}>
+                <StatGroup mt={8} mb={5} textAlign={'center'}>
                     <Stat>
-                        <StatLabel fontWeight='bold' fontSize="16px" color="">引用量</StatLabel>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">引用量</StatLabel>
                         <StatNumber color={'#5808fb'}>{separator(Pdata.citeNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
@@ -128,7 +128,7 @@ function Data(prop) {
                     </Stat>
 
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>被引用量</StatLabel>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">被引用量</StatLabel>
                         <StatNumber  color={'#650ff8'}>{separator(Pdata.beCitedNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
@@ -136,7 +136,7 @@ function Data(prop) {
                         {/*</StatHelpText>*/}
                     </Stat>
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>收藏量</StatLabel>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">收藏量</StatLabel>
                         <StatNumber color={"#8720ef"}>{separator(Pdata.collectNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='increase' />*/}
@@ -145,7 +145,7 @@ function Data(prop) {
                     </Stat>
 
                     <Stat>
-                        <StatLabel fontFamily={'宋体'}>评论量</StatLabel>
+                        <StatLabel fontWeight='bold' fontSize="18px" color="#4A5568">评论量</StatLabel>
                         <StatNumber color={"#9929ea"}>{separator(Pdata.commentNum)}</StatNumber>
                         {/*<StatHelpText>*/}
                         {/*    <StatArrow type='decrease' />*/}
