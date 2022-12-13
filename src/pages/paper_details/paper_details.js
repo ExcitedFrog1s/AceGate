@@ -122,7 +122,7 @@ function Authors(prop){
                     <Link key={key} fontSize={15} fontWeight={550}
                           textDecoration={'none'} className="ft"
                           onClick={()=>handleClick(key)}
-                          color={'#3311DB'}
+                          color={'frog.500'}
                           mr={7}
                     >
                         {value.rname}
@@ -138,14 +138,13 @@ function Authors(prop){
                 if(cur_num < 10){
                     if(key < 10 - cur_num){
                         return (
-                            <Link key={key} fontSize={15} fontWeight={550}
-                                  className="ft"
+                            <Text key={key} fontSize={15} fontWeight={550}
                                   mr={7}
-                                  color={'#3311DB'}
-                                  style={{textDecoration: 'none'}}
+                                  color={'#4A5568'}
+                                  style={{display:'inline'}}
                             >
                                 {value}
-                            </Link>
+                            </Text>
                         );
                     }
 
