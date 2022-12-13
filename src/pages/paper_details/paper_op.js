@@ -42,14 +42,28 @@ function Cite(prop) {
     const Style = {
         cursor: 'pointer',
     }
+    const [isLoading, setLoading] = React.useState(true)
     const { isOpen, onOpen,  onToggle, onClose } = useDisclosure()
-    const formData = new FormData()
-    formData.append('PID', prop.pid)
-
-    axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53125874",formData)
-        .then(function (res){
-
+    const [cite,setCite] = React.useState()
+    React.useEffect(() => {
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        axios.get("http://localhost:8081/citations", {
+            params:{
+                'PID':prop.pid
+            }
         })
+            .then(function (res){
+                setCite(res.data)
+                setLoading(false)
+                console.log(cite)
+            })
+    },[])
+    if(isLoading) {
+        return (
+            <></>
+        )
+    }
     return (
         <>
             <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
@@ -64,7 +78,13 @@ function Cite(prop) {
                     <ModalBody>
                         <HStack>
                             <Text>
-                                GB/T 7714-2015 格式引文
+                                {cite.APA}
+                            </Text>
+                            <Text>
+                                {cite.MLA}
+                            </Text>
+                            <Text>
+                                {cite.IEEE}
                             </Text>
                         </HStack>
                     </ModalBody>
@@ -78,7 +98,7 @@ function Cite(prop) {
         </>
     )
 }
-function Newfav() {
+function Newfav(prop) {
 
     const handleClick = () => {
         if(value.length === 0){
@@ -94,8 +114,12 @@ function Newfav() {
         else{
             const formData = new FormData()
             formData.append('CTname', value)
-
-            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=54115224",formData)
+            let UID = window.localStorage.getItem('userToken')
+            axios.post("http://localhost:8081/user/AddCollect",formData,{
+                headers:{
+                    'token':UID
+                }
+            })
                 .then(function (res){
                     if(res.status !== 200){
                         return (
@@ -104,12 +128,18 @@ function Newfav() {
                                 新建失败！
                             </Alert>)
                     }
+                    axios.post("http://localhost:8081/user/viewCollect",formData,{
+                        headers:{
+                            'token':UID
+                        }
+                    })
+                        .then(function (res){
+                            prop.setall(res.data)
+                        })
+                    console.log(value);
                 })
-            axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53124605",formData)
-                .then(function (res){
+            setValue('')
 
-                })
-            console.log(value);
         }
 
     }
@@ -163,23 +193,57 @@ function Starred(prop){
         marginLeft:'10%',
     }
     let isstarred = false
-    // if(prop.pc !== undefined){
-    //     setLoading(false)
-    // }
-    // else{
-    //     return (
-    //         <Spinner ml={'45%'} mt={'25%'} thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500'
-    //             size='xl'
-    //         />)
-    // }
+    const [All,setAll] = React.useState()
+    const [Pc,setPc] = React.useState()
+    let defcollect = [];
+    let allcollect = [];
     React.useEffect( () => {
-        if(prop.pc.length !== 0){
-            isstarred = true
-        }
-        else{
-            isstarred = false
-            // onClose()
-        }
+        let mark = 0
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        formData.append('UID', window.localStorage.getItem('userToken'))
+        // console.log(formData)
+        let UID = window.localStorage.getItem('userToken')
+        axios.post("http://localhost:8081/user/viewCollect", formData,{
+            headers:{
+                'token':UID
+            }
+        })
+            .then(function (res){
+                setAll(res.data)
+                // setPc(res.data)
+                console.log("666",All)
+
+
+                mark += 1
+                if(mark === 2){
+                    setLoading(false)
+                }
+            })
+        axios.post("http://localhost:8081/user/viewPaperCollect", formData,{
+            headers:{
+                'token':UID
+            }
+        })
+            .then(function (res){
+                // setAll(res.data)
+                setPc(res.data)
+                console.log("666",res.data)
+
+
+                mark += 1
+                if(mark === 2){
+                    setLoading(false)
+                }
+                if(Pc.length !== 0){
+                    isstarred = true
+                }
+                else{
+                    isstarred = false
+                    // onClose()
+                }
+            })
+
     },[])
 
 
@@ -187,12 +251,11 @@ function Starred(prop){
         // 数组元素先按字符升序排序再转成字符串比较是否和初始状态相同
         let a = value.sort((p, q) =>
             p > q ? 1 : -1,).toString()
-        let b = property.defaultfav.sort((p, q) =>
+        let b = defcollect.sort((p, q) =>
             p > q ? 1 : -1,).toString()
         if(a !== b){
             setChanged(true)
-            property.newfav = value;
-            console.log(property.newfav)
+            defcollect = value;
         }
         else{
             // 没有变化时无法点击确定按钮
@@ -206,66 +269,115 @@ function Starred(prop){
     }
     // 按下确定按钮后的函数
     const confirm = () => {
+        console.log("here")
         // 重新设置defaultfav
+        let UID = window.localStorage.getItem('userToken')
+        let CTID = []
 
+        defcollect.forEach(e => {
+            All.data.forEach(f => {
+                if(f.ctname === e){
+                    CTID.push(f.ctid)
+                }
 
+            })
+        })
+        console.log("ctid",CTID)
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        formData.append('CTID', CTID)
+        axios.post("http://localhost:8081/user/CollectPaper", formData,{
+            headers:{
+                'token':UID
+            }
+        })
+            .then(function (res){
+                // setAll(res.data)
+                setPc(res.data)
+                console.log("99999",Pc.data)
+                defcollect = []
+                if(Pc.data !== null){
+                    Pc.data.forEach(e => {
+                        defcollect.push(e.ctname)
+                    })
+                }
+                console.log(defcollect)
+            })
         onToggle()
         setChanged(false)
     }
-    return (
-        <>
-        {isstarred && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
-            <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
+    if(isLoading){
+        return <></>
+    }
+    else{
+        console.log('pc',Pc)
+        console.log('All',All)
+        if(Pc.data !== null){
+            Pc.data.forEach(e => {
+                defcollect.push(e.ctname)
+            })
+        }
 
-        </Tooltip>}
-        {!isstarred && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
-            <span><Icon as={AiFillStar} mr={15} onClick={onOpen} style={Style}/></span>
-
-        </Tooltip>}
+        All.data.forEach(e => {
+            allcollect.push(e.ctname)
+        })
+        return (
             <>
-                <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
-                    <ModalOverlay />
-                    <ModalContent minH={400}>
-                        <ModalHeader textAlign={'center'}>添加到收藏夹</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody alignContent={'space-between'}>
-                            <CheckboxGroup  defaultValue={property.defaultfav} onChange={(value) => Change(value)}>
-                                <VStack spacing={5} width={'100%'}>
-                                    {property.favorite.map((value, key) => {
-                                        return (
-                                            <Checkbox value={value.name} key={key} style={s} width={'100%'}
-                                                      colorScheme={'messenger'}>
-                                                <HStack width={'100%'} >
-                                                    <Text>{value.name}</Text>
-                                                    {/*<Text>{value.nums}</Text>*/}
-                                                </HStack>
+                {defcollect.length === 0  && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                    <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
 
-                                            </Checkbox>
-                                        )
+                </Tooltip>}
+                {defcollect.length !== 0  && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                    <span><Icon as={AiFillStar} mr={15} onClick={onOpen} style={Style}/></span>
 
-                                    })}
+                </Tooltip>}
+                <>
+                    <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
+                        <ModalOverlay />
+                        <ModalContent minH={400}>
+                            <ModalHeader textAlign={'center'}>添加到收藏夹</ModalHeader>
+                            <ModalCloseButton />
+                            <ModalBody alignContent={'space-between'}>
+                                <CheckboxGroup  defaultValue={defcollect} onChange={(value) => Change(value)}>
+                                    <VStack spacing={5} width={'100%'}>
+                                        {All.data.length !== 0 && All.data.map((value, key) => {
+                                            console.log(value)
+                                            return (
+                                                <Checkbox value={value.ctname} key={key} style={s} width={'100%'}
+                                                          colorScheme={'messenger'}>
+                                                    <HStack width={'100%'} >
+                                                        <Text>{value.ctname}</Text>
+                                                        {/*<Text>{value.nums}</Text>*/}
+                                                    </HStack>
 
+                                                </Checkbox>
+                                            )
+
+                                        })}
+
+                                    </VStack>
+                                </CheckboxGroup>
+
+                            </ModalBody>
+
+                            <ModalFooter>
+                                <VStack align={'center'} width={'100%'}>
+                                    <Newfav setall={setAll} setPc={setPc}/>
+                                    <Divider mt={0}/>
+                                    <Button colorScheme='messenger' mr={3} onClick={() => confirm()} isDisabled={!changed}>
+                                        确定
+                                    </Button>
+                                    {/*<Button variant='ghost'>Secondary Action</Button>*/}
                                 </VStack>
-                            </CheckboxGroup>
 
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <VStack align={'center'} width={'100%'}>
-                                <Newfav/>
-                                <Divider mt={0}/>
-                                <Button colorScheme='messenger' mr={3} onClick={() => confirm()} isDisabled={!changed}>
-                                    确定
-                                </Button>
-                                {/*<Button variant='ghost'>Secondary Action</Button>*/}
-                            </VStack>
-
-                        </ModalFooter>
-                    </ModalContent>
-                </Modal>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </>
             </>
-        </>
-    )
+        )
+    }
+
 }
 function Op(prop) {
     const property = {
@@ -282,65 +394,91 @@ function Op(prop) {
     const Style = {
         cursor: 'pointer',
         }
-    const [All,setAll] = React.useState()
-    const [Pc,setPc] = React.useState()
+
     const [isLoading, setLoading] = React.useState(true)
     const download = () => {
         // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
     }
+    const handleClick = () => {
+        console.log(prop.url)
+        window.open(prop.url)
+    }
     let isstarred = false
     React.useEffect( () => {
-
+        let mark = 0
         const formData = new FormData()
         formData.append('PID', prop.pid)
         formData.append('UID', window.localStorage.getItem('userToken'))
         // console.log(formData)
-        axios.post("https://mock.apifox.cn/m1/1955876-0-default/paperDetails?apifoxApiId=53124605", formData)
-            .then(function (res){
-                setAll(res.data.AllCollected)
-                setPc(res.data.PaperCollected)
-                console.log("666",res.data)
-                setLoading(false)
-            })
+        let UID = window.localStorage.getItem('userToken')
+        // axios.post("http://localhost:8081/user/viewCollect", formData,{
+        //     headers:{
+        //         'token':UID
+        //     }
+        // })
+        //     .then(function (res){
+        //         setAll(res.data)
+        //         // setPc(res.data)
+        //         console.log("666",res.data)
+        //         mark += 1
+        //         if(mark === 2){
+        //             setLoading(false)
+        //         }
+        //     })
+        // axios.post("http://localhost:8081/user/viewPaperCollect", formData,{
+        //     headers:{
+        //         'token':UID
+        //     }
+        // })
+        //     .then(function (res){
+        //         // setAll(res.data)
+        //         setPc(res.data)
+        //         console.log("666",res.data)
+        //         mark += 1
+        //         if(mark === 2){
+        //             setLoading(false)
+        //         }
+        //     })
+
     },[])
-    if(!isLoading){
-        if(Pc.length !== 0){
-            isstarred = true
-        }
-        else{
-            isstarred = false
-        }
-    }
-    else{
-        return (
-            <Spinner
-                ml={'45%'}
-                mt={'25%'}
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
-            />)
-    }
+    // if(!isLoading){
+    //     // if(Pc.length !== 0){
+    //     //     isstarred = true
+    //     // }
+    //     // else{
+    //     //     isstarred = false
+    //     // }
+    // }
+
+    //     return (
+    //         <Spinner
+    //             ml={'45%'}
+    //             mt={'25%'}
+    //             thickness='4px'
+    //             speed='0.65s'
+    //             emptyColor='gray.200'
+    //             color='blue.500'
+    //             size='xl'
+    //         />)
+    // }
     return(
 
         <Box borderWidth={'5'} marginLeft={'4.5%'} mt={320} fontSize={25} position={'relative'}>
 
-            <Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
-                <span>
-                    <Icon as={MdFileDownload} mr={15} style={Style}/>
-                </span>
-            </Tooltip>
+            {/*<Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>*/}
+            {/*    <span>*/}
+            {/*        <Icon as={MdFileDownload} mr={15} style={Style}/>*/}
+            {/*    </span>*/}
+            {/*</Tooltip>*/}
 
-            <Cite pid={prop.pid}/>
-            <Starred pc={Pc}/>
+            {<Cite pid={prop.pid}/>}
+            <Starred pid={prop.pid}/>
 
-            <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
-                <span>
-                    <Icon as={BsLink45Deg} style={Style}/>
+            {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
+                <span onClick={handleClick} >
+                    <Icon as={BsLink45Deg} style={Style} onClick={handleClick}/>
                 </span>
-            </Tooltip>
+            </Tooltip>}
         </Box>
 
     )
