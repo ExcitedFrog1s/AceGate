@@ -6,8 +6,8 @@ import { Menu } from "antd";
 import { Outlet, useNavigate } from 'react-router-dom'
 import React, { useState } from "react";
 import { Layout } from "antd";
-
-const { Header, Sider, Content } = Layout;
+import Header from '../../components/header/header';
+const { Sider, Content } = Layout;
 
 function getItem(label, key, icon){
     return {
@@ -44,7 +44,6 @@ function LeftMenu(){
 }
 
 function Manage(){
-    const [admin, setAdmin] = useState(false)
     const navigate = useNavigate();
     let token = localStorage.getItem("userToken");
     let type = localStorage.getItem("userType")
@@ -54,12 +53,10 @@ function Manage(){
             navigate("/");
         }, 0);
     }
-    else{
-        setAdmin(true)
-    }
+
     return (
         <div>
-            {<Layout>
+            <Layout>
                 <Header></Header>
                 <Layout>
                     <Sider style={{width:200, height:700}}
@@ -71,7 +68,7 @@ function Manage(){
                         <Outlet />
                     </Content>
                 </Layout>
-            </Layout>}
+            </Layout>
         </div>
     )
 }

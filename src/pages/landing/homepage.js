@@ -4,6 +4,7 @@ import { Row, Col } from 'antd';
 import { Input, Text, Link } from "@chakra-ui/react";
 import Conferences from "./conferences";
 import Papers from "./paper";
+import Header from "../../components/header/header";
 
 function Header1(){
     const [input,setInput] = React.useState()
@@ -58,7 +59,7 @@ function Homepage(){
     }, [])
     return(
         <div className="homepage">
-            <Header1></Header1>
+            <Header></Header>
             <section>
                 <img
                     src={require("../../assets/bg.jpg")}
@@ -86,7 +87,7 @@ function Homepage(){
                 </div>
             </section> 
             <div className="recomand">
-                <Header1></Header1>
+                <Header></Header>
                 <Row style={{marginTop:30}}>
                     <Text fontWeight={"extrabold"} color="#ffffff" fontSize="55px">热门推荐</Text>
                 </Row>
