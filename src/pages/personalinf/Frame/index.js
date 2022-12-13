@@ -6,6 +6,7 @@ import React, { useEffect,  } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
+import default_avatar from "../../../assets/default_avatar.png";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -92,9 +93,8 @@ function PersonInfo() {
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
                                 src={
-                                    require("../../../assets/images/undraw_Cat_re_5yi8.png")
+                                    default_avatar
                                 }
-
                             />
                         </Col>
                         <Col span={15}>

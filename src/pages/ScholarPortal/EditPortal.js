@@ -89,7 +89,6 @@ function EditPortal() {
 
     const [form] = Form.useForm();
     const Ravatar = Form.useWatch('Ravatar', form);
-    const Rinstitute = Form.useWatch('Rinstitute', form);
     const Rcontact = Form.useWatch('Rcontact', form);
     const Rconcepts = Form.useWatch('Rconcepts', form);
     const RpersonalPage = Form.useWatch('RpersonalPage', form);
@@ -133,6 +132,7 @@ function EditPortal() {
             getBase64(info.file.originFileObj, (url) => {
                 setLoading(false);
                 setImageUrl(url);
+                console.log(imageUrl)
             });
         }
     };
