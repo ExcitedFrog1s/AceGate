@@ -102,7 +102,7 @@ function EditPortal() {
             url: "/editPortal2",
             data: {
                 RID: RID,
-                Ravatar: Ravatar,
+                Ravatar: "",
                 Rcontact: Rcontact,
                 Rconcepts: Rconcepts,
                 RpersonalPage: RpersonalPage,
@@ -118,37 +118,9 @@ function EditPortal() {
             )
     }
 
-
     useEffect(() => {
         getData();
     }, [])
-
-    const handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, (url) => {
-                setLoading(false);
-                setImageUrl(url);
-                console.log(imageUrl)
-            });
-        }
-    };
-    const uploadButton = (
-        <div>
-            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-            <div
-                style={{
-                    marginTop: 8,
-                }}
-            >
-                Upload
-            </div>
-        </div>
-    );
 
     const onFinish = (values) => {
         console.log(values);
@@ -174,6 +146,7 @@ function EditPortal() {
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',
+                    height: '100vh',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
@@ -208,41 +181,6 @@ function EditPortal() {
                             padding: '20px 0 0 0',
                         }}
                     >
-                        <Form.Item
-                            name="Ravatar"
-                            label="头像"
-                            rules={[
-                                {
-                                    required: false,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Upload
-                                name="avatar"
-                                listType="picture-card"
-                                className="avatar-uploader"
-                                showUploadList={false}
-                                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                                beforeUpload={beforeUpload}
-                                onChange={handleChange}
-                                initialvalue={data.ravatar}
-                            >
-                                {imageUrl ? (
-                                    <img
-                                        src={imageUrl}
-                                        alt="avatar"
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                    />
-                                ) : (
-                                    uploadButton
-                                )}
-                            </Upload>
-                        </Form.Item>
                         <Form.Item
                             name="Rcontact"
                             label="电子邮箱"
@@ -337,14 +275,6 @@ function EditPortal() {
                     </Row>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                    backgroundColor: 'rgb(230,235,247)'
-                }}
-            >
-                AceGate ©2022 Beihang University
-            </Footer>
         </Layout>
     );
 }

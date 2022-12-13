@@ -12,6 +12,8 @@ import App from "./App";
 
 
 axios.defaults.baseURL = 'http://localhost:8081'
+// axios.defaults.baseURL = 'http://svc-backend.default:8081'
+// axios.defaults.baseURL = 'http://116.204.69.134:30881'
 // axios.defaults.baseURL = 'http://localhost:8083'
 // axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 axios.defaults.headers["Content-Type"] = 'application/json';

@@ -25,32 +25,7 @@ function separator(numb) {
 }
 // import * as React from "react";
 function Data(prop) {
-    const property = {
-        para: [100,9888,1231,33333],
-        kw: ['马克思','中国化','方法论'],
 
-        fields:["Lorem ipsum dolor sit amet","Consectetur adipiscing elit","Integer molestie lorem at massa","Facilisis in pretium nisl aliquet"]
-    }
-    const select = (e) => {
-        console.log(e.target.value)
-    }
-    const option = [{
-        xAxis: {
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [120, 200, 150, 80, 70, 110, 130],
-            type: 'line'
-        }],
-        lineStyle: {
-            color: '#6f60f7',
-            lineWidth: 4,
-        },
-    }];
     const s = {
         color:'#000000',
         marginLeft:25
@@ -72,22 +47,7 @@ function Data(prop) {
                 setPdata(res.data.data)
                 console.log('pppp',Pdata)
                 setLoading(false)
-                // mark += 1
-                // if(mark === 2){
-                //     setLoading(false)
-                // }
-
             })
-
-        // axios.post("http://localhost:8081/paper/systemTags", formData)
-        //     .then(function (res){
-        //         console.log(res.data)
-        //         setFields(res.data)
-        //         mark += 1
-        //         if(mark === 2){
-        //             setLoading(false)
-        //         }
-        //     })
     },[])
     if(isLoading){
         return <></>
@@ -112,7 +72,7 @@ function Data(prop) {
         };
         return(
             <Box
-                width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+                width={'100%'} borderWidth={'5'} borderRadius={'20'} borderStyle={'solid'}
                 boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
                 backgroundColor={'#ffffff'}
                 padding="20px">
