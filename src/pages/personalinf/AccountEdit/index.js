@@ -7,6 +7,7 @@ import {
     Menu,
 
 } from 'antd';
+import MyHeader from '.././../../components/header/header'
 import { CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
@@ -103,21 +104,7 @@ function AccountEdit() {
 
     return (
         <Layout className="layout">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',

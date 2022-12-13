@@ -31,11 +31,7 @@ function Header1(){
                         />
                     </Col>
                     <Col span={3}>
-                        <div style={{marginTop:30}}>
-                        <Link href={"/loginAndRegister"} className="login" >
-                            <Text fontWeight={'bold'} fontSize="20px">登录 / 注册</Text>
-                        </Link>
-                        </div>
+                        
                     </Col>
                 </Row>
     )

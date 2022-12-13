@@ -383,7 +383,7 @@ function AdvancedSearch({}) {
                             <Box flex='1' textAlign='left'>
                             <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
                                 <BreadcrumbItem >
-                                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
+                                    <BreadcrumbLink href={'/defaultSearch?q='}>检索</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbItem isCurrentPage>
                                     <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>

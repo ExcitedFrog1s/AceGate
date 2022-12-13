@@ -1,5 +1,6 @@
 import 'antd/dist/antd.variable.min.css';
 import Info from './info';
+import MyHeader from '../../components/header/header'
 import {
     ConfigProvider,
     Typography,
@@ -489,21 +490,7 @@ function ApplyPortal() {
     }));
     return (
         <Layout className="layout">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',

@@ -7,6 +7,7 @@ import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
 import default_avatar from "../../../assets/default_avatar.png";
+import MyHeader from '.././../../components/header/header'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -52,21 +53,7 @@ function PersonInfo() {
     })
     return (
         <Layout className="layout">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',
