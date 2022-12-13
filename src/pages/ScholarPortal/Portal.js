@@ -91,7 +91,7 @@ function ScholarPaperList(props) {
                     <Typography>
                         <Row>
                             <Link
-                                href={record.dOI}
+                                href={"/paperDetails?PID=" + record.pID}
                                 isExternal
                             >{record.pname}</Link>
                         </Row>
@@ -653,7 +653,7 @@ function Portal() {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    title={<Text style={{color :'#4A5568'}}>{item.name}</Text>}
+                                                    title={<Link href={"/advanceSearch?name=" + item.name} isExternal>{item.name}</Link>}
                                                     description={item.institute}
                                                 />
                                             </List.Item>
