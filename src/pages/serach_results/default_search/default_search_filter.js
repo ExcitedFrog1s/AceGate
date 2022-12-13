@@ -43,7 +43,7 @@ function DefaultSearchPublicationTypesFilter(props) {
             <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
-                    {
+                    {/* {
                         props.content.map((value, key) => {
                             return (
                                 <Radio value={value.type} key={key}>
@@ -51,7 +51,7 @@ function DefaultSearchPublicationTypesFilter(props) {
                                 </Radio>
                             )
                         })
-                    }
+                    } */}
                 </Stack>
             </RadioGroup>
         </Box>
@@ -65,7 +65,7 @@ function DefaultSearchAuthorsFilter(props) {
             <RadioGroup onChange={props.setAuthors} defaultValue={props.authors} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
-                    {
+                    {/* {
                         props.content.map((value, key) => {
                             return (
                                 <Radio value={value.uid} key={key}>
@@ -73,7 +73,7 @@ function DefaultSearchAuthorsFilter(props) {
                                 </Radio>
                             )
                         })
-                    }
+                    } */}
                 </Stack>
             </RadioGroup>
         </Box>
@@ -87,7 +87,7 @@ function DefaultSearchConceptsFilter(props) {
             <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
-                    {
+                    {/* {
                         props.content.map((value, key) => {
                             return (
                                 <Radio value={value} key={key}>
@@ -95,7 +95,7 @@ function DefaultSearchConceptsFilter(props) {
                                 </Radio>
                             )
                         })
-                    }
+                    } */}
                 </Stack>
             </RadioGroup>
         </Box>
@@ -163,10 +163,11 @@ function DefaultSearchFilter(props) {
             className='left'
             width={'100%'}
             borderWidth={'5'}
-            borderRadius={'12'}
+            borderRadius={'20'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+            backgroundColor={'#ffffff'}
             css={{
                 '&::-webkit-scrollbar': {
                   width: '4px',

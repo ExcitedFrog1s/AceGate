@@ -87,7 +87,7 @@ function Sort(props) {
 
 function DefaultSearchResults(props) {
     const [resIsEmpty,setResIsEmpty] = React.useState(false)
-    const [infos,setInfos] = React.useState()
+    const [infos,setInfos] = React.useState([])
     const [filterInfos,setFilterInfos] = React.useState()
     const [recommendationInfos,setRecommendationInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
@@ -309,7 +309,7 @@ function DefaultSearchResults(props) {
                 {/*分页*/}
                 {
                     !resIsEmpty &&
-                    <Box width={'100%'} mt={'10px'} pl={60}>
+                    <Box width={'100%'} mt={'10px'} pl={60} mb={'10px'}>
                         <Pagination
                             onChange={handleChange}
                             total={totalNum}

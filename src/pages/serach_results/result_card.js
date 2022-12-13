@@ -329,14 +329,14 @@ function ResultCard(props) {
     console.log(props.infos.pcite)
     return(
         <Box
-            minHeight={'300'}
             width={'100%'}
             borderWidth={'5'}
-            borderRadius={'12'}
+            borderRadius={'20'}
             borderStyle={'solid'}
             color={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            pl={10} pr={10} pt={5} pb={5}
+            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+            backgroundColor={'#ffffff'}
+            pl={10} pr={10} pt={5} pb={5} mt={4}
         >
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>

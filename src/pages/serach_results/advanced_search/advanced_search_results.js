@@ -12,7 +12,11 @@ import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchFilter from "./advanced_search_filter";
 
-
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 
 function Sort(props) {
     const handleChange = (value) => {
@@ -50,7 +54,7 @@ function Sort(props) {
     };
 
     return(
-        <Box float={'right'} mr={'21%'} mt={'-50'}>
+        <Box float={'right'} >
             <Select
                 onChange={handleChange}
                 style={{width:120}}
@@ -279,8 +283,10 @@ function AdvancedSearchResults(props) {
     }
 
     return(
-        <Box>
+        <Box className='search' padding={0} margin={0}>
             {/*右侧界面*/}
+            <Row gutter={30}>
+                <Col span={5}>
             <AdvancedSearchFilter
                 setInfos={setInfos}
                 setFilterInfos={setFilterInfos}
@@ -298,7 +304,22 @@ function AdvancedSearchResults(props) {
                 advStartTime={advStartTime}
                 advEndTime={advEndTime}
             />
-            <Box>
+            {/*分页*/}
+            {
+                    !resIsEmpty &&
+                    <Box width={'100%'} mt={5} ml={5}>
+                        <Pagination size="small"
+                            onChange={handleChange}
+                            total={totalNum}
+                            showSizeChanger={false}
+                            defaultCurrent={current_page_index}
+                        />
+                    </Box>
+                }
+            </Col>
+            <Col span={19}>
+                <Box pl='3%' pr='3%'>
+                <Box>
                 {/*排序*/}
                 {
                     !resIsEmpty &&
@@ -318,14 +339,26 @@ function AdvancedSearchResults(props) {
                         filterAuthor={filterAuthor}
                         filterPublicationType={filterPublicationType}
                     />
+                    
                 }
-                <HStack float={'left'} ml={'30%'} mt={'-50'}>
-                    <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
-                    <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
-                    <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
-                </HStack>
+                <Row style={{marginTop:10}}>
+                    <Text color={'#777'} fontSize={'22px'} fontWeight='bold' mr={2}>{'共'}</Text>
+                    <Text color={'frog.500'} fontSize={'24px'} fontWeight='bold'>{separator(totalNum)}</Text>
+                    <Text color={'#777'} fontSize={'22px'} fontWeight='bold' ml={2}>{'条结果'}</Text>
+                </Row>
                 {/*论文卡片*/}
-                <Box mt={'120'} ml={'80px'}>
+                <Box className="result1" css={{
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '10px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}>
                     {
                         infos.map((value,key) => {
                             return (
@@ -334,19 +367,11 @@ function AdvancedSearchResults(props) {
                         })
                     }
                 </Box>
-                {/*分页*/}
-                {
-                    !resIsEmpty &&
-                    <Box width={'50%'} ml={'40%'} mt={'50px'}>
-                        <Pagination
-                            onChange={handleChange}
-                            total={totalNum}
-                            showSizeChanger={false}
-                            defaultCurrent={current_page_index}
-                        />
-                    </Box>
-                }
+                
             </Box>
+            </Box>
+            </Col>
+            </Row>
         </Box>
     )
 }
