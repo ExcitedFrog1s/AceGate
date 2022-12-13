@@ -1,6 +1,6 @@
 /**
-* @author AboveParadise 2022/11/11
-*/
+ * @author AboveParadise 2022/11/11
+ */
 import Abstract from "./paper_abstract";
 import Data from "./paper_data";
 import Op from "./paper_op"
@@ -11,10 +11,11 @@ import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
 import {None} from "framer-motion";
-import {Spin} from "antd";
+import { Row, Col, Layout} from "antd";
 import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
-import MyHeader from '../../components/header/header'
+import MyHeader from "../../components/header/header";
+
 
 function PaperDetails() {
     axios.defaults.headers["Content-Type"] = 'application/json';
@@ -74,20 +75,44 @@ function PaperDetails() {
     }
 
     return(
-        <Box>
+        <Layout>
             <MyHeader></MyHeader>
-            <Info infos={infos}/>
-            <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
-            <Data pid={PID} fields={infos.pconcepts}/>
-            <Op  pid={PID} url={infos.p_Vurl}/>
-            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
-                       reflink={infos.preferences} rellink={infos.prelated}/>
-        </Box>
+            <div className="paperdetail">
+                <Info infos={infos} PID={PID}/>
+                <Row gutter={30}>
+                    <Col span={15}>
+                        <Row>
+                            <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
+                        </Row>
+                        <Row style={{marginTop:40}}>
+                            <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
+                                       reflink={infos.preferences} rellink={infos.prelated}/>
+                        </Row>
+                    </Col>
+                    <Col span={9}>
+                        <Data pid={PID} fields={infos.pconcepts}/>
+                    </Col>
+                </Row>
+            </div>
+        </Layout>
     )
 }
 function Authors(prop){
     const property = {
         authors: ["Maple826","AboveParadise","euphoria"],
+    }
+    let cur_name = prop.Pauthor.length
+    const find_author = (value) => {
+        if(cur_num >= 10) {
+            return true
+        }
+        for(let i = 0;i < prop.Pauthor.length;i++) {
+            if(value === prop.Pauthor[i].rname){
+                return true
+            }
+        }
+        cur_num++
+        return false
     }
 
     const handleClick = (key) => {
@@ -99,47 +124,43 @@ function Authors(prop){
     return (
         <>
             {
-        prop.Pauthor.map((value, key) => {
-            if(key < 10){
-                return (
-                    <Link key={key} fontSize={15}
-                          textDecoration={'none'} className="ft"
-                          onClick={()=>handleClick(key)}
-                          color={'#3311DB'}
-                          mr={7}
-                    >
-                        {value.rname}
-                    </Link>
-                );
-            }
-
-        })
-        }
-        {
-        prop.pauthor !== undefined &&
-        prop.pauthor.map((value, key) => {
-                if(cur_num < 10){
-                    if(key < 10 - cur_num){
+                prop.Pauthor.map((value, key) => {
+                    if(key < 10){
                         return (
-                            <Link key={key} fontSize={15}
-                                  className="ft"
+                            <Link key={key} fontSize={15} fontWeight={550}
+                                  textDecoration={'none'} className="ft"
+                                  onClick={()=>handleClick(key)}
+                                  color={'frog.500'}
                                   mr={7}
-                                  color={'#3311DB'}
-                                  style={{textDecoration: 'none'}}
                             >
-                                {value}
+                                {value.rname}
                             </Link>
                         );
                     }
 
-                }
+                })
+            }
+            {
+                prop.pauthor !== undefined &&
+                prop.pauthor.map((value, key) => {
+                    if(!find_author(value)){
+                        return (
+                            <Text key={key} fontSize={15} fontWeight={550}
+                                  mr={7}
+                                  color={'#4A5568'}
+                                  style={{display:'inline'}}
+                            >
+                                {value}
+                            </Text>
+                        );
+                    }
 
-            })
-        }
+                })
+            }
         </>
 
 
-   )
+    )
 }
 
 function Info(prop){
@@ -152,25 +173,51 @@ function Info(prop){
     const handleClick = () => {
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
-    return(
-        <Box ml={'3%'} mb={5} className="ft">
-            <Box>
-            <Text fontSize={30}>
-                {prop.infos.pname}
-            </Text>
-            </Box>
-            <HStack>
-                <Text mt={3} mb={3} mr={5} fontSize={17}>
-                    {moment(prop.infos.pdate).format("YYYY-MM-DD")}
-                </Text>
-                <Link onClick={handleClick}>
-                <Text fontSize={17}>
-                    {prop.infos.p_Vname}
-                </Text>
-                </Link>
-            </HStack>
 
-            <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
+    const handleClick1 = () => {
+        window.open('/institute?IID=' + prop.infos.Pauthor[0].r_IID)
+    }
+
+    return(
+        <Box width={'100%'} borderWidth={'5'} borderRadius={20} borderStyle={'solid'}
+             boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+             bg={'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2))'}
+             paddingTop={10}  paddingLeft={10} paddingRight={10} mb={10}>
+
+            <Box>
+                <Text fontSize={30} fontWeight="bold" >
+                    {prop.infos.pname}
+                </Text>
+            </Box>
+            <Row>
+                <Col span={20}>
+                    <HStack>
+                        <Text mt={3} mb={3} mr={5} fontSize={17} color="#8e9aaf">
+                            {moment(prop.infos.pdate).format("YYYY-MM-DD")}
+                        </Text>
+                        {
+                            prop.infos.Pauthor.length !== 0 &&
+                            <Link onClick={handleClick1}>
+                                <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                                    {prop.infos.Pauthor[0].rinstitute}
+                                </Text>
+                            </Link>
+                        }
+                        <Link onClick={handleClick}>
+                            <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                                {prop.infos.p_Vname}
+                            </Text>
+                        </Link>
+                    </HStack>
+                    <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
+                    <Row>
+                        <Op  pid={prop.PID} url={prop.infos.p_Vurl}/>
+                    </Row>
+                </Col>
+                <Col span={4}>
+                    <img src={require("../../assets/paper.png")}></img>
+                </Col>
+            </Row>
 
         </Box>
     )

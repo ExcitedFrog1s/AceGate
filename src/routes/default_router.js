@@ -29,6 +29,8 @@ import RecoverPassword from "../pages/user/recover-password";
 import ResetPassword from "../pages/user/reset-password";
 import Translate from "../pages/discover/translate";
 
+import Favorite from '../pages/Favorite/favorite'
+
 const default_router = createBrowserRouter([
     {
         path: '/',
@@ -143,8 +145,11 @@ const default_router = createBrowserRouter([
     {
         path: '/applyPortal',
         element: <ApplyPortal />
+    },
+    {
+        path: '/favorite',
+        element: <Favorite />
     }
-
 ])
 
 export default default_router;

@@ -1,8 +1,28 @@
 import "antd/dist/antd.min.css";
 import './portal.css';
 import default_avatar from '../../assets/default_avatar.png';
+import papers from '../../assets/portal_papers.png';
+import cat from '../../assets/portal_cat.png';
+import cite from '../../assets/portal_cite.png';
+import coauthor from '../../assets/portal_coauthor.png';
 import Chart from 'react-apexcharts'
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
+import {
+    Typography,
+    Layout,
+    Menu,
+    Avatar,
+    Col,
+    Row,
+    Space,
+    Button,
+    Divider,
+    Tabs,
+    List,
+    Skeleton,
+    Table,
+    Spin,
+    Image
+} from 'antd';
 import {
     UserOutlined,
     HomeOutlined,
@@ -12,16 +32,22 @@ import {
     SolutionOutlined,
     BarChartOutlined
 } from '@ant-design/icons';
-
 import React, { useEffect, useState } from 'react';
-import {Link, useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import axios from "axios";
-import {Box, Heading} from "@chakra-ui/react";
+import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
+
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
+
 
 // tabs callback
 const onChange = (key) => {
@@ -30,6 +56,10 @@ const onChange = (key) => {
 
 function ScholarPaperList(props) {
     const [RpaperList, setRpaperList] = useState({});
+
+    const handlePaper = (url)=>{
+        window.open(url)
+    }
 
     useEffect(() =>{
         setRpaperList(props.RpaperList)
@@ -57,14 +87,12 @@ function ScholarPaperList(props) {
             sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <div>
+                <Box>
                     <Typography>
                         <Row>
                             <Link
-                                onClick={() => window.open(record.dOI)}
-                                style={{
-                                    fontSize: '16px',
-                                }}
+                                href={record.dOI}
+                                isExternal
                             >{record.pname}</Link>
                         </Row>
                         <Row>
@@ -75,7 +103,7 @@ function ScholarPaperList(props) {
                             >{authors(record.pauthorname)}</Text>
                         </Row>
                     </Typography>
-                </div>
+                </Box>
             ),
         },
         {
@@ -114,22 +142,29 @@ function ScholarPaperList(props) {
                 border: 'none',
             }}
         >
-            <div
-                id="scrollablePaperList"
-                style={{
-                    height: 450,
-                    overflow: 'auto',
-                    padding: '0 16px 0 0',
-                    border: 'none',
-                }}
-            >
+            <Box css={{
+                height: 450,
+                overflow: 'auto',
+                padding: '0 10px 0 0',
+                '&::-webkit-scrollbar': {
+                    width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    background: '#cccccc',
+                    borderRadius: '24px',
+                },
+            }}>
                 <Table
+                    className="paperList"
                     columns={columns}
                     dataSource={props.RpaperList}
                     pagination={false}
                     rowKey="pid"
                 />
-            </div>
+            </Box>
         </div>
     );
 }
@@ -159,7 +194,7 @@ function DataChart(props) {
                 type: 'gradient',
                 gradient: {
                     type: 'vertical',
-                    gradientToColors: ['#1b3bbb'],
+                    gradientToColors: ['#3a3af1'],
                     opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
@@ -215,7 +250,7 @@ function ScholarDataList(props) {
                 style={{
                     height: 450,
                     overflow: 'auto',
-                    padding: '0 16px 0 0',
+                    padding: '0 25px',
                     border: 'none',
                 }}
             >
@@ -223,39 +258,49 @@ function ScholarDataList(props) {
                     <Col span={12}>
                         <DataChart
                             count={worksyear}
-                            title="近五年论文数量"
+                            title={<Text className={'dark-text'} style={{color :'#4A5568'}}>近五年论文数量</Text>}
                             icon={<IoNewspaperSharp className='chart-icon' />}
                         ></DataChart>
                     </Col>
                     <Col span={12}>
-                        <Typography
+                        <Image
+                            src={papers}
+                            preview={false}
                             style={{
-                                padding: '300px 0 0 16px',
-                            }}
-                        >
-                            <Text
-                                className={'dark-text'}
+                                width: '80%',
+                                margin: 'auto',
+                                marginTop: '50px',
+                            }}></Image>
+                        {citescount &&
+                            <Typography
                                 style={{
-                                    margin: '200px 0 0 30px',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
+                                    padding: '0px 0 0 50px',
                                 }}
                             >
-                                发表总论文数为
-                            </Text>
-                            <Text
-                                style={{
-                                    margin: '200px 0 0 20px',
-                                    color: '#728fea',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
-                                }}
-                            >
-                                {workscount}
-                            </Text>
-                        </Typography>
+                                <Text
+                                    className={'dark-text'}
+                                    style={{
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                        color: '#4A5568',
+                                    }}
+                                >
+                                    发表总论文数为
+                                </Text>
+                                <Text
+                                    style={{
+                                        margin: '0 0 0 20px',
+                                        color: '#3a3af1',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                    }}
+                                >
+                                    {separator(workscount)}
+                                </Text>
+                            </Typography>
+                        }
                     </Col>
                 </Row>
                 <Row
@@ -264,39 +309,50 @@ function ScholarDataList(props) {
                     }}
                 >
                     <Col span={12}>
-                        <Typography
+                        <Image
+                            src={cite}
+                            preview={false}
                             style={{
-                                padding: '300px 0 0 0px',
-                            }}
-                        >
-                            <Text
-                                className={'dark-text'}
+                                width: '80%',
+                                margin: 'auto',
+                                marginTop: '50px',
+                            }}></Image>
+                        {citescount &&
+                            <Typography
                                 style={{
-                                    margin: '200px 0 0 10px',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
+                                    padding: '0px 0 0 0px',
                                 }}
                             >
-                                总被引用量为
-                            </Text>
-                            <Text
-                                style={{
-                                    margin: '200px 0 0 20px',
-                                    color: '#728fea',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
-                                }}
-                            >
-                                {citescount}
-                            </Text>
-                        </Typography>
+                                <Text
+                                    className={'dark-text'}
+                                    style={{
+                                        margin: '200px 0 0 10px',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                        color: '#4A5568',
+                                    }}
+                                >
+                                    总被引用量为
+                                </Text>
+                                <Text
+                                    style={{
+                                        margin: '200px 0 0 20px',
+                                        color: '#3a3af1',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                    }}
+                                >
+                                    {separator(citescount)}
+                                </Text>
+                            </Typography>
+                        }
                     </Col>
                     <Col span={12}>
                         <DataChart
                             count={citesyear}
-                            title="近五年被引数量"
+                            title={<Text className={'dark-text'} style={{color :'#4A5568'}}>近五年被引数量</Text>}
                             icon={<FaQuoteLeft className='chart-icon' />}
                         ></DataChart>
                     </Col>
@@ -309,12 +365,14 @@ function ScholarDataList(props) {
 
 function Portal() {
     const [data, setData] = useState({});
-
     let location = useLocation()
+    const navigate = useNavigate();
     let params = new URLSearchParams(location.search)
     var RID;
     if(params.has('RID')){
         RID = params.get('RID')
+    }else {
+        RID = ''
     }
     console.log('RID:' + RID)
 
@@ -360,7 +418,6 @@ function Portal() {
         setHomepageIsHover(false);
     }
     const homepageStyle = {
-        color: '#1890ff',
         textDecoration: homepageIsHover ? 'underline' : 'none'
     }
 
@@ -373,7 +430,6 @@ function Portal() {
         setInstituteIsHover(false);
     }
     const instituteStyle = {
-        color: '#1890ff',
         textDecoration: instituteIsHover ? 'underline' : 'none'
     }
 
@@ -382,7 +438,7 @@ function Portal() {
             <MyHeader></MyHeader>
             <Content
                 style={{
-                    padding: '50px 200px 20px 200px',
+                    padding: '50px 100px 20px 100px',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
@@ -390,7 +446,7 @@ function Portal() {
                     style={{
                         padding: '24px',
                         Height: '150px',
-                        backgroundColor: 'white',
+                        background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
                     }}
@@ -401,7 +457,8 @@ function Portal() {
                                 size={130}
                                 // icon={<UserOutlined />}
                                 style={{
-                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)'
+                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+                                    margin: '10px 0 0 30px',
                                 }}
                                 src={default_avatar}
                             />
@@ -413,32 +470,32 @@ function Portal() {
                                 }}
                             >
                                 <Title
+                                    className="dark-text"
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
+                                        color: '#4A5568',
                                     }}
                                 >
                                     {data.rname}
                                 </Title>
                                 <Paragraph>
                                     <Space>
-                                        <HomeOutlined />
+                                        <HomeOutlined style={{color :'#4A5568'}}/>
                                     </Space>
                                     <Link
-                                        component={Typography.Link}
                                         style={instituteStyle}
                                         onMouseEnter={handleMouseEnterInstitute}
                                         onMouseLeave={handleMouseLeaveInstitute}
-                                        to={"/institute?IID="+data.r_IID}
+                                        href={"/institute?IID=" + data.r_IID} isExternal
                                     > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
                                         <Space>
-                                            <Text>-</Text>
+                                            <Text style={{color :'#4A5568'}}>-</Text>
                                             <Link
-                                            component={Typography.Link}
-                                            style={homepageStyle}
-                                            onMouseEnter={handleMouseEnterHomepage}
-                                            onMouseLeave={handleMouseLeaveHomepage}
-                                            onClick={() => window.open(data.rpersonalPage)}
+                                                style={homepageStyle}
+                                                onMouseEnter={handleMouseEnterHomepage}
+                                                onMouseLeave={handleMouseLeaveHomepage}
+                                                href={data.rpersonalPage} isExternal
                                             >
                                                 个人主页
                                             </Link>
@@ -447,36 +504,37 @@ function Portal() {
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
-                                        <BulbOutlined />
+                                        <BulbOutlined style={{color :'#4A5568'}} />
                                     </Space>
-                                    <Text> {data.rcustomconcepts}</Text>
+                                    <Text style={{color :'#4A5568'}}> {data.rcustomconcepts}</Text>
                                 </Paragraph>
                                 {data.rcontact != "none" &&
                                     <Paragraph>
                                         <Space>
-                                            <MailOutlined />
+                                            <MailOutlined style={{color :'#4A5568'}}/>
                                         </Space>
-                                        <Text> {data.rcontact}</Text>
+                                        <Text style={{color :'#4A5568'}}> {data.rcontact}</Text>
                                     </Paragraph>
                                 }
                                 {data.rgateinfo != "none" &&
                                     <Paragraph>
                                         <Space>
-                                            <SolutionOutlined/>
+                                            <SolutionOutlined style={{color :'#4A5568'}}/>
                                         </Space>
-                                        <Text> {data.rgateinfo}</Text>
+                                        <Text style={{color :'#4A5568'}}> {data.rgateinfo}</Text>
                                     </Paragraph>
                                 }
                             </Typography>
                         </Col>
                         <Col span={4}>
                             {data.flag === true &&
-                                <Link
-                                    to={{
-                                        pathname: '/editPortal/',
-                                        search: '?RID=' + RID,
+                                <div
+                                    style={{
+                                        width: '130px',
                                     }}
                                 >
+                                    <Image src={cat} height='80px' preview={false}
+                                    ></Image>
                                     <Button
                                         type="primary"
                                         icon={<FormOutlined />}
@@ -484,15 +542,19 @@ function Portal() {
                                         shape={"round"}
                                         style={{
                                             float: 'right',
-                                            margin: '25px 40px 16px 24px',
+                                            margin: '-7px 40px 16px 24px',
                                             // backgroundColor: '#859dda',
                                             border: 'none',
                                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                                            width: '100px',
+                                        }}
+                                        onClick={() => {
+                                            navigate('/editPortal/?RID=' + RID);
                                         }}
                                     >
                                         编辑
                                     </Button>
-                                </Link>
+                                </div>
                             }
                         </Col>
                     </Row>
@@ -501,7 +563,7 @@ function Portal() {
             <Layout>
                 <Content
                     style={{
-                        padding: '10px 20px 20px 200px',
+                        padding: '10px 20px 40px 100px',
                         width: '50%',
                         backgroundColor: 'rgb(230,235,247)',
                     }}
@@ -512,7 +574,7 @@ function Portal() {
                             backgroundColor: 'white',
                             height: '550px',
                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                            borderRadius: '10px',
+                            borderRadius: '20px',
                         }}
                     >
                         <Tabs
@@ -540,7 +602,7 @@ function Portal() {
                 </Content>
                 <Sider width={450}
                     style={{
-                        padding: '10px 200px 20px 0',
+                        padding: '10px 100px 40px 0',
                         backgroundColor: 'rgb(230,235,247)',
                     }}
                 >
@@ -550,18 +612,27 @@ function Portal() {
                             backgroundColor: 'white',
                             height: '550px',
                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                            borderRadius: '10px',
+                            borderRadius: '20px',
                         }}
                     >
                         <Typography>
-                            <Title level={4}
-                                   className={'dark-text'}
-                                style={{
-                                    padding: '24px 24px 16px 24px',
-                                }}
-                            >
-                                合著作者
-                            </Title>
+                            <Row>
+                                <Image src={coauthor} preview={false} width='50%'
+                                       style={{
+                                           padding: '20px 0 0 0',
+                                       }}
+                                ></Image>
+                                <Title level={4}
+                                       className={'dark-text'}
+                                       style={{
+                                           padding: '10px 24px 16px 24px',
+                                           color :'#4A5568',
+                                           fontSize: '24px',
+                                       }}
+                                >
+                                    合著作者
+                                </Title>
+                            </Row>
                             <div
                                 id="scrollableDiv"
                                 style={{
@@ -582,14 +653,13 @@ function Portal() {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    title={item.name}
+                                                    title={<Text style={{color :'#4A5568'}}>{item.name}</Text>}
                                                     description={item.institute}
                                                 />
                                             </List.Item>
                                         )}
                                     />
                                 }
-
                             </div>
                         </Typography>
                     </div>

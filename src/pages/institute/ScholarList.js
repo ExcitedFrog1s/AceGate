@@ -4,12 +4,18 @@ import { Box} from '@chakra-ui/react'
 import './scholarlist.css'
 import { IoSchoolSharp} from "react-icons/io5"
 import React, { useEffect, useRef, useState } from 'react';
-import { Row, Col, Button, Space, Table, Input } from 'antd';
-import { Avatar } from '@chakra-ui/react';
+import { Row, Col, Space, Table, Input } from 'antd';
+import { Avatar, Button, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { wait } from '@testing-library/user-event/dist/utils';
 import { Heading } from '@chakra-ui/react'
+
+function separator(numb) {
+  var str = numb.toString().split(".");
+  str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return str.join(".");
+}
 
 function List() {
     const [data, setData] = useState([]);
@@ -80,18 +86,18 @@ function List() {
           />
           </Col>
           <Col span={3}>
-          <Button type='primary'
+          <Button colorScheme={'frog'}
               onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-              size="small"
+              size="xs"
               style={{height:30}} 
             >
               <SearchIcon />
             </Button>
           </Col>
           <Col span={3}>
-          <Button type='primary'
+          <Button colorScheme={'frog'}
               onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
-              size="small"
+              size="xs"
               style={{height:30}} 
             >
               重置
@@ -136,7 +142,7 @@ function List() {
         dataIndex: 'RImage',
         key: 'RImage',
         render: (_, record) => (
-          <Avatar name={record.rname} src={record.RImage} bg="#ffffff" />
+          <Avatar name={record.rname} src={record.RImage} bg="rgb(230,235,247)" />
         ),
         width: 80
       },
@@ -147,29 +153,38 @@ function List() {
         ...getColumnSearchProps('rname'),
         sorter: (a, b) => a.rname.localeCompare(b.rname),
         sortDirections: ['descend', 'ascend'],
+        render: (_, record) => (
+          <Text fontWeight="bold" color="#4A5568">{record.rname}</Text>
+        ),
       },
       {
         title: '联系方式',
-        dataIndex: 'rcontact',
         key: 'rcontact',
         ...getColumnSearchProps('rcontact'),
-        width: 200
+        width: 200,
+        render: (_, record) => (
+          <Text fontWeight="bold" color="#4A5568">{record.rcontact}</Text>
+        ),
       },
       {
         title: '发表论文数',
-        dataIndex: 'rworkscount',
         key: 'rworkscount',
         sorter: (a, b) => a.rworkscount - b.rworkscount,
         sortDirections: ['descend', 'ascend'],
+        render: (_, record) => (
+          <Text fontWeight="bold" color="#4A5568">{separator(record.rworkscount)}</Text>
+        ),
         width: 120
       },
       {
         title: '被引次数',
-        dataIndex: 'rcitescount',
         key: 'rcitescount',
         ...getColumnSearchProps('rcitescount'),
         sorter: (a, b) => a.rcitescount - b.rcitescount,
         sortDirections: ['descend', 'ascend'],
+        render: (_, record) => (
+          <Text fontWeight="bold" color="#4A5568">{separator(record.rcitescount)}</Text>
+        ),
         width: 120
       },
       {
@@ -177,7 +192,7 @@ function List() {
         key: 'action',
         render: (_, record) => (
           <Space size="middle">
-            <Button type='primary' onClick={()=>toPortal(record.rID)}>前往门户</Button>
+            <Button colorScheme="frog" size="sm" onClick={()=>toPortal(record.rID)}>前往门户</Button>
           </Space>
         ),
         width: 120
@@ -185,11 +200,11 @@ function List() {
     ];
       return (
           <div className="ischolarlist" >
-            <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+            <Box boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)" rounded='md' backgroundColor="#ffffff"
+        borderRadius='20px' paddingTop={30}
         className='box'
         >
-          <Row style={{marginTop:30}}>
+          <Row>
             <IoSchoolSharp className="chart-icon"/>
             <Heading className='chart-head'>机构下学者列表</Heading>
             </Row>

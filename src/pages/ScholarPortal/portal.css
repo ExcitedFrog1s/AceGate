@@ -7,7 +7,7 @@
 
 .portal .chart-icon {
     font-size: 28px;
-    color: #422afb !important;
+    color: #3a3af1 !important;
     margin-top: 3px;
     margin-left: 15px;
 }
@@ -25,4 +25,25 @@
 
 .dark-text {
     color: #4A5568;
+    text-shadow: 4px 4px 6px rgba(0,0,0,0.2);
 }
+
+.portal .paperList{
+    /*padding: 40px;*/
+}
+
+.portal .paperList .ant-table-thead>tr>th {
+    color: #4A5568;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.portal .paperList .ant-table-tbody>tr>td {
+    font-size: 14px;
+    font-weight: 550;
+}
+
+.portal .paperList .css-spn4bz:hover {
+    color: #1b3bbb;
+}
+
