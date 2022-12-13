@@ -42,19 +42,28 @@ function Cite(prop) {
     const Style = {
         cursor: 'pointer',
     }
-
+    const [isLoading, setLoading] = React.useState(true)
     const { isOpen, onOpen,  onToggle, onClose } = useDisclosure()
     const [cite,setCite] = React.useState()
     React.useEffect(() => {
         const formData = new FormData()
         formData.append('PID', prop.pid)
-        axios.post("http://localhost:8081/paper/cite",formData)
+        axios.get("http://localhost:8081/citations", {
+            params:{
+                'PID':prop.pid
+            }
+        })
             .then(function (res){
-                setCite(res.data.data)
+                setCite(res.data)
+                setLoading(false)
                 console.log(cite)
             })
     },[])
-
+    if(isLoading) {
+        return (
+            <></>
+        )
+    }
     return (
         <>
             <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
@@ -69,7 +78,13 @@ function Cite(prop) {
                     <ModalBody>
                         <HStack>
                             <Text>
-                                {cite}
+                                {cite.APA}
+                            </Text>
+                            <Text>
+                                {cite.MLA}
+                            </Text>
+                            <Text>
+                                {cite.IEEE}
                             </Text>
                         </HStack>
                     </ModalBody>
