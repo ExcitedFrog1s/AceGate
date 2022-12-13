@@ -78,16 +78,13 @@ function PaperDetails() {
         <Layout>
             <MyHeader></MyHeader>
             <div className="paperdetail">
-                <Info infos={infos}/>
+                <Info infos={infos} PID={PID}/>
                 <Row gutter={30}>
                     <Col span={15}>
                         <Row>
                         <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
                         </Row>
-                        <Row>
-                            <Op  pid={PID} url={infos.p_Vurl}/>
-                        </Row>
-                        <Row>
+                        <Row style={{marginTop:40}}>
                             <Reference refs={infos.Preferences} rels={infos.Prelateds} pid={PID}
                             reflink={infos.preferences} rellink={infos.prelated}/>
                         </Row>
@@ -122,7 +119,7 @@ function Authors(prop){
         prop.Pauthor.map((value, key) => {
             if(key < 10){
                 return (
-                    <Link key={key} fontSize={15}
+                    <Link key={key} fontSize={15} fontWeight={550}
                           textDecoration={'none'} className="ft"
                           onClick={()=>handleClick(key)}
                           color={'#3311DB'}
@@ -141,7 +138,7 @@ function Authors(prop){
                 if(cur_num < 10){
                     if(key < 10 - cur_num){
                         return (
-                            <Link key={key} fontSize={15}
+                            <Link key={key} fontSize={15} fontWeight={550}
                                   className="ft"
                                   mr={7}
                                   color={'#3311DB'}
@@ -173,25 +170,38 @@ function Info(prop){
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
     return(
-        <Box ml={'3%'} mb={5} className="ft">
+        <Box width={'100%'} borderWidth={'5'} borderRadius={20} borderStyle={'solid'}
+                boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                bg={'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2))'}
+                paddingTop={10}  paddingLeft={10} paddingRight={10} mb={10}>
+                    
             <Box>
-            <Text fontSize={30}>
+            <Text fontSize={30} fontWeight="bold" >
                 {prop.infos.pname}
             </Text>
             </Box>
+            <Row>
+            <Col span={20}>
             <HStack>
-                <Text mt={3} mb={3} mr={5} fontSize={17}>
+                <Text mt={3} mb={3} mr={5} fontSize={17} color="#8e9aaf">
                     {moment(prop.infos.pdate).format("YYYY-MM-DD")}
                 </Text>
                 <Link onClick={handleClick}>
-                <Text fontSize={17}>
+                <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
                     {prop.infos.p_Vname}
                 </Text>
                 </Link>
             </HStack>
-
             <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
-
+            <Row>
+                <Op  pid={prop.PID} url={prop.infos.p_Vurl}/>
+            </Row>
+            </Col>
+            <Col span={4}>
+                <img src={require("../../assets/paper.png")}></img>
+            </Col>
+            </Row>
+            
         </Box>
     )
 }

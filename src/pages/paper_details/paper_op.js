@@ -72,31 +72,31 @@ import axios from "axios";
         console.log('cite',cite.data.APA)
         return (
             <>
-                <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'frog.500'}>
                     <span><Icon as={RiDoubleQuotesR} onClick={onOpen} mr={15} style={Style}/></span>
                 </Tooltip>
 
-                <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
+                <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered>
                     <ModalOverlay />
-                    <ModalContent minH={400}>
+                    <ModalContent >
                         <ModalHeader textAlign={'center'}>引用</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                             <HStack>
-                                <Text mr={5}>APA</Text>
+                                <Text mr={5} fontWeight="bold">APA</Text>
                                 <Text>
                                     {cite.data.APA}
                                 </Text>
 
                             </HStack>
                             <HStack mt={5}>
-                            <Text mr={5}>MLA</Text>
+                            <Text mr={5} fontWeight="bold">MLA</Text>
                             <Text>
                                 {cite.data.MLA}
                             </Text>
                             </HStack>
                             <HStack mt={5}>
-                                <Text mr={5}>IEEE</Text>
+                                <Text mr={5} fontWeight="bold">IEEE</Text>
                             <Text>
                                 {cite.data.IEEE}
                             </Text>
@@ -185,11 +185,12 @@ function Newfav(prop) {
                 children={<AddIcon color='gray.300' />}
             />
             <Input
+                colorScheme="frog"
                 onChange={handleChange}
                 placeholder='新建收藏夹'
             />
             <InputRightElement width='4rem'>
-                <Button  onClick={handleClick} colorScheme='messenger'>
+                <Button  onClick={handleClick} colorScheme='frog'>
                     新建
                 </Button>
             </InputRightElement>
@@ -364,11 +365,11 @@ function Starred(prop){
         console.log('-------')
         return (
             <>
-                {confirmCollect.length === 0  && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                {confirmCollect.length === 0  && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'frog.500'}>
                     <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
 
                 </Tooltip>}
-                {confirmCollect.length !== 0  && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                {confirmCollect.length !== 0  && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'frog.500'}>
                     <span><Icon as={AiFillStar} mr={15} onClick={onOpen} style={Style}/></span>
 
                 </Tooltip>}
@@ -405,7 +406,7 @@ function Starred(prop){
                                 <VStack align={'center'} width={'100%'}>
                                     <Newfav setall={setAll} setPc={setPc} all={allcollect}/>
                                     <Divider mt={0}/>
-                                    <Button colorScheme='messenger' mr={3} onClick={confirm} isDisabled={!changed}>
+                                    <Button colorScheme='frog' mr={3} onClick={confirm} isDisabled={!changed}>
                                         确定
                                     </Button>
                                     {/*<Button variant='ghost'>Secondary Action</Button>*/}
@@ -441,8 +442,11 @@ function Op(prop) {
         // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
     }
     const handleClick = () => {
+        if(prop.url.length !== 0){
+            window.open(prop.url)
+        }
         console.log(prop.url)
-        window.open(prop.url)
+
     }
     let isstarred = false
     React.useEffect( () => {
@@ -504,7 +508,7 @@ function Op(prop) {
     // }
     return(
 
-        <Box borderWidth={'5'} fontSize={25} >
+        <Box mt={5} fontSize={25} >
 
             {prop.url.slice(-3,3) === "pdf" && <Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
                 <span>
@@ -515,7 +519,7 @@ function Op(prop) {
             {prop.url.slice(-3,3) !== "pdf" && <Cite pid={prop.pid}/>}
             <Starred pid={prop.pid}/>
 
-            {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
+            {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'frog.500'}>
                 <span onClick={handleClick} >
                     <Icon as={BsLink45Deg} style={Style} onClick={handleClick}/>
                 </span>

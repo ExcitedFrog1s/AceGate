@@ -420,7 +420,6 @@ function MyHeader({textColor, isLanding=false}){
                 <Translate></Translate>
             </Drawer>
         </Box>
-
     )
 }
 

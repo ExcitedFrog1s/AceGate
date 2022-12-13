@@ -21,6 +21,13 @@ import {
 import {useEffect, useReducer, useState} from "react";
 import {AiFillStar, AiOutlineStar} from "react-icons/ai";
 import axios from "axios";
+import { Row } from 'antd';
+
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 function Heart(prop){
     const [isClick, setIsClick] = useState(prop.state)
     const handleMouseDown = () => {
@@ -50,6 +57,19 @@ function Heart(prop){
                         else {
                             setIsClick(true)
                         }
+                        formData.append('PID', prop.pid)
+                        // console.log(formData)
+
+                        axios.post("/paper/viewComment",formData,{
+                            headers:{
+                                'token':UID
+                            }
+                        })
+                            .then(function (res){
+                                console.log(res.data)
+                                prop.setcom(res.data.data)
+                                // setLoading(false)
+                            })
                     }
                 })
         }
@@ -74,9 +94,23 @@ function Heart(prop){
                         else {
                             setIsClick(true)
                         }
+                        formData.append('PID', prop.pid)
+                        // console.log(formData)
+
+                        axios.post("/paper/viewComment",formData,{
+                            headers:{
+                                'token':UID
+                            }
+                        })
+                            .then(function (res){
+                                console.log(res.data)
+                                prop.setcom(res.data.data)
+                                // setLoading(false)
+                            })
                     }
                 })
         }
+
 
     }
 
@@ -98,30 +132,15 @@ function Heart(prop){
     )
 }
 function Comment(prop) {
-    const property = {
-        comments:[{author:"lily史密斯",
-            like_num:5,
-            re_num:0,
-            comment:"这篇文章真的很不错1！",
-            liked:true,date:"2022/07/13"},{author:"lopopopoy",
-            like_num:5,
-            re_num:0,
-            comment:"这篇文章真的很不错1！",
-            liked:false,date:"2022/07/13"}]
 
-    }
     const s = {
         align: 'end',
         float: 'right',
     }
-    let initialState = {};
     const [comments,setComs] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [vis, setVis] = useState(false)
-    property.comments.map((value, key1) => {
-        initialState[key1] = value.liked;
 
-    })
     let [value, setValue] = React.useState('')
     React.useEffect( () => {
         const formData = new FormData()
@@ -208,10 +227,9 @@ function Comment(prop) {
                 return (
                     <Box
                         key={key}
-                        minH={'120'}
-                        width={'90%'}
+                        width={'100%'}
                         borderWidth={'5'}
-                        borderRadius={'12'}
+                        borderRadius={'20'}
                         borderStyle={'solid'}
                         color={'#E2E8F0'}
                         boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
@@ -219,12 +237,9 @@ function Comment(prop) {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link  ml={4} onClick={()=>handleClick(value.UID)} color={'#3311DB'} fontSize={20}>
-                                    {value.name}</Link>
+                                <Text  ml={4} mr={4} style={{textDecoration:'none'}} color={'frog.500'} fontSize={22} fontWeight="extrabold">
+                                    {value.name}</Text>
 
-                                <Text color={'#7551FF'}>
-                                    {value.likes}点赞
-                                </Text>
                                     {/*<Text>*/}
                                     {/*    {property.comments[key].re_num}回复*/}
                                     {/*</Text>*/}
@@ -234,7 +249,12 @@ function Comment(prop) {
                                 </HStack>
                             </Box>
                             <Box style={s} float={'right'}>
-                                <Heart state={value.like} CID={value.cid}/>
+                                <Row>
+                                <Text color={'#4A5568'} mr={3} fontWeight='bold'>
+                                    {separator(value.likes)}
+                                </Text>
+                                <Heart state={value.like} CID={value.cid} setcom={setComs} pid={prop.pid}/>
+                                </Row>
                             </Box>
 
                         </HStack>
@@ -245,18 +265,15 @@ function Comment(prop) {
 
                 );
             })}
-        }
-
-
         </VStack>
-            <Alert status='error' visibility={vis?"visible":"hidden"} mt={5} width={'90%'} ml={9}>
+            <Alert status='error' visibility={vis?"visible":"hidden"} mb={2} mt={2} width={'90%'} ml={9}>
                 <AlertIcon />
                 请填写评论内容</Alert>
-        <Box ml={9} mt={5} width={'90%'} size='lg'>
-            <Textarea placeholder='请发表你的见解' value={value} fontFamily={'宋体'}
+        <Box  width={'100%'} size='lg'>
+            <Textarea placeholder='请发表你的见解' value={value} 
                       onChange={handleInputChange}/>
-            <Button  onClick={NewComment} ml={'90.5%'} color={"white"} fontFamily={'宋体'}
-                    colorScheme='purple' bgColor={'#7551FF'} mt={5}>
+            <Button  onClick={NewComment} ml={'90.5%'} color={"white"}
+                    colorScheme='frog' mt={5}>
                 发布
             </Button>
         </Box>
