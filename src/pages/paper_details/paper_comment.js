@@ -78,6 +78,19 @@ function Heart(prop){
                 })
         }
 
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+
+        axios.post("/paper/viewComment",formData,{
+            headers:{
+                'token':UID
+            }
+        })
+            .then(function (res){
+                console.log(res.data)
+                prop.setcom(res.data.data)
+                // setLoading(false)
+            })
     }
 
     const Style = {
@@ -219,7 +232,7 @@ function Comment(prop) {
                         <HStack mt={5} key={key} justifyContent={'space-between'} >
                             <Box>
                                 <HStack>
-                                <Link  ml={4} onClick={()=>handleClick(value.UID)} color={'#3311DB'} fontSize={20}>
+                                <Link  ml={4} style={{textDecoration:'none'}} color={'#3311DB'} fontSize={20}>
                                     {value.name}</Link>
 
                                 <Text color={'#7551FF'}>
@@ -234,7 +247,7 @@ function Comment(prop) {
                                 </HStack>
                             </Box>
                             <Box style={s} float={'right'}>
-                                <Heart state={value.like} CID={value.cid}/>
+                                <Heart state={value.like} CID={value.cid} setcom={setComs}/>
                             </Box>
 
                         </HStack>
