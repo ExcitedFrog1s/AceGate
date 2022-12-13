@@ -170,9 +170,9 @@ function Info(prop){
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
     return(
-        <Box width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
+        <Box width={'100%'} borderWidth={'5'} borderRadius={20} borderStyle={'solid'}
                 boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
-                backgroundColor={'#ffffff'}
+                bg={'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2))'}
                 paddingTop={10}  paddingLeft={10} paddingRight={10} mb={10}>
                     
             <Box>

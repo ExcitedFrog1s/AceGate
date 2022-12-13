@@ -12,17 +12,18 @@
 }
 
 .icard .ant-card{
-    border-radius: 15px 0 0 15px;
+    border-radius: 20px;
     width: 900px;
     height: 300px;
     padding-right: 25px;
     padding-top: 20px;
     border: 0px;
-    background: linear-gradient(90deg,#d8e0e5, rgba(158, 171, 196, 0.8));
+    background: linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2));
+    box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.1)
 }
 .icard .title{
     font-size: 30px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .icard .ant-btn{
@@ -41,13 +42,14 @@
 }
 
 .scard .ant-card{
-    border-radius: 0 15px 15px  0;
+    border-radius: 20px;
     width: 360px;
     height: 300px;
     padding-left: 10px;
     padding-top: 5px;
     border: 0;
-    background: linear-gradient(90deg, rgba(158, 171, 196, 0.8), #d8e0e5);
+    background: linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2));
+    box-shadow: 4px 4px 15px 0 rgba(0,0,0,0.1)
 }
 .scardInfo{
     height: 60px;
@@ -55,14 +57,16 @@
 .scardInfo .title1{
     display: inline;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 550;
     padding-right: 10px;
+    color: #4A5568;
 }
 
 .scardInfo .num1{
     display: inline;
     font-size: 26px;
     color: #3A3AF1;
+    font-weight: 600;
 }
 
 .scardInfo .icon1{

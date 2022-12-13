@@ -6,8 +6,8 @@ import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import List from './ScholarList'
 import { BankOutlined, BankFilled } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import { Heading } from '@chakra-ui/react'
-import { Card, Layout, Row, Col, Avatar, Button, Space, Table, Input } from 'antd';
+import { Heading, Text, Button } from '@chakra-ui/react'
+import { Card, Layout, Row, Col, Avatar, Space, Table, Input } from 'antd';
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import MyHeader from '../../components/header/header';
@@ -95,8 +95,8 @@ function Icard(props){
                     {!insdata.iimage && <Avatar size={115} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',marginTop:20}}></Avatar>}
                 </Col>
                 <Col span={20}>
-                    <div className="title">{insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}</div>
-                    {insdata.ichinesename && <div className="title">{insdata.ichinesename}</div>}
+                    <Text className="title">{insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}</Text>
+                    {insdata.ichinesename && <Text className="title" >{insdata.ichinesename}</Text>}
                     <div className="insinfo">
                         {info()}
                     </div>
@@ -112,7 +112,7 @@ function Icard(props){
                 <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="学者总数" num={insdata.IschNum}></ItemScard>
                 <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.iworksum}></ItemScard>
                 <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.icitednum}></ItemScard>
-                <Button type="primary" style={{marginTop:15,marginLeft:100}}
+                <Button colorScheme="frog" style={{marginTop:15,marginLeft:100}}
                     onClick={()=>handleHomepage(insdata.ihomepage)}>机构主页</Button>
             </Card>
         </div>
@@ -140,16 +140,20 @@ function CoInstitute(props){
             title: '机构名称',
             key: 'action',
             render: (_, record)=>(
-                <Link href={"/institute?IID=" + record.IID} isExternal>
+                <Link href={"/institute?IID=" + record.IID} isExternal fontWeight="bold" color="#4A5568">
                     {record.name}
                 </Link>
             )
         },
         {
             title: '关系',
-            dataIndex: 'relation',
             key: 'relation',
-            width: 80
+            width: 80,
+            render: (_, record)=>(
+                <Text fontWeight="bold" color="#4A5568">
+                    {record.relation}
+                </Text>
+            )
         }
     ]
     useEffect(()=>{
@@ -165,8 +169,8 @@ function CoInstitute(props){
         setCoins(arr)
     },[props])
     return (
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)" rounded='md' backgroundColor="#ffffff"
+        borderRadius='20px' 
         className='chart'>
             <Row>
                 <BankFilled className='chart-icon'  />
@@ -220,8 +224,8 @@ function AmoutChart(props) {
         }]
     );
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)" rounded='md' backgroundColor="#ffffff"
+        borderRadius='20px' 
         className='chart'>
             <Row>
                 {props.icon}
@@ -240,7 +244,12 @@ function Concept(props){
         {
             title: '关键领域',
             key: 'concept',
-            dataIndex: 'concept'
+            dataIndex: 'concept',
+            render: (_, record)=>(
+                <Text fontWeight="bold" color="#4A5568">
+                    {record.concept}
+                </Text>
+            )
         },
     ]
     useEffect(()=>{
@@ -255,8 +264,8 @@ function Concept(props){
         setCons(arr)
     },[props])
     return (
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box rounded='md' backgroundColor="#ffffff"
+        borderRadius='20px' boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)"
         className='concept'>
             <Row>
                 <BankFilled className='chart-icon'  />

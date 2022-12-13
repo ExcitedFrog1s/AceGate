@@ -229,7 +229,7 @@ function Comment(prop) {
                         key={key}
                         width={'100%'}
                         borderWidth={'5'}
-                        borderRadius={'12'}
+                        borderRadius={'20'}
                         borderStyle={'solid'}
                         color={'#E2E8F0'}
                         boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
