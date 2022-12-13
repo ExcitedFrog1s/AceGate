@@ -442,8 +442,11 @@ function Op(prop) {
         // dispatchEvent(push("https://www.pap.es/files/1116-877-pdf/990.pdf"))
     }
     const handleClick = () => {
+        if(prop.url.length !== 0){
+            window.open(prop.url)
+        }
         console.log(prop.url)
-        window.open(prop.url)
+
     }
     let isstarred = false
     React.useEffect( () => {

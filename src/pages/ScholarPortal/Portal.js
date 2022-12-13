@@ -401,7 +401,7 @@ function Portal() {
                     style={{
                         padding: '24px',
                         Height: '150px',
-                        backgroundColor: 'white',
+                        background: 'linear-gradient(360deg,#EDF2F7, rgba(158, 171, 196, 0.6))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
                     }}
