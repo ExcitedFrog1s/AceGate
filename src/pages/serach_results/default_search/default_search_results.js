@@ -14,6 +14,12 @@ import {useLocation, useNavigate} from "react-router-dom";
 import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
+
 function Sort(props) {
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -271,11 +277,11 @@ function DefaultSearchResults(props) {
                         filterPublicationType={filterPublicationType}
                     />
                 }
-                <HStack float={'left'}  mt={'-50'}>
-                    <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
-                    <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
-                    <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
-                </HStack>
+                <Row >
+                    <Text color={'#777'} fontSize={'22px'} fontWeight='bold' mr={2}>{'共'}</Text>
+                    <Text color={'frog.500'} fontSize={'24px'} fontWeight='bold'>{separator(totalNum)}</Text>
+                    <Text color={'#777'} fontSize={'22px'} fontWeight='bold' ml={2}>{'条结果'}</Text>
+                </Row>
             {/*    /!*论文卡片*!/*/}
                 <Box>
                     {
