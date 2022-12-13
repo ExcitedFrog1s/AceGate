@@ -21,7 +21,21 @@ function Reference(prop) {
     const handleClick = (PID) => {
         window.open('/paperDetails?PID=' + PID)
     }
+    const [isreflink, setReflink] = React.useState(false)
+    const [isrellink, setRellink] = React.useState(false)
+    React.useEffect( () => {
 
+        if(prop.refs.length === 0){
+            setReflink(true)
+
+        }
+        if(prop.rels.length === 0){
+            setRellink(true)
+        }
+
+    },[])
+    console.log(isreflink)
+    console.log(isrellink)
     return(
         <Box
             width={'55%'}
@@ -46,35 +60,54 @@ function Reference(prop) {
                               fontSize={'15'}
 
                         >
-                            共 {prop.refs.length} 篇参考文献
+                            共 {!isreflink && prop.refs.length}{isreflink && prop.reflink.length} 篇参考文献
                         </Text>
-                        <Text color={'gray'} fontSize={'15'} mt={4}>
+                         <Text color={'gray'} fontSize={'15'} mt={4}>
                             受版权限制，部分论文可能无法展示
-                        </Text>
-                        <List mt={4} fontSize={'15'}>
-                            {prop.refs.map((value, key) => {
-                                return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{ textDecoration:'none'}} onClick={()=>handleClick(value.PID)}>
-                                        [{key+1}]&nbsp;&nbsp;
-                                        {value.Pname}
+                            </Text>
+                        {!isreflink &&
+                            <List mt={4} fontSize={'15'}>
+                        {prop.refs.map((value, key) => {
+                            // console.log(value)
+                            return (<ListItem key={key} mb={4} className={'t'}>
+                            <Link style={{textDecoration:'none'}} onClick={()=>handleClick(value.pid)}>
+                            [{key+1}]&nbsp;&nbsp;
+                        {value.pname}
+
+                            </Link>
+                            <HStack>
+                        {(value.Pauthor !== undefined) &&
+                            value.Pauthor.map((aut,key1) => {
+                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
+                        {aut}</Text>
+                            )
+                        })
+                        }
+
+                            </HStack>
+                            </ListItem>)
+
+                        })}
+
+                            </List>}
+                        {isreflink && <List mt={4} fontSize={'15'}>
+                            {prop.reflink.map((value, key) => {
+                                if(key < 5){
+                                    return (<ListItem key={key} mb={4} className={'t'}>
+                                        <Link style={{textDecoration:'none'}} onClick={()=>handleClick(value)}>
+                                            [{key+1}]&nbsp;&nbsp;
+                                            {value}
 
                                         </Link>
-                                        <HStack>
-                                    {
-                                        value.Pauthor.map((aut,key1) => {
-                                            return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
-                                                    {aut}</Text>
-                                        )
-                                    })
-                                    }
 
-                                    </HStack>
-                                </ListItem>)
+                                    </ListItem>)
+                                }
+                                // console.log(value)
+
 
                             })}
 
-                        </List>
-
+                        </List>}
                     </TabPanel>
 
                     <TabPanel ml={8}>
@@ -83,22 +116,24 @@ function Reference(prop) {
                               fontSize={'15'}
 
                         >
-                            共 {prop.rels.length} 篇相关文献
+                            共 {!isrellink && prop.rels.length}{isrellink && prop.rellink.length} 篇相关文献
+
                         </Text>
                         <Text color={'gray'} fontSize={'15'} mt={4}>
                             受版权限制，部分论文可能无法展示
                         </Text>
-                        <List mt={4} fontSize={'15'}>
+                        {!isrellink && <List mt={4} fontSize={'15'}>
                             {prop.rels.map((value, key) => {
+                                console.log(value)
                                 return (<ListItem key={key} mb={4} className={'t'}>
-                                    <Link onClick={()=>handleClick(value.PID)} style={{ textDecoration:'none'}}>
-                                        [{key+1}]&nbsp;&nbsp;
-                                        {value.Pname}
+                                    <Link onClick={() => handleClick(value.pid)} style={{textDecoration: 'none'}}>
+                                        [{key + 1}]&nbsp;&nbsp;
+                                        {value.pname}
 
                                     </Link>
                                     <HStack>
-                                        {
-                                            value.Pauthor.map((aut,key1) => {
+                                        {(value.Pauthor !== undefined) &&
+                                            value.Pauthor.map((aut, key1) => {
                                                 return (<Text key={key1} color={'gray'} fontSize={'14'} ml={6}>
                                                         {aut}</Text>
                                                 )
@@ -110,8 +145,25 @@ function Reference(prop) {
 
                             })}
 
-                        </List>
+                        </List>}
+                        {isrellink && <List mt={4} fontSize={'15'}>
+                            {prop.rellink.map((value, key) => {
+                                // console.log(value)
+                                if(key < 5){
+                                    return (<ListItem key={key} mb={4} className={'t'}>
+                                        <Link style={{textDecoration:'none'}}href={value}>
+                                            [{key+1}]&nbsp;&nbsp;
+                                            {value}
 
+                                        </Link>
+
+                                    </ListItem>)
+                                }
+
+
+                            })}
+
+                        </List>}
 
                     </TabPanel>
                     <TabPanel ml={8}>

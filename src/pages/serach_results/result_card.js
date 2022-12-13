@@ -145,6 +145,10 @@ function TimeOrgan(props) {
         setIsHover(false);
     }
 
+    const handleClick = () => {
+        window.open("/institute?IID=" + props.organ[0].r_IID)
+    }
+
     const linkStyle = {
         color: '#a0a0a0',
         fontSize: '12px',
@@ -158,13 +162,17 @@ function TimeOrgan(props) {
                 {new Date(props.time).getFullYear() + ' 年 ' +
                     new Date(props.time).getMonth() + ' 月'}
             </i>
-                <Link href={'/'}
-                      style={linkStyle}
+            {
+                props.organ.length !== 0 &&
+                <Link style={linkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
+                      ml={'30px'}
+                      onClick={handleClick}
                 >
-                    {/*{props.organ[0].rinstitute}*/}
+                    {props.organ[0].rinstitute}
                 </Link>
+            }
         </Box>
     )
 }
