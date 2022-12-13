@@ -47,7 +47,8 @@ function Data(prop) {
         },
     }];
     const s = {
-        color:'#000000'
+        color:'#000000',
+        marginLeft:25
     }
     const [Pdata,setPdata] = React.useState()
     const [Fields,setFields] = React.useState()
@@ -61,26 +62,27 @@ function Data(prop) {
         const formData = new FormData()
         formData.append('PID', prop.pid)
         // console.log(formData)
-        axios.post("http://localhost:8081/paper/Details", formData)
+        axios.post("/paper/Details", formData)
             .then(function (res){
                 setPdata(res.data.data)
                 console.log('pppp',Pdata)
-                mark += 1
-                if(mark === 2){
-                    setLoading(false)
-                }
+                setLoading(false)
+                // mark += 1
+                // if(mark === 2){
+                //     setLoading(false)
+                // }
 
             })
 
-        axios.post("http://localhost:8081/paper/systemTags", formData)
-            .then(function (res){
-                console.log(res.data)
-                setFields(res.data)
-                mark += 1
-                if(mark === 2){
-                    setLoading(false)
-                }
-            })
+        // axios.post("http://localhost:8081/paper/systemTags", formData)
+        //     .then(function (res){
+        //         console.log(res.data)
+        //         setFields(res.data)
+        //         mark += 1
+        //         if(mark === 2){
+        //             setLoading(false)
+        //         }
+        //     })
     },[])
     if(isLoading){
         return <></>
@@ -152,8 +154,13 @@ function Data(prop) {
                     <UnorderedList mt={2} color={'#7551FF'}>
                         {prop.fields.map((value, key) => {
                             if(key <= 7){
-                                return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
-                                </Link></ListItem>)
+                                if(value[0] === 'C' && isNaN(Number(value[1],10)) === false && isNaN(Number(value[2],10)) === false){
+
+                                }
+                                else{
+                                    return(<ListItem key={key}><Link onClick={()=>handleClick(value)}> {value}
+                                    </Link></ListItem>)
+                                }
                             }
 
                         })}
@@ -187,7 +194,8 @@ function Data(prop) {
                     </HStack>
                 </Box>
                 <div>
-                    <ReactECharts option={option} style={s}/>
+                    {Pdata.citeyears.length !== 0 && <ReactECharts option={option} style={s} ml={8} mr={4}/>}
+                    {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} mb={20} className={'ft'}>暂无数据</Text>}
                 </div>
 
 

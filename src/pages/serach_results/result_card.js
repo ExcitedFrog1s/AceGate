@@ -313,6 +313,7 @@ function Operations({props}) {
 }
 
 function ResultCard(props) {
+    console.log(props.infos.pcite)
     return(
         <Box
             minHeight={'350'}
@@ -326,6 +327,7 @@ function ResultCard(props) {
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
+            <Text color={'#777'} position={'absolute'} ml={'45%'} mt={'10px'}>{"被引：" + props.infos.pcite}</Text>
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
             <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}/>

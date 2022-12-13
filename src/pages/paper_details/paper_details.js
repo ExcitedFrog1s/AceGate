@@ -16,6 +16,7 @@ import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
 import MyHeader from "../../components/header/header";
 
+
 function PaperDetails() {
     axios.defaults.headers["Content-Type"] = 'application/json';
     const property = {
@@ -50,7 +51,7 @@ function PaperDetails() {
         formData.append('PID', PID)
         // console.log(formData)
 
-        axios.post("http://localhost:8081/paper/view", formData)
+        axios.post("/paper/view", formData)
 
             .then(function (res){
                 setInfos(res.data.data)
@@ -118,15 +119,16 @@ function Authors(prop){
         })
         }
         {
+
         prop.pauthor.map((value, key) => {
                 if(cur_num < 10){
                     if(key < 10 - cur_num){
                         return (
                             <Link key={key} fontSize={15}
-                                  textDecoration={'none'} className="ft"
-
-                                  color={'#3311DB'}
+                                  className="ft"
                                   mr={7}
+                                  color={'#3311DB'}
+                                  style={{textDecoration: 'none'}}
                             >
                                 {value}
                             </Link>

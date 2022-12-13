@@ -129,7 +129,7 @@ function Search(props) {
         if(params.has('label')) {
             setDataList([
                 {
-                    category: 'Cname',
+                    category: 'Pname',
                     content: params.get('label'),
                     type: 1
                 }
@@ -137,7 +137,7 @@ function Search(props) {
             PubSub.publish('PubParams', {
                 dataList: [
                     {
-                        category: 'Cname',
+                        category: 'Pname',
                         content: params.get('label'),
                         type: 1
                     }],
@@ -227,10 +227,9 @@ function Search(props) {
                             <option value='main'>篇关摘</option>
                             <option value='Pname'>篇名</option>
                             <option value='Pabstract'>摘要</option>
-                            <option value='Pconcepts'>关键词</option>
+                            <option value='Pconcepts'>领域</option>
                             <option value='Pauthor'>作者</option>
                             <option value='Iname'>作者机构</option>
-                            <option value='Cname'>领域</option>
                             <option value='source'>论文来源</option>
                             <option value='DOI'>DOI</option>
                             <option value='PsystemTags'>标签</option>
@@ -383,7 +382,7 @@ function AdvancedSearch({}) {
                             <Box flex='1' textAlign='left'>
                             <Breadcrumb fontSize='15px' color='#4A5568' ml='10px'>
                                 <BreadcrumbItem >
-                                    <BreadcrumbLink href='/searchResults'>检索</BreadcrumbLink>
+                                    <BreadcrumbLink href={'/defaultSearch?q='}>检索</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbItem isCurrentPage>
                                     <BreadcrumbLink href='#'>高级检索</BreadcrumbLink>

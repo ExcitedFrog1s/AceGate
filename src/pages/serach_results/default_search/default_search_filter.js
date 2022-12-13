@@ -98,6 +98,9 @@ function DefaultSearchFilter(props) {
     const filter = () => {
         let data = {}
         data.normalSearch = params.get('q')
+        if(data.normalSearch === undefined) {
+            data.normalSearch = ''
+        }
         data.filterAuthors = authors === '全部' ? null : authors
         data.filterPublicationTypes = publicationTypes === '全部' ? null : publicationTypes
         data.startTime = startTime + "-01"

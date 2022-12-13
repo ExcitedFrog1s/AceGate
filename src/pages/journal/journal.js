@@ -561,7 +561,6 @@ function PaperList(props) {
                 item.author = item.pauthorname[0]
                 item.field = item.pconcepts[0]
                 item.pdate = new Date(item.pdate).getFullYear()+'-'+ new Date(item.pdate).getMonth()+'-'+new Date(item.pdate).getDay()
-
                 if(item.pcite > max){
                     max = item.pcite
                 }
@@ -775,12 +774,13 @@ function PaperList(props) {
                                     <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.pabstract}</Text>
                                     <Row>
                                     {
-                                        record.pconcepts.map((value, key) => {
-                                            return (
-                                                <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
+                                        record.pconcepts.map((value, key) => (
+                                                key<8? (
+                                                    <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
                                                     <TagLabel>{value}</TagLabel>
                                                 </Tag>
-                                            );})
+                                                ):(<p></p>)
+                                        ))
                                     }
                                     </Row>
                                 </Col>

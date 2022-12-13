@@ -94,7 +94,7 @@ function Reference(prop) {
                             {prop.reflink.map((value, key) => {
                                 if(key < 5){
                                     return (<ListItem key={key} mb={4} className={'t'}>
-                                        <Link style={{textDecoration:'none'}} onClick={()=>handleClick(value)}>
+                                        <Link style={{textDecoration:'none'}} href={value} >
                                             [{key+1}]&nbsp;&nbsp;
                                             {value}
 
