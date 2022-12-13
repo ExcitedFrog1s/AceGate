@@ -40,7 +40,7 @@ function DefaultSearchPublicationTypesFilter(props) {
     return(
         <Box mt={'30px'}>
             <Text fontWeight='bold' color='#4A5568' mb={2} fontSize={16}>{'出版类型'}</Text>
-            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
+            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
                     {
@@ -62,9 +62,9 @@ function DefaultSearchPublicationTypesFilter(props) {
 
 function DefaultSearchAuthorsFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
+        <Box mt={'30px'}>
             <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'作者'}</Text>
-            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
+            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
                     {
@@ -146,7 +146,7 @@ function DefaultSearchFilter(props) {
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
-            padding={5}
+            padding={6}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             css={{
                 '&::-webkit-scrollbar': {
@@ -165,7 +165,7 @@ function DefaultSearchFilter(props) {
                 <Button
                     float={"right"}
                     rightIcon={<AiOutlineFilter/>}
-                    colorScheme='blue'
+                    colorScheme={'frog'}
                     variant='outline'
                     onClick={filter}
                 >

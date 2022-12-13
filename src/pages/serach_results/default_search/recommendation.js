@@ -152,15 +152,16 @@ function Recommendation(props) {
 
     return(
         <Box
-            minHeight={'1000px'}
+            className="left"
             width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            padding={6}
         >
-            <Text fontSize={'20px'} color={'#a0a0a0'} mt={'10px'} ml={'15px'}>{'Recommendation'}</Text>
+            <Text fontSize={'20px'} color={'#4A5568'} mt={'10px'}>{'Recommendation'}</Text>
             <Text style={authorStyle}>{'作者'}</Text>
             {
                 (props.recommendation.author !== undefined && props.recommendation.author.length !==0) &&
