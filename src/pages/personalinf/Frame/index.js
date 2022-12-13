@@ -52,17 +52,12 @@ function PersonInfo() {
         optionValue2[index] = `${value}\u00A0\u00A0\u00A0` ;
     })
     return (
-<<<<<<< HEAD
-        <Layout className="layout">
-            <MyHeader></MyHeader>
-=======
         <Layout className="layout"
             style={{
                 minHeight: '100vh',
             }}
         >
             <MyHeader/>
->>>>>>> 933e57e1b717eaffae292a592aa7338b55a72232
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',
