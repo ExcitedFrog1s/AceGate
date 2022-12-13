@@ -172,12 +172,7 @@ function Authors(prop){
 }
 
 function Info(prop){
-    const property = {
-        title: "独白与对话:马克思主义中国化的方法",
-        source: "云南社会科学",
-        date: moment("20070112").format('YYYY-MM-DD'),
-        tags:['jdg', '马克思', 'lggggg'],
-    }
+
     const handleClick = () => {
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
@@ -211,11 +206,16 @@ function Info(prop){
                                 </Text>
                             </Link>
                         }
-                        <Link onClick={handleClick}>
-                            <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                        {prop.infos.venueName === null &&<Link style={{textDecoration:'none'}}>
+                            <Text fontSize={17} as="em" fontWeight="bold" color={'#4A5568'}>
                                 {prop.infos.p_Vname}
                             </Text>
-                        </Link>
+                        </Link>}
+                        {prop.infos.venueName !== null &&<Link onClick={handleClick}>
+                            <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                                {prop.infos.venueName}
+                            </Text>
+                        </Link>}
                     </HStack>
                     <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
                     <Row>
