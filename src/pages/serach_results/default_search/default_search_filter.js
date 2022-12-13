@@ -45,13 +45,11 @@ function DefaultSearchPublicationTypesFilter(props) {
                     <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
-                            if(value.num !== 0) {
-                                return (
-                                    <Radio value={value.type} key={key}>
-                                        {value.type[0].toUpperCase() + value.type.substring(1)}
-                                    </Radio>
-                                )
-                            }
+                            return (
+                                <Radio value={value.type} key={key}>
+                                    {value.type[0].toUpperCase() + value.type.substring(1)}
+                                </Radio>
+                            )
                         })
                     }
                 </Stack>
@@ -69,13 +67,33 @@ function DefaultSearchAuthorsFilter(props) {
                     <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
-                            if(value.num !== 0) {
-                                return (
-                                    <Radio value={value.uid} key={key}>
-                                        {value.name}
-                                    </Radio>
-                                )
-                            }
+                            return (
+                                <Radio value={value.uid} key={key}>
+                                    {value.name}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
+        </Box>
+    )
+}
+
+function DefaultSearchConceptsFilter(props) {
+    return(
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'领域'}</Text>
+            <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部'}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return (
+                                <Radio value={value} key={key}>
+                                    {value}
+                                </Radio>
+                            )
                         })
                     }
                 </Stack>
@@ -87,6 +105,7 @@ function DefaultSearchAuthorsFilter(props) {
 function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
+    const [concepts,setConcepts] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01")
     const [endTime,setEndTime] = useState("2030-01-01")
 
@@ -124,6 +143,7 @@ function DefaultSearchFilter(props) {
                 props.setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
@@ -186,6 +206,11 @@ function DefaultSearchFilter(props) {
                 totalNumber={props.filterInfos.totalNumber}
                 setAuthors={setAuthors}
                 authors={authors}
+            />
+            <DefaultSearchConceptsFilter
+                content={props.filterInfos.concepts}
+                concepts={concepts}
+                setConcepts={setConcepts}
             />
         </Box>
     )

@@ -129,7 +129,7 @@ function Search(props) {
         if(params.has('label')) {
             setDataList([
                 {
-                    category: '"Pconcepts',
+                    category: 'Pconcepts',
                     content: params.get('label'),
                     type: 1
                 }
@@ -137,7 +137,7 @@ function Search(props) {
             PubSub.publish('PubParams', {
                 dataList: [
                     {
-                        category: '"Pconcepts',
+                        category: 'Pconcepts',
                         content: params.get('label'),
                         type: 1
                     }],

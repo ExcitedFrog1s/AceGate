@@ -83,9 +83,32 @@ function AdvancedSearchAuthorsFilter(props) {
     )
 }
 
+function AdvancedSearchConceptsFilter(props) {
+    return(
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'领域'}</Text>
+            <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部'}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return (
+                                <Radio value={value} key={key}>
+                                    {value}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
+        </Box>
+    )
+}
+
 function AdvancedSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
+    const [concepts,setConcepts] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01-01")
     const [endTime,setEndTime] = useState("2030-01-01")
 
@@ -168,6 +191,11 @@ function AdvancedSearchFilter(props) {
                 totalNumber={props.filterInfos.totalNumber}
                 setAuthors={setAuthors}
                 authors={authors}
+            />
+            <AdvancedSearchConceptsFilter
+                content={props.filterInfos.concepts}
+                concepts={concepts}
+                setConcepts={setConcepts}
             />
         </Box>
     )
