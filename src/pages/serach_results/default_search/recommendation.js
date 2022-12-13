@@ -112,9 +112,18 @@ function Institute(props) {
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
             >
-                <Text>
-                    {props.info.ichinesename}
-                </Text>
+                {
+                    props.info.ichinesename === undefined &&
+                    <Text>
+                        {props.info.iname}
+                    </Text>
+                }
+                {
+                    props.info.ichinesename !== undefined &&
+                    <Text>
+                        {props.info.iname + "（" + props.info.ichinesename + "）"}
+                    </Text>
+                }
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
