@@ -220,6 +220,7 @@ function Starred(prop){
     let isstarred = false
     const [All,setAll] = React.useState()
     const [Pc,setPc] = React.useState()
+
     let defcollect = [];
     let allcollect = [];
     React.useEffect( () => {
@@ -273,6 +274,7 @@ function Starred(prop){
 
 
     const Change = (value) => {
+        console.log('value',value)
         // 数组元素先按字符升序排序再转成字符串比较是否和初始状态相同
         let a = value.sort((p, q) =>
             p > q ? 1 : -1,).toString()
@@ -281,6 +283,7 @@ function Starred(prop){
         if(a !== b){
             setChanged(true)
             defcollect = value;
+            console.log(defcollect)
         }
         else{
             // 没有变化时无法点击确定按钮
@@ -295,6 +298,7 @@ function Starred(prop){
     // 按下确定按钮后的函数
     const confirm = () => {
         console.log("here")
+        console.log(defcollect)
         // 重新设置defaultfav
         let UID = window.localStorage.getItem('userToken')
         let CTID = []
@@ -311,6 +315,7 @@ function Starred(prop){
         const formData = new FormData()
         formData.append('PID', prop.pid)
         formData.append('CTID', CTID)
+        console.log('ctid',CTID)
         axios.post("/user/CollectPaper", formData,{
             headers:{
                 'token':UID
