@@ -74,10 +74,10 @@ function EditPortal() {
     }
 
     const [form] = Form.useForm();
-    const Rcontact = Form.useWatch('Rcontact', form);
-    const Rconcepts = Form.useWatch('Rconcepts', form);
-    const RpersonalPage = Form.useWatch('RpersonalPage', form);
-    const Rgateinfo = Form.useWatch('Rgateinfo', form);
+    const Rcontact = Form.useWatch('电子邮箱', form);
+    const Rconcepts = Form.useWatch('研究领域', form);
+    const RpersonalPage = Form.useWatch('个人主页', form);
+    const Rgateinfo = Form.useWatch('个人信息', form);
 
 
     const pushData = ()=>{
