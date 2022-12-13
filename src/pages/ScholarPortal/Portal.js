@@ -2,6 +2,7 @@ import "antd/dist/antd.min.css";
 import './portal.css';
 import default_avatar from '../../assets/default_avatar.png';
 import papers from '../../assets/portal_papers.png';
+import cat from '../../assets/portal_cat.png';
 import cite from '../../assets/portal_cite.png';
 import Chart from 'react-apexcharts'
 import {
@@ -31,7 +32,7 @@ import {
     BarChartOutlined
 } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import {useLocation} from 'react-router-dom'
+import {useLocation, useNavigate} from 'react-router-dom'
 import axios from "axios";
 import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
@@ -358,6 +359,7 @@ function ScholarDataList(props) {
 function Portal() {
     const [data, setData] = useState({});
     let location = useLocation()
+    const navigate = useNavigate();
     let params = new URLSearchParams(location.search)
     var RID;
     if(params.has('RID')){
@@ -519,12 +521,13 @@ function Portal() {
                         </Col>
                         <Col span={4}>
                             {data.flag === true &&
-                                <Link
-                                    to={{
-                                        pathname: '/editPortal/',
-                                        search: '?RID=' + RID,
+                                <div
+                                    style={{
+                                        width: '130px',
                                     }}
                                 >
+                                    <Image src={cat} height='80px' preview={false}
+                                    ></Image>
                                     <Button
                                         type="primary"
                                         icon={<FormOutlined />}
@@ -532,15 +535,19 @@ function Portal() {
                                         shape={"round"}
                                         style={{
                                             float: 'right',
-                                            margin: '25px 40px 16px 24px',
+                                            margin: '-7px 40px 16px 24px',
                                             // backgroundColor: '#859dda',
                                             border: 'none',
                                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                                            width: '100px',
+                                        }}
+                                        onClick={() => {
+                                            navigate('/editPortal/?RID=' + RID);
                                         }}
                                     >
                                         编辑
                                     </Button>
-                                </Link>
+                                </div>
                             }
                         </Col>
                     </Row>
