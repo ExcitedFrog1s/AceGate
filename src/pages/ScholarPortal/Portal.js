@@ -142,15 +142,21 @@ function ScholarPaperList(props) {
                 border: 'none',
             }}
         >
-            <Box
-                id="scrollablePaperList"
-                style={{
-                    height: 450,
-                    overflow: 'auto',
-                    padding: '0 16px 0 0',
-                    border: 'none',
-                }}
-            >
+            <Box css={{
+                height: 450,
+                overflow: 'auto',
+                padding: '0 10px 0 0',
+                '&::-webkit-scrollbar': {
+                    width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    background: '#cccccc',
+                    borderRadius: '24px',
+                },
+            }}>
                 <Table
                     className="paperList"
                     columns={columns}
@@ -489,7 +495,7 @@ function Portal() {
                                                 style={homepageStyle}
                                                 onMouseEnter={handleMouseEnterHomepage}
                                                 onMouseLeave={handleMouseLeaveHomepage}
-                                                href={"/institute?IID=" + data.rpersonalPage} isExternal
+                                                href={data.rpersonalPage} isExternal
                                             >
                                                 个人主页
                                             </Link>
@@ -654,7 +660,6 @@ function Portal() {
                                         )}
                                     />
                                 }
-
                             </div>
                         </Typography>
                     </div>

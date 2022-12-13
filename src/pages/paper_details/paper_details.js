@@ -93,11 +93,6 @@ function PaperDetails() {
                         <Data pid={PID} fields={infos.pconcepts}/>
                     </Col>
                 </Row>
-                
-                
-                
-                
-                
             </div>
         </Layout>
     )
