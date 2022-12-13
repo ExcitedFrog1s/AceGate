@@ -15,7 +15,7 @@ import {
     Radio,
     Space,
     Card,
-    Form
+    Form, Skeleton
 } from 'antd';
 import {
     FormOutlined,
@@ -66,6 +66,14 @@ function ApplyPortal() {
     const RpersonalPage = Form.useWatch('RpersonalPage', form);
     const Rgateinfo = Form.useWatch('Rgateinfo', form);
 
+    const [name, setName] = useState();
+    const [institute, setInstitute] = useState();
+    const [contact, setContact] = useState();
+    const [concepts, setConcepts] = useState();
+    const [personalPage, setPersonalPage] = useState();
+    const [gateinfo, setGateinfo] = useState();
+    const [loading, setLoading] = useState(false);
+
     const getPortal = ()=>{
         axios({
             method: "post",
@@ -83,24 +91,36 @@ function ApplyPortal() {
             setData(res.data.data.list)
             console.log(localStorage.getItem("userToken"))
         })
+        setName(Rname);
+        setInstitute(Rinstitute);
+        setContact(Rcontact);
+        setConcepts(Rconcepts);
+        setPersonalPage(RpersonalPage);
+        setGateinfo(Rgateinfo);
         next()
     }
 
     const findMore = ()=>{
+        setLoading(true);
         axios({
-            method: "get",
+            method: "post",
             url: "/crawlResearchersAgain",
             data: {
-                Rname: Rname,
-                Rinstitution: Rinstitute,
+                Rname: name,
+                Rinstitution: institute,
             },
             headers: {
                 token: localStorage.getItem("userToken")
             }
         })
         .then(res => {
-            console.log(res.data.data)
-            setData(res.data.data.list)
+            setLoading(false)
+            console.log(res.data)
+            if (res.data.code === 200) {
+                console.log(res.data.code);
+                setData(res.data.data.list);
+            }
+            // setData(res.data.data.list)
         })
     }
 
@@ -118,12 +138,12 @@ function ApplyPortal() {
             url: "/applyPortal2",
             data: {
                 RID: value,
-                Rname: Rname,
-                Rinstitute: Rinstitute,
-                Rcontact: Rcontact,
-                Rconcepts: Rconcepts,
-                RpersonalPage: RpersonalPage,
-                Rgateinfo: Rgateinfo,
+                Rname: name,
+                Rinstitute: institute,
+                Rcontact: contact,
+                Rconcepts: concepts,
+                RpersonalPage: personalPage,
+                Rgateinfo: gateinfo,
             },
             headers: {
                 token: localStorage.getItem("userToken")
@@ -354,7 +374,7 @@ function ApplyPortal() {
                                                                     >{value.Cname}</Text>
                                                                 </Row>
                                                             }
-                                                            {value.rcontact &&
+                                                            {value.rcontact != "none" &&
                                                                 <Row>
                                                                     <Space>
                                                                         <MailOutlined />
@@ -402,14 +422,19 @@ function ApplyPortal() {
                                 }
                             </Space>
                         </Radio.Group>
-                        <Text
-                            style={createStyle}
-                            onMouseEnter={handleMouseEnterCreate}
-                            onMouseLeave={handleMouseLeaveCreate}
-                            onClick={findMore}
-                        >
-                            没有我的门户？
-                        </Text>
+                        {!loading && (
+                            <Text
+                                style={createStyle}
+                                onMouseEnter={handleMouseEnterCreate}
+                                onMouseLeave={handleMouseLeaveCreate}
+                                onClick={findMore}
+                            >
+                                没有我的门户？
+                            </Text>
+                        )}
+                        {loading && (
+                            <Skeleton active />
+                        )}
                     </div>
                 </div>
             ),
@@ -449,7 +474,7 @@ function ApplyPortal() {
                                 marginBottom: '40px',
                             }}
                         >
-                            您的申请将于3天内由管理员审核，请耐心等待。
+                            您的申请将于3天内由管理员审核，审核结果将发送至您的<Text style={{color: '#a3b9f8', fontSize: '18px', fontWeight: 'bold'}}>注册用户邮箱</Text>，请注意查收。
                         </Text>
                     </Row>
                 </div>

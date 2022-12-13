@@ -1,9 +1,10 @@
 import React, { useEffect } from "react"
 import "./homepage.css"
 import { Row, Col } from 'antd';
-import { Input, Text, Link } from "@chakra-ui/react";
+import { Input, Text, Link ,Box} from "@chakra-ui/react";
 import Conferences from "./conferences";
 import Papers from "./paper";
+import MyHeader from "../../components/header/header";
 
 function Header1(){
     const [input,setInput] = React.useState()
@@ -57,8 +58,9 @@ function Homepage(){
         })
     }, [])
     return(
+        <Box>
+        <MyHeader></MyHeader>
         <div className="homepage">
-            <Header1></Header1>
             <section>
                 <img
                     src={require("../../assets/bg.jpg")}
@@ -104,6 +106,7 @@ function Homepage(){
                 </Row>
             </div>
         </div>
+        </Box>
     )
 }
 

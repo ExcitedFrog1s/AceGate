@@ -2,12 +2,10 @@
 // Created by zyc on 2022/11/11.
 //
 
-import {Box, Link, Text,Tag} from '@chakra-ui/react'
+import {Box, Link, Text, Tag} from '@chakra-ui/react'
 import {useState} from "react"
 import {AiFillStar,AiOutlineStar} from "react-icons/ai"
 import * as React from 'react';
-import PubSub from "pubsub-js";
-import {useNavigate} from "react-router-dom";
 
 function Title(props) {
     const [isHover, setIsHover] = useState(false)
@@ -145,6 +143,10 @@ function TimeOrgan(props) {
         setIsHover(false);
     }
 
+    const handleClick = () => {
+        window.open("/institute?IID=" + props.organ[0].r_IID)
+    }
+
     const linkStyle = {
         color: '#a0a0a0',
         fontSize: '12px',
@@ -158,13 +160,17 @@ function TimeOrgan(props) {
                 {new Date(props.time).getFullYear() + ' 年 ' +
                     new Date(props.time).getMonth() + ' 月'}
             </i>
-                <Link href={'/'}
-                      style={linkStyle}
+            {
+                props.organ.length !== 0 &&
+                <Link style={linkStyle}
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
+                      ml={'30px'}
+                      onClick={handleClick}
                 >
-                    {/*{props.organ[0].rinstitute}*/}
+                    {props.organ[0].rinstitute}
                 </Link>
+            }
         </Box>
     )
 }
@@ -226,7 +232,8 @@ function Label(props) {
         backgroundColor: isHover ? 'rgba(131,167,207,0.9)' : 'rgba(131,167,207,0.5)',
         float: 'left',
         marginLeft: '8px',
-        minHeight: '30px',
+        minHeight: '25px',
+        marginTop: '5px'
     }
 
     return(
@@ -247,12 +254,15 @@ function Label(props) {
 function Labels(props) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'标签'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'领域'}</Text>
             {
                 props.labels.map((value, key) => {
-                    return (
-                        <Label label={value} key={key}/>
-                    )
+                    if(!(value[0] === 'C' && isNaN(Number(value[1],10)) === false
+                        && isNaN(Number(value[2],10)) === false)) {
+                        return (
+                            <Label label={value} key={key}/>
+                        )
+                    }
                 })
             }
         </Box>
@@ -305,7 +315,7 @@ function Operations({props}) {
 function ResultCard(props) {
     return(
         <Box
-            minHeight={'330'}
+            minHeight={'350'}
             width={'50%'}
             borderWidth={'5'}
             borderRadius={'12'}
@@ -320,7 +330,7 @@ function ResultCard(props) {
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
             <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}/>
             <Content content={props.infos.pabstract} PID={props.infos.pID}/>
-            <Labels labels={props.infos.psystemTags}/>
+            <Labels labels={props.infos.pconcepts}/>
             {/*<Operations props={props.infos.isStar}/>*/}
         </Box>
     )

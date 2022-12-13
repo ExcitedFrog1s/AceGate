@@ -1,9 +1,8 @@
-import {Box, Button, Flex, Select, Text, Textarea, VStack} from "@chakra-ui/react";
+import {Box, Button, Flex, Select, Text, Textarea, IconButton} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
-import Header from "../../components/header/header";
 import axios from "axios";
-
-
+import {Row,Col } from 'antd'
+import {SwapOutlined} from '@ant-design/icons'
 // async function handleSiteStatus() {
 //     let ret = null;
 //     await axios.post('/manage/info')
@@ -69,33 +68,23 @@ function Translate(){
     const [translatedText, setTranslatedText] = useState("");
 
     const translateText = async e => {
-        e.preventDefault();
+        // e.preventDefault();
         let result = await handleTranslate(sourceText, originLanguage, targetLanguage);
         setTranslatedText(result);
     }
 
 
-
-
+    function changeContent(){
+        var $textarea = document.getElementsByClassName('content');
+        var $pre = document.getElementsByClassName('pre');
+        $pre[0].innerHTML = $textarea[0].value;
+    }
 
     return (
-        // <Box>
-        //     <Header isLanding={false} textColor={'black'} />
-        //     <Box w={'80vw'} ml={'10vw'} mr={'10vw'} mt={'50px'}>
-        //         <Text fontSize={'28px'} textAlign={'center'}>
-        //             翻译
-        //         </Text>
-
-        //         <Flex
-        //             w={'80vw'}
-        //             ml={'10vw'}
-        //             mr={'10vw'}
-        //             alignItems={'center'}
-        //             justifyContent={'space-between'}
-        //         >
-                    <Box>
+            <Box>
+                <Row>
+                    <Col span='8'>             
                         <Select
-                            placeholder='请选择源语言'
                             value={originLanguage}
                             onChange={e => setOriginLanguage(e.target.value)}
                         >
@@ -104,8 +93,18 @@ function Translate(){
                             <option value='fr'>法语</option>
                             <option value='ja'>日语</option>
                         </Select>
+                    </Col>
+                    <Col span='3' >
+                        <IconButton aria-label='Search database' icon={<SwapOutlined />} ml='20px'
+                            onClick={()=>{
+                                let i = originLanguage;
+                                setOriginLanguage(targetLanguage)
+                                setTargetLanguage(i)
+                               }}
+                        />
+                    </Col>
+                    <Col span='8'>
                         <Select
-                            placeholder='请选择源语言'
                             value={targetLanguage}
                             onChange={e => setTargetLanguage(e.target.value)}
                         >
@@ -114,20 +113,25 @@ function Translate(){
                             <option value='fr'>法语</option>
                             <option value='ja'>日语</option>
                         </Select>
-                        <Textarea placeholder={"输入希望翻译的文字……"}
-                                  value={sourceText} onChange={e => setSourceText(e.target.value)}/>
-                        <Button onClick={translateText}>
-                            测试
-                        </Button>
-                        <Textarea placeholder={"翻译结果"}
-                                  value={translatedText}/>
-                    </Box>
-        //             <Box>
+                    </Col>
+                </Row>
 
-        //             </Box>
-        //         </Flex>
-        //     </Box>
-        // </Box>
+                <Textarea  mt='30px' 
+                        placeholder={"输入希望翻译的文字, 敲下回车……"}
+                        value={sourceText} 
+                        onInput={e => {setSourceText(e.target.value); }}
+                        onKeyPress={(value) => {
+                            if(value.key === "Enter") {
+                                translateText()
+                            }
+                            }}
+                        />
+                <Button onClick={translateText} mt='20px' colorScheme='blue'>
+                    翻译
+                </Button>
+                <Textarea placeholder={"翻译结果"} mt='30px'
+                            value={translatedText}/>
+            </Box>
     )
 }
 

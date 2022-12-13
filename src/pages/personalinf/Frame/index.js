@@ -95,6 +95,7 @@ function PersonInfo() {
                                 src={
                                     default_avatar
                                 }
+
                             />
                         </Col>
                         <Col span={15}>
@@ -102,7 +103,7 @@ function PersonInfo() {
                                 style={{
                                     padding: '0 0 0 10px',
                                 }}
-                            >
+                            >n
                                 <Title
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
