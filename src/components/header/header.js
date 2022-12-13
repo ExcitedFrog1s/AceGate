@@ -313,27 +313,27 @@ function MyHeader({textColor, isLanding=false}){
                                         学术平台
                                         </Button>
                                     </PopoverTrigger>
-                                    <PopoverContent  w='100px'>
+                                    <PopoverContent  w='130px'>
                                         <PopoverBody>
                                         <Button onClick={()=>{
                                            window.open("https://scholar.google.com")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             Google Scholar
                                         </Button>
                                         <Button onClick={()=>{
                                            window.open("https://arxiv.org/")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             arXiv
                                         </Button>
                                         <Button onClick={()=>{
                                            window.open("https://www.acemap.info")
                                             }}
                                             size='sm'
-                                            w='90px'>
+                                            w='100px'>
                                             AceMap
                                         </Button>
                                         </PopoverBody>

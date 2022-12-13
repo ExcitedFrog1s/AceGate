@@ -25,21 +25,19 @@ function AdvancedSearchTimeRangeFilter(props) {
     };
 
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text mb={'10px'}>{'发表年份'}</Text>
-            <Col span={17}>
-                <RangePicker locale={locale} picker="month" className='datePicker'
+        <Box mt={'50px'}>
+            <Text mb={2} fontWeight='bold' color='#4A5568' fontSize={16}>{'发表年份'}</Text>
+            <RangePicker locale={locale} picker="month" className='datePicker'
                              onChange={changeTime} key={timeValue}/>
-            </Col>
         </Box>
     )
 }
 
 function AdvancedSearchPublicationTypesFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text>{'出版类型'}</Text>
-            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' mb={2} fontSize={16}>{'出版类型'}</Text>
+            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
                     {
@@ -61,9 +59,9 @@ function AdvancedSearchPublicationTypesFilter(props) {
 
 function AdvancedSearchAuthorsFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text>{'作者'}</Text>
-            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'作者'}</Text>
+            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
                     {
@@ -90,7 +88,7 @@ function AdvancedSearchConceptsFilter(props) {
             <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
-                    {
+                    {/* {
                         props.content.map((value, key) => {
                             return (
                                 <Radio value={value} key={key}>
@@ -98,7 +96,7 @@ function AdvancedSearchConceptsFilter(props) {
                                 </Radio>
                             )
                         })
-                    }
+                    } */}
                 </Stack>
             </RadioGroup>
         </Box>
@@ -154,22 +152,32 @@ function AdvancedSearchFilter(props) {
 
     return(
         <Box
-            minHeight={'1000px'}
-            width={'25%'}
-            ml={'100px'}
-            borderWidth={'5'}
-            borderRadius={'12'}
-            borderStyle={'solid'}
-            borderColor={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
+        className='left2'
+        width={'100%'}
+        borderWidth={'5'}
+        borderRadius={'12'}
+        borderStyle={'solid'}
+        borderColor={'#E2E8F0'}
+        boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+        backgroundColor={'#ffffff'}
+        css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: '#cccccc',
+              borderRadius: '24px',
+            },
+          }}
         >
-            <Box>
+            <Box className="filterbutton">
                 <Button
-                    ml={'55%'}
-                    mt={'20px'}
+                    float={"right"}
                     rightIcon={<AiOutlineFilter/>}
-                    colorScheme='blue'
+                    colorScheme={'frog'}
                     variant='outline'
                     onClick={filter}
                 >

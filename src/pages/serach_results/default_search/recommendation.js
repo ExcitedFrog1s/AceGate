@@ -2,6 +2,11 @@ import {Box, HStack, Link, Text, VStack} from "@chakra-ui/react";
 import * as React from 'react';
 import "./search.css"
 
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 function Author(props) {
     const [isHover1, setIsHover1] = React.useState(false)
 
@@ -18,7 +23,7 @@ function Author(props) {
     }
 
     const linkStyle1 = {
-        fontSize: '22px',
+        fontSize: '20px',
         fontWeight: 'bold',
         cursor: 'pointer',
         textDecoration: isHover1 ? 'underline' : 'none'
@@ -41,13 +46,15 @@ function Author(props) {
 
     const linkStyle2 = {
         color: 'grey',
-        fontSize: '16px',
+        fontSize: '14px',
         cursor: 'pointer',
-        textDecoration: isHover2 ? 'underline' : 'none'
+        textDecoration: isHover2 ? 'underline' : 'none',
+        marginTop: '5px',
+        noOfLines: 1
     }
 
     return(
-        <Box mt={'25px'} >
+        <Box mt={'25px'}>
             <Link
                 style={linkStyle1}
                 onMouseEnter={handleMouseEnter1}
@@ -70,11 +77,11 @@ function Author(props) {
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.rcitescount}</Text>
-                    <Text fontSize={'18px'}>{'总引用量'}</Text>
+                    <Text color={'frog.500'} fontSize={'16px'}>{separator(props.info.rcitescount)}</Text>
+                    <Text fontSize={'16px'}>{'总引用量'}</Text>
                 </VStack>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.rworkscount}</Text>
+                    <Text color={'frog.500'} fontSize={'16px'}>{separator(props.info.rworkscount)}</Text>
                     <Text fontSize={'16px'}>{'总论文数'}</Text>
                 </VStack>
             </HStack>
@@ -127,11 +134,11 @@ function Institute(props) {
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'14px'}>{props.info.icitednum}</Text>
-                    <Text fontSize={'18px'}>{'总引用量'}</Text>
+                    <Text color={'frog.500'} fontSize={'16px'}>{separator(props.info.icitednum)}</Text>
+                    <Text fontSize={'16px'}>{'总引用量'}</Text>
                 </VStack>
                 <VStack>
-                    <Text color={'#0274b3'} fontSize={'16px'}>{props.info.iworksum}</Text>
+                    <Text color={'frog.500'} fontSize={'16px'}>{separator(props.info.iworksum)}</Text>
                     <Text fontSize={'16px'}>{'总论文数'}</Text>
                 </VStack>
             </HStack>
@@ -141,19 +148,16 @@ function Institute(props) {
 
 function Recommendation(props) {
     const authorStyle = {
-        fontSize: '20px',
-        marginBottom: '-25px',
+        fontSize: '21px',
         marginLeft: '10px',
-        marginTop: '15px',
         textShadow: 'rgb(0 0 0 / 20%) 4px 4px 6px',
         color: 'rgba(0,0,0,.85)',
         fontWeight: '600'
     }
     const instituteStyle = {
-        fontSize: '20px',
-        marginBottom: '-25px',
+        fontSize: '21px',
         marginLeft: '10px',
-        marginTop: '30px',
+        marginTop: '15px',
         textShadow: 'rgb(0 0 0 / 20%) 4px 4px 6px',
         color: 'rgba(0,0,0,.85)',
         fontWeight: '600'
@@ -163,17 +167,16 @@ function Recommendation(props) {
         <Box
             className="left"
             width={'100%'}
-            borderWidth={'5'}
-            borderRadius={'12'}
-            borderStyle={'solid'}
+            borderRadius={'20'}
             borderColor={'#E2E8F0'}
-            boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+            backgroundColor={'#ffffff'}
             css={{
                 '&::-webkit-scrollbar': {
-                  width: '4px',
+                  width: '8px',
                 },
                 '&::-webkit-scrollbar-track': {
-                  width: '6px',
+                  width: '10px',
                 },
                 '&::-webkit-scrollbar-thumb': {
                   background: '#cccccc',

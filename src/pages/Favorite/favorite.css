@@ -1,5 +1,5 @@
 .collect .ant-layout-sider-children {
-    height: 100%;
+    min-height: 100vh;
     background: white;
 }
 
@@ -9,6 +9,7 @@
 
 .collect .paperlist .ant-table-thead>tr>th {
     color: #A0AEC0;
+    background: white;
     font-weight: 700;
     font-size: 15px;
     width: 700px;
