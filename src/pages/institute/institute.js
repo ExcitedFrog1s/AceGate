@@ -21,7 +21,7 @@ function separator(numb) {
 
 function Icard(props){
     const [insdata, setInsdata] = useState({});
-    
+
     const handleHomepage = (url)=>{
         window.open(url)
     }
@@ -38,7 +38,7 @@ function Icard(props){
             strs.push("中文名为" + insdata.ichinesename)
             flag += 1;
         }
-            
+
         if(insdata.ialtername){
             let j = insdata.ialtername.length;
             if(j > 0){
@@ -98,7 +98,7 @@ function Icard(props){
                     <div className="insinfo">
                         {info()}
                     </div>
-                    
+
                 </Col>
             </Row>
         </Card>
@@ -107,7 +107,7 @@ function Icard(props){
         <Col span={7}>
         <div className="scard">
             <Card>
-                <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="学者总数" num={insdata.IschNum}></ItemScard>
+                <ItemScard icon={<IoSchoolSharp className="icon1"/>} title="本站收录学者" num={insdata.IschNum}></ItemScard>
                 <ItemScard icon={<IoNewspaperSharp className="icon1"/>} title="论文总数" num={insdata.iworksum}></ItemScard>
                 <ItemScard icon={<FaQuoteLeft className="icon1"/>} title="被引次数" num={insdata.icitednum}></ItemScard>
                 <Button colorScheme="frog" style={{marginTop:15,marginLeft:100}}
@@ -116,7 +116,7 @@ function Icard(props){
         </div>
         </Col>
     </Row>
-        
+
     )
 }
 
@@ -168,7 +168,7 @@ function CoInstitute(props){
     },[props])
     return (
         <Box boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)" rounded='md' backgroundColor="#ffffff"
-        borderRadius='20px' 
+        borderRadius='20px'
         className='chart'>
             <Row>
                 <BankFilled className='chart-icon'  />
@@ -208,13 +208,13 @@ function AmoutChart(props) {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
                 }
-            },        
+            },
         }
     )
     const [series, setSeries] = React.useState(
@@ -223,17 +223,17 @@ function AmoutChart(props) {
     );
     return(
         <Box boxShadow="4px 4px 15px 0 rgba(0,0,0,0.1)" rounded='md' backgroundColor="#ffffff"
-        borderRadius='20px' 
+        borderRadius='20px'
         className='chart'>
             <Row>
                 {props.icon}
-                
+
                 <Heading className='chart-head'>{props.title}</Heading>
             </Row>
             <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
         </Box>
     )
-}    
+}
 
 function Concept(props){
     const [cons, setCons] = useState([]);
@@ -308,7 +308,7 @@ function Institute(){
     useEffect(() =>{
         getData()
       },[])
-    
+
 
     return (
         <Layout>

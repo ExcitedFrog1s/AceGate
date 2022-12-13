@@ -50,7 +50,7 @@ function Conferences(props){
                     <List.Item className="listitem">
                        <Link href={"/journal?VID=" + item.vID} isExternal>
                             <Text as='em' fontWeight={'bold'} fontSize="18px" className="venueName">
-                                {item.vAbbrName === "none" ? "" : "[" + item.vAbbrName + "]  "}{item.vName}</Text>
+                                {item.vAbbrName === "none" ? "" : "[" + item.vAbbrName + "]  "}{(item.vName.length >= 60 ? (item.vName.substring(0, 59) + "...") : item.vName)}</Text>
                        </Link>
 
                        <Text fontSize="16px" fontWeight={'bold'}><FaQuoteLeft></FaQuoteLeft>近三年引用 {separator(item.vCite)}</Text>
