@@ -179,7 +179,7 @@ function PaperList(props){
             render: (_,record) => (
                 <HStack spacing={4}>
                     <Tooltip label={record.field} aria-label='A tooltip'>
-                    <Tag size='md'  variant='subtle' bg='navy.200' color='white'>
+                    <Tag size='md'  variant='subtle' bg='#627cd177' color='white'>
                     <TagLabel>{record.field}</TagLabel>
                     </Tag>
                     </Tooltip>
@@ -213,7 +213,7 @@ function PaperList(props){
             key: '',
             width:110,
             render:(_,record) =>(
-                <Button leftIcon={<StarFilled />} variant='solid' size='xs' colorScheme='frog'>
+                <Button  variant='solid' size='xs' >
                     取消收藏
                 </Button>
             )
@@ -229,7 +229,7 @@ function PaperList(props){
         dataLabels: {
           enabled: false
         },
-        colors:['#90cdf4'],
+        colors:['#98bcdf'],
         stroke: {
           curve: 'smooth'
         },
@@ -266,7 +266,7 @@ function PaperList(props){
                                     {
                                         record.pauthorname.map((value, key) => {
                                             return (
-                                                <Text fontSize='sm' mr='25px' mt='5px' color='blue.200'>{value}</Text>
+                                                <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}</Text>
                                             );})
                                     }
                                     </Row>
@@ -275,7 +275,7 @@ function PaperList(props){
                                     {
                                         record.pconcepts.map((value, key) => (
                                                 key<8? (
-                                                    <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
+                                                    <Tag size='sm' mt='3px' variant='subtle' bg='#627cd177' color='white' mr='20px'>
                                                     <TagLabel>{value}</TagLabel>
                                                 </Tag>
                                                 ):(<p></p>)
@@ -335,18 +335,10 @@ function Favorite(){
         
     },[])
 
-<<<<<<< HEAD
     const onClick = (e) => {
         console.log('click ', e.key);
         setShow(e.key)
       };
-=======
-    return (
-        <Box>
-         
-            <div>{names[0]}</div>
-            <div>111</div>
->>>>>>> 319f894f18a088dc577ebebe60d1253f746d0789
 
     const add =() => {
         if(newName == ''){
@@ -381,7 +373,7 @@ function Favorite(){
     }
 
     return (
-        <Box className='collect'>
+        <Box className='collect' bg='rgb(230,235,247)'>
         <MyHeader></MyHeader>
         <Layout>
             <Sider>
@@ -427,7 +419,7 @@ function Favorite(){
                      ))}
                 </Menu>
             </Sider>
-            <Content style={{backgroundColor:'rgb(230,235,247)' ,height:'100vh',padding:'30px'}}>
+            <Content style={{backgroundColor:'rgb(230,235,247)' ,minHeight:'100vh',padding:'30px'}}>
                 <PaperList list={papers[show].list} isLoading={isLoading} ></PaperList>
             </Content>
         </Layout>

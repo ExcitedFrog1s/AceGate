@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
+import Chart from 'react-apexcharts'
 import axios from "axios";
 
 function separator(numb) {
@@ -53,6 +54,24 @@ function Data(prop) {
         return <></>
     }
     else{
+        const options= {
+            chart: {
+              type: 'area',
+              zoom: {
+                enabled: false
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            colors:['#728fea'],
+            stroke: {
+              curve: 'smooth'
+            },
+            xaxis: {
+                categories: [2017,2018,2019,2020,2021]
+            },
+        }
         const option = {
             xAxis: {
                 type: 'category',
@@ -160,7 +179,10 @@ function Data(prop) {
                     </HStack>
                 </Box>
                 <div>
-                    {Pdata.citeyears.length !== 0 && <ReactECharts option={option} style={s} ml={8} mr={4}/>}
+                    {Pdata.citeyears.length !== 0 && 
+                            <Chart options={options} 
+                            series={[{data:Pdata.citeNums, name:'热度'}]} 
+                            type="area" height={250} />}
                     {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} mb={20} className={'ft'}>暂无数据</Text>}
                 </div>
 

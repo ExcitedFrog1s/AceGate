@@ -89,7 +89,7 @@
     width: 95%;
     margin-top: 50px;
     margin-left: 50px;
-    padding: 40px;
+    padding: 30px;
 }
 
 .journal .institutionList{
@@ -97,7 +97,9 @@
 }
 
 .journal .institutionList .ant-table-thead>tr>th {
+    /* color: #422afbca; */
     color: #A0AEC0;
+    background: white;
     font-weight: 700;
     font-size: 15px;
 }

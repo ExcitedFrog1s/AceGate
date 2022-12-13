@@ -52,8 +52,9 @@ function Title(props) {
         return num;
     }
     return(
-        <Box boxShadow='xs' rounded='md'
-            borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
             className='title'>
             <Row>
             <ProjectOutlined style={{ marginLeft:'45px', fontSize: '36px', color: '#422afb'}}></ProjectOutlined>
@@ -93,8 +94,9 @@ function Keywords(props) {
         </Icon>
     )
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='keywords' >
             <Row>
                 <KeyOutlined style={{ fontSize: '25px', color: '#422afb'}}></KeyOutlined>
@@ -148,7 +150,7 @@ function Keywords(props) {
  
 function PaperAmount(props) {
     React.useEffect(() => {
-        setSeries([{data:props.count}])
+        setSeries([{data:props.count,name:'数量'}])
     },[props])
     const [options, setOptions] = React.useState(
         {
@@ -184,8 +186,9 @@ function PaperAmount(props) {
         }]
     );
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='chart'>
             <Row>
                 <BarChartOutlined className='chart-icon'  />
@@ -197,7 +200,7 @@ function PaperAmount(props) {
 }    
 function CitationAmount(props) {
     React.useEffect(() => {
-        setSeries([{data:props.count}])
+        setSeries([{data:props.count,name:'数量'}])
     },[props])
     const [options, setOptions] = React.useState(
         {
@@ -234,8 +237,9 @@ function CitationAmount(props) {
         }]
     );
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='chart'>
             <Row>
                 <BarChartOutlined className='chart-icon'  />
@@ -280,12 +284,14 @@ function PaperAmountAcc(props) {
     )
     const [series, setSeries] = React.useState(
         [{
-            data: props.count
+            data: props.count,
+            name:'数量'
         }]
     );
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='chart'>
             <Row>
                 <BarChartOutlined className='chart-icon'  />
@@ -330,12 +336,14 @@ function CitationAmountAcc(props) {
     )
     const [series, setSeries] = React.useState(
         [{
-            data: props.count
+            data: props.count,
+            name:'数量'
         }]
     );
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='chart'>
             <Row>
                 <BarChartOutlined className='chart-icon'  />
@@ -692,7 +700,7 @@ function PaperList(props) {
             render: (_,record) => (
                 <HStack spacing={4}>
                     <Tooltip label={record.field} aria-label='A tooltip'>
-                    <Tag size='lg'  variant='subtle' bg='navy.200' color='white'>
+                    <Tag size='lg'  variant='subtle' bg='#627cd177' color='white'>
                     <TagLabel>{record.field}</TagLabel>
                     </Tag>
                     </Tooltip>
@@ -731,7 +739,7 @@ function PaperList(props) {
         dataLabels: {
           enabled: false
         },
-        colors:['#90cdf4'],
+        colors:['#98bcdf'],
         stroke: {
           curve: 'smooth'
         },
@@ -744,8 +752,9 @@ function PaperList(props) {
         },
     }
     return(
-        <Box boxShadow='xs' rounded='md'
-        borderRadius='25px' border='2px' borderColor='gray.200'
+        <Box bg='white'
+        boxShadow='4px 4px 15px 0 rgba(0,0,0,0.1)' rounded='md'
+        borderRadius='20px' border='2px' borderColor='gray.200'
         className='list'>
             <Row>
                 <BarsOutlined style={{ fontSize: '28px', color: '#422afb', marginTop:'3px'}}></BarsOutlined>
@@ -767,7 +776,7 @@ function PaperList(props) {
                                     {
                                         record.pauthorname.map((value, key) => {
                                             return (
-                                                <Text fontSize='sm' mr='25px' mt='5px' color='blue.200'>{value}</Text>
+                                                <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}</Text>
                                             );})
                                     }
                                     </Row>
@@ -776,7 +785,7 @@ function PaperList(props) {
                                     {
                                         record.pconcepts.map((value, key) => (
                                                 key<8? (
-                                                    <Tag size='sm' mt='3px' variant='subtle' bg='navy.200' color='white' mr='20px'>
+                                                    <Tag size='sm' mt='3px' variant='subtle' bg='#627cd177' color='white' mr='20px'>
                                                     <TagLabel>{value}</TagLabel>
                                                 </Tag>
                                                 ):(<p></p>)
@@ -786,7 +795,7 @@ function PaperList(props) {
                                 </Col>
                                 <Col span={5} style={{marginLeft:'20px'}}>
                                 <Chart options={options} 
-                                    series={[{data:record.pcitednum}]} 
+                                    series={[{data:record.pcitednum, name:'引用量'}]} 
                                     type="area" height={250} />
                                 </Col>
                             </Row>
@@ -839,7 +848,7 @@ function Journal({}) {
 
     },[])
     return(
-        <Box className='journal'>
+        <Box className='journal' bg='rgb(230,235,247)'>
             <Row>
                 <MyHeader></MyHeader>
             </Row>
