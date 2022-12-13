@@ -48,6 +48,7 @@ function Favorite(){
         <Box>
          
             <div>{names[0]}</div>
+            <div>111</div>
 
             {/* {items.map((item, index) => (
                 <div key={index}> {item.key} </div>

@@ -1,4 +1,5 @@
 import "antd/dist/antd.min.css";
+import "./editPortal.css"
 import {
     Typography,
     Layout,
@@ -24,24 +25,6 @@ const onChange = (key) => {
     console.log(key);
 };
 
-const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
-
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('请上传JPG/PNG格式的文件!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('图片必须小于2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-};
-
 const layout = {
     labelCol: {
         span: 6,
@@ -65,7 +48,6 @@ const validateMessages = {
 function EditPortal() {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
-    const [imageUrl, setImageUrl] = useState();
 
     let location = useLocation()
     let params = new URLSearchParams(location.search)
@@ -89,7 +71,6 @@ function EditPortal() {
     }
 
     const [form] = Form.useForm();
-    const Ravatar = Form.useWatch('Ravatar', form);
     const Rcontact = Form.useWatch('Rcontact', form);
     const Rconcepts = Form.useWatch('Rconcepts', form);
     const RpersonalPage = Form.useWatch('RpersonalPage', form);
@@ -145,18 +126,18 @@ function EditPortal() {
             <MyHeader></MyHeader>
             <Content
                 style={{
-                    padding: '50px 200px 20px 200px',
-                    height: '100vh',
+                    padding: '80px 200px 50px 200px',
+                    // height: '100vh',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
                 <div
                     style={{
-                        padding: '50px 50px 30px 50px',
+                        padding: '80px 50px 50px 50px',
                         Height: '200px',
-                        backgroundColor: 'white',
+                        background: 'linear-gradient(180deg,rgba(255,255,255,1.0), rgba(255,255,255,0.4))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                        borderRadius: '10px',
+                        borderRadius: '20px',
                     }}
                 >
                     <Row>
@@ -178,12 +159,14 @@ function EditPortal() {
                         onFinish={onFinish}
                         validateMessages={validateMessages}
                         style={{
-                            padding: '20px 0 0 0',
+                            padding: '20px 50px 0 20vw',
+                            margin: 'auto',
                         }}
                     >
+                        <span className={'inputLabel'} style={{marginTop: '10px'}}>电子邮箱</span>
                         <Form.Item
-                            name="Rcontact"
-                            label="电子邮箱"
+                            name="电子邮箱"
+                            // label={<span className={'inputLabel'} style={{marginTop: '10px'}}>电子邮箱</span>}
                             rules={[
                                 {
                                     type: 'email',
@@ -195,13 +178,17 @@ function EditPortal() {
                             }}
                         >
                             <Input
+                                className={'editInput'}
                                 autoComplete={'off'}
                                 initialValue={data.rcontact}
-                                placeholder={data.rcontact}/>
+                                placeholder={data.rcontact}
+
+                            />
                         </Form.Item>
+                        <span className={'inputLabel'}>研究领域</span>
                         <Form.Item
-                            name="Rconcepts"
-                            label="研究领域"
+                            name="研究领域"
+                            // label={<span className={'inputLabel'}>研究领域</span>}
                             rules={[
                                 {
                                     required: true,
@@ -212,13 +199,16 @@ function EditPortal() {
                             }}
                         >
                             <Input
+                                className={'editInput'}
                                 autoComplete={'off'}
                                 initialvalues={data.rcustomconcepts}
                                 placeholder={data.rcustomconcepts}
                             />
                         </Form.Item>
+                        <span className={'inputLabel'}>个人主页</span>
                         <Form.Item
-                            name="RpersonalPage" label="个人主页"
+                            name="个人主页"
+                            // label={<span className={'inputLabel'}>个人主页</span>}
                             style={{
                                 padding: '10px',
                             }}
@@ -229,20 +219,27 @@ function EditPortal() {
                             ]}
                         >
                             <Input
+                                className={'editInput'}
                                 autoComplete={'off'}
                                 initialvalues={data.rpersonalpage}
-                                placeholder={data.rpersonalPage}/>
+                                placeholder={data.rpersonalPage}
+                            />
+
                         </Form.Item>
+                        <span className={'inputLabel'}>个人简介</span>
                         <Form.Item
-                            name="Rgateinfo" label="个人简介"
+                            name="个人简介"
+                            // label={<span className={'inputLabel'}>个人简介</span>}
                             style={{
                                 padding: '10px',
                             }}
                         >
                             <Input.TextArea
+                                className={'editInput'}
                                 autoComplete={'off'}
                                 initialvalues={data.rgateinfo}
-                                placeholder={data.rgateinfo}/>
+                                placeholder={data.rgateinfo}
+                            />
                         </Form.Item>
                     </Form>
                     <Row

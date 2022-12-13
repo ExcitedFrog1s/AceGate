@@ -326,6 +326,17 @@ function ResultCard(props) {
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
         >
             <Text color={'#777'} position={'absolute'} ml={'45%'} mt={'10px'}>{"被引：" + props.infos.pcite}</Text>
+            <Link
+                color={'#777'}
+                position={'absolute'}
+                ml={'3%'}
+                mt={'10px'}
+                onClick={() => {
+                    window.open("/journal?VID=" + props.infos.p_VID)
+                }}
+            >
+                {props.infos.p_Vname}
+            </Link>
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
             <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}/>

@@ -41,13 +41,13 @@ function AdvancedSearchPublicationTypesFilter(props) {
             <Text>{'出版类型'}</Text>
             <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
                             if(value.num !== 0) {
                                 return (
                                     <Radio value={value.type} key={key}>
-                                        {value.type + "（" + value.num + "）"}
+                                        {value.type[0].toUpperCase() + value.type.substring(1)}
                                     </Radio>
                                 )
                             }
@@ -65,13 +65,13 @@ function AdvancedSearchAuthorsFilter(props) {
             <Text>{'作者'}</Text>
             <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
                             if(value.num !== 0) {
                                 return (
                                     <Radio value={value.uid} key={key}>
-                                        {value.name + "（" + value.num + "）"}
+                                        {value.name}
                                     </Radio>
                                 )
                             }
