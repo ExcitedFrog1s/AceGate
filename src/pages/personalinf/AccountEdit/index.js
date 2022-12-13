@@ -12,12 +12,11 @@ import { CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
+import MyHeader from "../../../components/header/header";
+
+
+
 const { Header, Content, Footer} = Layout;
-
-
-
-// tabs callback
-
 
 const layout = {
     labelCol: {
@@ -103,8 +102,17 @@ function AccountEdit() {
     }
 
     return (
+<<<<<<< HEAD
         <Layout className="layout">
             <MyHeader></MyHeader>
+=======
+        <Layout className="layout"
+        style={{
+            minHeight: '100vh',
+        }}
+        >
+            <MyHeader/>
+>>>>>>> 933e57e1b717eaffae292a592aa7338b55a72232
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',

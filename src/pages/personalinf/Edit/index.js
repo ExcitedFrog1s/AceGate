@@ -10,11 +10,10 @@ import {
 } from 'antd';
 import { LoadingOutlined, PlusOutlined, CheckCircleOutlined, RollbackOutlined} from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import {DeviceEventEmitter} from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import {Select } from 'antd';
-import MyHeader from '.././../../components/header/header'
+import MyHeader from "../../../components/header/header";
 
 const { Header, Content, Footer} = Layout;
 
@@ -201,8 +200,13 @@ function Edit() {
         localStorage.setItem("field", value.join(`\u00A0\u00A0`));
     };
     return (
-        <Layout className="layout">
-            <MyHeader></MyHeader>
+        <Layout className="layout"
+        style={{
+            minHeight: '100vh',
+        }}
+        >
+            
+            <MyHeader/>
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',

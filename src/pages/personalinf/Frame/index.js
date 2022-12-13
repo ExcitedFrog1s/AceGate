@@ -7,7 +7,7 @@ import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
 import Left from "../Left";
 import default_avatar from "../../../assets/default_avatar.png";
-import MyHeader from '.././../../components/header/header'
+import MyHeader from '../../../components/header/header'
 
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -52,8 +52,17 @@ function PersonInfo() {
         optionValue2[index] = `${value}\u00A0\u00A0\u00A0` ;
     })
     return (
+<<<<<<< HEAD
         <Layout className="layout">
             <MyHeader></MyHeader>
+=======
+        <Layout className="layout"
+            style={{
+                minHeight: '100vh',
+            }}
+        >
+            <MyHeader/>
+>>>>>>> 933e57e1b717eaffae292a592aa7338b55a72232
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',
@@ -88,9 +97,9 @@ function PersonInfo() {
                         <Col span={15}>
                             <Typography
                                 style={{
-                                    padding: '0 0 0 10px',
+                                    padding: '0 0 0 30px',
                                 }}
-                            >n
+                            >
                                 <Title
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
