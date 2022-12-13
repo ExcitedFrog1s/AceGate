@@ -48,16 +48,16 @@ import axios from "axios";
 
     const formData = new FormData()
     formData.append('PID', prop.pid)
-    React.useEffect(async()=>{
-         await axios.post("/citations", formData
-         )
-             .then(function (res){
-                 setCite(res.data)
-
-                 setLoading(false)
-                 console.log('cite',res.data)
-             })
-     },[])
+    // React.useEffect(async()=>{
+    //      await axios.post("/citations", formData
+    //      )
+    //          .then(function (res){
+    //              setCite(res.data)
+    //
+    //              setLoading(false)
+    //              console.log('cite',res.data)
+    //          })
+    //  },[])
 
 
     if(isLoading) {
@@ -195,18 +195,7 @@ function Newfav(prop) {
     )
 }
 function Starred(prop){
-    const property = {
-        abs:'摘要',
-        kw:'关键词：',
-        keywords: ["马克思","中国化","方法论"],
-        abstract: "MG 是面向团队的专业 UI/UX 设计工具。多人同时编辑、随时在线评审、设计一键交付，让想法更快实现，谁到了副科级司法局萨克冷冻机房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键房萨克就够啦实践观亮剑嗷谁到了看过就搜啊解耦is打几份雷克萨解放了老师就大功我感觉老款车型女了红军关键时刻辣豆腐就仨空间IE图嘎忘记了快捷键"
-        ,
-        favorite:[{name:"默认收藏夹",nums:71},{name:"test",nums: 12},{name:"myfav",nums: 12}],
-        defaultfav:["默认收藏夹"],
-        newfav:[],
-
-    }
-    const { isOpen, onOpen, onToggle, } = useDisclosure()
+     const { isOpen, onOpen, onToggle, } = useDisclosure()
     const [changed, setChanged] = useState(false)
     const [infos,setInfos] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
@@ -221,7 +210,8 @@ function Starred(prop){
     const [All,setAll] = React.useState()
     const [Pc,setPc] = React.useState()
 
-    let defcollect = [];
+     const [defcollect,setDefCollect] = React.useState([])
+    const [confirmCollect,setConfirmCollect] = React.useState([])
     let allcollect = [];
     React.useEffect( () => {
         let mark = 0
@@ -254,6 +244,14 @@ function Starred(prop){
             .then(function (res){
                 // setAll(res.data)
                 setPc(res.data)
+                if(res.data.data !== null){
+                    let temp = [...defcollect]
+                    res.data.data.forEach(e => {
+                        temp.push(e.ctname)
+                    })
+                    setDefCollect(temp)
+                    setConfirmCollect(temp)
+                }
                 console.log("666",res.data)
 
 
@@ -269,7 +267,6 @@ function Starred(prop){
                     // onClose()
                 }
             })
-
     },[])
 
 
@@ -282,7 +279,7 @@ function Starred(prop){
             p > q ? 1 : -1,).toString()
         if(a !== b){
             setChanged(true)
-            defcollect = value;
+            setDefCollect(value)
             console.log(defcollect)
         }
         else{
@@ -297,6 +294,7 @@ function Starred(prop){
     }
     // 按下确定按钮后的函数
     const confirm = () => {
+        setConfirmCollect(defcollect)
         console.log("here")
         console.log(defcollect)
         // 重新设置defaultfav
@@ -336,7 +334,6 @@ function Starred(prop){
                         // setAll(res.data)
                         setPc(res.data)
                         console.log("666",res.data)
-
                         if(Pc.length !== 0){
                             isstarred = true
                         }
@@ -350,28 +347,25 @@ function Starred(prop){
         onToggle()
         setChanged(false)
     }
+
     if(isLoading){
         return <></>
     }
     else{
         console.log('pc',Pc)
         console.log('All',All)
-        if(Pc.data !== null){
-            Pc.data.forEach(e => {
-                defcollect.push(e.ctname)
-            })
-        }
 
         All.data.forEach(e => {
             allcollect.push(e.ctname)
         })
+        console.log('-------')
         return (
             <>
-                {defcollect.length === 0  && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                {confirmCollect.length === 0  && <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
                     <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
 
                 </Tooltip>}
-                {defcollect.length !== 0  && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                {confirmCollect.length !== 0  && <Tooltip hasArrow label={'取消收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
                     <span><Icon as={AiFillStar} mr={15} onClick={onOpen} style={Style}/></span>
 
                 </Tooltip>}
@@ -408,7 +402,7 @@ function Starred(prop){
                                 <VStack align={'center'} width={'100%'}>
                                     <Newfav setall={setAll} setPc={setPc} all={allcollect}/>
                                     <Divider mt={0}/>
-                                    <Button colorScheme='messenger' mr={3} onClick={() => confirm()} isDisabled={!changed}>
+                                    <Button colorScheme='messenger' mr={3} onClick={confirm} isDisabled={!changed}>
                                         确定
                                     </Button>
                                     {/*<Button variant='ghost'>Secondary Action</Button>*/}
