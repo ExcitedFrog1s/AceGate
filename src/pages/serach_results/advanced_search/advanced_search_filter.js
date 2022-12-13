@@ -41,13 +41,13 @@ function AdvancedSearchPublicationTypesFilter(props) {
             <Text>{'出版类型'}</Text>
             <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
                             if(value.num !== 0) {
                                 return (
                                     <Radio value={value.type} key={key}>
-                                        {value.type + "（" + value.num + "）"}
+                                        {value.type[0].toUpperCase() + value.type.substring(1)}
                                     </Radio>
                                 )
                             }
@@ -65,13 +65,13 @@ function AdvancedSearchAuthorsFilter(props) {
             <Text>{'作者'}</Text>
             <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
                             if(value.num !== 0) {
                                 return (
                                     <Radio value={value.uid} key={key}>
-                                        {value.name + "（" + value.num + "）"}
+                                        {value.name}
                                     </Radio>
                                 )
                             }
@@ -83,9 +83,32 @@ function AdvancedSearchAuthorsFilter(props) {
     )
 }
 
+function AdvancedSearchConceptsFilter(props) {
+    return(
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'领域'}</Text>
+            <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部'}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return (
+                                <Radio value={value} key={key}>
+                                    {value}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
+        </Box>
+    )
+}
+
 function AdvancedSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
+    const [concepts,setConcepts] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01-01")
     const [endTime,setEndTime] = useState("2030-01-01")
 
@@ -168,6 +191,11 @@ function AdvancedSearchFilter(props) {
                 totalNumber={props.filterInfos.totalNumber}
                 setAuthors={setAuthors}
                 authors={authors}
+            />
+            <AdvancedSearchConceptsFilter
+                content={props.filterInfos.concepts}
+                concepts={concepts}
+                setConcepts={setConcepts}
             />
         </Box>
     )

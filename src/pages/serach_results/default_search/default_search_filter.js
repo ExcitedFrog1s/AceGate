@@ -1,7 +1,7 @@
 //
 // Created by zyc on 2022/12/09.
 //
-
+import "./search.css"
 import {Box, Stack, Input, Text, Checkbox, Button, RadioGroup, Radio} from '@chakra-ui/react';
 import {useState} from "react";
 import {AiOutlineFilter} from "react-icons/ai";
@@ -28,32 +28,28 @@ function DefaultSearchTimeRangeFilter(props) {
     };
 
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text mb={'10px'}>{'发表年份'}</Text>
-            <Col span={17}>
-                <RangePicker locale={locale} picker="month" className='datePicker'
+        <Box mt={'50px'}>
+            <Text mb={2} fontWeight='bold' color='#4A5568' fontSize={16}>{'发表年份'}</Text>
+            <RangePicker locale={locale} picker="month" className='datePicker'
                              onChange={changeTime} key={timeValue}/>
-            </Col>
         </Box>
     )
 }
 
 function DefaultSearchPublicationTypesFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text>{'出版类型'}</Text>
-            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes}>
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' mb={2} fontSize={16}>{'出版类型'}</Text>
+            <RadioGroup onChange={props.setPublicationTypes} defaultValue={props.publicationTypes} colorScheme={'frog'}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
-                            if(value.num !== 0) {
-                                return (
-                                    <Radio value={value.type} key={key}>
-                                        {value.type + "（" + value.num + "）"}
-                                    </Radio>
-                                )
-                            }
+                            return (
+                                <Radio value={value.type} key={key}>
+                                    {value.type[0].toUpperCase() + value.type.substring(1)}
+                                </Radio>
+                            )
                         })
                     }
                 </Stack>
@@ -64,20 +60,40 @@ function DefaultSearchPublicationTypesFilter(props) {
 
 function DefaultSearchAuthorsFilter(props) {
     return(
-        <Box ml={'20px'} mt={'30px'}>
-            <Text>{'作者'}</Text>
-            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors}>
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'作者'}</Text>
+            <RadioGroup onChange={props.setAuthors} defaultValue={props.authors} colorScheme={'frog'}>
                 <Stack direction='column'>
-                    <Radio value='全部'>{'全部（' + props.totalNumber + "）"}</Radio>
+                    <Radio value='全部'>{'全部'}</Radio>
                     {
                         props.content.map((value, key) => {
-                            if(value.num !== 0) {
-                                return (
-                                    <Radio value={value.uid} key={key}>
-                                        {value.name + "（" + value.num + "）"}
-                                    </Radio>
-                                )
-                            }
+                            return (
+                                <Radio value={value.uid} key={key}>
+                                    {value.name}
+                                </Radio>
+                            )
+                        })
+                    }
+                </Stack>
+            </RadioGroup>
+        </Box>
+    )
+}
+
+function DefaultSearchConceptsFilter(props) {
+    return(
+        <Box mt={'30px'}>
+            <Text fontWeight='bold' color='#4A5568' fontSize={16} mb={2}>{'领域'}</Text>
+            <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
+                <Stack direction='column'>
+                    <Radio value='全部'>{'全部'}</Radio>
+                    {
+                        props.content.map((value, key) => {
+                            return (
+                                <Radio value={value} key={key}>
+                                    {value}
+                                </Radio>
+                            )
                         })
                     }
                 </Stack>
@@ -89,6 +105,7 @@ function DefaultSearchAuthorsFilter(props) {
 function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
+    const [concepts,setConcepts] = useState('全部')
     const [startTime,setStartTime] = useState("1900-01")
     const [endTime,setEndTime] = useState("2030-01-01")
 
@@ -126,6 +143,7 @@ function DefaultSearchFilter(props) {
                 props.setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
@@ -142,22 +160,31 @@ function DefaultSearchFilter(props) {
     }
     return(
         <Box
-            minHeight={'1000px'}
-            width={'25%'}
-            ml={'20px'}
+            className='left'
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}
         >
-            <Box>
+            <Box className="filterbutton">
                 <Button
-                    ml={'55%'}
-                    mt={'20px'}
+                    float={"right"}
                     rightIcon={<AiOutlineFilter/>}
-                    colorScheme='blue'
+                    colorScheme={'frog'}
                     variant='outline'
                     onClick={filter}
                 >
@@ -179,6 +206,11 @@ function DefaultSearchFilter(props) {
                 totalNumber={props.filterInfos.totalNumber}
                 setAuthors={setAuthors}
                 authors={authors}
+            />
+            <DefaultSearchConceptsFilter
+                content={props.filterInfos.concepts}
+                concepts={concepts}
+                setConcepts={setConcepts}
             />
         </Box>
     )

@@ -1,6 +1,6 @@
 import Chart from 'react-apexcharts'
 import "./institute.css"
-import { Box, Link } from '@chakra-ui/react'
+import {Box, Link, Spinner} from '@chakra-ui/react'
 import { FaQuoteLeft } from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import List from './ScholarList'
@@ -281,6 +281,7 @@ function Concept(props){
 
 function Institute(){
     const [insdata, setInsdata] = useState({})
+    const [isLoading, setLoading] = React.useState(true)
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     var IID;
@@ -301,6 +302,7 @@ function Institute(){
           })
           .then(res => {
               setInsdata(res.data.data)
+              setLoading(false)
               console.log(res.data.data)
             }
           )
@@ -308,7 +310,20 @@ function Institute(){
     useEffect(() =>{
         getData()
       },[])
-    
+    if(isLoading) {
+        return (
+            <Spinner
+                ml={'47%'}
+                mt={'25%'}
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />
+        )
+    }
+
 
     return (
         <Layout>

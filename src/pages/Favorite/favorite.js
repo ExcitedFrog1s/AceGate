@@ -335,10 +335,18 @@ function Favorite(){
         
     },[])
 
+<<<<<<< HEAD
     const onClick = (e) => {
         console.log('click ', e.key);
         setShow(e.key)
       };
+=======
+    return (
+        <Box>
+         
+            <div>{names[0]}</div>
+            <div>111</div>
+>>>>>>> 319f894f18a088dc577ebebe60d1253f746d0789
 
     const add =() => {
         if(newName == ''){

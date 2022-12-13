@@ -1,4 +1,7 @@
 import 'antd/dist/antd.variable.min.css';
+import paper from '../../assets/paper.png';
+import part2 from '../../assets/advsearch.png';
+import './applyPortal.css';
 import Info from './info';
 import MyHeader from '../../components/header/header'
 import {
@@ -16,7 +19,7 @@ import {
     Radio,
     Space,
     Card,
-    Form, Skeleton
+    Form, Skeleton, Image
 } from 'antd';
 import {
     FormOutlined,
@@ -60,12 +63,12 @@ function ApplyPortal() {
     const [Rlist, setRlist] = useState([]);
 
     const [form] = Form.useForm();
-    const Rname = Form.useWatch('Rname', form);
-    const Rinstitute = Form.useWatch('Rinstitute', form);
-    const Rcontact = Form.useWatch('Rcontact', form);
-    const Rconcepts = Form.useWatch('Rconcepts', form);
-    const RpersonalPage = Form.useWatch('RpersonalPage', form);
-    const Rgateinfo = Form.useWatch('Rgateinfo', form);
+    const Rname = Form.useWatch('姓名', form);
+    const Rinstitute = Form.useWatch('工作单位', form);
+    const Rcontact = Form.useWatch('电子邮箱', form);
+    const Rconcepts = Form.useWatch('研究领域', form);
+    const RpersonalPage = Form.useWatch('个人主页', form);
+    const Rgateinfo = Form.useWatch('个人简介', form);
 
     const [name, setName] = useState();
     const [institute, setInstitute] = useState();
@@ -207,82 +210,103 @@ function ApplyPortal() {
                 <FormOutlined />,
             content: (
                 <div>
-                    <Form {...layout} form={form} onFinish={onFinish} validateMessages={validateMessages}>
-                        <Form.Item
-                            name="Rname"
-                            label="姓名"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder="请输入您的姓名" />
-                        </Form.Item>
-                        <Form.Item
-                            name="Rinstitute"
-                            label="工作单位"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder="请输入您的工作单位"/>
-                        </Form.Item>
-                        <Form.Item
-                            name="Rcontact"
-                            label="电子邮箱"
-                            rules={[
-                                {
-                                    type: 'email',
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder="请输入您的电子邮箱"/>
-                        </Form.Item>
-                        <Form.Item
-                            name="Rconcepts"
-                            label="研究领域"
-                            rules={[
-                                {
-                                    required: true,
-                                },
-                            ]}
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder="多个研究领域用英文半角逗号(,)分隔" />
-                        </Form.Item>
-                        <Form.Item
-                            name="RpersonalPage" label="个人主页"
-                            style={{
-                                padding: '10px',
-                            }}
-                        >
-                            <Input placeholder="请输入您的个人主页"/>
-                        </Form.Item>
-                        <Form.Item
-                            name="Rgateinfo" label="个人简介"
-                            style={{
-                                padding: '10px',
-                                color: '#0087FF',
-                            }}
-                        >
-                            <Input.TextArea placeholder="请输入您的个人简介"/>
-                        </Form.Item>
-                    </Form>
+                    <Row>
+                        <Col span={6}></Col>
+                        <Col span={18}>
+                            <Form
+                                {...layout}
+                                form={form}
+                                onFinish={onFinish}
+                                validateMessages={validateMessages}
+                                style={{
+                                    padding: '0',
+                                    margin: 'auto',
+                                }}
+                            >
+                                <span className={'applyLabel'}>姓名</span>
+                                <Form.Item
+                                    name="姓名"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    style={{
+                                        padding: '10px',
+                                    }}
+                                >
+                                    <Input className={'applyInput'} placeholder="请输入您的姓名" />
+                                </Form.Item>
+                                <span className={'applyLabel'}>工作单位</span>
+                                <Form.Item
+                                    name="工作单位"
+                                    // label="工作单位"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    style={{
+                                        padding: '10px',
+                                    }}
+                                >
+                                    <Input className={'applyInput'} placeholder="请输入您的工作单位"/>
+                                </Form.Item>
+                                <span className={'applyLabel'}>电子邮箱</span>
+                                <Form.Item
+                                    name="电子邮箱"
+                                    // label="电子邮箱"
+                                    rules={[
+                                        {
+                                            type: 'email',
+                                            required: true,
+                                        },
+                                    ]}
+                                    style={{
+                                        padding: '10px',
+                                    }}
+                                >
+                                    <Input className={'applyInput'} placeholder="请输入您的电子邮箱"/>
+                                </Form.Item>
+                                <span className={'applyLabel'}>研究领域</span>
+                                <Form.Item
+                                    name="研究领域"
+                                    // label="研究领域"
+                                    rules={[
+                                        {
+                                            required: true,
+                                        },
+                                    ]}
+                                    style={{
+                                        padding: '10px',
+                                    }}
+                                >
+                                    <Input className={'applyInput'} placeholder="多个研究领域用英文半角逗号(,)分隔" />
+                                </Form.Item>
+                                <span className={'applyLabel'}>个人主页</span>
+                                <Form.Item
+                                    name="个人主页"
+                                    // label="个人主页"
+                                    style={{
+                                        padding: '10px',
+                                    }}
+                                >
+                                    <Input className={'applyInput'} placeholder="请输入您的个人主页"/>
+                                </Form.Item>
+                                <span className={'applyLabel'}>个人简介</span>
+                                <Form.Item
+                                    name="个人简介"
+                                    // label="个人简介"
+                                    style={{
+                                        padding: '10px',
+                                        color: '#0087FF',
+                                    }}
+                                >
+                                    <Input.TextArea className={'applyInput'} placeholder="请输入您的个人简介"/>
+                                </Form.Item>
+                            </Form>
+                        </Col>
+                    </Row>
                 </div>
             ),
         },
@@ -293,13 +317,16 @@ function ApplyPortal() {
             content: (
                 <div>
                     <Row>
+                        <Image src={part2} preview={false} style={{ width: '50%', marginTop: '-70px'}} />
                         <Text
+                            className={'applyLabel'}
                             style={{
-                                fontSize: '20px',
-                                paddingBottom: '25px',
+                                fontSize: '24px',
+                                padding: '24px',
+                                marginTop: '50px',
                             }}
                         >
-                            已根据您的姓名检索出以下门户，请选择：
+                            已根据您的姓名检索出以下门户，请选择
                         </Text>
                     </Row>
                     <div
@@ -458,8 +485,9 @@ function ApplyPortal() {
                     </Row>
                     <Row>
                         <Text
+                            className={'applyLabel'}
                             style={{
-                                fontSize: '18px',
+                                fontSize: '24px',
                                 margin: "auto",
                                 padding: '20px',
                             }}
@@ -470,12 +498,13 @@ function ApplyPortal() {
                     <Row>
                         <Text
                             style={{
-                                fontSize: '16px',
+                                fontSize: '18px',
+                                color: '#4A5568',
                                 margin: "auto",
                                 marginBottom: '40px',
                             }}
                         >
-                            您的申请将于3天内由管理员审核，审核结果将发送至您的<Text style={{color: '#a3b9f8', fontSize: '18px', fontWeight: 'bold'}}>注册用户邮箱</Text>，请注意查收。
+                            您的申请将于3天内由管理员审核，审核结果将发送至您的<Text style={{color: '#3a3af1', fontSize: '20px', fontWeight: 'bold'}}>注册用户邮箱</Text>，请注意查收。
                         </Text>
                     </Row>
                 </div>
@@ -493,7 +522,9 @@ function ApplyPortal() {
             <MyHeader></MyHeader>
             <Content
                 style={{
-                    padding: '50px 200px 20px 200px',
+                    padding: '50px 200px 50px 200px',
+                    height: '100vh',
+                    overflow: 'auto',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
@@ -501,9 +532,9 @@ function ApplyPortal() {
                     style={{
                         padding: '24px',
                         Height: '150px',
-                        backgroundColor: 'white',
+                        background: 'linear-gradient(180deg,rgba(255,255,255,1.0), rgba(255,255,255,0.4))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                        borderRadius: '10px',
+                        borderRadius: '20px',
                     }}
                 >
                     <Steps
@@ -525,6 +556,7 @@ function ApplyPortal() {
                     <div className="steps-action">
                         {current === 0 && (
                             <Row>
+                                <Image src={paper} preview={false} width={'30%'} style={{marginTop: '-200px'}}></Image>
                                 <Button
                                     type="primary"
                                     onClick={getPortal}
@@ -566,6 +598,7 @@ function ApplyPortal() {
                                         style={{
                                             border: 'none',
                                             marginBottom: '20px',
+                                            textWeight: 'bold',
                                         }}
                                     >
                                         确定
@@ -601,14 +634,6 @@ function ApplyPortal() {
                     </div>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                    backgroundColor: 'rgb(230,235,247)',
-                }}
-            >
-                AceGate ©2022 Beihang University
-            </Footer>
         </Layout>
     );
 }

@@ -40,6 +40,7 @@ function Sort(props) {
                 props.setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
@@ -124,6 +125,7 @@ function AdvancedSearchResults(props) {
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 setLoading(false)
@@ -161,6 +163,7 @@ function AdvancedSearchResults(props) {
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 setCurrentPageIndex(1)
@@ -209,6 +212,7 @@ function AdvancedSearchResults(props) {
                     setFilterInfos({
                         publicationTypes: res.data.data.venue,
                         authors: res.data.data.author,
+                        concepts: res.data.data.concepts,
                         totalNumber: res.data.data.num
                     })
                     setCurrentPageIndex(1)
