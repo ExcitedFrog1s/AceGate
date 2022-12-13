@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import "./homepage.css"
 import { Row, Col } from 'antd';
-import { Input, Text, Link } from "@chakra-ui/react";
+import { Input, Text, Link ,Box} from "@chakra-ui/react";
 import Conferences from "./conferences";
 import Papers from "./paper";
-import Header from "../../components/header/header";
+import MyHeader from "../../components/header/header";
 
 function Header1(){
     const [input,setInput] = React.useState()
@@ -58,8 +58,9 @@ function Homepage(){
         })
     }, [])
     return(
+        <Box>
+        <MyHeader></MyHeader>
         <div className="homepage">
-            <Header></Header>
             <section>
                 <img
                     src={require("../../assets/bg.jpg")}
@@ -87,7 +88,7 @@ function Homepage(){
                 </div>
             </section> 
             <div className="recomand">
-                <Header></Header>
+                <Header1></Header1>
                 <Row style={{marginTop:30}}>
                     <Text fontWeight={"extrabold"} color="#ffffff" fontSize="55px">热门推荐</Text>
                 </Row>
@@ -105,6 +106,7 @@ function Homepage(){
                 </Row>
             </div>
         </div>
+        </Box>
     )
 }
 

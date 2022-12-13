@@ -2,7 +2,7 @@ import * as React from 'react'
 import PubSub from 'pubsub-js';
 import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchResults from "../serach_results/advanced_search/advanced_search_results";
-import Header from '../../components/header/header';
+import MyHeader from '../../components/header/header';
 import { DatePicker} from 'antd';
 import { Col, Row } from 'antd';
 
@@ -372,8 +372,8 @@ function AdvancedSearch({}) {
     return(
         <Box>
             <Row>
-                {/* <Heading size='md' style={{margin:'auto'}}>Header</Heading> */}
-                <Header></Header>
+                {/* <Heading size='md' style={{margin:'auto'}}>MyHeader</Heading> */}
+                <MyHeader></MyHeader>
             </Row>
             <Accordion index={isShow} defaultIndex={[0]} allowMultiple padding={10}
                     onChange={onChange}
