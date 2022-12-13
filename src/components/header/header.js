@@ -149,7 +149,7 @@ function Header({textColor, isLanding=false}){
         >
             <Row>
                 <Col span='2' offset={1}>
-                    <Avatar src={require("../../assets/acegate_icon.png")} width='75px' height='75px'></Avatar>
+                    <Avatar src={require("../../assets/acegate_icon_header.png")} width='95px' height='60px' marginTop='9px'></Avatar>
                 </Col>
                 <Col span='10' offset={1}>
                     {isLanding ?
