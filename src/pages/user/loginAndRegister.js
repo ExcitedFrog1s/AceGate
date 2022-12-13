@@ -110,7 +110,6 @@ function LoginAndRegister () {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("userType", data.type);
             localStorage.setItem("username", username);
-            console.log(data, 'login');
             if(data.type == "admin"){
                 setTimeout(function () {
                     navigate("/manage/uncheck");
@@ -596,7 +595,7 @@ function LoginAndRegister () {
                             onClick={goToLogin}
                         >去登录</Button>
                     </div>
-                    <div className="con-box right">
+                    <div class="con-box right">
                         <h2>欢迎来到<span className="blueText">AceGate</span></h2>
                         <p>Your gate towards<span className="blueText"> academia</span>.</p>
                         <Image
