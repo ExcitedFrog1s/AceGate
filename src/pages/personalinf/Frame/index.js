@@ -28,7 +28,7 @@ function PersonInfo() {
             } 
         }).then(res => {
                     setData(res.data.data)
-                    console.log(res.data)
+                    console.log(token)
                     localStorage.setItem("interest", res.data.data.uinterest);
                     localStorage.setItem("field", res.data.data.ufield);
                 }
@@ -92,7 +92,7 @@ function PersonInfo() {
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
                                 }}
                                 src={
-                                    require("../../../assets/images/undraw_Male_avatar_re_y880.png")
+                                    require("../../../assets/default_avatar.png")
                                 }                    
                                 
                             />

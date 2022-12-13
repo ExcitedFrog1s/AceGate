@@ -110,6 +110,7 @@ function LoginAndRegister () {
             localStorage.setItem("userToken", data.token);
             localStorage.setItem("userType", data.type);
             localStorage.setItem("username", username);
+            console.log(data, 'login');
             if(data.type == "admin"){
                 setTimeout(function () {
                     navigate("/manage/uncheck");
