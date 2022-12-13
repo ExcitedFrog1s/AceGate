@@ -489,7 +489,7 @@ function Portal() {
                                                 style={homepageStyle}
                                                 onMouseEnter={handleMouseEnterHomepage}
                                                 onMouseLeave={handleMouseLeaveHomepage}
-                                                href={"/institute?IID=" + data.rpersonalPage} isExternal
+                                                href={data.rpersonalPage} isExternal
                                             >
                                                 个人主页
                                             </Link>
@@ -654,7 +654,6 @@ function Portal() {
                                         )}
                                     />
                                 }
-
                             </div>
                         </Typography>
                     </div>
