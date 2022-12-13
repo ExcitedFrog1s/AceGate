@@ -81,17 +81,18 @@ function ApplyPortal() {
         .then(res => {
             console.log(res.data.data)
             setData(res.data.data.list)
+            console.log(localStorage.getItem("userToken"))
         })
         next()
     }
 
     const findMore = ()=>{
         axios({
-            method: "post",
-            url: "/applyPortal1",
+            method: "get",
+            url: "/crawlResearchersAgain",
             data: {
                 Rname: Rname,
-                Rinstitute: Rinstitute,
+                Rinstitution: Rinstitute,
             },
             headers: {
                 token: localStorage.getItem("userToken")

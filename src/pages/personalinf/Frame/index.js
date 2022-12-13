@@ -26,7 +26,7 @@ function PersonInfo() {
             url: "/personInfo",
             headers: {
                 token: token
-            } 
+            }
         }).then(res => {
                     setData(res.data.data)
                     console.log(res.data)
@@ -73,7 +73,7 @@ function PersonInfo() {
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
-                
+
                 <div
                     style={{
                         padding: '24px',
@@ -94,8 +94,7 @@ function PersonInfo() {
                                 }}
                                 src={
                                     default_avatar
-                                }                    
-                                
+                                }
                             />
                         </Col>
                         <Col span={15}>
