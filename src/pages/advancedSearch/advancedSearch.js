@@ -129,7 +129,7 @@ function Search(props) {
         if(params.has('label')) {
             setDataList([
                 {
-                    category: 'PsystemTags',
+                    category: 'Cname',
                     content: params.get('label'),
                     type: 1
                 }
@@ -137,7 +137,7 @@ function Search(props) {
             PubSub.publish('PubParams', {
                 dataList: [
                     {
-                        category: 'PsystemTags',
+                        category: 'Cname',
                         content: params.get('label'),
                         type: 1
                     }],
@@ -145,25 +145,25 @@ function Search(props) {
                 endTime: endTime
             });
         }
-        else if(params.has('source')) {
-            setDataList([
-                {
-                    category: 'source',
-                    content: params.get('source'),
-                    type: 1
-                }
-            ])
-            PubSub.publish('PubParams', {
-                dataList: [
-                    {
-                        category: 'source',
-                        content: params.get('source'),
-                        type: 1
-                    }],
-                startTime: startTime,
-                endTime: endTime
-            });
-        }
+        // else if(params.has('source')) {
+        //     setDataList([
+        //         {
+        //             category: 'source',
+        //             content: params.get('source'),
+        //             type: 1
+        //         }
+        //     ])
+        //     PubSub.publish('PubParams', {
+        //         dataList: [
+        //             {
+        //                 category: 'source',
+        //                 content: params.get('source'),
+        //                 type: 1
+        //             }],
+        //         startTime: startTime,
+        //         endTime: endTime
+        //     });
+        // }
     }, [])
 
     return(
