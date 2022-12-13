@@ -50,6 +50,19 @@ function Heart(prop){
                         else {
                             setIsClick(true)
                         }
+                        formData.append('PID', prop.pid)
+                        // console.log(formData)
+
+                        axios.post("/paper/viewComment",formData,{
+                            headers:{
+                                'token':UID
+                            }
+                        })
+                            .then(function (res){
+                                console.log(res.data)
+                                prop.setcom(res.data.data)
+                                // setLoading(false)
+                            })
                     }
                 })
         }
@@ -74,23 +87,24 @@ function Heart(prop){
                         else {
                             setIsClick(true)
                         }
+                        formData.append('PID', prop.pid)
+                        // console.log(formData)
+
+                        axios.post("/paper/viewComment",formData,{
+                            headers:{
+                                'token':UID
+                            }
+                        })
+                            .then(function (res){
+                                console.log(res.data)
+                                prop.setcom(res.data.data)
+                                // setLoading(false)
+                            })
                     }
                 })
         }
 
-        formData.append('PID', prop.pid)
-        // console.log(formData)
 
-        axios.post("/paper/viewComment",formData,{
-            headers:{
-                'token':UID
-            }
-        })
-            .then(function (res){
-                console.log(res.data)
-                prop.setcom(res.data.data)
-                // setLoading(false)
-            })
     }
 
     const Style = {
@@ -111,30 +125,15 @@ function Heart(prop){
     )
 }
 function Comment(prop) {
-    const property = {
-        comments:[{author:"lily史密斯",
-            like_num:5,
-            re_num:0,
-            comment:"这篇文章真的很不错1！",
-            liked:true,date:"2022/07/13"},{author:"lopopopoy",
-            like_num:5,
-            re_num:0,
-            comment:"这篇文章真的很不错1！",
-            liked:false,date:"2022/07/13"}]
 
-    }
     const s = {
         align: 'end',
         float: 'right',
     }
-    let initialState = {};
     const [comments,setComs] = React.useState()
     const [isLoading, setLoading] = React.useState(true)
     const [vis, setVis] = useState(false)
-    property.comments.map((value, key1) => {
-        initialState[key1] = value.liked;
 
-    })
     let [value, setValue] = React.useState('')
     React.useEffect( () => {
         const formData = new FormData()
@@ -247,7 +246,7 @@ function Comment(prop) {
                                 </HStack>
                             </Box>
                             <Box style={s} float={'right'}>
-                                <Heart state={value.like} CID={value.cid} setcom={setComs}/>
+                                <Heart state={value.like} CID={value.cid} setcom={setComs} pid={prop.pid}/>
                             </Box>
 
                         </HStack>
