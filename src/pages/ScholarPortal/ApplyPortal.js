@@ -101,7 +101,7 @@ function ApplyPortal() {
 
     const findMore = ()=>{
         axios({
-            method: "get",
+            method: "post",
             url: "/crawlResearchersAgain",
             data: {
                 Rname: name,
@@ -112,8 +112,8 @@ function ApplyPortal() {
             }
         })
         .then(res => {
-            console.log(res.data.data)
-            setData(res.data.data.list)
+            console.log(res.data)
+            // setData(res.data.data.list)
         })
     }
 
