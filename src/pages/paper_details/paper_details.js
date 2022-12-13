@@ -63,7 +63,7 @@ function PaperDetails() {
     if(isLoading) {
         return (
             <Spinner
-                ml={'45%'}
+                ml={'47%'}
                 mt={'25%'}
                 thickness='4px'
                 speed='0.65s'
@@ -83,6 +83,7 @@ function PaperDetails() {
                 backgroundColor={'#ffffff'}
                 padding="20px" mb={10}>
                     <Info infos={infos}/>
+
                     <Op  pid={PID} url={infos.p_Vurl}/>
                 </Box>
                 
@@ -117,7 +118,12 @@ function Authors(prop){
     const handleClick = (key) => {
         window.open('/scholarPortal?RID=' + prop.Pauthor[key].rid)
     }
+    const linkStyle = {
+        color: '#777',
 
+        textDecoration: 'none',
+        cursor: 'default'
+    }
     let cur_num = prop.Pauthor.length
 
     return (
@@ -148,7 +154,7 @@ function Authors(prop){
                             <Link key={key} fontSize={15}
                                   className="ft"
                                   mr={7}
-                                  color={'#3311DB'}
+                                  color={'#777'} style={linkStyle}
                                   style={{textDecoration: 'none'}}
                             >
                                 {value}

@@ -65,7 +65,9 @@ import axios from "axios";
 
     if(isLoading) {
         return (
-            <></>
+            <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                <span><Icon as={RiDoubleQuotesR} onClick={onOpen} mr={15} style={Style}/></span>
+            </Tooltip>
         )
     }
     else{
@@ -352,7 +354,10 @@ function Starred(prop){
     }
 
     if(isLoading){
-        return <></>
+        return <Tooltip hasArrow label={'收藏'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+            <span><Icon as={AiOutlineStar} mr={15} onClick={onOpen} style={Style}/></span>
+
+        </Tooltip>
     }
     else{
         console.log('pc',Pc)
