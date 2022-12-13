@@ -163,7 +163,7 @@ function Newfav(prop) {
                     })
                         .then(function (res){
                             prop.setall(res.data)
-
+                            console.log("allccccc",res)
                         })
                     console.log(value);
                 })
