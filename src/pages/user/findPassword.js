@@ -1,5 +1,6 @@
 import "antd/dist/antd.min.css";
 import './findPassword.css';
+import MyHeader from '../../components/header/header';
 import {
     Typography,
     Layout,
@@ -31,7 +32,8 @@ import {
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
-import findPasswordImg from '../../assets/images/undraw_data_input_fxv2.png'
+import findPasswordImg from '../../assets/findPassword.png'
+import reset from '../../assets/advsearch.png'
 import {useToast} from "@chakra-ui/react";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -226,21 +228,7 @@ function FindPassword() {
     // let RID = params.get('RID')
     return (
         <Layout className="findPassword">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 style={{
                     height: '100vh',
@@ -444,10 +432,11 @@ function FindPassword() {
                         <Divider type="vertical" style={{height: '370px'}}/>
                         <Col span={10}>
                             <Image
-                                src={findPasswordImg}
+                                src={reset}
                                 style={{
                                     margin: 'auto',
-                                    marginTop: '50px',
+                                    marginTop: '80px',
+                                    marginLeft: '20px',
                                 }}
                                 preview={false}
                             >

@@ -50,6 +50,7 @@ function Sort(props) {
                 props.setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
@@ -135,6 +136,7 @@ function DefaultSearchResults(props) {
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 setRecommendationInfos(res.data.data.recommendation)
@@ -176,6 +178,7 @@ function DefaultSearchResults(props) {
                 setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 setRecommendationInfos(res.data.data.recommendation)
