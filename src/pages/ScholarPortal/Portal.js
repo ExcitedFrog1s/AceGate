@@ -406,7 +406,7 @@ function Portal() {
                         Height: '150px',
                         backgroundColor: 'white',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                        borderRadius: '10px',
+                        borderRadius: '20px',
                     }}
                 >
                     <Row>
