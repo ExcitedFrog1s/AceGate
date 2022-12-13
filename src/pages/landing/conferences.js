@@ -24,7 +24,7 @@ function Conferences(props){
         })
         .then(res => {
             console.log(res.data)
-            setData(res.data.data.paperResults)
+            setData(res.data.data.venueResults)
             setCname(res.data.data.cName)
           }
         )
@@ -49,14 +49,15 @@ function Conferences(props){
                     renderItem={(item) => (
                     <List.Item className="listitem">
                        <Link href={"/journal?VID=" + item.vID} isExternal>
-                            <Text as='em' fontWeight={'bold'} fontSize="18px" className="venueName">{item.vName}</Text>
+                            <Text as='em' fontWeight={'bold'} fontSize="18px" className="venueName">
+                                {item.vAbbrName === "none" ? "" : "[" + item.vAbbrName + "]  "}{item.vName}</Text>
                        </Link>
-                       
-                       <Text fontSize="16px" fontWeight={'bold'}><FaQuoteLeft></FaQuoteLeft>{separator(item.vCite)}</Text>
+
+                       <Text fontSize="16px" fontWeight={'bold'}><FaQuoteLeft></FaQuoteLeft>近三年引用 {separator(item.vCite)}</Text>
                     </List.Item>
                     )}
                 />
-        </Box>    
+        </Box>
     )
 }
 

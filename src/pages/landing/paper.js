@@ -20,7 +20,7 @@ function Papers(props){
     const getData = ()=>{
         axios({
           method: "get",
-          url: '/recommendPapers',
+          url: '/frogRecommendPapers',
         })
         .then(res => {
             console.log(res.data)
@@ -55,13 +55,13 @@ function Papers(props){
                        </Link>
                        </Row>
                        <Row>
-                       <Text as='em' fontSize="16px" fontWeight={'normal'}  className="PVname">{"from venue: " + (item.pVName == null? "unknown": item.pVName)}</Text>
+                       <Text as='em' fontSize="16px" fontWeight={'normal'}  className="PVname">{"来自出版物: " + (item.pVName == null? "unknown": item.pVName)}</Text>
                        </Row>
                        </div>
                     </List.Item>
                     )}
                 />
-        </Box>    
+        </Box>
     )
 }
 
