@@ -379,6 +379,12 @@ function MyHeader({textColor, isLanding=false}){
                             <PopoverBody>
                                 <Row>
                                 <Button w='220px' onClick={()=>{
+                                    navigate('/favorite')
+                                }}>
+                                    我的收藏</Button>
+                                </Row>
+                                <Row>
+                                <Button w='220px' mt='8px' onClick={()=>{
                                     navigate('/personInfo')
                                 }}>
                                     账户设置</Button>
@@ -397,10 +403,6 @@ function MyHeader({textColor, isLanding=false}){
                                     >
                                         <Button w='220px' mt='8px'>退出登录</Button>
                                     </Popconfirm>
-
-
-                                            
-                                   
                                     
                                 </Row>
                             </PopoverBody>
