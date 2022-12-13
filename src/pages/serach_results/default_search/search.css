@@ -5,8 +5,17 @@
     padding-right: 20px;
     padding-top: 30px;
     padding-bottom: 30px;
+    margin-top: 30px;
 }
 
+.search .result{
+    height: 550px;
+    overflow: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 5px;
+}
 .filterbutton{
     clear: both;
 }

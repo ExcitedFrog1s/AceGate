@@ -4,9 +4,14 @@
 
 import {Box, Link, Text, Tag} from '@chakra-ui/react'
 import {useState} from "react"
+import { Row, Col } from 'antd';
 import {AiFillStar,AiOutlineStar} from "react-icons/ai"
 import * as React from 'react';
-
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
 function Title(props) {
     const [isHover, setIsHover] = useState(false)
 
@@ -30,13 +35,13 @@ function Title(props) {
 
 
     return (
-        <Box ml={'4'} mt={'20px'}>
+        <Box >
             <Link style={linkStyle}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
                   onClick={handleClick}
             >
-                <Text noOfLines={1} pt={'30px'} pl={'30px'}>
+                <Text noOfLines={1} fontWeight={'bold'}>
                     {props.title}
                 </Text>
             </Link>
@@ -57,10 +62,12 @@ function Author1(props) {
     }
 
     const linkStyle = {
-        color: '#83a7cf',
-        fontSize: '14px',
+        color: 'frog.400',
+        marginRight: '10px',
+        fontSize: '15px',
         textDecoration: isHover ? 'underline' : 'none',
-        marginRight: '10px'
+        fontWeight: 'bold',
+        wordBreak:'break-word'
     }
 
     const handleClick = () => {
@@ -81,11 +88,13 @@ function Author1(props) {
 
 function Author2(props) {
     const linkStyle = {
-        color: '#777',
-        fontSize: '14px',
+        color: '#4A5568',
+        fontSize: '15px',
         marginRight: '10px',
         textDecoration: 'none',
-        cursor: 'default'
+        cursor: 'default',
+        fontWeight: 'bold',
+        wordBreak:'break-word'
     }
 
     return(
@@ -110,7 +119,7 @@ function Authors(props) {
         return false
     }
     return(
-        <Box ml={'10'} mt={'15px'}>
+        <Box mt={'3px'}>
         {
             props.authors1.map((value, key) => {
                 return (
@@ -148,18 +157,18 @@ function TimeOrgan(props) {
     }
 
     const linkStyle = {
-        color: '#a0a0a0',
+        color: 'frog.500',
         fontSize: '12px',
         textDecoration: isHover ? 'underline' : 'none',
     }
     return(
-        <Box ml={'10'} mt={'10px'} float={'left'}>
-            <p style={{marginTop:'-10px'}}/>
-            <i style={{fontSize:'12px',color:'#a0a0a0'}} >
+        <Box mt={1}>
+            <Text as='em' fontSize={'12px'} color={'#4A5568'}>
                 {/*time stamp to year*/}
                 {new Date(props.time).getFullYear() + ' 年 ' +
                     new Date(props.time).getMonth() + ' 月'}
-            </i>
+            </Text>
+            <Text color={'#4A5568'} ml={10} as='em' fontSize={'12px'}>{"被引：" + separator(props.pcite)}</Text>
             {
                 props.organ.length !== 0 &&
                 <Link style={linkStyle}
@@ -170,6 +179,7 @@ function TimeOrgan(props) {
                 >
                     {props.organ[0].rinstitute}
                 </Link>
+                
             }
         </Box>
     )
@@ -192,19 +202,19 @@ function Content(props) {
 
     const linkStyle = {
         color: '#a0a0a0',
-        fontSize: '16px',
+        fontSize: '14px',
         cursor: 'pointer',
         textDecoration: isHover ? 'underline' : 'none'
     }
     return(
-        <Box ml={'10'} mt={'30px'}>
+        <Box mt={1}>
             <Link
                 style={linkStyle}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
             >
-                <Text noOfLines={3} wordBreak={'break-all'} marginRight={'50px'}>
+                <Text noOfLines={3} wordBreak={'break-word'} marginRight={'50px'} fontWeight={500}>
                     {props.content}
                 </Text>
             </Link>
@@ -228,12 +238,11 @@ function Label(props) {
     }
 
     const labelBoxStyle = {
-        borderRadius: '10px',
+        borderRadius: '8px',
         backgroundColor: isHover ? 'rgba(131,167,207,0.9)' : 'rgba(131,167,207,0.5)',
-        float: 'left',
         marginLeft: '8px',
         minHeight: '25px',
-        marginTop: '5px'
+        marginBottom: '5px'
     }
 
     return(
@@ -253,8 +262,10 @@ function Label(props) {
 
 function Labels(props) {
     return(
-        <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'领域'}</Text>
+        <Box mt={'10px'}>
+            <Row>
+            <Col span={1}><Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'领域'}</Text></Col>
+            <Col span={23}>
             {
                 props.labels.map((value, key) => {
                     if(!(value[0] === 'C' && isNaN(Number(value[1],10)) === false
@@ -264,8 +275,10 @@ function Labels(props) {
                         )
                     }
                 })
-            }
+            }</Col>
+            </Row>
         </Box>
+        
     )
 }
 
@@ -316,16 +329,20 @@ function ResultCard(props) {
     console.log(props.infos.pcite)
     return(
         <Box
-            minHeight={'350'}
+            minHeight={'300'}
             width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
-            mb={'0px'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
+            pl={10} pr={10} pt={5} pb={5}
         >
-            <Text color={'#777'} position={'absolute'} ml={'45%'} mt={'10px'}>{"被引：" + props.infos.pcite}</Text>
+            <Title title={props.infos.pname} PID={props.infos.pID}/>
+            <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
+            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor} pcite={props.infos.pcite}/>
+            <Content content={props.infos.pabstract} PID={props.infos.pID}/>
+            
             {
                 props.infos.VName !== '' &&
                 <Link
@@ -340,10 +357,6 @@ function ResultCard(props) {
                     {props.infos.VName}
                 </Link>
             }
-            <Title title={props.infos.pname} PID={props.infos.pID}/>
-            <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
-            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}/>
-            <Content content={props.infos.pabstract} PID={props.infos.pID}/>
             <Labels labels={props.infos.pconcepts}/>
             {/*<Operations props={props.infos.isStar}/>*/}
         </Box>

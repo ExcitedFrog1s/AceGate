@@ -241,7 +241,7 @@ function DefaultSearchResults(props) {
         <Box className='search'>
         <MyHeader textColor={'black'} isLoading={false}/>
         <Box>
-            <Row gutter={20} style={{marginTop:30}}>
+            <Row gutter={20}>
             <Col span={5}>
             {/*左侧界面*/}
             <DefaultSearchFilter
@@ -277,13 +277,24 @@ function DefaultSearchResults(props) {
                         filterPublicationType={filterPublicationType}
                     />
                 }
-                <Row >
+                <Row style={{marginTop:10}}>
                     <Text color={'#777'} fontSize={'22px'} fontWeight='bold' mr={2}>{'共'}</Text>
                     <Text color={'frog.500'} fontSize={'24px'} fontWeight='bold'>{separator(totalNum)}</Text>
                     <Text color={'#777'} fontSize={'22px'} fontWeight='bold' ml={2}>{'条结果'}</Text>
                 </Row>
             {/*    /!*论文卡片*!/*/}
-                <Box>
+                <Box className="result" css={{
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '10px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}>
                     {
                         infos.map((value,key) => {
                             return (
@@ -295,7 +306,7 @@ function DefaultSearchResults(props) {
                 {/*分页*/}
                 {
                     !resIsEmpty &&
-                    <Box width={'100%'} mt={'50px'}>
+                    <Box width={'100%'} mt={'10px'} pl={60}>
                         <Pagination
                             onChange={handleChange}
                             total={totalNum}
