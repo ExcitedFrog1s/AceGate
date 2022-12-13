@@ -29,7 +29,7 @@ function DefaultSearchTimeRangeFilter(props) {
 
     return(
         <Box ml={'20px'} mt={'30px'}>
-            <Text mb={'10px'}>{'发表年份'}</Text>
+            <Text mb={'10px'} fontWeight='bold' color='#'>{'发表年份'}</Text>
             <Col span={17}>
                 <RangePicker locale={locale} picker="month" className='datePicker'
                              onChange={changeTime} key={timeValue}/>
@@ -142,15 +142,13 @@ function DefaultSearchFilter(props) {
     }
     return(
         <Box
-            minHeight={'1000px'}
-            width={'25%'}
-            ml={'20px'}
+            Height={'800px'}
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
         >
             <Box>
                 <Button

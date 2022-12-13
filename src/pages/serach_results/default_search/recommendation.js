@@ -47,7 +47,7 @@ function Author(props) {
     }
 
     return(
-        <Box mt={'25px'} ml={'10px'}>
+        <Box mt={'25px'} >
             <Link
                 style={linkStyle1}
                 onMouseEnter={handleMouseEnter1}
@@ -153,14 +153,12 @@ function Recommendation(props) {
     return(
         <Box
             minHeight={'1000px'}
-            width={'20%'}
-            ml={'80%'}
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
         >
             <Text fontSize={'20px'} color={'#a0a0a0'} mt={'10px'} ml={'15px'}>{'Recommendation'}</Text>
             <Text style={authorStyle}>{'作者'}</Text>
@@ -176,7 +174,7 @@ function Recommendation(props) {
                 (props.recommendation.author === undefined || props.recommendation.author.length ===0) &&
                 <Text ml={'10px'} mt={'50px'} fontSize={'30px'} color={'#c4c4c4'}>{'暂无推荐'}</Text>
             }
-            <Box ml={'15px'} mr={'15px'} mt={'50px'} borderTopColor={'#ddd'} borderTopWidth={'1px'} borderTopStyle={'solid'}>
+            <Box ml={'15px'} mt={'50px'} borderTopColor={'#ddd'} borderTopWidth={'1px'} borderTopStyle={'solid'}>
 
             </Box>
             <Text style={instituteStyle}>{'机构'}</Text>

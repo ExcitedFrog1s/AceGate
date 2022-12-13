@@ -53,7 +53,7 @@ function Sort(props) {
     };
 
     return(
-        <Box float={'right'} mr={'21%'} mt={'-50'}>
+        <Box float={'right'} >
             <Select
                 onChange={handleChange}
                 style={{width:120}}
@@ -235,6 +235,8 @@ function DefaultSearchResults(props) {
         <Box>
         <MyHeader textColor={'black'} isLoading={false}/>
         <Box>
+            <Row gutter={20} style={{marginTop:30}}>
+            <Col span={5}>
             {/*左侧界面*/}
             <DefaultSearchFilter
                 setInfos={setInfos}
@@ -250,7 +252,8 @@ function DefaultSearchResults(props) {
                 setResIsEmpty={setResIsEmpty}
                 filterInfos={filterInfos}
             />
-            <Recommendation recommendation={recommendationInfos}/>
+            </Col>
+            <Col span={14}>
             <Box>
             {/*    /!*排序*!/*/}
                 {
@@ -268,13 +271,13 @@ function DefaultSearchResults(props) {
                         filterPublicationType={filterPublicationType}
                     />
                 }
-                <HStack float={'left'} ml={'30%'} mt={'-50'}>
+                <HStack float={'left'}  mt={'-50'}>
                     <Text color={'#777'} fontSize={'24px'}>{'共'}</Text>
                     <Text color={'#161616'} fontSize={'24px'}>{totalNum}</Text>
                     <Text color={'#777'} fontSize={'24px'}>{'条结果'}</Text>
                 </HStack>
             {/*    /!*论文卡片*!/*/}
-                <Box mt={'200'} ml={'-60px'}>
+                <Box>
                     {
                         infos.map((value,key) => {
                             return (
@@ -286,7 +289,7 @@ function DefaultSearchResults(props) {
                 {/*分页*/}
                 {
                     !resIsEmpty &&
-                    <Box width={'50%'} ml={'40%'} mt={'50px'}>
+                    <Box width={'100%'} mt={'50px'}>
                         <Pagination
                             onChange={handleChange}
                             total={totalNum}
@@ -295,8 +298,14 @@ function DefaultSearchResults(props) {
                     </Box>
                 }
             </Box>
+            </Col>
+            <Col span={5}>
+            <Recommendation recommendation={recommendationInfos}/>
+            </Col>
+            </Row>
         </Box>
-            </Box>
+
+        </Box>
     )
 }
 

@@ -254,7 +254,7 @@ function Label(props) {
 function Labels(props) {
     return(
         <Box ml={'10'} mb={'5%'} mt={'20px'}>
-            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'} mt={'5px'}>{'领域'}</Text>
+            <Text mt={'0'} color={'#000000'} float={'left'} fontWeight={'bold'}>{'领域'}</Text>
             {
                 props.labels.map((value, key) => {
                     if(!(value[0] === 'C' && isNaN(Number(value[1],10)) === false
@@ -317,12 +317,10 @@ function ResultCard(props) {
     return(
         <Box
             minHeight={'350'}
-            width={'50%'}
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
-            ml={'30%'}
-            mr={'20%'}
             mb={'0px'}
             color={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
