@@ -12,7 +12,6 @@ import {
     SolutionOutlined,
     BarChartOutlined
 } from '@ant-design/icons';
-
 import React, { useEffect, useState } from 'react';
 import {Link, useLocation} from 'react-router-dom'
 import axios from "axios";
@@ -22,6 +21,13 @@ import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
+
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
+
 
 // tabs callback
 const onChange = (key) => {
@@ -124,6 +130,7 @@ function ScholarPaperList(props) {
                 }}
             >
                 <Table
+                    className="paperList"
                     columns={columns}
                     dataSource={props.RpaperList}
                     pagination={false}
@@ -159,7 +166,7 @@ function DataChart(props) {
                 type: 'gradient',
                 gradient: {
                     type: 'vertical',
-                    gradientToColors: ['#1b3bbb'],
+                    gradientToColors: ['#3a3af1'],
                     opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
@@ -223,39 +230,42 @@ function ScholarDataList(props) {
                     <Col span={12}>
                         <DataChart
                             count={worksyear}
-                            title="近五年论文数量"
+                            title={<Text className={'dark-text'} style={{color :'#4A5568'}}>近五年论文数量</Text>}
                             icon={<IoNewspaperSharp className='chart-icon' />}
                         ></DataChart>
                     </Col>
                     <Col span={12}>
-                        <Typography
-                            style={{
-                                padding: '300px 0 0 16px',
-                            }}
-                        >
-                            <Text
-                                className={'dark-text'}
+                        {citescount &&
+                            <Typography
                                 style={{
-                                    margin: '200px 0 0 30px',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
+                                    padding: '300px 0 0 16px',
                                 }}
                             >
-                                发表总论文数为
-                            </Text>
-                            <Text
-                                style={{
-                                    margin: '200px 0 0 20px',
-                                    color: '#728fea',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
-                                }}
-                            >
-                                {workscount}
-                            </Text>
-                        </Typography>
+                                <Text
+                                    className={'dark-text'}
+                                    style={{
+                                        margin: '200px 0 0 30px',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                        color: '#4A5568',
+                                    }}
+                                >
+                                    发表总论文数为
+                                </Text>
+                                <Text
+                                    style={{
+                                        margin: '200px 0 0 20px',
+                                        color: '#3a3af1',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                    }}
+                                >
+                                    {separator(workscount)}
+                                </Text>
+                            </Typography>
+                        }
                     </Col>
                 </Row>
                 <Row
@@ -264,39 +274,42 @@ function ScholarDataList(props) {
                     }}
                 >
                     <Col span={12}>
-                        <Typography
-                            style={{
-                                padding: '300px 0 0 0px',
-                            }}
-                        >
-                            <Text
-                                className={'dark-text'}
+                        {citescount &&
+                            <Typography
                                 style={{
-                                    margin: '200px 0 0 10px',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
+                                    padding: '300px 0 0 0px',
                                 }}
                             >
-                                总被引用量为
-                            </Text>
-                            <Text
-                                style={{
-                                    margin: '200px 0 0 20px',
-                                    color: '#728fea',
-                                    fontSize: '36px',
-                                    fontWeight: 'bold',
-                                    letterSpacing: '3px',
-                                }}
-                            >
-                                {citescount}
-                            </Text>
-                        </Typography>
+                                <Text
+                                    className={'dark-text'}
+                                    style={{
+                                        margin: '200px 0 0 10px',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                        color: '#4A5568',
+                                    }}
+                                >
+                                    总被引用量为
+                                </Text>
+                                <Text
+                                    style={{
+                                        margin: '200px 0 0 20px',
+                                        color: '#3a3af1',
+                                        fontSize: '36px',
+                                        fontWeight: 'bold',
+                                        letterSpacing: '3px',
+                                    }}
+                                >
+                                    {separator(citescount)}
+                                </Text>
+                            </Typography>
+                        }
                     </Col>
                     <Col span={12}>
                         <DataChart
                             count={citesyear}
-                            title="近五年被引数量"
+                            title={<Text className={'dark-text'} style={{color :'#4A5568'}}>近五年被引数量</Text>}
                             icon={<FaQuoteLeft className='chart-icon' />}
                         ></DataChart>
                     </Col>
@@ -360,7 +373,6 @@ function Portal() {
         setHomepageIsHover(false);
     }
     const homepageStyle = {
-        color: '#1890ff',
         textDecoration: homepageIsHover ? 'underline' : 'none'
     }
 
@@ -373,7 +385,6 @@ function Portal() {
         setInstituteIsHover(false);
     }
     const instituteStyle = {
-        color: '#1890ff',
         textDecoration: instituteIsHover ? 'underline' : 'none'
     }
 
@@ -382,7 +393,7 @@ function Portal() {
             <MyHeader></MyHeader>
             <Content
                 style={{
-                    padding: '50px 200px 20px 200px',
+                    padding: '50px 100px 20px 100px',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
             >
@@ -413,15 +424,17 @@ function Portal() {
                                 }}
                             >
                                 <Title
+                                    className="dark-text"
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
+                                        color: '#4A5568',
                                     }}
                                 >
                                     {data.rname}
                                 </Title>
                                 <Paragraph>
                                     <Space>
-                                        <HomeOutlined />
+                                        <HomeOutlined style={{color :'#4A5568'}}/>
                                     </Space>
                                     <Link
                                         component={Typography.Link}
@@ -432,7 +445,7 @@ function Portal() {
                                     > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
                                         <Space>
-                                            <Text>-</Text>
+                                            <Text style={{color :'#4A5568'}}>-</Text>
                                             <Link
                                             component={Typography.Link}
                                             style={homepageStyle}
@@ -447,24 +460,24 @@ function Portal() {
                                 </Paragraph>
                                 <Paragraph>
                                     <Space>
-                                        <BulbOutlined />
+                                        <BulbOutlined style={{color :'#4A5568'}} />
                                     </Space>
-                                    <Text> {data.rcustomconcepts}</Text>
+                                    <Text style={{color :'#4A5568'}}> {data.rcustomconcepts}</Text>
                                 </Paragraph>
                                 {data.rcontact != "none" &&
                                     <Paragraph>
                                         <Space>
-                                            <MailOutlined />
+                                            <MailOutlined style={{color :'#4A5568'}}/>
                                         </Space>
-                                        <Text> {data.rcontact}</Text>
+                                        <Text style={{color :'#4A5568'}}> {data.rcontact}</Text>
                                     </Paragraph>
                                 }
                                 {data.rgateinfo != "none" &&
                                     <Paragraph>
                                         <Space>
-                                            <SolutionOutlined/>
+                                            <SolutionOutlined style={{color :'#4A5568'}}/>
                                         </Space>
-                                        <Text> {data.rgateinfo}</Text>
+                                        <Text style={{color :'#4A5568'}}> {data.rgateinfo}</Text>
                                     </Paragraph>
                                 }
                             </Typography>
@@ -501,7 +514,7 @@ function Portal() {
             <Layout>
                 <Content
                     style={{
-                        padding: '10px 20px 20px 200px',
+                        padding: '10px 20px 40px 100px',
                         width: '50%',
                         backgroundColor: 'rgb(230,235,247)',
                     }}
@@ -512,7 +525,7 @@ function Portal() {
                             backgroundColor: 'white',
                             height: '550px',
                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                            borderRadius: '10px',
+                            borderRadius: '20px',
                         }}
                     >
                         <Tabs
@@ -540,7 +553,7 @@ function Portal() {
                 </Content>
                 <Sider width={450}
                     style={{
-                        padding: '10px 200px 20px 0',
+                        padding: '10px 100px 40px 0',
                         backgroundColor: 'rgb(230,235,247)',
                     }}
                 >
@@ -550,7 +563,7 @@ function Portal() {
                             backgroundColor: 'white',
                             height: '550px',
                             boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                            borderRadius: '10px',
+                            borderRadius: '20px',
                         }}
                     >
                         <Typography>
@@ -558,6 +571,7 @@ function Portal() {
                                    className={'dark-text'}
                                 style={{
                                     padding: '24px 24px 16px 24px',
+                                    color :'#4A5568',
                                 }}
                             >
                                 合著作者
@@ -582,7 +596,7 @@ function Portal() {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    title={item.name}
+                                                    title={<Text style={{color :'#4A5568'}}>{item.name}</Text>}
                                                     description={item.institute}
                                                 />
                                             </List.Item>
