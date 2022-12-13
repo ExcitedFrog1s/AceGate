@@ -160,8 +160,20 @@ function Recommendation(props) {
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
             padding={6}
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}
         >
-            <Text fontSize={'20px'} color={'#4A5568'} mt={'10px'}>{'Recommendation'}</Text>
+            <Text fontSize={'25px'} color={'#4A5568'} fontWeight='bold'>{'Recommendation'}</Text>
             <Text style={authorStyle}>{'作者'}</Text>
             {
                 (props.recommendation.author !== undefined && props.recommendation.author.length !==0) &&
