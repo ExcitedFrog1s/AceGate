@@ -30,7 +30,7 @@ function Heart(prop){
         // console.log(formData)
         let UID = window.localStorage.getItem('userToken')
         if(prop.state === false){
-            axios.post("http://localhost:8081/comment/like",formData,{
+            axios.post("/comment/like",formData,{
                 headers:{
                     'token':UID
                 }
@@ -54,7 +54,7 @@ function Heart(prop){
                 })
         }
         else{
-            axios.post("http://localhost:8081/comment/unlike",formData,{
+            axios.post("/comment/unlike",formData,{
                 headers:{
                     'token':UID
                 }
@@ -127,7 +127,12 @@ function Comment(prop) {
         const formData = new FormData()
         formData.append('PID', prop.pid)
         // console.log(formData)
-        axios.post("http://localhost:8081/paper/viewComment",formData)
+        let UID = window.localStorage.getItem('userToken')
+        axios.post("/paper/viewComment",formData,{
+            headers:{
+                'token':UID
+            }
+        })
             .then(function (res){
                 console.log(res.data)
                 setComs(res.data.data)
@@ -164,7 +169,7 @@ function Comment(prop) {
             formData.append('Ccontent', value)
 
             let UID = window.localStorage.getItem('userToken')
-            axios.post("http://localhost:8081/comment/add",formData,{
+            axios.post("/comment/add",formData,{
                 headers:{
                     'token':UID
                 }
@@ -180,7 +185,7 @@ function Comment(prop) {
                     else{
                         formData.append('UID', window.localStorage.getItem('userToken'))
                         // console.log(formData)
-                        axios.post("http://localhost:8081/paper/viewComment",formData)
+                        axios.post("/paper/viewComment",formData)
                             .then(function (res){
                                 console.log(res.data)
                                 setComs(res.data.data)

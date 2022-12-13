@@ -38,70 +38,95 @@ import {useEffect, useState} from "react";
 import {AddIcon} from "@chakra-ui/icons";
 import {None} from "framer-motion";
 import axios from "axios";
-function Cite(prop) {
+ function Cite(prop) {
     const Style = {
         cursor: 'pointer',
     }
     const [isLoading, setLoading] = React.useState(true)
     const { isOpen, onOpen,  onToggle, onClose } = useDisclosure()
     const [cite,setCite] = React.useState()
-    React.useEffect(() => {
-        const formData = new FormData()
-        formData.append('PID', prop.pid)
-        axios.get("http://localhost:8081/citations", {
-            params:{
-                'PID':prop.pid
-            }
-        })
-            .then(function (res){
-                setCite(res.data)
-                setLoading(false)
-                console.log(cite)
-            })
-    },[])
+
+    const formData = new FormData()
+    formData.append('PID', prop.pid)
+    React.useEffect(async()=>{
+         await axios.post("/citations", formData
+         )
+             .then(function (res){
+                 setCite(res.data)
+
+                 setLoading(false)
+                 console.log('cite',res.data)
+             })
+     },[])
+
+
     if(isLoading) {
         return (
             <></>
         )
     }
-    return (
-        <>
-            <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
-                <span><Icon as={RiDoubleQuotesR} onClick={onOpen} mr={15} style={Style}/></span>
-            </Tooltip>
+    else{
+        console.log('cite',cite.data.APA)
+        return (
+            <>
+                <Tooltip hasArrow label={'引用'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                    <span><Icon as={RiDoubleQuotesR} onClick={onOpen} mr={15} style={Style}/></span>
+                </Tooltip>
 
-            <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
-                <ModalOverlay />
-                <ModalContent minH={400}>
-                    <ModalHeader textAlign={'center'}>引用</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        <HStack>
+                <Modal isOpen={isOpen} onClose={onClose} blockScrollOnMount={false} isCentered >
+                    <ModalOverlay />
+                    <ModalContent minH={400}>
+                        <ModalHeader textAlign={'center'}>引用</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            <HStack>
+                                <Text mr={5}>APA</Text>
+                                <Text>
+                                    {cite.data.APA}
+                                </Text>
+
+                            </HStack>
+                            <HStack mt={5}>
+                            <Text mr={5}>MLA</Text>
                             <Text>
-                                {cite.APA}
+                                {cite.data.MLA}
                             </Text>
+                            </HStack>
+                            <HStack mt={5}>
+                                <Text mr={5}>IEEE</Text>
                             <Text>
-                                {cite.MLA}
+                                {cite.data.IEEE}
                             </Text>
-                            <Text>
-                                {cite.IEEE}
-                            </Text>
-                        </HStack>
-                    </ModalBody>
+                            </HStack>
+                        </ModalBody>
 
-                    <ModalFooter>
+                        <ModalFooter>
 
 
-                    </ModalFooter>
-                </ModalContent>
-            </Modal>
-        </>
-    )
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
+            </>
+        )
+    }
+
 }
 function Newfav(prop) {
 
     const handleClick = () => {
+        console.log('all',prop.all)
+        console.log('value',value)
         if(value.length === 0){
+            setVis(true)
+            // 设置延时消失
+            const test = window.setTimeout(() => {
+                setVis(false);
+            }, 1500);
+            return () => {
+                clearInterval(test);
+            };
+        }
+        else if(prop.all.indexOf(value) !== -1){
             setVis(true)
             // 设置延时消失
             const test = window.setTimeout(() => {
@@ -115,7 +140,7 @@ function Newfav(prop) {
             const formData = new FormData()
             formData.append('CTname', value)
             let UID = window.localStorage.getItem('userToken')
-            axios.post("http://localhost:8081/user/AddCollect",formData,{
+            axios.post("/user/AddCollect",formData,{
                 headers:{
                     'token':UID
                 }
@@ -128,19 +153,19 @@ function Newfav(prop) {
                                 新建失败！
                             </Alert>)
                     }
-                    axios.post("http://localhost:8081/user/viewCollect",formData,{
+                    axios.post("/user/viewCollect",formData,{
                         headers:{
                             'token':UID
                         }
                     })
                         .then(function (res){
                             prop.setall(res.data)
+
                         })
                     console.log(value);
                 })
-            setValue('')
-
         }
+        setValue('')
 
     }
     const [vis, setVis] = useState(false)
@@ -150,7 +175,7 @@ function Newfav(prop) {
         <>
             <Alert status='error' visibility={vis?"visible":"hidden"}>
                 <AlertIcon />
-                请填写收藏夹名称</Alert>
+                收藏夹名称不能重复或为空</Alert>
         <InputGroup size='md'>
             <InputLeftElement
                 pointerEvents='none'
@@ -204,7 +229,7 @@ function Starred(prop){
         formData.append('UID', window.localStorage.getItem('userToken'))
         // console.log(formData)
         let UID = window.localStorage.getItem('userToken')
-        axios.post("http://localhost:8081/user/viewCollect", formData,{
+        axios.post("/user/viewCollect", formData,{
             headers:{
                 'token':UID
             }
@@ -220,7 +245,7 @@ function Starred(prop){
                     setLoading(false)
                 }
             })
-        axios.post("http://localhost:8081/user/viewPaperCollect", formData,{
+        axios.post("/user/viewPaperCollect", formData,{
             headers:{
                 'token':UID
             }
@@ -286,23 +311,37 @@ function Starred(prop){
         const formData = new FormData()
         formData.append('PID', prop.pid)
         formData.append('CTID', CTID)
-        axios.post("http://localhost:8081/user/CollectPaper", formData,{
+        axios.post("/user/CollectPaper", formData,{
             headers:{
                 'token':UID
             }
         })
             .then(function (res){
                 // setAll(res.data)
-                setPc(res.data)
-                console.log("99999",Pc.data)
-                defcollect = []
-                if(Pc.data !== null){
-                    Pc.data.forEach(e => {
-                        defcollect.push(e.ctname)
-                    })
-                }
+                console.log(res.data)
                 console.log(defcollect)
+                const formData = new FormData()
+                formData.append('PID', prop.pid)
+                axios.post("/user/viewPaperCollect", formData,{
+                    headers:{
+                        'token':UID
+                    }
+                })
+                    .then(function (res){
+                        // setAll(res.data)
+                        setPc(res.data)
+                        console.log("666",res.data)
+
+                        if(Pc.length !== 0){
+                            isstarred = true
+                        }
+                        else{
+                            isstarred = false
+                            // onClose()
+                        }
+                    })
             })
+
         onToggle()
         setChanged(false)
     }
@@ -362,7 +401,7 @@ function Starred(prop){
 
                             <ModalFooter>
                                 <VStack align={'center'} width={'100%'}>
-                                    <Newfav setall={setAll} setPc={setPc}/>
+                                    <Newfav setall={setAll} setPc={setPc} all={allcollect}/>
                                     <Divider mt={0}/>
                                     <Button colorScheme='messenger' mr={3} onClick={() => confirm()} isDisabled={!changed}>
                                         确定
@@ -449,7 +488,7 @@ function Op(prop) {
     //     //     isstarred = false
     //     // }
     // }
-
+    console.log("url",prop.url)
     //     return (
     //         <Spinner
     //             ml={'45%'}
@@ -465,13 +504,13 @@ function Op(prop) {
 
         <Box borderWidth={'5'} marginLeft={'4.5%'} mt={320} fontSize={25} position={'relative'}>
 
-            {/*<Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>*/}
-            {/*    <span>*/}
-            {/*        <Icon as={MdFileDownload} mr={15} style={Style}/>*/}
-            {/*    </span>*/}
-            {/*</Tooltip>*/}
+            {prop.url.slice(-3,3) === "pdf" && <Tooltip hasArrow label={'下载'} placement='bottom' mr={4} bg={'#7551FF'} fontFamily={'宋体'}>
+                <span>
+                    <Icon as={MdFileDownload} mr={15} style={Style}/>
+                </span>
+            </Tooltip>}
 
-            {<Cite pid={prop.pid}/>}
+            {prop.url.slice(-3,3) !== "pdf" && <Cite pid={prop.pid}/>}
             <Starred pid={prop.pid}/>
 
             {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'#7551FF'} fontFamily={'宋体'}>
