@@ -19,7 +19,7 @@ import axios from "axios";
 import {Box, Heading} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
-
+import MyHeader from '../../components/header/header'
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -379,21 +379,7 @@ function Portal() {
 
     return (
         <Layout className="portal">
-            <Header>
-                <div/>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                    items={new Array(15).fill(null).map((_, index) => {
-                        const key = index + 1;
-                        return {
-                            key,
-                            label: `nav ${key}`,
-                        };
-                    })}
-                />
-            </Header>
+            <MyHeader></MyHeader>
             <Content
                 style={{
                     padding: '50px 200px 20px 200px',

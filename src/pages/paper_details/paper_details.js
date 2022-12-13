@@ -14,6 +14,7 @@ import {None} from "framer-motion";
 import {Spin} from "antd";
 import "./test.css"
 import {useLocation, useNavigate} from "react-router-dom";
+import MyHeader from '../../components/header/header'
 
 function PaperDetails() {
     axios.defaults.headers["Content-Type"] = 'application/json';
@@ -74,6 +75,7 @@ function PaperDetails() {
 
     return(
         <Box>
+            <MyHeader></MyHeader>
             <Info infos={infos}/>
             <Abstract ab={infos.pabstract} kw={infos.Pconcepts}/>
             <Data pid={PID} fields={infos.pconcepts}/>
