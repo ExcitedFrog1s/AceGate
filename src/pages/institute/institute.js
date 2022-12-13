@@ -19,8 +19,6 @@ function separator(numb) {
     return str.join(".");
 }
 
-
-
 function Icard(props){
     const [insdata, setInsdata] = useState({});
     

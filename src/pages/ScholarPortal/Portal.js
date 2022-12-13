@@ -1,8 +1,26 @@
 import "antd/dist/antd.min.css";
 import './portal.css';
 import default_avatar from '../../assets/default_avatar.png';
+import papers from '../../assets/portal_papers.png';
+import cite from '../../assets/portal_cite.png';
 import Chart from 'react-apexcharts'
-import { Typography, Layout, Menu, Avatar, Col, Row, Space, Button, Divider, Tabs, List, Skeleton, Table, Spin} from 'antd';
+import {
+    Typography,
+    Layout,
+    Menu,
+    Avatar,
+    Col,
+    Row,
+    Space,
+    Button,
+    Divider,
+    Tabs,
+    List,
+    Skeleton,
+    Table,
+    Spin,
+    Image
+} from 'antd';
 import {
     UserOutlined,
     HomeOutlined,
@@ -13,9 +31,9 @@ import {
     BarChartOutlined
 } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import {Link, useLocation} from 'react-router-dom'
+import {useLocation} from 'react-router-dom'
 import axios from "axios";
-import {Box, Heading} from "@chakra-ui/react";
+import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
@@ -36,6 +54,10 @@ const onChange = (key) => {
 
 function ScholarPaperList(props) {
     const [RpaperList, setRpaperList] = useState({});
+
+    const handlePaper = (url)=>{
+        window.open(url)
+    }
 
     useEffect(() =>{
         setRpaperList(props.RpaperList)
@@ -63,14 +85,12 @@ function ScholarPaperList(props) {
             sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <div>
+                <Box>
                     <Typography>
                         <Row>
                             <Link
-                                onClick={() => window.open(record.dOI)}
-                                style={{
-                                    fontSize: '16px',
-                                }}
+                                href={record.dOI}
+                                isExternal
                             >{record.pname}</Link>
                         </Row>
                         <Row>
@@ -81,7 +101,7 @@ function ScholarPaperList(props) {
                             >{authors(record.pauthorname)}</Text>
                         </Row>
                     </Typography>
-                </div>
+                </Box>
             ),
         },
         {
@@ -120,7 +140,7 @@ function ScholarPaperList(props) {
                 border: 'none',
             }}
         >
-            <div
+            <Box
                 id="scrollablePaperList"
                 style={{
                     height: 450,
@@ -136,7 +156,7 @@ function ScholarPaperList(props) {
                     pagination={false}
                     rowKey="pid"
                 />
-            </div>
+            </Box>
         </div>
     );
 }
@@ -222,7 +242,7 @@ function ScholarDataList(props) {
                 style={{
                     height: 450,
                     overflow: 'auto',
-                    padding: '0 16px 0 0',
+                    padding: '0 25px',
                     border: 'none',
                 }}
             >
@@ -235,16 +255,23 @@ function ScholarDataList(props) {
                         ></DataChart>
                     </Col>
                     <Col span={12}>
+                        <Image
+                            src={papers}
+                            preview={false}
+                            style={{
+                                width: '80%',
+                                margin: 'auto',
+                                marginTop: '50px',
+                            }}></Image>
                         {citescount &&
                             <Typography
                                 style={{
-                                    padding: '300px 0 0 16px',
+                                    padding: '0px 0 0 50px',
                                 }}
                             >
                                 <Text
                                     className={'dark-text'}
                                     style={{
-                                        margin: '200px 0 0 30px',
                                         fontSize: '36px',
                                         fontWeight: 'bold',
                                         letterSpacing: '3px',
@@ -255,7 +282,7 @@ function ScholarDataList(props) {
                                 </Text>
                                 <Text
                                     style={{
-                                        margin: '200px 0 0 20px',
+                                        margin: '0 0 0 20px',
                                         color: '#3a3af1',
                                         fontSize: '36px',
                                         fontWeight: 'bold',
@@ -274,10 +301,18 @@ function ScholarDataList(props) {
                     }}
                 >
                     <Col span={12}>
+                        <Image
+                            src={cite}
+                            preview={false}
+                            style={{
+                                width: '80%',
+                                margin: 'auto',
+                                marginTop: '50px',
+                            }}></Image>
                         {citescount &&
                             <Typography
                                 style={{
-                                    padding: '300px 0 0 0px',
+                                    padding: '0px 0 0 0px',
                                 }}
                             >
                                 <Text
@@ -322,12 +357,13 @@ function ScholarDataList(props) {
 
 function Portal() {
     const [data, setData] = useState({});
-
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     var RID;
     if(params.has('RID')){
         RID = params.get('RID')
+    }else {
+        RID = ''
     }
     console.log('RID:' + RID)
 
@@ -401,7 +437,7 @@ function Portal() {
                     style={{
                         padding: '24px',
                         Height: '150px',
-                        background: 'linear-gradient(360deg,#EDF2F7, rgba(158, 171, 196, 0.6))',
+                        background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
                     }}
@@ -412,7 +448,8 @@ function Portal() {
                                 size={130}
                                 // icon={<UserOutlined />}
                                 style={{
-                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)'
+                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+                                    margin: '10px 0 0 30px',
                                 }}
                                 src={default_avatar}
                             />
@@ -437,21 +474,19 @@ function Portal() {
                                         <HomeOutlined style={{color :'#4A5568'}}/>
                                     </Space>
                                     <Link
-                                        component={Typography.Link}
                                         style={instituteStyle}
                                         onMouseEnter={handleMouseEnterInstitute}
                                         onMouseLeave={handleMouseLeaveInstitute}
-                                        to={"/institute?IID="+data.r_IID}
+                                        href={"/institute?IID=" + data.r_IID} isExternal
                                     > {data.rinstitute} </Link>
                                     {data.rpersonalPage != "none" &&
                                         <Space>
                                             <Text style={{color :'#4A5568'}}>-</Text>
                                             <Link
-                                            component={Typography.Link}
-                                            style={homepageStyle}
-                                            onMouseEnter={handleMouseEnterHomepage}
-                                            onMouseLeave={handleMouseLeaveHomepage}
-                                            onClick={() => window.open(data.rpersonalPage)}
+                                                style={homepageStyle}
+                                                onMouseEnter={handleMouseEnterHomepage}
+                                                onMouseLeave={handleMouseLeaveHomepage}
+                                                href={"/institute?IID=" + data.rpersonalPage} isExternal
                                             >
                                                 个人主页
                                             </Link>
