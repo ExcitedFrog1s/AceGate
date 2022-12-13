@@ -4,6 +4,7 @@ import default_avatar from '../../assets/default_avatar.png';
 import papers from '../../assets/portal_papers.png';
 import cat from '../../assets/portal_cat.png';
 import cite from '../../assets/portal_cite.png';
+import coauthor from '../../assets/portal_coauthor.png';
 import Chart from 'react-apexcharts'
 import {
     Typography,
@@ -609,15 +610,23 @@ function Portal() {
                         }}
                     >
                         <Typography>
-                            <Title level={4}
-                                   className={'dark-text'}
-                                style={{
-                                    padding: '24px 24px 16px 24px',
-                                    color :'#4A5568',
-                                }}
-                            >
-                                合著作者
-                            </Title>
+                            <Row>
+                                <Image src={coauthor} preview={false} width='50%'
+                                       style={{
+                                           padding: '20px 0 0 0',
+                                       }}
+                                ></Image>
+                                <Title level={4}
+                                       className={'dark-text'}
+                                       style={{
+                                           padding: '10px 24px 16px 24px',
+                                           color :'#4A5568',
+                                           fontSize: '24px',
+                                       }}
+                                >
+                                    合著作者
+                                </Title>
+                            </Row>
                             <div
                                 id="scrollableDiv"
                                 style={{
