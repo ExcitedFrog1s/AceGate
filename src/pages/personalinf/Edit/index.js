@@ -64,7 +64,7 @@ function Edit() {
             url: "/personInfo",
             headers: {
                 token: token
-            } 
+            }
         })
             .then(res => {
                     setData(res.data)
@@ -73,8 +73,8 @@ function Edit() {
     }
 
     const [form] = Form.useForm();
-    const [Uinterest,setUinterest] = React.useState() 
-    const [Ufield,setUfield] = React.useState() 
+    const [Uinterest,setUinterest] = React.useState()
+    const [Ufield,setUfield] = React.useState()
     // const pushData = ()=>{
     //     axios({
     //         method: "post",
@@ -95,19 +95,19 @@ function Edit() {
     //         )
     // }
 
-   
+
 
     const changeInfo = () =>{
         axios({
-          method: 'POST',
-          url: '/personInfo/edit',
-          headers: {
-            token: token
+            method: 'POST',
+            url: '/personInfo/edit',
+            headers: {
+                token: token
             },
-          data:{
-          Uinterest: Uinterest,
-          Ufield : Ufield,
-          }
+            data:{
+                Uinterest: Uinterest,
+                Ufield : Ufield,
+            }
         }).then(response =>{
             console.log('information');
             console.log(Uinterest);
@@ -115,11 +115,11 @@ function Edit() {
         });
         document.dispatchEvent(new CustomEvent('myEvent', {
             detail: {
-               log: "i'm zach"
+                log: "i'm zach"
             }
-          }))
-  
-      }
+        }))
+
+    }
 
     useEffect(() => {
         getData();
@@ -144,7 +144,7 @@ function Edit() {
     };
 
     const onFinish = (values) => {
-        
+
     };
 
     // save button hover style
@@ -162,15 +162,15 @@ function Edit() {
     }
 
     const optionValue = ['人工智能', '机器学习', '计算机网络',
-    '神经网络', '深度学习', '植物泛基因研究',
-    '生态与环境科学', '地球科学', '马克思主义', 
-    '生物科学领域', '电磁波吸收材料', '化学与材料科学',
-    '物理学', '人文社科', '天文学与天体物理学',
-    '数学'];
+        '神经网络', '深度学习', '植物泛基因研究',
+        '生态与环境科学', '地球科学', '马克思主义',
+        '生物科学领域', '电磁波吸收材料', '化学与材料科学',
+        '物理学', '人文社科', '天文学与天体物理学',
+        '数学'];
     const optionValue2 = ['中国式现代化', '文献综述', '人工智能',
-    '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
-    '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
-    '盈利能力分析', '工程伦理']
+        '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
+        '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
+        '盈利能力分析', '工程伦理']
     let interestoption = [];
     let fieldoption = [];
     if (interest.length > 0){
@@ -182,30 +182,30 @@ function Edit() {
     const options = [];
     const options2 = [];
     for (let i = 10; i < 26; i++) {
-    options.push({
-        value: optionValue[i-10],
-        label: optionValue[i-10]
-    });
-    options2.push({
-        value: optionValue2[i-10],
-        label: optionValue2[i-10]
-    });
+        options.push({
+            value: optionValue[i-10],
+            label: optionValue[i-10]
+        });
+        options2.push({
+            value: optionValue2[i-10],
+            label: optionValue2[i-10]
+        });
     }
     const handleChange2 = (value) => {
         setUfield(value.join(`\u00A0\u00A0`))
         localStorage.setItem("interest", value.join(`\u00A0\u00A0`));
     };
     const handleChange3 = (value) => {
-       setUinterest(value.join(`\u00A0\u00A0`)) 
+        setUinterest(value.join(`\u00A0\u00A0`))
         localStorage.setItem("field", value.join(`\u00A0\u00A0`));
     };
     return (
         <Layout className="layout"
-        style={{
-            minHeight: '100vh',
-        }}
+                style={{
+                    minHeight: '100vh',
+                }}
         >
-            
+
             <MyHeader/>
             <Content
                 style={{
@@ -222,7 +222,7 @@ function Edit() {
                         borderRadius: '10px',
                     }}
                 >
-                    
+
                     <Form
                         {...layout}
                         form={form}
@@ -233,10 +233,10 @@ function Edit() {
                         }}
                     >
                         <Form.Item
-                             name="Ufield"
-                             label="研究领域"
-                             initialValue={fieldoption}
-                             style={{
+                            name="Ufield"
+                            label="研究领域"
+                            initialValue={fieldoption}
+                            style={{
                                 padding: '10px',
                                 margin: '0 0 57px 0'
                             }}
@@ -247,16 +247,16 @@ function Edit() {
                                 placeholder="请选择你的研究领域"
                                 onChange={handleChange2}
                                 style={{
-                                width: '100%',
+                                    width: '100%',
                                 }}
                                 options={options}
                             />
                         </Form.Item>
                         <Form.Item
-                             name="Uinterest"
-                             label="我的兴趣词"
-                             initialValue={interestoption}
-                             style={{
+                            name="Uinterest"
+                            label="我的兴趣词"
+                            initialValue={interestoption}
+                            style={{
                                 padding: '10px',
                             }}
                         >
@@ -266,13 +266,13 @@ function Edit() {
                                 placeholder="请选择你的兴趣词"
                                 onChange={handleChange3}
                                 style={{
-                                width: '100%',
+                                    width: '100%',
                                 }}
                                 options={options2}
                             />
                         </Form.Item>
                     </Form>
-                    
+
                     <Row
                         style={{
                             padding: '8px 0 0 0',
@@ -298,16 +298,16 @@ function Edit() {
                             >
                                 保存
                             </Button>
-                            <Button className="button2" 
-                                icon = {<RollbackOutlined/>}
-                                type="primary"
-                                size="large"
-                                shape={"round"}
-                                style={{
-                                    margin: '25px 40px 16px 30px',
-                                    border: 'none',
-                                    boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
-                                }}
+                            <Button className="button2"
+                                    icon = {<RollbackOutlined/>}
+                                    type="primary"
+                                    size="large"
+                                    shape={"round"}
+                                    style={{
+                                        margin: '25px 40px 16px 30px',
+                                        border: 'none',
+                                        boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
+                                    }}
                             >
                                 取消
                             </Button>

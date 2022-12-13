@@ -523,7 +523,7 @@ function ApplyPortal() {
             <Content
                 style={{
                     padding: '50px 200px 50px 200px',
-                    height: '100vh',
+                    minHeight: '100vh',
                     overflow: 'auto',
                     backgroundColor: 'rgb(230,235,247)',
                 }}
