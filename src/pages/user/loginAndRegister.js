@@ -1,7 +1,7 @@
 import './loginAndRegister.css';
 import "antd/dist/antd.min.css";
-import loginImg from '../../assets/images/undraw_data_input_fxv2.png'
-import registerImg from '../../assets/images/undraw_data_input_fxv2.png'
+import loginImg from '../../assets/findPassword.png'
+import registerImg from '../../assets/advsearch.png'
 import MyHeader from '../../components/header/header';
 import {
     Typography,

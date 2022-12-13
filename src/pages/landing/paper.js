@@ -1,11 +1,12 @@
 import { useEffect } from "react"
 import "./homepage.css"
 import { Row, Col, List } from 'antd';
-import { Box, Text, Heading, Link } from "@chakra-ui/react";
+import {Box, Text, Heading, Link, Spinner} from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { ImFire } from "react-icons/im";
+import * as React from "react";
 
 function separator(numb) {
     if(!numb) return ""
@@ -17,6 +18,7 @@ function separator(numb) {
 function Papers(props){
     const [data, setData] = useState([])
     const [cname, setCname] = useState([])
+    const [isLoading, setLoading] = React.useState(true)
     const getData = ()=>{
         axios({
           method: "get",
@@ -26,12 +28,28 @@ function Papers(props){
             console.log(res.data)
             setData(res.data.data.paperResults)
             setCname(res.data.data.cName)
+            setLoading(false)
           }
         )
       }
     useEffect(() =>{
     getData()
     }, [])
+    if(isLoading){
+        return (
+            <Box boxShadow='xs' rounded='md'
+                 borderRadius='25px' border='2px' borderColor='gray.200'
+                 className='pbox'>
+                <Row>
+                    <ImFire className="chart-icon"></ImFire>
+                    <Heading className="title">
+                        加载中，请稍候...
+                    </Heading>
+                </Row>
+
+            </Box>
+        )
+    }
     return (
         <Box boxShadow='xs' rounded='md'
             borderRadius='25px' border='2px' borderColor='gray.200'

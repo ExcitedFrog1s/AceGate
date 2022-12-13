@@ -63,7 +63,7 @@ function PaperDetails() {
     if(isLoading) {
         return (
             <Spinner
-                ml={'45%'}
+                ml={'47%'}
                 mt={'25%'}
                 thickness='4px'
                 speed='0.65s'
@@ -78,7 +78,9 @@ function PaperDetails() {
         <Layout>
             <MyHeader></MyHeader>
             <div className="paperdetail">
+
                 <Info infos={infos} PID={PID}/>
+
                 <Row gutter={30}>
                     <Col span={15}>
                         <Row>
@@ -118,7 +120,12 @@ function Authors(prop){
     const handleClick = (key) => {
         window.open('/scholarPortal?RID=' + prop.Pauthor[key].rid)
     }
+    const linkStyle = {
+        color: '#777',
 
+        textDecoration: 'none',
+        cursor: 'default'
+    }
     let cur_num = prop.Pauthor.length
 
     return (
@@ -132,6 +139,7 @@ function Authors(prop){
                                   onClick={()=>handleClick(key)}
                                   color={'frog.500'}
                                   mr={7}
+
                             >
                                 {value.rname}
                             </Link>
@@ -164,12 +172,7 @@ function Authors(prop){
 }
 
 function Info(prop){
-    const property = {
-        title: "独白与对话:马克思主义中国化的方法",
-        source: "云南社会科学",
-        date: moment("20070112").format('YYYY-MM-DD'),
-        tags:['jdg', '马克思', 'lggggg'],
-    }
+
     const handleClick = () => {
         window.open('/journal?VID=' + prop.infos.p_VID)
     }
@@ -203,11 +206,16 @@ function Info(prop){
                                 </Text>
                             </Link>
                         }
-                        <Link onClick={handleClick}>
-                            <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                        {prop.infos.venueName === null &&<Link style={{textDecoration:'none'}}>
+                            <Text fontSize={17} as="em" fontWeight="bold" color={'#4A5568'}>
                                 {prop.infos.p_Vname}
                             </Text>
-                        </Link>
+                        </Link>}
+                        {prop.infos.venueName !== null &&<Link onClick={handleClick}>
+                            <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
+                                {prop.infos.venueName}
+                            </Text>
+                        </Link>}
                     </HStack>
                     <Authors Pauthor={prop.infos.Pauthor} pauthor={prop.infos.pauthorname}/>
                     <Row>

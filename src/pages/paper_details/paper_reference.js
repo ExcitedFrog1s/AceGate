@@ -8,16 +8,7 @@ import {Box,HStack,Text,Divider,Tabs,TabList,TabPanels,Tab,TabPanel,List,ListIte
 import Comment from "./paper_comment";
 import axios from "axios";
 function Reference(prop) {
-    const property = {
-        refs:[{title:"马克思主义中国化的道路",authors:["马克思","恩格斯"]},
-            {title:"马克思主义苏联化的道路",authors:["列宁","例丁"]}
-            ],
-        related:[{
-            title:'test title',
-            'authors':['maple','AboveParadise','frog'],
 
-        },],
-    }
     const handleClick = (PID) => {
         window.open('/paperDetails?PID=' + PID)
     }

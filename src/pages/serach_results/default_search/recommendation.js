@@ -1,6 +1,6 @@
 import {Box, HStack, Link, Text, VStack} from "@chakra-ui/react";
 import * as React from 'react';
-
+import "./search.css"
 
 function Author(props) {
     const [isHover1, setIsHover1] = React.useState(false)
@@ -47,7 +47,7 @@ function Author(props) {
     }
 
     return(
-        <Box mt={'25px'} ml={'10px'}>
+        <Box mt={'25px'} >
             <Link
                 style={linkStyle1}
                 onMouseEnter={handleMouseEnter1}
@@ -112,9 +112,18 @@ function Institute(props) {
                 onMouseLeave={handleMouseLeave}
                 onClick={handleClick}
             >
-                <Text>
-                    {props.info.ichinesename}
-                </Text>
+                {
+                    props.info.ichinesename === undefined &&
+                    <Text>
+                        {props.info.iname}
+                    </Text>
+                }
+                {
+                    props.info.ichinesename !== undefined &&
+                    <Text>
+                        {props.info.iname + "（" + props.info.ichinesename + "）"}
+                    </Text>
+                }
             </Link>
             <HStack mt={'10px'} spacing={'30%'}>
                 <VStack>
@@ -152,17 +161,27 @@ function Recommendation(props) {
 
     return(
         <Box
-            minHeight={'1000px'}
-            width={'20%'}
-            ml={'80%'}
+            className="left"
+            width={'100%'}
             borderWidth={'5'}
             borderRadius={'12'}
             borderStyle={'solid'}
             borderColor={'#E2E8F0'}
             boxShadow={'0 2px 10px rgb(0 0 0 / 10%)'}
-            position={'absolute'}
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}
         >
-            <Text fontSize={'20px'} color={'#a0a0a0'} mt={'10px'} ml={'15px'}>{'Recommendation'}</Text>
+            <Text fontSize={'25px'} color={'#4A5568'} fontWeight='bold'>{'Recommendation'}</Text>
             <Text style={authorStyle}>{'作者'}</Text>
             {
                 (props.recommendation.author !== undefined && props.recommendation.author.length !==0) &&
@@ -176,7 +195,7 @@ function Recommendation(props) {
                 (props.recommendation.author === undefined || props.recommendation.author.length ===0) &&
                 <Text ml={'10px'} mt={'50px'} fontSize={'30px'} color={'#c4c4c4'}>{'暂无推荐'}</Text>
             }
-            <Box ml={'15px'} mr={'15px'} mt={'50px'} borderTopColor={'#ddd'} borderTopWidth={'1px'} borderTopStyle={'solid'}>
+            <Box ml={'15px'} mt={'50px'} borderTopColor={'#ddd'} borderTopWidth={'1px'} borderTopStyle={'solid'}>
 
             </Box>
             <Text style={instituteStyle}>{'机构'}</Text>

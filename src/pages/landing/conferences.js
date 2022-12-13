@@ -6,6 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import { FaQuoteLeft } from "react-icons/fa";
 import { ImFire } from "react-icons/im";
+import * as React from "react";
 
 function separator(numb) {
     if(!numb) return ""
@@ -17,6 +18,7 @@ function separator(numb) {
 function Conferences(props){
     const [cname, setCname] = useState([])
     const [data, setData] = useState([])
+    const [isLoading, setLoading] = React.useState(true)
     const getData = ()=>{
         axios({
           method: "get",
@@ -26,12 +28,27 @@ function Conferences(props){
             console.log(res.data)
             setData(res.data.data.venueResults)
             setCname(res.data.data.cName)
+            setLoading(false)
           }
         )
       }
     useEffect(() =>{
     getData()
     }, [])
+    if(isLoading){
+        return (<Box boxShadow='xs' rounded='md'
+                     borderRadius='25px' border='2px' borderColor='gray.200'
+                     className='box'>
+            <Row>
+                <ImFire className="chart-icon"></ImFire>
+                <Heading className="title">
+                    加载中，请稍候...
+                </Heading>
+            </Row>
+
+
+        </Box>    )
+    }
     return (
         <Box boxShadow='xs' rounded='md'
             borderRadius='25px' border='2px' borderColor='gray.200'
