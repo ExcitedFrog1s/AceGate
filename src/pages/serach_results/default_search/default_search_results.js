@@ -2,7 +2,7 @@
 // Created by zyc on 2022/12/09.
 //
 
-import Header from '../../../components/header/header'
+import MyHeader from '../../../components/header/header'
 import * as React from 'react';
 import {Box, HStack, Input, Skeleton, Stack, Text} from "@chakra-ui/react";
 import ResultCard from "../result_card";
@@ -223,7 +223,7 @@ function DefaultSearchResults(props) {
 
     return(
         <Box>
-        <Header textColor={'black'} />
+        <MyHeader textColor={'black'} />
         <Box>
             {/*左侧界面*/}
             <DefaultSearchFilter
