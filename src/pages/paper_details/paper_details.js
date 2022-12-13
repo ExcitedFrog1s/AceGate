@@ -81,7 +81,7 @@ function PaperDetails() {
                 <Box width={'100%'} borderWidth={'5'} borderRadius={'12'} borderStyle={'solid'}
                 boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
                 backgroundColor={'#ffffff'}
-                padding="20px" mb={10}>
+                padding="10" mb={10}>
                     <Info infos={infos}/>
                     <Op  pid={PID} url={infos.p_Vurl}/>
                 </Box>
@@ -179,16 +179,16 @@ function Info(prop){
     return(
         <Box mb={5} className="ft">
             <Box>
-            <Text fontSize={30}>
+            <Text fontSize={30} fontWeight="bold" >
                 {prop.infos.pname}
             </Text>
             </Box>
             <HStack>
-                <Text mt={3} mb={3} mr={5} fontSize={17}>
+                <Text mt={3} mb={3} mr={5} fontSize={17} color="#8e9aaf">
                     {moment(prop.infos.pdate).format("YYYY-MM-DD")}
                 </Text>
                 <Link onClick={handleClick}>
-                <Text fontSize={17}>
+                <Text fontSize={17} as="em" fontWeight="bold" color="frog.500">
                     {prop.infos.p_Vname}
                 </Text>
                 </Link>
