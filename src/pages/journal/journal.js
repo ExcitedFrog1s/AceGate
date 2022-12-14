@@ -21,14 +21,9 @@ import {Heading, Text} from '@chakra-ui/react'
 import { Link } from '@chakra-ui/react'
 import {Icon, SearchIcon} from '@chakra-ui/icons'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
-
+import moment from "moment";
 import './journal.css';
 
-//antd组件汉化
-import moment from 'moment'
-import locale from 'antd/lib/date-picker/locale/zh_CN'
-import 'moment/locale/zh-cn'
-moment.locale('zh-cn')
 
 
 function Title(props) {
@@ -158,7 +153,7 @@ function PaperAmount(props) {
                 type: 'bar',
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
             plotOptions: {
                 bar: {
@@ -208,7 +203,7 @@ function CitationAmount(props) {
                 type: 'bar',
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
             plotOptions: {
                 bar: {
@@ -259,7 +254,7 @@ function PaperAmountAcc(props) {
                 type: 'bar',
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
             plotOptions: {
                 bar: {
@@ -311,7 +306,7 @@ function CitationAmountAcc(props) {
                 type: 'bar',
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
             plotOptions: {
                 bar: {
@@ -568,7 +563,7 @@ function PaperList(props) {
             res.data.data.list.forEach((item)=>{
                 item.author = item.pauthorname[0]
                 item.field = item.pconcepts[0]
-                item.pdate = new Date(item.pdate).getFullYear()+'-'+ new Date(item.pdate).getMonth()+'-'+new Date(item.pdate).getDay()
+                item.pdate = moment(item.pdate).format("YYYY-MM")
                 if(item.pcite > max){
                     max = item.pcite
                 }
@@ -748,7 +743,7 @@ function PaperList(props) {
           align: 'left'
         },
         xaxis: {
-            categories: [2017,2018,2019,2020,2021]
+            categories: [2018,2019,2020,2021,2022]
         },
     }
     return(

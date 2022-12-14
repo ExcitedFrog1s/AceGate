@@ -21,6 +21,7 @@ import {
 import {useEffect, useReducer, useState} from "react";
 import {AiFillStar, AiOutlineStar} from "react-icons/ai";
 import axios from "axios";
+import PubSub from 'pubsub-js'
 import { Row } from 'antd';
 
 function separator(numb) {
@@ -211,6 +212,7 @@ function Comment(prop) {
                                 setLoading(false)
                             })
                         setValue('')
+                        PubSub.publish('comment',true)
                     }
                 })
         }

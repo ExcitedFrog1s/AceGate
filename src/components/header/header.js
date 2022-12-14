@@ -14,9 +14,9 @@ import {
     PopoverAnchor,
   } from '@chakra-ui/react'
   import {
-    Drawer, Tooltip,
+    Drawer
   } from 'antd'
-  import { message, Popconfirm } from 'antd';
+  import { message, Popconfirm ,Tooltip} from 'antd';
 
 import {Link as RouterLink} from 'react-router-dom'
 
@@ -105,7 +105,8 @@ function MyHeader({textColor, isLanding=false}){
       setOpen(false);
     };
     React.useEffect(() => {
-        if (localStorage.getItem("userToken") !== 'null') {
+        console.log(localStorage.getItem("userToken"))
+        if (localStorage.getItem("userToken") != null) {
             // 已经登录
             setIsLoggedIn(1)
 
@@ -134,9 +135,12 @@ function MyHeader({textColor, isLanding=false}){
 
     const confirm = (e) => {
         setIsLoggedIn(0);
-        localStorage.setItem("userToken", null);
-        localStorage.setItem("userType", null);
-        localStorage.setItem("username", null);
+        localStorage.removeItem("userToken")
+        localStorage.removeItem("userType")
+        localStorage.removeItem("username")
+        // localStorage.setItem("userToken", null);
+        // localStorage.setItem("userType", null);
+        // localStorage.setItem("username", null);
         message.success('退出成功');
         setTimeout(function () {
             navigate("/");
@@ -159,7 +163,7 @@ function MyHeader({textColor, isLanding=false}){
     }
     else{
         userButton = (<Button w='220px' mt='8px' onClick={()=>{
-            navigate('/scholarPortal?UID=' + user.uid)
+            navigate('/scholarPortal?RID=' + user.u_rid)
         }}>我的门户</Button>)
     }
 

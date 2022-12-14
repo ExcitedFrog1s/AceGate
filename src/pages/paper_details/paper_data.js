@@ -18,6 +18,7 @@ import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
+import PubSub from 'pubsub-js'
 
 function separator(numb) {
     var str = numb.toString().split(".");
@@ -37,7 +38,30 @@ function Data(prop) {
     const handleClick = (value) => {
         window.open('/advancedSearch?label=' + value)
     }
+    PubSub.subscribe('comment',data =>{
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+        axios.post("/paper/Details", formData)
+            .then(function (res){
+                setPdata(res.data.data)
+                console.log('pppp',Pdata)
 
+            })
+        console.log("传来的数据：",data);
+    })
+    PubSub.subscribe('collect',data =>{
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+        axios.post("/paper/Details", formData)
+            .then(function (res){
+                setPdata(res.data.data)
+                console.log('pppp',Pdata)
+                
+            })
+        console.log("传来的数据：",data);
+    })
     React.useEffect( () => {
         let mark = 0
         const formData = new FormData()
@@ -69,7 +93,7 @@ function Data(prop) {
               curve: 'smooth'
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
         }
         const option = {
@@ -183,7 +207,8 @@ function Data(prop) {
                             <Chart options={options} 
                             series={[{data:Pdata.citeNums, name:'热度'}]} 
                             type="area" height={250} />}
-                    {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} mb={20} className={'ft'}>暂无数据</Text>}
+                    {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} fontWeight={'bold'} textDecoration={'none'}
+                    color="#4A5568" mb={20} className={'ft'}>暂无数据</Text>}
                 </div>
 
 
