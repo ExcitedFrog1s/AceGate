@@ -112,7 +112,7 @@ function MyHeader({textColor, isLanding=false}){
             var config = {
                 method: 'post',
                 url: '/personInfo',
-                headers: { 
+                headers: {
                     token: localStorage.getItem("userToken")
                 }
                 };
@@ -125,7 +125,7 @@ function MyHeader({textColor, isLanding=false}){
                     console.log(error);
                 });
         }
-        
+
     }, [])
 
     const [input,setInput] = React.useState()
@@ -177,7 +177,16 @@ function MyHeader({textColor, isLanding=false}){
         >
             <Row>
                 <Col span='2' offset={1}>
-                    <Avatar src={require("../../assets/acegate_icon_header.png")} width='95px' height='60px' marginTop='9px'></Avatar>
+                    <Avatar
+                        src={require("../../assets/acegate_icon_header.png")}
+                        width='95px'
+                        height='60px'
+                        marginTop='9px'
+                        cursor={'pointer'}
+                        onClick={() => {
+                            navigate("/")
+                        }}
+                    />
                 </Col>
                 <Col span='9' offset={1}>
                     {isLanding ?
@@ -395,7 +404,7 @@ function MyHeader({textColor, isLanding=false}){
                                 <Row>
 
                                     <Popconfirm
-                                        placement="bottom" 
+                                        placement="bottom"
                                         title="确认退出登录？"
                                         onConfirm={confirm}
                                         okText="确认"
@@ -403,7 +412,7 @@ function MyHeader({textColor, isLanding=false}){
                                     >
                                         <Button w='220px' mt='8px'>退出登录</Button>
                                     </Popconfirm>
-                                    
+
                                 </Row>
                             </PopoverBody>
                         </PopoverContent>

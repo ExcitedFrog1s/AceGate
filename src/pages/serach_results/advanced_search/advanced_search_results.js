@@ -339,7 +339,7 @@ function AdvancedSearchResults(props) {
                         filterAuthor={filterAuthor}
                         filterPublicationType={filterPublicationType}
                     />
-                    
+
                 }
                 <Row style={{marginTop:10}}>
                     <Text color={'#777'} fontSize={'22px'} fontWeight='bold' mr={2}>{'共'}</Text>
@@ -367,7 +367,7 @@ function AdvancedSearchResults(props) {
                         })
                     }
                 </Box>
-                
+
             </Box>
             </Box>
             </Col>

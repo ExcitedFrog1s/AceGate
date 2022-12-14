@@ -653,7 +653,7 @@ function Portal() {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    title={<Link href={"/advanceSearch?name=" + item.name} isExternal>{item.name}</Link>}
+                                                    title={<Link href={"/advancedSearch?name=" + item.name} isExternal>{item.name}</Link>}
                                                     description={item.institute}
                                                 />
                                             </List.Item>

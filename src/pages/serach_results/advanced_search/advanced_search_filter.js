@@ -88,7 +88,7 @@ function AdvancedSearchConceptsFilter(props) {
             <RadioGroup onChange={props.setConcepts} defaultValue={props.concepts} colorScheme={'frog'}>
                 <Stack direction='column'>
                     <Radio value='全部'>{'全部'}</Radio>
-                    {/* {
+                    {
                         props.content.map((value, key) => {
                             return (
                                 <Radio value={value} key={key}>
@@ -96,7 +96,7 @@ function AdvancedSearchConceptsFilter(props) {
                                 </Radio>
                             )
                         })
-                    } */}
+                    }
                 </Stack>
             </RadioGroup>
         </Box>
@@ -200,11 +200,11 @@ function AdvancedSearchFilter(props) {
                 setAuthors={setAuthors}
                 authors={authors}
             />
-            <AdvancedSearchConceptsFilter
-                content={props.filterInfos.concepts}
-                concepts={concepts}
-                setConcepts={setConcepts}
-            />
+            {/*<AdvancedSearchConceptsFilter*/}
+            {/*    content={props.filterInfos.concepts}*/}
+            {/*    concepts={concepts}*/}
+            {/*    setConcepts={setConcepts}*/}
+            {/*/>*/}
         </Box>
     )
 }

@@ -145,6 +145,25 @@ function Search(props) {
                 endTime: endTime
             });
         }
+        else if(params.has('name')) {
+            setDataList([
+                {
+                    category: 'Pauthor',
+                    content: params.get('name'),
+                    type: 1
+                }
+            ])
+            PubSub.publish('PubParams', {
+                dataList: [
+                    {
+                        category: 'Pauthor',
+                        content: params.get('name'),
+                        type: 1
+                    }],
+                startTime: startTime,
+                endTime: endTime
+            });
+        }
         // else if(params.has('source')) {
         //     setDataList([
         //         {
