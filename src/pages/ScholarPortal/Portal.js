@@ -587,7 +587,7 @@ function Portal() {
                 <div
                     style={{
                         padding: '24px',
-                        Height: '150px',
+                        minHeight: '150px',
                         background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
@@ -778,7 +778,7 @@ function Portal() {
                             <div
                                 id="scrollableDiv"
                                 style={{
-                                    height: 450,
+                                    height: 430,
                                     overflow: 'auto',
                                     padding: '0 16px 0 0',
                                     border: 'none',
