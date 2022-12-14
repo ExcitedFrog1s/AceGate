@@ -4,6 +4,7 @@
 import {Box, HStack, Link, LinkOverlay, Text} from '@chakra-ui/react'
 import "./test.css"
 import Op from "./paper_op";
+import * as React from "react";
 function Keywords(prop){
     const property = {
         kw:["马克思","中国化","方法论",,"中国化","方法论",,"中国化","方法论",,"中国化","方法论方法论","中国化","方法论",],
@@ -75,7 +76,7 @@ function Abstract(prop) {
         >
             <Text textDecoration={'none'}
                   color={'#4A5568'}
-                  fontSize={25} 
+                  fontSize={25}
                   m={3}
                   ml={8}
                   fontWeight={'bold'}
@@ -96,7 +97,9 @@ function Abstract(prop) {
           }}>
             <Text ml={8} color={'#4A5568'} mb={6} fontWeight={500}
                   fontSize={17}  className="ft"
-             mr={8}>{prop.ab}</Text>
+             mr={8}>
+                <div dangerouslySetInnerHTML={{ __html: prop.ab }} />
+            </Text>
             </Box>
             {/*<Keywords kw={prop.kw}/>*/}
 
