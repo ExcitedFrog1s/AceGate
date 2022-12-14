@@ -105,7 +105,8 @@ function MyHeader({textColor, isLanding=false}){
       setOpen(false);
     };
     React.useEffect(() => {
-        if (localStorage.getItem("userToken") !== 'null') {
+        console.log(localStorage.getItem("userToken"))
+        if (localStorage.getItem("userToken") != null) {
             // 已经登录
             setIsLoggedIn(1)
 
@@ -134,9 +135,12 @@ function MyHeader({textColor, isLanding=false}){
 
     const confirm = (e) => {
         setIsLoggedIn(0);
-        localStorage.setItem("userToken", null);
-        localStorage.setItem("userType", null);
-        localStorage.setItem("username", null);
+        localStorage.removeItem("userToken")
+        localStorage.removeItem("userType")
+        localStorage.removeItem("username")
+        // localStorage.setItem("userToken", null);
+        // localStorage.setItem("userType", null);
+        // localStorage.setItem("username", null);
         message.success('退出成功');
         setTimeout(function () {
             navigate("/");
