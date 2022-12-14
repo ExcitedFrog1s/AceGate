@@ -143,9 +143,20 @@ function ScholarPaperList(props) {
         },
     });
     const [current, setCurrent]=React.useState(1);
+
+
+    const htmlDecode = (input) => {
+        var e = document.createElement('div');
+        e.innerHTML = input;
+        console.log(e.childNodes[0]);
+        let ret = e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+        console.log(ret);
+        return ret;
+    }
+
     const columns = [
         {
-            title: '',
+            title: '论文名称',
             dataIndex: 'pname',
             key: 'pname',
             ...getColumnSearchProps('pname'),
@@ -251,16 +262,18 @@ function ScholarPaperList(props) {
                        expandedRowRender: (record) => (
                            <Row >
                                <Col span={15} offset={1}>
-                                   <Heading as='h4' size='md'>{record.pname}</Heading>
+                                   <Heading as='h4' size='md' mb={'10px'}>
+                                       <div dangerouslySetInnerHTML={{ __html: record.pname }} />
+                                   </Heading>
                                    <Row className='expand'>
                                        {
                                            record.pauthorname.map((value, key) => {
                                                return (
-                                                   <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}</Text>
+                                                   <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}, </Text>
                                                );})
                                        }
                                    </Row>
-                                   <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.pabstract}</Text>
+                                   <div style={{marginTop: '10px'}} dangerouslySetInnerHTML={{ __html: record.pabstract }} />
                                    <Row>
                                        {
                                            record.pconcepts.map((value, key) => (
