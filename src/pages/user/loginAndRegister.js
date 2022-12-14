@@ -62,8 +62,11 @@ const registerUser  = (username, password, email, verificationCode) =>{
 
     axios.post('/register', formData)
         .then(res => {
-            if(res.data.code == 200)
-            message.success("注册成功，请前往登录")
+            if(res.data.code == 200){
+                message.success("注册成功，请前往登录")
+                status = res.data.status
+            }
+            
             else
             message.error(res.data.message)
             console.log(res.data)
@@ -311,7 +314,8 @@ function LoginAndRegister () {
             return -1;
         }
         let status = registerUser(username, password, email, verifyCode);
-        goToLogin();
+        setTimeout(goToLogin(), 1000)
+        
     }
 
     // 去注册
