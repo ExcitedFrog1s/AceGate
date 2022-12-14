@@ -6,7 +6,8 @@ import Data from "./paper_data";
 import Op from "./paper_op"
 import Reference from "./paper_reference";
 import moment from "moment";
-import {Box, HStack, Link, Spinner, Tag, TagLabel, TagLeftIcon, Text} from "@chakra-ui/react";
+import {Box, HStack, Link, Spinner, Tag, TagLabel, TagLeftIcon, Text,
+Stack, Skeleton} from "@chakra-ui/react";
 import {AddIcon} from "@chakra-ui/icons";
 import * as React from "react";
 import axios from "axios";
@@ -62,15 +63,62 @@ function PaperDetails() {
     // console.log(infos["Pname"])
     if(isLoading) {
         return (
-            <Spinner
-                ml={'47%'}
-                mt={'25%'}
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
-            />
+            <Box>
+            <MyHeader></MyHeader>
+            <div className="paperdetail">
+                <Box  width={'100%'} borderWidth={'5'} height='200px' borderRadius={20} borderStyle={'solid'}
+                    boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                    bg={'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.2))'}
+                    paddingTop={10}  paddingLeft={10} paddingRight={10} mb={10}>
+                        <Skeleton height='40px' width='1000px'/>
+                        <Skeleton height='20px' width='450px' mt='10px' />
+                        <Skeleton height='20px' width='400px' mt='10px' />
+                        <Skeleton height='20px' width='300px' mt='15px' />
+                </Box>
+                <Row gutter={30}>
+                    <Col span={15}>
+                        <Row>
+                            <Box  width={'100%'}
+                            height='400px'
+                            borderWidth={'5'}
+                            borderRadius={'20'}
+                            borderStyle={'solid'}
+                            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                            backgroundColor={'#ffffff'}
+                            padding='15px'>
+                                <Skeleton height='50px' width='100px'/>
+                                <Skeleton height='20px' width='700px' mt='20px' />
+                                <Skeleton height='20px' width='600px' mt='10px' />
+                                <Skeleton height='20px' width='650px' mt='10px' />
+                                <Skeleton height='20px' width='700px' mt='20px' />
+                                <Skeleton height='20px' width='600px' mt='10px' />
+                                <Skeleton height='20px' width='650px' mt='10px' />
+                                <Skeleton height='20px' width='700px' mt='20px' />
+                                <Skeleton height='20px' width='600px' mt='10px' />
+                                <Skeleton height='20px' width='650px' mt='10px' />
+                                
+                            </Box>
+                        </Row>
+                    </Col>
+                    <Col span={9}>
+                        <Box width={'100%'}  height='400px' borderWidth={'5'} borderRadius={'20'} borderStyle={'solid'}
+                            boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
+                            backgroundColor={'#ffffff'}
+                            padding="20px">
+                                <Skeleton height='50px' width='350px'/>
+                                <Skeleton height='20px' width='100px' mt='80px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                                <Skeleton height='15px' width='300px' mt='20px' />
+                        </Box>
+                    </Col>
+                </Row>
+            </div>
+            
+            </Box>
         )
     }
 

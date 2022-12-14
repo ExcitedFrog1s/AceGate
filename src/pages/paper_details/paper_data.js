@@ -69,7 +69,7 @@ function Data(prop) {
               curve: 'smooth'
             },
             xaxis: {
-                categories: [2017,2018,2019,2020,2021]
+                categories: [2018,2019,2020,2021,2022]
             },
         }
         const option = {
