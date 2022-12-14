@@ -39,6 +39,7 @@ import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
+import moment from "moment";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -118,7 +119,7 @@ function ScholarPaperList(props) {
                 return aDate - bDate;
             },
             render: (_, record) => (
-                <Text>{new Date(record.pdate).getFullYear()+'-'+ new Date(record.pdate).getMonth()+'-'+new Date(record.pdate).getDay()}</Text>
+                <Text>{moment(record.pdate).format("YYYY-MM-DD")}</Text>
             ),
         },
         {

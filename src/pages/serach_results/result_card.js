@@ -63,7 +63,6 @@ function Author1(props) {
     }
 
     const linkStyle = {
-        color: 'frog.400',
         marginRight: '10px',
         fontSize: '15px',
         textDecoration: isHover ? 'underline' : 'none',
@@ -81,6 +80,7 @@ function Author1(props) {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onClick={handleClick}
+                color='frog.500'
         >
             {props.info.rname}
         </Link>
@@ -158,8 +158,6 @@ function TimeOrgan(props) {
     }
 
     const linkStyle = {
-        color: 'frog.500',
-        fontSize: '12px',
         textDecoration: isHover ? 'underline' : 'none',
     }
     return(
@@ -176,10 +174,28 @@ function TimeOrgan(props) {
                       onMouseLeave={handleMouseLeave}
                       ml={'30px'}
                       onClick={handleClick}
+                      color={'frog.500'}
+                      fontWeight='bold'
                 >
                     {props.organ[0].rinstitute}
                 </Link>
 
+            }
+            {
+                props.VName !== '' &&
+                <Link
+                    color={'frog.500'}
+                    as='em'
+                    ml={10}
+                    mt={'30px'}
+                    fontSize='12px'
+                    onClick={() => {
+                        window.open("/journal?VID=" + props.p_VID)
+                    }}
+                    fontWeight='bold'
+                >
+                    {props.VName}
+                </Link>
             }
         </Box>
     )
@@ -340,23 +356,9 @@ function ResultCard(props) {
         >
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
-            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor} pcite={props.infos.pcite}/>
+            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor} 
+            pcite={props.infos.pcite} VName={props.infos.VName} PID={props.infos.p_VID} />
             <Content content={props.infos.pabstract} PID={props.infos.pID}/>
-
-            {
-                props.infos.VName !== '' &&
-                <Link
-                    color={'#777'}
-                    position={'absolute'}
-                    ml={'3%'}
-                    mt={'10px'}
-                    onClick={() => {
-                        window.open("/journal?VID=" + props.infos.p_VID)
-                    }}
-                >
-                    {props.infos.VName}
-                </Link>
-            }
             <Labels labels={props.infos.pconcepts}/>
             {/*<Operations props={props.infos.isStar}/>*/}
         </Box>
