@@ -165,7 +165,7 @@ function ScholarPaperList(props) {
             render: (_, record) => (
                 <Tooltip label={record.pname} aria-label='A tooltip'>
                     <Link href={"/paperDetails?PID=" + record.pID} isExternal>
-                        {record.pname} <ExternalLinkIcon mx='2px' />
+                        {record.pname.replace(/<[^>]*>/g, '')} <ExternalLinkIcon mx='2px' />
                     </Link>
                 </Tooltip>
             ),
