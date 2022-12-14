@@ -66,7 +66,8 @@ function Icard(props){
             let j = insdata.iconcept.length;
             if(j > 0){
                 let concept = "机构论文高频关键词有" + insdata.iconcept[0];
-                for(let k = 1; k < j; k++){
+                let t = j > 10 ? 10 : j
+                for(let k = 1; k < t; k++){
                     concept += ", " + insdata.iconcept[k];
                 }
                 concept += "等"
