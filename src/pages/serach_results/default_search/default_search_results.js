@@ -116,8 +116,8 @@ function DefaultSearchResults(props) {
         if(data.normalSearch === undefined) {
             data.normalSearch = ''
         }
-        data.filterAuthors = filterPublicationType
-        data.filterPublicationTypes = filterAuthor
+        data.filterAuthors = filterAuthor
+        data.filterPublicationTypes = filterPublicationType
         data.startTime = startTime
         data.endTime = endTime
         data.sort = sort_order
