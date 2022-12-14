@@ -135,6 +135,7 @@ function AdvancedSearchFilter(props) {
                 props.setFilterInfos({
                     publicationTypes: res.data.data.venue,
                     authors: res.data.data.author,
+                    concepts: res.data.data.concepts,
                     totalNumber: res.data.data.num
                 })
                 // props.setRecommendationInfos(res.data.data.recommendation)
@@ -200,11 +201,11 @@ function AdvancedSearchFilter(props) {
                 setAuthors={setAuthors}
                 authors={authors}
             />
-            {/*<AdvancedSearchConceptsFilter*/}
-            {/*    content={props.filterInfos.concepts}*/}
-            {/*    concepts={concepts}*/}
-            {/*    setConcepts={setConcepts}*/}
-            {/*/>*/}
+            <AdvancedSearchConceptsFilter
+                content={props.filterInfos.concepts}
+                concepts={concepts}
+                setConcepts={setConcepts}
+            />
         </Box>
     )
 }
