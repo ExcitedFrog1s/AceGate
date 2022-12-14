@@ -35,6 +35,8 @@ import {Icon, SearchIcon, AddIcon} from '@chakra-ui/icons'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Chart from 'react-apexcharts'
 import { useToast } from '@chakra-ui/react'
+import moment from "moment";
+
 const { Header, Footer, Sider, Content } = Layout;
 
 
@@ -47,7 +49,7 @@ function PaperList(props){
             x.forEach((item, index)=>{
                 item.author = item.pauthorname[0]
                 item.field = item.pconcepts[0]
-                item.pdate = new Date(item.pdate).getFullYear()+'-'+ new Date(item.pdate).getMonth()+'-'+new Date(item.pdate).getDay()
+                item.pdate =  moment(item.pdate).format("YYYY-MM-DD")
                 if(item.pcite > max){
                     max = item.pcite
                 }
