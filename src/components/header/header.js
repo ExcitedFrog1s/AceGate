@@ -14,9 +14,9 @@ import {
     PopoverAnchor,
   } from '@chakra-ui/react'
   import {
-    Drawer, Tooltip,
+    Drawer
   } from 'antd'
-  import { message, Popconfirm } from 'antd';
+  import { message, Popconfirm ,Tooltip} from 'antd';
 
 import {Link as RouterLink} from 'react-router-dom'
 
@@ -159,7 +159,7 @@ function MyHeader({textColor, isLanding=false}){
     }
     else{
         userButton = (<Button w='220px' mt='8px' onClick={()=>{
-            navigate('/scholarPortal?UID=' + user.uid)
+            navigate('/scholarPortal?UID=' + user.u_rid)
         }}>我的门户</Button>)
     }
 
