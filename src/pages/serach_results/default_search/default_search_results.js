@@ -244,7 +244,7 @@ function DefaultSearchResults(props) {
         <Box className='search'>
         <MyHeader textColor={'black'} isLoading={false}/>
         <Box>
-            <Row gutter={20}>
+            <Row gutter={0}>
             <Col span={5}>
             {/*左侧界面*/}
             <DefaultSearchFilter
@@ -263,7 +263,7 @@ function DefaultSearchResults(props) {
             />
             </Col>
             <Col span={14}>
-            <Box>
+            <Box paddingLeft={5} paddingRight={5}>
             {/*    /!*排序*!/*/}
                 {
                     !resIsEmpty &&

@@ -285,7 +285,7 @@ function AdvancedSearchResults(props) {
     return(
         <Box className='search' padding={0} margin={0}>
             {/*右侧界面*/}
-            <Row gutter={30}>
+            <Row gutter={0}>
                 <Col span={5}>
             <AdvancedSearchFilter
                 setInfos={setInfos}
@@ -359,7 +359,7 @@ function AdvancedSearchResults(props) {
                 {/*分页*/}
             {
                     !resIsEmpty &&
-                    <Box width={'100%'} mt={5} ml={'35%'}>
+                    <Box mt={5} ml={'35%'}>
                         <Pagination 
                             onChange={handleChange}
                             total={totalNum}
