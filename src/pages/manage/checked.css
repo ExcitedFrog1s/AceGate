@@ -51,7 +51,7 @@
 }
 
 .checked .ant-table{
-    background-color: #2d2d2d05 !important;
+    background-color: #ffffff !important;
 }
 .checked .ant-table-thead .ant-table-cell{
     background: #fefefe !important;
@@ -60,4 +60,8 @@
 
 .checked .img1 img{
     height: 120px;
+}
+.checked .ant-table-tbody>tr>td {
+    font-size: 14px !important;
+    font-weight: 550;
 }

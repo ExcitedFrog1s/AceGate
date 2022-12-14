@@ -58,7 +58,7 @@ function Manage(){
         <div>
             <Layout>
                 <Header></Header>
-                <Layout>
+                <Layout style={{background:'rgb(230,235,247)'}}>
                     <Sider style={{width:200, height:700}}
                     theme="light">
                         <div className='left'><LeftMenu/></div>
