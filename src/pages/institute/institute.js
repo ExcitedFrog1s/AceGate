@@ -52,7 +52,7 @@ function Icard(props){
             }
         }
         if(insdata.itype)
-            strs.push("机构类型为" + insdata.itype)
+            strs.push("机构类型为" + (insdata.itype === "education" ? "高校" : insdata.itype))
         if(insdata.icountry)
             strs.push("机构所属国家为" + insdata.icountry)
         if(insdata.Ischolars)

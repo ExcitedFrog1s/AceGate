@@ -43,7 +43,7 @@ function Title(props) {
                   onClick={handleClick}
             >
                 <Text noOfLines={1} fontWeight={'bold'}>
-                    {props.title}
+                    <div dangerouslySetInnerHTML={{ __html: props.title }} />
                 </Text>
             </Link>
         </Box>
@@ -356,7 +356,7 @@ function ResultCard(props) {
         >
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
-            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor} 
+            <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}
             pcite={props.infos.pcite} VName={props.infos.VName} PID={props.infos.p_VID} />
             <Content content={props.infos.pabstract} PID={props.infos.pID}/>
             <Labels labels={props.infos.pconcepts}/>
