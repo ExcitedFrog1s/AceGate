@@ -37,6 +37,7 @@ import {BsLink45Deg} from 'react-icons/bs'
 import {useEffect, useState} from "react";
 import {AddIcon} from "@chakra-ui/icons";
 import {None} from "framer-motion";
+import {message} from  'antd'
 import axios from "axios";
  function Cite(prop) {
     const Style = {
@@ -349,7 +350,7 @@ function Starred(prop){
                         }
                     })
             })
-
+            message.success('操作成功')
         onToggle()
         setChanged(false)
     }

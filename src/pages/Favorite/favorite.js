@@ -64,6 +64,31 @@ function PaperList(props){
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
+
+
+    function cancel(pid){
+        console.log(props.cid, pid)
+        var config = {
+            method: 'post',
+            url: '/user/CancelCollect',
+            data:{
+                cid: props.cid,
+                pid:pid
+            },
+            headers: { 
+                token: localStorage.getItem("userToken")
+            }
+        };
+        axios(config)
+        .then(res => {
+            console.log(res.data);
+            message.success('取消收藏成功')
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
@@ -212,13 +237,18 @@ function PaperList(props){
             dataIndex: '',
             key: '',
             width:110,
-            render:(_,record) =>(
-                <Button  variant='solid' size='xs' >
-                    取消收藏
+            render:(_,record,index) =>(
+                <Button  variant='solid' size='xs' onClick={ ()=>{
+                    cancel(record.pID);
+                    data.splice(index, 1)
+                    setData([...data]) }} >
+                    取消收藏 
                 </Button>
             )
         }
     ];
+
+
     const options= {
         chart: {
           type: 'area',
@@ -308,7 +338,8 @@ function Favorite(){
     const [newName, setNewName] = React.useState('')
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure()
-
+    const [cid, setCid] = React.useState()
+    const [reset, setReset] = React.useState(0)
 
     React.useEffect(() => {
         var config = {
@@ -324,6 +355,8 @@ function Favorite(){
             var x = []
             res.data.data.forEach((item, index)=>{
                x.push({label:item.name, key:item.id, icon: <FolderOpenOutlined />,})
+               if(index == 0)
+               setCid(item.id)
             });
             setPapers(res.data.data)
             setItems(x)
@@ -333,14 +366,15 @@ function Favorite(){
             console.log(error);
         });
         
-    },[])
+    },[reset])
 
     const onClick = (e) => {
-        console.log('click ', e.key);
+        setCid(items[e.key].key)
         setShow(e.key)
       };
 
     const add =() => {
+        var flag = 1;
         if(newName == ''){
             toast({
                 title: '收藏夹名不能为空',
@@ -350,6 +384,21 @@ function Favorite(){
               })
               return
         }
+        items.forEach((item, index)=>{
+            if(item.label == newName && flag == 1){
+                toast({
+                    title: '收藏夹名不能重复',
+                    status: 'error',
+                    isClosable: true,
+                    position:'top'
+                  })
+                flag = 0
+            }
+         });
+        
+         if(flag == 0)
+         return
+
         const formData = new FormData()
             formData.append('CTname', newName)
             let UID = window.localStorage.getItem('userToken')
@@ -366,6 +415,7 @@ function Favorite(){
                 else{
                     setNewName('')
                     onClose();
+                    setReset(!reset);
                     message.success('新建成功')
                 }
             })
@@ -422,7 +472,7 @@ function Favorite(){
             <Content style={{backgroundColor:'rgb(230,235,247)' ,minHeight:'100vh',padding:'30px'}}>
             { 
                 papers.length > 0 &&   
-                <PaperList list={papers[show].list} isLoading={isLoading} ></PaperList>
+                <PaperList list={papers[show].list} isLoading={isLoading} cid={cid}></PaperList>
             }
             </Content>
         </Layout>
