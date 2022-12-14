@@ -30,16 +30,18 @@ import {
     FormOutlined,
     MailOutlined,
     SolutionOutlined,
-    BarChartOutlined
+    BarChartOutlined, RedoOutlined, BarsOutlined
 } from '@ant-design/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {useLocation, useNavigate} from 'react-router-dom'
 import axios from "axios";
-import {Box, Heading, Link} from "@chakra-ui/react";
+import {Box, Heading, HStack, Input, Link, Progress, Tag, TagLabel, Tooltip} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
 import moment from "moment";
+// import {useRef} from "@types/react";
+import {ExternalLinkIcon, SearchIcon} from "@chakra-ui/icons";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -55,8 +57,11 @@ const onChange = (key) => {
     console.log(key);
 };
 
+
 function ScholarPaperList(props) {
+
     const [RpaperList, setRpaperList] = useState({});
+    const [citenum, setCitenum] = useState([]);
 
     const handlePaper = (url)=>{
         window.open(url)
@@ -66,73 +71,153 @@ function ScholarPaperList(props) {
         setRpaperList(props.RpaperList)
         // getData()
     }, [props])
-    // console.log(props)
-    // console.log(RpaperList)
-    // console.log(RpaperList[1].pname)
-    function authors(list) {
-        var str = "";
-        for (let i = 0; i < (list.length-1); i++) {
-            str += list[i] + ', '
-        }
-        str += list[list.length-1]
-        // console.log(str)
-        return str;
-    }
 
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters, dataIndex, confirm) => {
+        clearFilters();
+        handleSearch([], confirm, dataIndex);
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters}) => (
+            <div
+                style={{
+                    padding: 10,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Row gutter={8}>
+                    <Col span={17}>
+                        <Input
+                            size='sm'
+                            focusBorderColor='navy.500'
+                            ref={searchInput}
+                            placeholder={`请输入关键词`}
+                            value={selectedKeys[0]}
+                            onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        />
+                    </Col>
+                    <Col span={3}>
+                        <Button
+                            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                            size="sm"
+                            color='navy.500'
+                            style={{marginTop:3}}
+                        >
+                            <SearchIcon />
+                        </Button>
+                    </Col>
+                    <Col span={3}>
+                        <Button
+                            onClick={() => clearFilters && handleReset(clearFilters, dataIndex, confirm)}
+                            size="sm"
+                            color='navy.500'
+                            style={{marginTop:3}} >
+                            <RedoOutlined />
+                        </Button>
+                    </Col>
+                </Row>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchIcon
+                style={{
+                    color: filtered ? '#1b3bbb' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+    });
+    const [current, setCurrent]=React.useState(1);
     const columns = [
         {
             title: '',
             dataIndex: 'pname',
             key: 'pname',
-            width: '74%',
+            ...getColumnSearchProps('pname'),
             sorter: (a, b) => a.pname.localeCompare(b.pname),
             sortDirections: ['descend', 'ascend'],
             render: (_, record) => (
-                <Box>
-                    <Typography>
-                        <Row>
-                            <Link
-                                href={"/paperDetails?PID=" + record.pID}
-                                isExternal
-                            >{record.pname}</Link>
-                        </Row>
-                        <Row>
-                            <Text
-                                style={{
-                                    fontSize: '12px',
-                                }}
-                            >{authors(record.pauthorname)}</Text>
-                        </Row>
-                    </Typography>
-                </Box>
+                <Tooltip label={record.pname} aria-label='A tooltip'>
+                    <Link href={"/paperDetails?PID=" + record.pID} isExternal>
+                        {record.pname} <ExternalLinkIcon mx='2px' />
+                    </Link>
+                </Tooltip>
             ),
-        },
-        {
+            ellipsis: true,
+            width: 400
+        },{
             title: '发表时间',
             dataIndex: 'pdate',
             key: 'pdate',
-            width: '13%',
             sorter: (a, b) => {
                 let aDate = new Date(a.pdate).getTime();
                 let bDate = new Date(b.pdate).getTime();
                 console.log("a",a);
                 return aDate - bDate;
             },
+            sortDirections: ['descend', 'ascend'],
+            width: 150,
             render: (_, record) => (
                 <Text>{moment(record.pdate).format("YYYY-MM-DD")}</Text>
             ),
-        },
-        {
-            title: '引用次数',
+        },{
+            title: '引用量',
             dataIndex: 'pcite',
             key: 'pcite',
-            width: '13%',
-            sorter: {
-                compare: (a, b) => a.pcite - b.pcite,
-                multiple: 1,
-            },
-        },
+            sorter: (a, b) => a.pcite - b.pcite,
+            sortDirections: ['descend', 'ascend'],
+            width: 200,
+            render:(_,record) =>(
+                <Row>
+                    <Text>{record.pcite}</Text>
+                    <Progress
+                        style={{margin:'auto'}}
+                        colorScheme='frog'
+                        h='7px'
+                        borderRadius='10px'
+                        w='110px'
+                        value={100 * record.pcite / record.max_cite}/>
+                </Row>
+            )
+        }
     ];
+    const options= {
+        chart: {
+            type: 'area',
+            zoom: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        colors:['#98bcdf'],
+        stroke: {
+            curve: 'smooth'
+        },
+        title: {
+            text: '引用量',
+            align: 'left'
+        },
+        xaxis: {
+            categories: [2018,2019,2020,2021,2022]
+        },
+    }
 
     return (
         <div
@@ -158,14 +243,46 @@ function ScholarPaperList(props) {
                     borderRadius: '24px',
                 },
             }}>
-                <Table
-                    className="paperList"
-                    columns={columns}
-                    dataSource={props.RpaperList}
-                    pagination={false}
-                    rowKey="pid"
-                />
-            </Box>
+            <Table dataSource={props.RpaperList} columns={columns}
+                   pagination={false}
+                   className='paperList'
+                   rowKey={(record) => record.pID}
+                   expandable={{
+                       expandedRowRender: (record) => (
+                           <Row >
+                               <Col span={15} offset={1}>
+                                   <Heading as='h4' size='md'>{record.pname}</Heading>
+                                   <Row className='expand'>
+                                       {
+                                           record.pauthorname.map((value, key) => {
+                                               return (
+                                                   <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}</Text>
+                                               );})
+                                       }
+                                   </Row>
+                                   <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.pabstract}</Text>
+                                   <Row>
+                                       {
+                                           record.pconcepts.map((value, key) => (
+                                               key<8? (
+                                                   <Tag size='sm' mt='3px' variant='subtle' bg='#627cd177' color='white' mr='20px'>
+                                                       <TagLabel>{value}</TagLabel>
+                                                   </Tag>
+                                               ):(<p></p>)
+                                           ))
+                                       }
+                                   </Row>
+                               </Col>
+                               <Col span={7} style={{marginLeft:'20px'}}>
+                                   <Chart options={options}
+                                          series={[{data:record.pcitednum.reverse(), name:'引用量'}]}
+                                          type="area" height={250} />
+                               </Col>
+                           </Row>
+                       ),
+                   }}>
+            </Table>
+        </Box>
         </div>
     );
 }
