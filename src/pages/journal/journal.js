@@ -12,7 +12,7 @@ import { Col, Row } from 'antd';
 import {Table} from 'antd';
 import {Divider} from 'antd'
 
-import {HStack,Tag, TagLabel,Image, Tooltip} from '@chakra-ui/react'
+import {HStack, Tag, TagLabel, Image, Tooltip, Spinner} from '@chakra-ui/react'
 import { Progress } from '@chakra-ui/react'
 import { Button, Avatar } from '@chakra-ui/react'
 import {Box } from '@chakra-ui/react'
@@ -59,7 +59,7 @@ function Title(props) {
             <Row>
             <ProjectOutlined style={{ marginLeft:'45px', fontSize: '36px', color: '#422afb'}}></ProjectOutlined>
             <Heading as='h3' size='lg' style={{marginLeft:'20px', width:'580px'}}>
-                {props.name} 
+                {props.name}
             </Heading>
             </Row>
             <Row>
@@ -147,7 +147,7 @@ function Keywords(props) {
         </Box>
     )
 }
- 
+
 function PaperAmount(props) {
     React.useEffect(() => {
         setSeries([{data:props.count,name:'数量'}])
@@ -172,13 +172,13 @@ function PaperAmount(props) {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
                 }
-            },        
+            },
         }
     )
     const [series, setSeries] = React.useState(
@@ -197,7 +197,7 @@ function PaperAmount(props) {
             <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
         </Box>
     )
-}    
+}
 function CitationAmount(props) {
     React.useEffect(() => {
         setSeries([{data:props.count,name:'数量'}])
@@ -222,13 +222,13 @@ function CitationAmount(props) {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
                 }
-            },        
+            },
         }
     )
     const [series, setSeries] = React.useState(
@@ -248,7 +248,7 @@ function CitationAmount(props) {
             <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
         </Box>
     )
-}    
+}
 function PaperAmountAcc(props) {
     React.useEffect(() => {
         setSeries([{data:props.count}])
@@ -273,13 +273,13 @@ function PaperAmountAcc(props) {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
                 }
-            },        
+            },
         }
     )
     const [series, setSeries] = React.useState(
@@ -300,7 +300,7 @@ function PaperAmountAcc(props) {
             <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
         </Box>
     )
-}    
+}
 function CitationAmountAcc(props) {
     React.useEffect(() => {
         setSeries([{data:props.count}])
@@ -325,13 +325,13 @@ function CitationAmountAcc(props) {
             fill: {
                 type: 'gradient',
                 gradient: {
-                    type: 'vertical', 
-                    gradientToColors: ['#1b3bbb'], 
-                    opacityFrom: 0.96, 
+                    type: 'vertical',
+                    gradientToColors: ['#1b3bbb'],
+                    opacityFrom: 0.96,
                     opacityTo: 0.2,
                     stops:[0,100]
                 }
-            },        
+            },
         }
     )
     const [series, setSeries] = React.useState(
@@ -352,7 +352,7 @@ function CitationAmountAcc(props) {
             <Chart options={options} series={series} type="bar" style={{marginTop:'30px'}}/>
         </Box>
     )
-}    
+}
 
 
 function InstitutionList(props) {
@@ -361,8 +361,8 @@ function InstitutionList(props) {
         var config = {
             method: 'post',
             url: 'https://mock.apifox.cn/m1/1955876-0-default/venue/institute',
-            headers: { 
-                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)', 
+            headers: {
+                'User-Agent': 'Apifox/1.0.0 (https://www.apifox.cn)',
                 'Content-Type': 'application/json'
             },
             data : data
@@ -380,11 +380,11 @@ function InstitutionList(props) {
     const [max_work, setMaxWork] = React.useState(0);
     const [max_cite, setMaxCite] = React.useState(0);
     const [data, setData] = React.useState([])
-   
+
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-    
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
       setSearchText(selectedKeys[0]);
@@ -547,7 +547,7 @@ function InstitutionList(props) {
             </Table>
         </Box>
     )
-}    
+}
 
 function PaperList(props) {
     React.useEffect(() => {
@@ -557,7 +557,7 @@ function PaperList(props) {
             data :{
                 VID: props.vid,
             },
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json'
             },
         };
@@ -576,7 +576,7 @@ function PaperList(props) {
             res.data.data.list.forEach((item)=>{
                 item.max_cite = max
             });
-            
+
         });
     },[])
 
@@ -585,7 +585,7 @@ function PaperList(props) {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
-    
+
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
       confirm();
       setSearchText(selectedKeys[0]);
@@ -704,7 +704,7 @@ function PaperList(props) {
                     <TagLabel>{record.field}</TagLabel>
                     </Tag>
                     </Tooltip>
-                    
+
                 </HStack>
             ),
             width: 150
@@ -761,7 +761,7 @@ function PaperList(props) {
                 <Text className='institution-Title'>论文</Text>
             </Row>
             {/* <Text mt='20px' ml='20px' color='gray.500' fontSize='md'>共有 {data.length} 篇论文</Text> */}
-            <Table dataSource={data} columns={columns} 
+            <Table dataSource={data} columns={columns}
                     pagination={{
                         onChange: page => setCurrent(page)
                     }}
@@ -794,8 +794,8 @@ function PaperList(props) {
                                     </Row>
                                 </Col>
                                 <Col span={5} style={{marginLeft:'20px'}}>
-                                <Chart options={options} 
-                                    series={[{data:record.pcitednum, name:'引用量'}]} 
+                                <Chart options={options}
+                                    series={[{data:record.pcitednum, name:'引用量'}]}
                                     type="area" height={250} />
                                 </Col>
                             </Row>
@@ -804,7 +804,7 @@ function PaperList(props) {
             </Table>
         </Box>
     )
-}    
+}
 
 function Journal({}) {
     const [data,setData] = React.useState({
@@ -817,6 +817,7 @@ function Journal({}) {
         Vconceptscores:[],
         VworksCount:[]
     });
+    const [isLoading,setIsLoading] = React.useState(true)
     let location = useLocation()
     let params = new URLSearchParams(location.search)
     let vid = params.get('VID')
@@ -827,7 +828,7 @@ function Journal({}) {
             data :{
                 VID: vid,
             },
-            headers: { 
+            headers: {
                 'Content-Type': 'application/json'
             }
         };
@@ -842,17 +843,33 @@ function Journal({}) {
                 }
             });
             setData(data)
+            setIsLoading(false)
         }).catch(err =>{
             console.log(err)
         })
 
     },[])
+
+    if(isLoading) {
+        return (
+            <Spinner
+                ml={'47%'}
+                mt={'25%'}
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+            />
+        )
+    }
+
     return(
         <Box className='journal' bg='rgb(230,235,247)'>
             <Row>
                 <MyHeader></MyHeader>
             </Row>
-            
+
             <Row>
                 <Col span={15}>
                     <Title name={data.vfullname} cite={data.vcitecount}

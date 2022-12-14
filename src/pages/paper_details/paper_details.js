@@ -162,7 +162,6 @@ function Authors(prop){
                             </Text>
                         );
                     }
-
                 })
             }
         </>
