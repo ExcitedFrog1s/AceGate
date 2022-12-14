@@ -33,8 +33,9 @@ function Icard(props){
     function info(){
         var flag = 0;
         var strs = [];
-        var str = insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")
-        if(insdata.ichinesename){
+        var str = insdata.iname +
+            (insdata.iacronyms !== undefined && insdata.iacronyms.length !== 0 ? (" (" + insdata.iacronyms[0] + ")") : "")
+        if(insdata.ichinesename !== undefined && insdata.ichinesename !== insdata.iname){
             strs.push("中文名为" + insdata.ichinesename)
             flag += 1;
         }
@@ -93,8 +94,22 @@ function Icard(props){
                     {!insdata.iimage && <Avatar size={115} icon={<BankOutlined />} style={{backgroundColor: '#3a3af1',marginTop:20}}></Avatar>}
                 </Col>
                 <Col span={20}>
-                    <Text className="title">{insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}</Text>
-                    {insdata.ichinesename && <Text className="title" >{insdata.ichinesename}</Text>}
+                    {
+                        insdata.iacronyms !== undefined && insdata.iacronyms.length &&
+                            <Text className="title">
+                                {insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}
+                            </Text>
+                    }
+                    {
+                        (insdata.iacronyms === undefined || insdata.iacronyms.length === 0) &&
+                        <Text className="title">
+                            {insdata.iname}
+                        </Text>
+                    }
+                    {
+                        insdata.ichinesename !== undefined && insdata.ichinesename !== insdata.iname &&
+                        <Text className="title" >{insdata.ichinesename}</Text>
+                    }
                     <div className="insinfo">
                         {info()}
                     </div>
@@ -186,7 +201,7 @@ function CoInstitute(props){
 
 function AmoutChart(props) {
     React.useEffect(() => {
-        setSeries([{data:props.count}])
+        setSeries([{data:props.count,name:'数量'}])
     },[props])
     const [options, setOptions] = React.useState(
         {
@@ -336,7 +351,7 @@ function Institute(){
                             <AmoutChart count={insdata.icount} title="论文数量" icon={<IoNewspaperSharp className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
-                            <AmoutChart count={insdata.icited} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
+                            <AmoutChart count={insdata.icited.reverse()} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
                             <CoInstitute coins={insdata.iassociations} core={insdata.irelation} name={insdata.IassoNames}></CoInstitute>

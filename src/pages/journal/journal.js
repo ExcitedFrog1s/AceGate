@@ -784,7 +784,7 @@ function PaperList(props) {
                                     <Row>
                                     {
                                         record.pconcepts.map((value, key) => (
-                                                key<8? (
+                                                key<8 && value[0]!='C'? (
                                                     <Tag size='sm' mt='3px' variant='subtle' bg='#627cd177' color='white' mr='20px'>
                                                     <TagLabel>{value}</TagLabel>
                                                 </Tag>
