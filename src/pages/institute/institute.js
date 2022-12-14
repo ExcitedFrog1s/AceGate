@@ -97,7 +97,7 @@ function Icard(props){
                     {
                         insdata.iacronyms !== undefined && insdata.iacronyms.length &&
                             <Text className="title">
-                                {insdata.iname + (insdata.iacronyms ? (" (" + insdata.iacronyms[0] + ")") : "")}
+                                {insdata.iname + " (" + insdata.iacronyms[0] + ")"}
                             </Text>
                     }
                     {
