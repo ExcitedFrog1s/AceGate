@@ -357,7 +357,7 @@ function ResultCard(props) {
             <Title title={props.infos.pname} PID={props.infos.pID}/>
             <Authors authors1={props.infos.PAuthor} authors2={props.infos.pauthorname}/>
             <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor}
-            pcite={props.infos.pcite} VName={props.infos.VName} PID={props.infos.p_VID} />
+            pcite={props.infos.pcite} VName={props.infos.VName} p_VID={props.infos.p_VID} />
             <Content content={props.infos.pabstract} PID={props.infos.pID}/>
             <Labels labels={props.infos.pconcepts}/>
             {/*<Operations props={props.infos.isStar}/>*/}
