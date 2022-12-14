@@ -462,7 +462,7 @@ function Op(prop) {
 
     },[])
 
-    console.log("url",prop.url)
+    console.log("url",prop.url.slice(-3,3))
 
     return(
 
@@ -477,11 +477,11 @@ function Op(prop) {
             {prop.url.slice(-3,3) !== "pdf" && <Cite pid={prop.pid}/>}
             <Starred pid={prop.pid}/>
 
-            {prop.url !== undefined && <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'frog.500'}>
+            <Tooltip hasArrow label={'原文链接'} placement='bottom'  bg={'frog.500'}>
                 <span onClick={handleClick} >
                     <Icon as={BsLink45Deg} style={Style} onClick={handleClick}/>
                 </span>
-            </Tooltip>}
+            </Tooltip>
         </Box>
 
     )
