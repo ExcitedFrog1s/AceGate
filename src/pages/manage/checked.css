@@ -57,6 +57,13 @@
     background: #fefefe !important;
     font-weight: 600;
 }
+.checked .ant-table-thead>tr{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+.checked .ant-table{
+    border-radius: 20px;
+}
 
 .checked .img1 img{
     height: 120px;
