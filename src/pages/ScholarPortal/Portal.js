@@ -62,13 +62,27 @@ function ScholarPaperList(props) {
 
     const [RpaperList, setRpaperList] = useState({});
     const [citenum, setCitenum] = useState([]);
+    const [maxcite, setMaxcite] = useState(0);
+
 
     const handlePaper = (url)=>{
         window.open(url)
     }
 
+
     useEffect(() =>{
-        setRpaperList(props.RpaperList)
+        if (props.RpaperList){
+            setRpaperList(props.RpaperList)
+            var max = 0
+            props.RpaperList.forEach((item)=>{
+                if(item.pcite > max){
+                    max = item.pcite
+                }
+            });
+            props.RpaperList.forEach((item)=>{
+                item.max_cite = max
+            });
+        }
         // getData()
     }, [props])
 
@@ -202,7 +216,7 @@ function ScholarPaperList(props) {
                         h='7px'
                         borderRadius='10px'
                         w='110px'
-                        value={100 * record.pcite / record.max_cite}/>
+                        value={100 * record.pcite / (record.max_cite)}/>
                 </Row>
             )
         }
