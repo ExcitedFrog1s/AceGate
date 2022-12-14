@@ -201,7 +201,7 @@ function CoInstitute(props){
 
 function AmoutChart(props) {
     React.useEffect(() => {
-        setSeries([{data:props.count}])
+        setSeries([{data:props.count,name:'数量'}])
     },[props])
     const [options, setOptions] = React.useState(
         {
@@ -351,7 +351,7 @@ function Institute(){
                             <AmoutChart count={insdata.icount} title="论文数量" icon={<IoNewspaperSharp className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
-                            <AmoutChart count={insdata.icited} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
+                            <AmoutChart count={insdata.icited.reverse()} title="被引数量" icon={<FaQuoteLeft className='chart-icon'  />}></AmoutChart>
                         </Col>
                         <Col span={8}>
                             <CoInstitute coins={insdata.iassociations} core={insdata.irelation} name={insdata.IassoNames}></CoInstitute>
