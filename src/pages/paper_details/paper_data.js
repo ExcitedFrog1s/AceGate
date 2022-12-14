@@ -207,7 +207,8 @@ function Data(prop) {
                             <Chart options={options} 
                             series={[{data:Pdata.citeNums, name:'热度'}]} 
                             type="area" height={250} />}
-                    {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} mb={20} className={'ft'}>暂无数据</Text>}
+                    {Pdata.citeyears.length === 0 && <Text ml={10} mt={10} fontWeight={'bold'} textDecoration={'none'}
+                    color="#4A5568" mb={20} className={'ft'}>暂无数据</Text>}
                 </div>
 
 
