@@ -69,7 +69,7 @@ function Papers(props){
                         <div className="listitem">
                         <Row>
                        <Link href={"/paperDetails?PID=" + item.pID} isExternal>
-                            <Text fontWeight={'bold'} fontSize="18px" className="pName">{item.pName}</Text>
+                            <Text fontWeight={'bold'} fontSize="18px" className="pName">{(item.pName.length >= 60 ? item.pName.substring(0, 58) + "..." : item.pName)}</Text>
                        </Link>
                        </Row>
                        <Row>

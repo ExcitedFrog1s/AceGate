@@ -13,6 +13,12 @@ import {useLocation, useNavigate} from "react-router-dom";
 import AdvancedSearchFilter from "./advanced_search_filter";
 
 function separator(numb) {
+
+    if (numb > 10000) {
+        return "10000+";
+    }
+
+
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return str.join(".");
@@ -304,7 +310,7 @@ function AdvancedSearchResults(props) {
                 advStartTime={advStartTime}
                 advEndTime={advEndTime}
             />
-            
+
             </Col>
             <Col span={19}>
                 <Box pl='3%' pr='3%'>
@@ -360,7 +366,7 @@ function AdvancedSearchResults(props) {
             {
                     !resIsEmpty &&
                     <Box mt={5} ml={'35%'}>
-                        <Pagination 
+                        <Pagination
                             onChange={handleChange}
                             total={totalNum}
                             showSizeChanger={false}

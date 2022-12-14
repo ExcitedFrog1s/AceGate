@@ -15,6 +15,11 @@ import DefaultSearchFilter from "../default_search/default_search_filter";
 import Recommendation from "./recommendation";
 
 function separator(numb) {
+
+    if (numb > 10000) {
+        return "10000+";
+    }
+
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return str.join(".");
