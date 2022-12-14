@@ -13,8 +13,8 @@
     font-size: 17px !important;
     font-weight: 600;
 }
-.detailForm .ant-table-tbody>tr>td {
-    font-size: 14px;
+.uncheck .ant-table-tbody>tr>td {
+    font-size: 14px !important;
     font-weight: 550;
 }
 .modal .ant-modal-header{
@@ -38,7 +38,7 @@
 }
 
 .uncheck .ant-table{
-    background-color: #2d2d2d05 !important;
+    background-color: #ffffff !important;
 }
 .uncheck .ant-table-thead .ant-table-cell{
     background: #fefefe !important;
