@@ -67,7 +67,7 @@ function Reference(prop) {
                             return (<ListItem key={key} mb={4} className={'t'}>
                             <Link onClick={()=>handleClick(value.pid)} fontWeight='bold' color={'#4A5568'}>
                             [{key+1}]&nbsp;&nbsp;
-                        {value.pname}
+                        {value.pname.replace(/<[^>]*>/g, '')}
                             </Link>
                             <HStack>
                         {(value.Pauthor !== undefined) &&
@@ -121,7 +121,7 @@ function Reference(prop) {
                                 return (<ListItem key={key} mb={4} className={'t'}>
                                     <Link onClick={() => handleClick(value.pid)} fontWeight='bold' color={'#4A5568'}>
                                         [{key + 1}]&nbsp;&nbsp;
-                                        {value.pname}
+                                        {value.pname.replace(/<[^>]*>/g, '')}
 
                                     </Link>
                                     <HStack>

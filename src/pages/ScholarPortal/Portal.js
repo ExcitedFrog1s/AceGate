@@ -165,7 +165,7 @@ function ScholarPaperList(props) {
             render: (_, record) => (
                 <Tooltip label={record.pname} aria-label='A tooltip'>
                     <Link href={"/paperDetails?PID=" + record.pID} isExternal>
-                        {record.pname} <ExternalLinkIcon mx='2px' />
+                        {record.pname.replace(/<[^>]*>/g, '')} <ExternalLinkIcon mx='2px' />
                     </Link>
                 </Tooltip>
             ),
@@ -600,7 +600,7 @@ function Portal() {
                 <div
                     style={{
                         padding: '24px',
-                        Height: '150px',
+                        minHeight: '150px',
                         background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
@@ -791,7 +791,7 @@ function Portal() {
                             <div
                                 id="scrollableDiv"
                                 style={{
-                                    height: 450,
+                                    height: 430,
                                     overflow: 'auto',
                                     padding: '0 16px 0 0',
                                     border: 'none',
