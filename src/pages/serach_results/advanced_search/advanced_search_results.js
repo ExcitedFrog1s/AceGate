@@ -285,7 +285,7 @@ function AdvancedSearchResults(props) {
     return(
         <Box className='search' padding={0} margin={0}>
             {/*右侧界面*/}
-            <Row gutter={30}>
+            <Row gutter={0}>
                 <Col span={5}>
             <AdvancedSearchFilter
                 setInfos={setInfos}
@@ -304,18 +304,7 @@ function AdvancedSearchResults(props) {
                 advStartTime={advStartTime}
                 advEndTime={advEndTime}
             />
-            {/*分页*/}
-            {
-                    !resIsEmpty &&
-                    <Box width={'100%'} mt={5} ml={5}>
-                        <Pagination size="small"
-                            onChange={handleChange}
-                            total={totalNum}
-                            showSizeChanger={false}
-                            defaultCurrent={current_page_index}
-                        />
-                    </Box>
-                }
+            
             </Col>
             <Col span={19}>
                 <Box pl='3%' pr='3%'>
@@ -367,7 +356,18 @@ function AdvancedSearchResults(props) {
                         })
                     }
                 </Box>
-
+                {/*分页*/}
+            {
+                    !resIsEmpty &&
+                    <Box mt={5} ml={'35%'}>
+                        <Pagination 
+                            onChange={handleChange}
+                            total={totalNum}
+                            showSizeChanger={false}
+                            defaultCurrent={current_page_index}
+                        />
+                    </Box>
+                }
             </Box>
             </Box>
             </Col>

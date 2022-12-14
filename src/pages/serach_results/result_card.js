@@ -43,7 +43,7 @@ function Title(props) {
                   onClick={handleClick}
             >
                 <Text noOfLines={1} fontWeight={'bold'}>
-                    {props.title}
+                    <div dangerouslySetInnerHTML={{ __html: props.title }} />
                 </Text>
             </Link>
         </Box>

@@ -206,7 +206,7 @@ function List() {
         >
           <Row>
             <IoSchoolSharp className="chart-icon"/>
-            <Heading className='chart-head'>机构下学者列表</Heading>
+            <Heading className='chart-head'>机构下部分学者</Heading>
             </Row>
                 <Table dataSource={data} columns={columns} rowKey="rID"
               pagination={false} scroll={{

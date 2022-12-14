@@ -53,7 +53,7 @@ function Icard(props){
             }
         }
         if(insdata.itype)
-            strs.push("机构类型为" + insdata.itype)
+            strs.push("机构类型为" + (insdata.itype === "education" ? "高校" : insdata.itype))
         if(insdata.icountry)
             strs.push("机构所属国家为" + insdata.icountry)
         if(insdata.Ischolars)
@@ -66,7 +66,8 @@ function Icard(props){
             let j = insdata.iconcept.length;
             if(j > 0){
                 let concept = "机构论文高频关键词有" + insdata.iconcept[0];
-                for(let k = 1; k < j; k++){
+                let t = j > 10 ? 10 : j
+                for(let k = 1; k < t; k++){
                     concept += ", " + insdata.iconcept[k];
                 }
                 concept += "等"

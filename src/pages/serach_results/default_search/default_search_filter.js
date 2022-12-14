@@ -168,6 +168,7 @@ function DefaultSearchFilter(props) {
             borderColor={'#E2E8F0'}
             boxShadow={'4px 4px 15px 0 rgba(0,0,0,0.1)'}
             backgroundColor={'#ffffff'}
+            ml={3}
             css={{
                 '&::-webkit-scrollbar': {
                   width: '4px',

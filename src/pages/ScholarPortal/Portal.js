@@ -143,9 +143,20 @@ function ScholarPaperList(props) {
         },
     });
     const [current, setCurrent]=React.useState(1);
+
+
+    const htmlDecode = (input) => {
+        var e = document.createElement('div');
+        e.innerHTML = input;
+        console.log(e.childNodes[0]);
+        let ret = e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+        console.log(ret);
+        return ret;
+    }
+
     const columns = [
         {
-            title: '',
+            title: '论文名称',
             dataIndex: 'pname',
             key: 'pname',
             ...getColumnSearchProps('pname'),
@@ -154,7 +165,7 @@ function ScholarPaperList(props) {
             render: (_, record) => (
                 <Tooltip label={record.pname} aria-label='A tooltip'>
                     <Link href={"/paperDetails?PID=" + record.pID} isExternal>
-                        {record.pname} <ExternalLinkIcon mx='2px' />
+                        {record.pname.replace(/<[^>]*>/g, '')} <ExternalLinkIcon mx='2px' />
                     </Link>
                 </Tooltip>
             ),
@@ -251,16 +262,18 @@ function ScholarPaperList(props) {
                        expandedRowRender: (record) => (
                            <Row >
                                <Col span={15} offset={1}>
-                                   <Heading as='h4' size='md'>{record.pname}</Heading>
+                                   <Heading as='h4' size='md' mb={'10px'}>
+                                       <div dangerouslySetInnerHTML={{ __html: record.pname }} />
+                                   </Heading>
                                    <Row className='expand'>
                                        {
                                            record.pauthorname.map((value, key) => {
                                                return (
-                                                   <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}</Text>
+                                                   <Text fontSize='sm' mr='25px' mt='5px' color='#98bcdf'>{value}, </Text>
                                                );})
                                        }
                                    </Row>
-                                   <Text fontSize='xs' color='gray.400' className='expand' mt='3px'>{record.pabstract}</Text>
+                                   <div style={{marginTop: '10px'}} dangerouslySetInnerHTML={{ __html: record.pabstract }} />
                                    <Row>
                                        {
                                            record.pconcepts.map((value, key) => (
@@ -587,7 +600,7 @@ function Portal() {
                 <div
                     style={{
                         padding: '24px',
-                        Height: '150px',
+                        minHeight: '150px',
                         background: 'linear-gradient(360deg,rgba(255,255,255,1.0), rgba(255,255,255,0.0))',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
                         borderRadius: '20px',
@@ -778,7 +791,7 @@ function Portal() {
                             <div
                                 id="scrollableDiv"
                                 style={{
-                                    height: 450,
+                                    height: 430,
                                     overflow: 'auto',
                                     padding: '0 16px 0 0',
                                     border: 'none',

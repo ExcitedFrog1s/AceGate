@@ -236,7 +236,7 @@ function Info(prop){
 
             <Box>
                 <Text fontSize={30} fontWeight="bold" >
-                    {prop.infos.pname}
+                    <div dangerouslySetInnerHTML={{ __html: prop.infos.pname }} />
                 </Text>
             </Box>
             <Row>
