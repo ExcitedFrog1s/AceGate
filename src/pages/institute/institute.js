@@ -95,7 +95,7 @@ function Icard(props){
                 </Col>
                 <Col span={20}>
                     {
-                        insdata.iacronyms !== undefined && insdata.iacronyms.length &&
+                        insdata.iacronyms !== undefined && insdata.iacronyms.length !== 0 &&
                             <Text className="title">
                                 {insdata.iname + " (" + insdata.iacronyms[0] + ")"}
                             </Text>
