@@ -251,7 +251,6 @@ function Search(props) {
                             <option value='Iname'>作者机构</option>
                             <option value='source'>论文来源</option>
                             <option value='DOI'>DOI</option>
-                            <option value='PsystemTags'>标签</option>
                         </Select>
                     </Col>
                     <Col span={14} offset={2}>
