@@ -289,7 +289,7 @@ function ScholarPaperList(props) {
 
 function DataChart(props) {
     React.useEffect(() => {
-        setSeries([{data:props.count}])
+        setSeries([{data:props.count,name:'数量'}])
     },[props])
     const [options, setOptions] = React.useState(
         {
@@ -362,8 +362,20 @@ function ScholarDataList(props) {
                 padding: '0',
                 border: 'none',
             }}
+            css={{
+                '&::-webkit-scrollbar': {
+                  width: '4px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  width: '6px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: '#cccccc',
+                  borderRadius: '24px',
+                },
+              }}
         >
-            <div
+            <Box
                 id="scrollableDataList"
                 style={{
                     height: 450,
@@ -371,6 +383,18 @@ function ScholarDataList(props) {
                     padding: '0 25px',
                     border: 'none',
                 }}
+                css={{
+                    '&::-webkit-scrollbar': {
+                      width: '4px',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      width: '6px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      background: '#cccccc',
+                      borderRadius: '24px',
+                    },
+                  }}
             >
                 <Row>
                     <Col span={12}>
@@ -476,7 +500,7 @@ function ScholarDataList(props) {
                     </Col>
                 </Row>
 
-            </div>
+            </Box>
         </div>
     )
 }

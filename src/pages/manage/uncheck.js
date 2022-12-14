@@ -267,6 +267,7 @@ function CheckList() {
         ...getColumnSearchProps('uname'),
         sorter: (a, b) => a.uname.localeCompare(b.uname),
         sortDirections: ['descend', 'ascend'],
+        width:180
       },
       {
         title: '学者姓名',
