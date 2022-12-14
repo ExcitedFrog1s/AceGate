@@ -106,7 +106,7 @@ function DefaultSearchFilter(props) {
     const [publicationTypes,setPublicationTypes] = useState('全部')
     const [authors,setAuthors] = useState('全部')
     const [concepts,setConcepts] = useState('全部')
-    const [startTime,setStartTime] = useState("1900-01")
+    const [startTime,setStartTime] = useState("1900-01-01")
     const [endTime,setEndTime] = useState("2030-01-01")
 
     let location = useLocation()
@@ -120,8 +120,8 @@ function DefaultSearchFilter(props) {
         }
         data.filterAuthors = authors === '全部' ? null : authors
         data.filterPublicationTypes = publicationTypes === '全部' ? null : publicationTypes
-        data.startTime = startTime + "-01"
-        data.endTime = endTime + "-01"
+        data.startTime = startTime
+        data.endTime = endTime
         data.sort = 'default'
         data.page = 1
         props.setStartTime(data.startTime)
