@@ -18,6 +18,7 @@ import React, {Component} from 'react';
 import ReactECharts from 'echarts-for-react';
 import Chart from 'react-apexcharts'
 import axios from "axios";
+import PubSub from 'pubsub-js'
 
 function separator(numb) {
     var str = numb.toString().split(".");
@@ -37,7 +38,30 @@ function Data(prop) {
     const handleClick = (value) => {
         window.open('/advancedSearch?label=' + value)
     }
+    PubSub.subscribe('comment',data =>{
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+        axios.post("/paper/Details", formData)
+            .then(function (res){
+                setPdata(res.data.data)
+                console.log('pppp',Pdata)
 
+            })
+        console.log("传来的数据：",data);
+    })
+    PubSub.subscribe('collect',data =>{
+        const formData = new FormData()
+        formData.append('PID', prop.pid)
+        // console.log(formData)
+        axios.post("/paper/Details", formData)
+            .then(function (res){
+                setPdata(res.data.data)
+                console.log('pppp',Pdata)
+                
+            })
+        console.log("传来的数据：",data);
+    })
     React.useEffect( () => {
         let mark = 0
         const formData = new FormData()

@@ -39,6 +39,8 @@ import {AddIcon} from "@chakra-ui/icons";
 import {None} from "framer-motion";
 import {message} from  'antd'
 import axios from "axios";
+import PubSub from 'pubsub-js'
+
  function Cite(prop) {
     const Style = {
         cursor: 'pointer',
@@ -234,10 +236,6 @@ function Starred(prop){
         })
             .then(function (res){
                 setAll(res.data)
-                // setPc(res.data)
-                // console.log("666",All)
-
-
                 mark += 1
                 if(mark === 2){
                     setLoading(false)
@@ -348,6 +346,7 @@ function Starred(prop){
                             isstarred = false
                             // onClose()
                         }
+                        PubSub.publish('collect',true)
                     })
             })
             message.success('操作成功')
