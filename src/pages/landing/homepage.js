@@ -31,7 +31,7 @@ function Header1(){
                         />
                     </Col>
                     <Col span={3}>
-                        
+
                     </Col>
                 </Row>
     )
@@ -82,7 +82,7 @@ function Homepage(){
                         Your Gate Towards Academia.
                     </Text>
                 </div>
-            </section> 
+            </section>
             <div className="recomand">
                 <Header1></Header1>
                 <Row style={{marginTop:30}}>
@@ -94,10 +94,10 @@ function Homepage(){
                 </Row>
                 <Row gutter={30} style={{marginTop:30}}>
                     <Col span={8}><img src={require("../../assets/homepage1.png")} style={{marginTop:90}}></img></Col>
-                    <Col span={16}><Conferences url="/recommendJournals" title="热门期刊"></Conferences></Col>
+                    <Col span={16}><Conferences url="/frogRecommendJournals" title="热门期刊"></Conferences></Col>
                 </Row>
                 <Row gutter={30} style={{marginTop:30}}>
-                    <Col span={16}><Conferences url="/recommendConferences" title="热门会议"></Conferences> </Col>
+                    <Col span={16}><Conferences url="/frogRecommendConferences" title="热门会议"></Conferences> </Col>
                     <Col span={8}><img src={require("../../assets/homepage2.png")} style={{marginTop:90}}></img></Col>
                 </Row>
             </div>

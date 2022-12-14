@@ -29,12 +29,12 @@ function PersonInfo() {
                 token: token
             }
         }).then(res => {
-                    setData(res.data.data)
-                    console.log(res.data)
-                    localStorage.setItem("interest", res.data.data.uinterest);
-                    localStorage.setItem("field", res.data.data.ufield);
-                }
-            )
+                setData(res.data.data)
+                console.log(res.data)
+                localStorage.setItem("interest", res.data.data.uinterest);
+                localStorage.setItem("field", res.data.data.ufield);
+            }
+        )
     }
     useEffect(() => {
         getData();
@@ -44,18 +44,18 @@ function PersonInfo() {
     // hover style
     // homepage
     const optionValue2 = ['中国式现代化', '文献综述', '人工智能',
-    '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
-    '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
-    '盈利能力分析', '工程伦理']
+        '共同富裕', '数字化转型', '作业设计', '课程思政', '粮食安全', '自然辩证法',
+        '经济研究', '文化自信', '人类命运共同体', '劳动教育', '管理世界', '绿色金融',
+        '盈利能力分析', '工程伦理']
     const optionTest = optionValue2.join(`\u00A0\u00A0`);
     optionValue2.map((value, index)=>{
         optionValue2[index] = `${value}\u00A0\u00A0\u00A0` ;
     })
     return (
         <Layout className="layout"
-            style={{
-                minHeight: '100vh',
-            }}
+                style={{
+                    minHeight: '100vh',
+                }}
         >
             <MyHeader/>
             <Content
@@ -71,17 +71,20 @@ function PersonInfo() {
                         Height: '150px',
                         backgroundColor: 'white',
                         boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.1)',
-                        borderRadius: '10px',
+                        borderRadius: '20px',
                     }}
                 >
-                    <Left/>
                     <Row>
-                        <Col span={5}>
+                        <Col span={6}>
+                            <Left/>
+                        </Col>
+                        <Col span={4}>
                             <Avatar
                                 size={130}
                                 icon={<UserOutlined />}
                                 style={{
                                     boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.2)',
+                                    marginTop: '50px',
                                 }}
                                 src={
                                     default_avatar
@@ -89,7 +92,7 @@ function PersonInfo() {
 
                             />
                         </Col>
-                        <Col span={15}>
+                        <Col span={10}>
                             <Typography
                                 style={{
                                     padding: '0 0 0 30px',
@@ -98,11 +101,14 @@ function PersonInfo() {
                                 <Title
                                     style={{
                                         textShadow: '4px 4px 6px rgba(0,0,0,0.2)',
+                                        margin: '30px 0 30px 0',
+                                        fontSize: '50px',
                                     }}
                                 >{name}</Title>
                                 <Paragraph
                                     style={{
-                                        fontSize: '20px',
+                                        fontSize: '24px',
+                                        padding: '20px 0 10px 0',
                                     }}
                                 >
                                     <Space>
@@ -112,7 +118,8 @@ function PersonInfo() {
                                 </Paragraph>
                                 <Paragraph
                                     style={{
-                                        fontSize: '20px',
+                                        fontSize: '24px',
+                                        padding: '20px 0 10px 0',
                                     }}
                                 >
                                     <Space>
@@ -122,7 +129,8 @@ function PersonInfo() {
                                 </Paragraph>
                                 <Paragraph
                                     style={{
-                                        fontSize: '20px',
+                                        fontSize: '24px',
+                                        padding: '20px 0 10px 0',
                                     }}
                                 >
                                     <Space>
@@ -132,40 +140,9 @@ function PersonInfo() {
                                 </Paragraph>
                             </Typography>
                         </Col>
-                        <Col span={4}>
-                        <Link
-                                    to={{
-                                        pathname: '/personInfo/edit',
-                                    }}
-                                >
-                                    <Button
-                                        type="primary"
-                                        icon={<FormOutlined/>}
-                                        size="large"
-                                        shape={"round"}
-                                        style={{
-                                            float: 'right',
-                                            margin: '25px 40px 16px 24px',
-                                            // backgroundColor: '#859dda',
-                                            border: 'none',
-                                            boxShadow: '4px 4px 15px 0 rgba(0,0,0,0.3)',
-                                        }}
-                                    >
-                                        编辑
-                                    </Button>
-                                </Link>
-                        </Col>
                     </Row>
                 </div>
             </Content>
-            <Footer
-                style={{
-                    textAlign: 'center',
-                    backgroundColor: 'rgb(230,235,247)',
-                }}
-            >
-                AceGate ©2022 Beihang University
-            </Footer>
         </Layout>
     );
 }

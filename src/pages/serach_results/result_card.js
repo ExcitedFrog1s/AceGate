@@ -7,6 +7,7 @@ import {useState} from "react"
 import { Row, Col } from 'antd';
 import {AiFillStar,AiOutlineStar} from "react-icons/ai"
 import * as React from 'react';
+import moment from "moment";
 function separator(numb) {
     var str = numb.toString().split(".");
     str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -163,8 +164,7 @@ function TimeOrgan(props) {
         <Box mt={1}>
             <Text as='em' fontSize={'12px'} color={'#4A5568'}>
                 {/*time stamp to year*/}
-                {new Date(props.time).getFullYear() + ' 年 ' +
-                    new Date(props.time).getMonth() + ' 月'}
+                {moment(props.time).format("YYYY-MM")}
             </Text>
             <Text color={'#4A5568'} ml={10} as='em' fontSize={'12px'}>{"被引：" + separator(props.pcite)}</Text>
             {
@@ -179,7 +179,7 @@ function TimeOrgan(props) {
                 >
                     {props.organ[0].rinstitute}
                 </Link>
-                
+
             }
             {
                 props.VName !== '' &&
@@ -294,7 +294,7 @@ function Labels(props) {
             }</Col>
             </Row>
         </Box>
-        
+
     )
 }
 
@@ -359,8 +359,6 @@ function ResultCard(props) {
             <TimeOrgan time={props.infos.pdate} organ={props.infos.PAuthor} 
             pcite={props.infos.pcite} VName={props.infos.VName} PID={props.infos.p_VID} />
             <Content content={props.infos.pabstract} PID={props.infos.pID}/>
-            
-            
             <Labels labels={props.infos.pconcepts}/>
             {/*<Operations props={props.infos.isStar}/>*/}
         </Box>

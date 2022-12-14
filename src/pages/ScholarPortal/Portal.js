@@ -39,6 +39,7 @@ import {Box, Heading, Link} from "@chakra-ui/react";
 import {FaQuoteLeft} from "react-icons/fa";
 import { IoSchoolSharp, IoNewspaperSharp } from "react-icons/io5"
 import MyHeader from '../../components/header/header'
+import moment from "moment";
 const { Header, Content, Footer, Sider } = Layout;
 const { Title, Paragraph, Text } = Typography;
 
@@ -91,7 +92,7 @@ function ScholarPaperList(props) {
                     <Typography>
                         <Row>
                             <Link
-                                href={record.dOI}
+                                href={"/paperDetails?PID=" + record.pID}
                                 isExternal
                             >{record.pname}</Link>
                         </Row>
@@ -118,7 +119,7 @@ function ScholarPaperList(props) {
                 return aDate - bDate;
             },
             render: (_, record) => (
-                <Text>{new Date(record.pdate).getFullYear()+'-'+ new Date(record.pdate).getMonth()+'-'+new Date(record.pdate).getDay()}</Text>
+                <Text>{moment(record.pdate).format("YYYY-MM-DD")}</Text>
             ),
         },
         {
@@ -653,7 +654,7 @@ function Portal() {
                                                 }}
                                             >
                                                 <List.Item.Meta
-                                                    title={<Text style={{color :'#4A5568'}}>{item.name}</Text>}
+                                                    title={<Link href={"/advancedSearch?name=" + item.name} isExternal>{item.name}</Link>}
                                                     description={item.institute}
                                                 />
                                             </List.Item>

@@ -22,13 +22,8 @@ async function handleTranslate(sourceText, originLanguage, targetLanguage) {
     formData.append("targetLanguage", targetLanguage);
 
 
-    await axios.get("/translate", {
-        params: {
-            sourceText: sourceText,
-            originLanguage: originLanguage,
-            targetLanguage: targetLanguage
-        }
-    })
+    await axios.post("/translate", formData
+    )
         .then(res => {
             console.log(res.data);
             ret = res.data.data;
@@ -83,7 +78,7 @@ function Translate(){
     return (
             <Box>
                 <Row>
-                    <Col span='8'>             
+                    <Col span='8'>
                         <Select
                             value={originLanguage}
                             onChange={e => setOriginLanguage(e.target.value)}
@@ -116,9 +111,9 @@ function Translate(){
                     </Col>
                 </Row>
 
-                <Textarea  mt='30px' 
+                <Textarea  mt='30px'
                         placeholder={"输入希望翻译的文字, 敲下回车……"}
-                        value={sourceText} 
+                        value={sourceText}
                         onInput={e => {setSourceText(e.target.value); }}
                         onKeyPress={(value) => {
                             if(value.key === "Enter") {
