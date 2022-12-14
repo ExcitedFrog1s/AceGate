@@ -159,7 +159,7 @@ function MyHeader({textColor, isLanding=false}){
     }
     else{
         userButton = (<Button w='220px' mt='8px' onClick={()=>{
-            navigate('/scholarPortal?UID=' + user.u_rid)
+            navigate('/scholarPortal?RID=' + user.u_rid)
         }}>我的门户</Button>)
     }
 
